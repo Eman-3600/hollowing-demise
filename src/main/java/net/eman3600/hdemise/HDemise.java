@@ -1,5 +1,6 @@
 package net.eman3600.hdemise;
 
+import net.eman3600.hdemise.init.ModItems;
 import net.fabricmc.api.ModInitializer;
 
 import org.slf4j.Logger;
@@ -12,5 +13,7 @@ public class HDemise implements ModInitializer {
 	@Override
 	public void onInitialize() {
 
+
+		ModItems.registerAll();
 	}
 }

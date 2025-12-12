@@ -14,6 +14,7 @@
 	"license": "CC0-1.0",
 	"icon": "assets/hdemise/icon.png",
 	"environment": "*",
+	"accessWidener": "hdemise.accesswidener",
 	"entrypoints": {
 		"main": [
 			"net.eman3600.hdemise.HDemise"
