@@ -1,4 +1,4 @@
-package net.eman3600.hollowing_demise.mixin;
+package net.eman3600.hdemise.mixin;
 
 import net.minecraft.server.MinecraftServer;
 import org.spongepowered.asm.mixin.Mixin;

@@ -1,8 +1,8 @@
-package net.eman3600.hollowing_demise;
+package net.eman3600.hdemise;
 
 import net.fabricmc.api.ClientModInitializer;
 
-public class HollowingDemiseClient implements ClientModInitializer {
+public class HDemiseClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
 

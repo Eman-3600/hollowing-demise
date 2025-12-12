@@ -1,6 +1,6 @@
 {
 	"schemaVersion": 1,
-	"id": "hollowing_demise",
+	"id": "hdemise",
 	"version": "${version}",
 	"name": "Hollowing Demise",
 	"description": "This is an example description! Tell everyone what your mod is about!",
@@ -12,21 +12,21 @@
 		"sources": "https://github.com/FabricMC/fabric-example-mod"
 	},
 	"license": "CC0-1.0",
-	"icon": "assets/hollowing_demise/icon.png",
+	"icon": "assets/hdemise/icon.png",
 	"environment": "*",
 	"entrypoints": {
 		"main": [
-			"net.eman3600.hollowing_demise.HollowingDemise"
+			"net.eman3600.hdemise.HDemise"
 		],
 		"client": [
-			"net.eman3600.hollowing_demise.HollowingDemiseClient"
+			"net.eman3600.hdemise.HDemiseClient"
 		],
 		"fabric-datagen": [
-			"net.eman3600.hollowing_demise.HollowingDemiseDataGenerator"
+			"net.eman3600.hdemise.HDemiseDataGenerator"
 		]
 	},
 	"mixins": [
-		"hollowing_demise.mixins.json"
+		"hdemise.mixins.json"
 	],
 	"depends": {
 		"fabricloader": ">=0.18.2",
