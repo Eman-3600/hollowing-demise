@@ -1,0 +1,14 @@
+{
+	"required": true,
+	"package": "net.eman3600.hollowing_demise.mixin",
+	"compatibilityLevel": "JAVA_21",
+	"mixins": [
+		"ExampleMixin"
+	],
+	"injectors": {
+		"defaultRequire": 1
+	},
+	"overwrites": {
+		"requireAnnotations": true
+	}
+}
