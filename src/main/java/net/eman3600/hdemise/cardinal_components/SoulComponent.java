@@ -102,12 +102,6 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
 
         if (demonForm) {
 
-            soulDecay--;
-            if (soulDecay <= 0 && !player.isCreative()) {
-                soulDecay = SOUL_DECAY_TICKS;
-                addSoul(-1);
-            }
-
             if (player.totalExperience > 0 || player.experienceLevel > 0) {
 
                 player.experienceLevel = 0;
@@ -121,15 +115,23 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
                 manager.setFoodLevel(20);
             }
 
-            if (hasSolarSickness()) {
+            if (!player.isCreative()) {
 
-                if (soul <= EXHAUSTION_THRESHOLD) {
-                    if (shouldSetOnFire()) {
-                        player.setOnFireFor(8f);
-                    }
+                soulDecay--;
+                if (soulDecay <= 0 && !player.isCreative()) {
+                    soulDecay = SOUL_DECAY_TICKS;
+                    addSoul(-1);
                 }
-                else {
-                    addSoul(-BURN_SOUL_PER_TICK);
+
+                if (hasSolarSickness()) {
+
+                    if (soul <= EXHAUSTION_THRESHOLD) {
+                        if (shouldSetOnFire()) {
+                            player.setOnFireFor(8f);
+                        }
+                    } else {
+                        addSoul(-BURN_SOUL_PER_TICK);
+                    }
                 }
             }
         }
