@@ -2,11 +2,13 @@ package net.eman3600.hdemise.cardinal_components;
 
 import net.eman3600.hdemise.init.ModEntityComponents;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.effect.StatusEffects;
+import net.minecraft.entity.player.HungerManager;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.storage.ReadView;
 import net.minecraft.storage.WriteView;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
-import org.ladysnake.cca.api.v3.component.Component;
 import org.ladysnake.cca.api.v3.component.sync.AutoSyncedComponent;
 import org.ladysnake.cca.api.v3.component.tick.ClientTickingComponent;
 import org.ladysnake.cca.api.v3.component.tick.ServerTickingComponent;
@@ -16,7 +18,9 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
     public static final int MAX_SOUL = 800;
     public static final int SOUL_PER_XP = 8;
     public static final int SOUL_DECAY_TICKS = 75;
+    public static final int BURN_SOUL_PER_TICK = 1;
     public static final int SOUL_PER_HUNGER = 4;
+    public static final int EXHAUSTION_THRESHOLD = MAX_SOUL / 10;
 
     private boolean demonForm = false;
     private int soul = 0;
@@ -80,7 +84,7 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
         player.totalExperience = 0;
 
         player.getHungerManager().setFoodLevel(20);
-        player.getHungerManager().setSaturationLevel(20f);
+        player.getHungerManager().setSaturationLevel(0f);
     }
 
 
@@ -110,6 +114,24 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
                 player.experienceProgress = 0;
                 player.totalExperience = 0;
             }
+
+            HungerManager manager = player.getHungerManager();
+            if (manager.getFoodLevel() < 20 || manager.getSaturationLevel() > 0) {
+                manager.setSaturationLevel(0f);
+                manager.setFoodLevel(20);
+            }
+
+            if (hasSolarSickness()) {
+
+                if (soul <= EXHAUSTION_THRESHOLD) {
+                    if (shouldSetOnFire()) {
+                        player.setOnFireFor(8f);
+                    }
+                }
+                else {
+                    addSoul(-BURN_SOUL_PER_TICK);
+                }
+            }
         }
 
         if (this.isDirty) {
@@ -134,6 +156,33 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
         writeView.putBoolean("demon_form", demonForm);
         writeView.putInt("soul", soul);
         writeView.putInt("soul_decay", soulDecay);
+    }
+
+    /**
+     * Whether the player should be set on fire due to solar sickness
+     * @return randomly returns true when the player is in the sun
+     */
+    public boolean shouldSetOnFire() {
+
+        float f = player.getBrightnessAtEyes();
+        return hasSolarSickness() && player.getRandom().nextFloat() * 30.0f < (f - 0.4f) * 2.0f;
+    }
+
+    /**
+     * Determines whether the player should be burning due to sun exposure.
+     * @return whether the player should burn
+     */
+    public boolean hasSolarSickness() {
+
+        if (!demonForm || player.hasStatusEffect(StatusEffects.FIRE_RESISTANCE)) {
+            return false;
+        }
+
+        boolean bl;
+        float f = player.getBrightnessAtEyes();
+        BlockPos blockPos = BlockPos.ofFloored(player.getX(), player.getEyeY(), player.getZ());
+        bl = player.isTouchingWaterOrRain() || player.inPowderSnow || player.wasInPowderSnow;
+        return f > 0.5f && !bl && player.getEntityWorld().isSkyVisible(blockPos);
     }
 
 

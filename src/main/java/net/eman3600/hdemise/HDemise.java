@@ -1,5 +1,6 @@
 package net.eman3600.hdemise;
 
+import net.eman3600.hdemise.init.ModCallbacks;
 import net.eman3600.hdemise.init.ModItems;
 import net.fabricmc.api.ModInitializer;
 
@@ -15,5 +16,6 @@ public class HDemise implements ModInitializer {
 
 
 		ModItems.registerAll();
+		ModCallbacks.registerCallbacks();
 	}
 }

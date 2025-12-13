@@ -45,7 +45,7 @@ public abstract class PlayerEntityMixin extends PlayerLikeEntity {
     private void hdemise$canSprintOrFly(CallbackInfoReturnable<Boolean> cir) {
         SoulComponent sc = SoulComponent.of(this);
 
-        if (sc.isDemon() && sc.getSoulPercentage() <= .1f && !getAbilities().allowFlying) {
+        if (sc.isDemon() && sc.getSoul() <= SoulComponent.EXHAUSTION_THRESHOLD && !getAbilities().allowFlying) {
             cir.setReturnValue(false);
         }
     }

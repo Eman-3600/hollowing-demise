@@ -1,6 +1,7 @@
 package net.eman3600.hdemise.mixin.client;
 
 import net.eman3600.hdemise.cardinal_components.SoulComponent;
+import net.eman3600.hdemise.util.client.DemiseHeartType;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.gl.RenderPipelines;
@@ -8,16 +9,21 @@ import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.hud.InGameHud;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Identifier;
+import org.jspecify.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import static net.eman3600.hdemise.HDemise.MODID;
 
 @Environment(EnvType.CLIENT)
 @Mixin(InGameHud.class)
-public class InGameHudMixin {
+public abstract class InGameHudMixin {
+
+    @Shadow @Nullable protected abstract PlayerEntity getCameraPlayer();
 
     private static final Identifier HUD_ICONS = Identifier.of(MODID, "textures/gui/hud/icons.png");
 
@@ -36,6 +42,23 @@ public class InGameHudMixin {
             context.drawTexture(RenderPipelines.GUI_TEXTURED, HUD_ICONS, right - pixels, top, 81 - pixels, 9, pixels, 9, 256, 256);
 
 
+            ci.cancel();
+        }
+    }
+
+    @Inject(method = "getCurrentBarType", at = @At("RETURN"), cancellable = true)
+    private void hdemise$getCurrentBarType(CallbackInfoReturnable<InGameHud.BarType> cir) {
+        SoulComponent sc = SoulComponent.of(getCameraPlayer());
+        if (cir.getReturnValue() == InGameHud.BarType.EXPERIENCE && sc != null && sc.isDemon()) {
+            cir.setReturnValue(InGameHud.BarType.EMPTY);
+        }
+    }
+
+    @Inject(method = "drawHeart", at = @At("HEAD"), cancellable = true)
+    private void hdemise$drawHeart(DrawContext context, InGameHud.HeartType type, int x, int y, boolean hardcore, boolean blinking, boolean half, CallbackInfo ci) {
+        if (SoulComponent.of(getCameraPlayer()).isDemon() && type == InGameHud.HeartType.NORMAL) {
+
+            context.drawTexture(RenderPipelines.GUI_TEXTURED, DemiseHeartType.SOUL.getTexture(hardcore, half, blinking), x, y, 0, 0, 9, 9, 9, 9);
             ci.cancel();
         }
     }
