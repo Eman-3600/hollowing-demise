@@ -8,8 +8,7 @@
 		"Eman3600"
 	],
 	"contact": {
-		"homepage": "https://fabricmc.net/",
-		"sources": "https://github.com/FabricMC/fabric-example-mod"
+		"sources": "https://github.com/Eman-3600/hollowing-demise"
 	},
 	"license": "CC0-1.0",
 	"icon": "assets/hdemise/icon.png",
@@ -24,6 +23,9 @@
 		],
 		"fabric-datagen": [
 			"net.eman3600.hdemise.HDemiseDataGenerator"
+		],
+		"cardinal-components": [
+			"net.eman3600.hdemise.init.ModEntityComponents"
 		]
 	},
 	"mixins": [
@@ -38,5 +40,10 @@
 	},
 	"suggests": {
 		"another-mod": "*"
+	},
+	"custom": {
+		"cardinal-components": [
+			"hdemise:soul"
+		]
 	}
 }

@@ -1,5 +1,7 @@
 package net.eman3600.hdemise.init;
 
+import net.eman3600.hdemise.item.FormSwitcherItem;
+import net.eman3600.hdemise.item.XPItem;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroups;
@@ -8,6 +10,7 @@ import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.Rarity;
 
 import java.util.function.Function;
 
@@ -16,7 +19,8 @@ import static net.eman3600.hdemise.HDemise.MODID;
 
 public class ModItems {
 
-    public static final Item ALMARITE = register("almarite", Item::new, new Item.Settings());
+    public static final Item ALMARITE = register("almarite", XPItem::new, new Item.Settings());
+    public static final Item FORM_SWITCHER = register("form_switcher", FormSwitcherItem::new, new Item.Settings().rarity(Rarity.EPIC));
 
 
 
@@ -45,6 +49,13 @@ public class ModItems {
 
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.INGREDIENTS).register((group) -> {
             group.add(ModItems.ALMARITE);
+        });
+        ItemGroupEvents.modifyEntriesEvent(ItemGroups.COMBAT).register((group) -> {
+            group.add(ModItems.ALMARITE);
+        });
+        ItemGroupEvents.modifyEntriesEvent(ItemGroups.TOOLS).register((group) -> {
+            group.add(ModItems.ALMARITE);
+            group.add(ModItems.FORM_SWITCHER);
         });
     }
 
