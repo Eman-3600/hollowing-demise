@@ -28,7 +28,7 @@ import static net.eman3600.hdemise.HDemise.MODID;
 public class SoulComponent implements AutoSyncedComponent, ServerTickingComponent, ClientTickingComponent {
 
     public static final int MAX_SOUL = 800;
-    public static final int SOUL_PER_XP = 8;
+    public static final int SOUL_PER_XP = 16;
     public static final int SOUL_DECAY_TICKS = 75;
     public static final int BURN_SOUL_PER_TICK = 1;
     public static final int EXHAUSTION_THRESHOLD = 0;
@@ -120,6 +120,10 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
         return this.focusing;
     }
 
+    public boolean lockedMovement() {
+        return this.focusing;
+    }
+
     public void resetSoul() {
         this.soul = MAX_SOUL/2;
         this.soulDecay = SOUL_DECAY_TICKS;
@@ -148,7 +152,7 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
             hpInstance.removeModifier(HP_ATTRIBUTE_ID);
 
             if (demonForm) {
-                hpInstance.addTemporaryModifier(new EntityAttributeModifier(HP_ATTRIBUTE_ID, -.5, EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE));
+                hpInstance.addTemporaryModifier(new EntityAttributeModifier(HP_ATTRIBUTE_ID, -.4, EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE));
             }
         }
 

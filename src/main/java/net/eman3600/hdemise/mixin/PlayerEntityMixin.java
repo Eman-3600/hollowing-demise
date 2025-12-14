@@ -61,4 +61,31 @@ public abstract class PlayerEntityMixin extends PlayerLikeEntity {
             cir.setReturnValue(true);
         }
     }
+
+    @Inject(method = "applyDamage", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/player/PlayerEntity;emitGameEvent(Lnet/minecraft/registry/entry/RegistryEntry;)V"))
+    private void hdemise$applyDamage(ServerWorld world, DamageSource source, float amount, CallbackInfo ci) {
+        SoulComponent sc = SoulComponent.of(this);
+
+        if (sc.isFocusing()) {
+            sc.setFocusing(false);
+        }
+    }
+
+    @Inject(method = "canMoveVoluntarily", at = @At("HEAD"), cancellable = true)
+    private void hdemise$canMoveVoluntarily(CallbackInfoReturnable<Boolean> cir) {
+        SoulComponent sc = SoulComponent.of(this);
+
+        if (sc.lockedMovement()) {
+            cir.setReturnValue(false);
+        }
+    }
+
+    @Inject(method = "canActVoluntarily", at = @At("HEAD"), cancellable = true)
+    private void hdemise$canActVoluntarily(CallbackInfoReturnable<Boolean> cir) {
+        SoulComponent sc = SoulComponent.of(this);
+
+        if (sc.lockedMovement()) {
+            cir.setReturnValue(false);
+        }
+    }
 }
