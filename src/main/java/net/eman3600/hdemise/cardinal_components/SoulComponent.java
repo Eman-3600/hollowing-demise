@@ -3,10 +3,13 @@ package net.eman3600.hdemise.cardinal_components;
 import net.eman3600.hdemise.init.ModEntityComponents;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.*;
+import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.damage.DamageTypes;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.HungerManager;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.registry.entry.RegistryEntry;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.storage.ReadView;
@@ -31,7 +34,7 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
     public static final int FOCUS_LENGTH = 20;
     public static final int FOCUS_DELAY = 6;
     public static final int FOCUS_RATE = 4;
-    public static final float FOCUS_HP = 4f;
+    public static final float FOCUS_HP = 6f;
 
     public static final Identifier HP_ATTRIBUTE_ID = Identifier.of(MODID, "soul_hp");
     public static final Identifier SPEED_ATTRIBUTE_ID = Identifier.of(MODID, "soul_speed");
@@ -276,11 +279,10 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
             return false;
         }
 
-        float f = player.getBrightnessAtEyes();
         boolean bl;
         BlockPos blockPos = BlockPos.ofFloored(player.getX(), player.getEyeY(), player.getZ());
         bl = player.isTouchingWaterOrRain() || player.inPowderSnow || player.wasInPowderSnow;
-        return f > 0.5f && player.getEntityWorld().isDay() && !bl && player.getEntityWorld().isSkyVisible(blockPos);
+        return player.getEntityWorld().isDay() && !bl && player.getEntityWorld().isSkyVisible(blockPos);
     }
 
 
