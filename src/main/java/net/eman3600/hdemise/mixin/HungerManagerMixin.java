@@ -19,7 +19,6 @@ public class HungerManagerMixin {
 
         if (sc.isDemon() && this.exhaustion > 4f) {
             this.exhaustion -= 4f;
-            sc.addSoul(-SoulComponent.SOUL_PER_HUNGER);
 
             ci.cancel();
         }

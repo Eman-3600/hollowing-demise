@@ -9,7 +9,10 @@ import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.hud.InGameHud;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.random.Random;
 import org.jspecify.annotations.Nullable;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -25,6 +28,8 @@ public abstract class InGameHudMixin {
 
     @Shadow @Nullable protected abstract PlayerEntity getCameraPlayer();
 
+    @Shadow @Final private Random random;
+    @Shadow private int ticks;
     private static final Identifier HUD_ICONS = Identifier.of(MODID, "textures/gui/hud/icons.png");
 
 
@@ -34,12 +39,36 @@ public abstract class InGameHudMixin {
         SoulComponent sc = SoulComponent.of(player);
         if (sc.isDemon()) {
 
-            int left = right - 81;
-            int pixels = (int)(81 * sc.getSoulPercentage());
-//            context.drawGuiTexture(RenderPipelines.GUI_TEXTURED, HUD_ICONS, 256, 256, 0, 0, left, top, 81, 9, -1);
-//            context.drawGuiTexture(RenderPipelines.GUI_TEXTURED, HUD_ICONS, 256, 256, 0, 9, left, top, pixels, 9, -1);
-            context.drawTexture(RenderPipelines.GUI_TEXTURED, HUD_ICONS, left, top, 0, 0, 81, 9, 256, 256);
-            context.drawTexture(RenderPipelines.GUI_TEXTURED, HUD_ICONS, right - pixels, top, 81 - pixels, 9, pixels, 9, 256, 256);
+            int v = sc.hasSolarSickness() ? 36 : 18;
+
+            int soulPerVessel = SoulComponent.MAX_SOUL/10;
+            int soul = sc.getSoul();
+
+            for (int j = 0; j < 10; j++) {
+                int l = right - (9 - j) * 8 - 9;
+                int k = top;
+                int u = j == 0 ? 0 : j == 9 ? 18 : 9;
+
+                int fill = MathHelper.clamp(soul - (9 - j) * soulPerVessel, 0, soulPerVessel);
+
+                if (sc.getSoul() <= SoulComponent.EXHAUSTION_THRESHOLD) {
+                    k += this.random.nextInt(3) - 1;
+                } else if (sc.isFocusing() && this.random.nextInt(4) == 0) {
+                    k += this.random.nextInt(3) - 1;
+                }else if (sc.getSoulPercentage() <= .3f && this.ticks % (int)(sc.getSoulPercentage() * 120 + 2) == 0) {
+                    k += this.random.nextInt(3) - 1;
+                }
+
+                context.drawTexture(RenderPipelines.GUI_TEXTURED, HUD_ICONS, l, k, u, v, 9, 9, 256, 256);
+                if (fill > 0) {
+                    int pixels = 1 + (int)(8 * (float)fill/soulPerVessel);
+                    context.drawTexture(RenderPipelines.GUI_TEXTURED, HUD_ICONS, l + (9 - pixels), k, u + (9 - pixels), v + 9, pixels, 9, 256, 256);
+                }
+            }
+
+//            int pixels = (int)(81 * sc.getSoulPercentage());
+//            context.drawTexture(RenderPipelines.GUI_TEXTURED, HUD_ICONS, left, top, 0, 0, 81, 9, 256, 256);
+//            context.drawTexture(RenderPipelines.GUI_TEXTURED, HUD_ICONS, right - pixels, top, 81 - pixels, 9, pixels, 9, 256, 256);
 
 
             ci.cancel();

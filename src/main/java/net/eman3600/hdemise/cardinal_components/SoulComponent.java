@@ -2,16 +2,24 @@ package net.eman3600.hdemise.cardinal_components;
 
 import net.eman3600.hdemise.init.ModEntityComponents;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.attribute.*;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.HungerManager;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.registry.entry.RegistryEntry;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.storage.ReadView;
 import net.minecraft.storage.WriteView;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.world.attribute.EnvironmentAttributes;
 import org.ladysnake.cca.api.v3.component.sync.AutoSyncedComponent;
 import org.ladysnake.cca.api.v3.component.tick.ClientTickingComponent;
 import org.ladysnake.cca.api.v3.component.tick.ServerTickingComponent;
+
+import static net.eman3600.hdemise.HDemise.MODID;
 
 public class SoulComponent implements AutoSyncedComponent, ServerTickingComponent, ClientTickingComponent {
 
@@ -19,13 +27,23 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
     public static final int SOUL_PER_XP = 8;
     public static final int SOUL_DECAY_TICKS = 75;
     public static final int BURN_SOUL_PER_TICK = 1;
-    public static final int SOUL_PER_HUNGER = 4;
-    public static final int EXHAUSTION_THRESHOLD = MAX_SOUL / 10;
+    public static final int EXHAUSTION_THRESHOLD = 0;
+    public static final int FOCUS_LENGTH = 20;
+    public static final int FOCUS_DELAY = 6;
+    public static final int FOCUS_RATE = 4;
+    public static final float FOCUS_HP = 4f;
+
+    public static final Identifier HP_ATTRIBUTE_ID = Identifier.of(MODID, "soul_hp");
+    public static final Identifier SPEED_ATTRIBUTE_ID = Identifier.of(MODID, "soul_speed");
 
     private boolean demonForm = false;
+    private boolean ghostMode = false;
     private int soul = 0;
     private int soulDecay = 0;
     private boolean isDirty = false;
+
+    private boolean focusing = false;
+    private int focusTime = 0;
 
     private final PlayerEntity player;
 
@@ -42,9 +60,15 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
         } else {
             this.soul = 0;
 
-            player.getHungerManager().setFoodLevel(8);
-            player.getHungerManager().setSaturationLevel(8f);
+            player.getHungerManager().setFoodLevel(20);
+            player.getHungerManager().setSaturationLevel(5f);
+
+            reloadAttributes();
+
+            player.setHealth(player.getMaxHealth());
         }
+
+        setFocusing(false);
 
         markDirty();
     }
@@ -55,6 +79,14 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
 
     public int getSoul() {
         return soul;
+    }
+
+    public int getFocusRequirement() {
+        return FOCUS_LENGTH * FOCUS_RATE;
+    }
+
+    public boolean canFocus() {
+        return ((soul >= getFocusRequirement() && player.isOnGround()) || player.isCreative()) && demonForm;
     }
 
     public float getSoulPercentage() {
@@ -74,6 +106,16 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
         markDirty();
     }
 
+    public void setFocusing(boolean focusing) {
+        this.focusing = focusing;
+        focusTime = -FOCUS_DELAY;
+        markDirty();
+    }
+
+    public boolean isFocusing() {
+        return this.focusing;
+    }
+
     public void resetSoul() {
         this.soul = MAX_SOUL/2;
         this.soulDecay = SOUL_DECAY_TICKS;
@@ -85,6 +127,38 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
 
         player.getHungerManager().setFoodLevel(20);
         player.getHungerManager().setSaturationLevel(0f);
+
+        reloadAttributes();
+
+        player.setHealth(player.getMaxHealth());
+    }
+
+    public void reloadAttributes() {
+        AttributeContainer container = player.getAttributes();
+
+        RegistryEntry<EntityAttribute> hp = EntityAttributes.MAX_HEALTH;
+        EntityAttributeInstance hpInstance = container.getCustomInstance(hp);
+
+        if (hpInstance != null) {
+
+            hpInstance.removeModifier(HP_ATTRIBUTE_ID);
+
+            if (demonForm) {
+                hpInstance.addTemporaryModifier(new EntityAttributeModifier(HP_ATTRIBUTE_ID, -.5, EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE));
+            }
+        }
+
+        RegistryEntry<EntityAttribute> speed = EntityAttributes.MOVEMENT_SPEED;
+        EntityAttributeInstance speedInstance = container.getCustomInstance(speed);
+
+        if (speedInstance != null) {
+
+            speedInstance.removeModifier(SPEED_ATTRIBUTE_ID);
+
+            if (ghostMode) {
+                speedInstance.addTemporaryModifier(new EntityAttributeModifier(SPEED_ATTRIBUTE_ID, .2, EntityAttributeModifier.Operation.ADD_MULTIPLIED_TOTAL));
+            }
+        }
     }
 
 
@@ -115,7 +189,23 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
                 manager.setFoodLevel(20);
             }
 
-            if (!player.isCreative()) {
+            if (focusing) {
+                focusTime++;
+
+                if (focusTime > 0) {
+                    addSoul(-FOCUS_RATE);
+                }
+
+                if (soul <= 0) {
+                    setFocusing(false);
+                } else if (focusTime >= FOCUS_LENGTH) {
+                    player.heal(FOCUS_HP);
+                    player.getEntityWorld().playSound(player, player.getX(), player.getY(), player.getZ(), SoundEvents.ENTITY_WITCH_DRINK, SoundCategory.PLAYERS, 1f, 1f);
+                    setFocusing(canFocus());
+                }
+            }
+
+            if (!player.isCreative() && !focusing) {
 
                 soulDecay--;
                 if (soulDecay <= 0 && !player.isCreative()) {
@@ -149,15 +239,21 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
     @Override
     public void readData(ReadView readView) {
         demonForm = readView.getBoolean("demon_form", false);
+        ghostMode = readView.getBoolean("ghost_mode", false);
         soul = readView.getInt("soul", MAX_SOUL/2);
         soulDecay = readView.getInt("soul_decay", SOUL_DECAY_TICKS);
+        focusing = readView.getBoolean("focusing", false);
+        focusTime = readView.getInt("focus_time", 0);
     }
 
     @Override
     public void writeData(WriteView writeView) {
         writeView.putBoolean("demon_form", demonForm);
+        writeView.putBoolean("ghost_mode", ghostMode);
         writeView.putInt("soul", soul);
         writeView.putInt("soul_decay", soulDecay);
+        writeView.putBoolean("focusing", focusing);
+        writeView.putInt("focus_time", focusTime);
     }
 
     /**
@@ -180,11 +276,11 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
             return false;
         }
 
-        boolean bl;
         float f = player.getBrightnessAtEyes();
+        boolean bl;
         BlockPos blockPos = BlockPos.ofFloored(player.getX(), player.getEyeY(), player.getZ());
         bl = player.isTouchingWaterOrRain() || player.inPowderSnow || player.wasInPowderSnow;
-        return f > 0.5f && !bl && player.getEntityWorld().isSkyVisible(blockPos);
+        return f > 0.5f && player.getEntityWorld().isDay() && !bl && player.getEntityWorld().isSkyVisible(blockPos);
     }
 
 
