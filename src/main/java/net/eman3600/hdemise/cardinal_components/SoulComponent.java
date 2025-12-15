@@ -206,8 +206,9 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
                     setFocusing(false);
                 } else if (focusTime >= FOCUS_LENGTH) {
                     player.heal(FOCUS_HP);
+                    player.setHealth(MathHelper.ceil(player.getHealth()));
                     playFocusSound();
-                    setFocusing(canFocus());
+                    setFocusing(canFocus() && player.getHealth() < player.getMaxHealth());
                 }
             }
 
