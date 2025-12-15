@@ -1,14 +1,16 @@
 package net.eman3600.hdemise.cardinal_components;
 
 import net.eman3600.hdemise.init.ModEntityComponents;
+import net.eman3600.hdemise.networking.s2c.FocusSoundPayload;
+import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.*;
-import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.damage.DamageTypes;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.HungerManager;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.registry.entry.RegistryEntry;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
@@ -17,7 +19,6 @@ import net.minecraft.storage.WriteView;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.world.attribute.EnvironmentAttributes;
 import org.ladysnake.cca.api.v3.component.sync.AutoSyncedComponent;
 import org.ladysnake.cca.api.v3.component.tick.ClientTickingComponent;
 import org.ladysnake.cca.api.v3.component.tick.ServerTickingComponent;
@@ -27,7 +28,7 @@ import static net.eman3600.hdemise.HDemise.MODID;
 public class SoulComponent implements AutoSyncedComponent, ServerTickingComponent, ClientTickingComponent {
 
     public static final int MAX_SOUL = 800;
-    public static final int SOUL_PER_XP = 8;
+    public static final int SOUL_PER_XP = 16;
     public static final int SOUL_DECAY_TICKS = 75;
     public static final int BURN_SOUL_PER_TICK = 1;
     public static final int EXHAUSTION_THRESHOLD = 0;
@@ -119,6 +120,10 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
         return this.focusing;
     }
 
+    public boolean lockedMovement() {
+        return this.focusing;
+    }
+
     public void resetSoul() {
         this.soul = MAX_SOUL/2;
         this.soulDecay = SOUL_DECAY_TICKS;
@@ -147,7 +152,7 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
             hpInstance.removeModifier(HP_ATTRIBUTE_ID);
 
             if (demonForm) {
-                hpInstance.addTemporaryModifier(new EntityAttributeModifier(HP_ATTRIBUTE_ID, -.5, EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE));
+                hpInstance.addTemporaryModifier(new EntityAttributeModifier(HP_ATTRIBUTE_ID, -.4, EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE));
             }
         }
 
@@ -203,7 +208,7 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
                     setFocusing(false);
                 } else if (focusTime >= FOCUS_LENGTH) {
                     player.heal(FOCUS_HP);
-                    player.getEntityWorld().playSound(player, player.getX(), player.getY(), player.getZ(), SoundEvents.ENTITY_WITCH_DRINK, SoundCategory.PLAYERS, 1f, 1f);
+                    playFocusSound();
                     setFocusing(canFocus());
                 }
             }
@@ -237,6 +242,14 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
 
     public void markDirty() {
         this.isDirty = true;
+    }
+
+    private void playFocusSound() {
+        FocusSoundPayload payload = new FocusSoundPayload(player.getX(), player.getY(), player.getZ());
+
+        for (ServerPlayerEntity otherPlayer : PlayerLookup.around((ServerWorld) player.getEntityWorld(), player.getEntityPos(), 16d)) {
+            ServerPlayNetworking.send(otherPlayer, payload);
+        }
     }
 
     @Override

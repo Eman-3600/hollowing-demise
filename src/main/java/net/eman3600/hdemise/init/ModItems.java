@@ -1,5 +1,6 @@
 package net.eman3600.hdemise.init;
 
+import net.eman3600.hdemise.item.ConsumableCureItem;
 import net.eman3600.hdemise.item.FormSwitcherItem;
 import net.eman3600.hdemise.item.XPItem;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
@@ -21,6 +22,7 @@ public class ModItems {
 
     public static final Item ALMARITE = register("almarite", XPItem::new, new Item.Settings());
     public static final Item FORM_SWITCHER = register("form_switcher", FormSwitcherItem::new, new Item.Settings().rarity(Rarity.EPIC));
+    public static final Item SIMPLE_CURE = register("simple_cure", ConsumableCureItem::new, new Item.Settings().rarity(Rarity.UNCOMMON));
 
 
 
@@ -55,6 +57,7 @@ public class ModItems {
         });
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.TOOLS).register((group) -> {
             group.add(ModItems.ALMARITE);
+            group.add(ModItems.SIMPLE_CURE);
             group.add(ModItems.FORM_SWITCHER);
         });
     }

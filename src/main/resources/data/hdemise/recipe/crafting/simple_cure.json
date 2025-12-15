@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "simple_cure",
+  "key": {
+    "#": "minecraft:amethyst_shard",
+    "X": "minecraft:lapis_lazuli",
+    "A": "hdemise:almarite"
+  },
+  "pattern": [
+    "X#X",
+    "#A#",
+    "X#X"
+  ],
+  "result": {
+    "count": 1,
+    "id": "hdemise:simple_cure"
+  }
+}

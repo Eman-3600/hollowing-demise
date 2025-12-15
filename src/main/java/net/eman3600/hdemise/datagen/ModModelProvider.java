@@ -26,5 +26,6 @@ public class ModModelProvider extends FabricModelProvider {
     public void generateItemModels(ItemModelGenerator itemModelGenerator) {
         itemModelGenerator.register(ModItems.ALMARITE, Models.GENERATED);
         itemModelGenerator.register(ModItems.FORM_SWITCHER, Models.GENERATED);
+        itemModelGenerator.register(ModItems.SIMPLE_CURE, Models.GENERATED);
     }
 }

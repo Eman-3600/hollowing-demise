@@ -19,6 +19,7 @@ public class HDemise implements ModInitializer {
 		ModBlocks.registerAll();
 		ModItems.registerAll();
 		ModCallbacks.registerCallbacks();
-		ModMessages.registerC2SPackets();
+		ModMessages.registerPackets();
+		ModMessages.registerC2SReceivers();
 	}
 }

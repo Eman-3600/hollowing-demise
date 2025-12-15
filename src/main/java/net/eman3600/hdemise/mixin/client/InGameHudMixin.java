@@ -51,7 +51,7 @@ public abstract class InGameHudMixin {
 
                 int fill = MathHelper.clamp(soul - (9 - j) * soulPerVessel, 0, soulPerVessel);
 
-                if (sc.getSoul() <= SoulComponent.EXHAUSTION_THRESHOLD) {
+                if (sc.getSoul() <= SoulComponent.EXHAUSTION_THRESHOLD || sc.hasSolarSickness()) {
                     k += this.random.nextInt(3) - 1;
                 } else if (sc.isFocusing() && this.random.nextInt(4) == 0) {
                     k += this.random.nextInt(3) - 1;
