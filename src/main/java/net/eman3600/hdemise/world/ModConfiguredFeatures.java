@@ -29,15 +29,14 @@ public class ModConfiguredFeatures {
             List.of(OreFeatureConfig.createTarget(stoneReplaceables, ModBlocks.ALMARITE_ORE.getDefaultState()),
                     OreFeatureConfig.createTarget(deepslateReplaceables, ModBlocks.DEEPSLATE_ALMARITE_ORE.getDefaultState()));
 
-        register(context, ALMARITE_ORE_KEY, Feature.ORE, new OreFeatureConfig(overworldAlmariteOres, 2));
+        register(context, ALMARITE_ORE_KEY, Feature.ORE, new OreFeatureConfig(overworldAlmariteOres, 3));
     }
 
     public static RegistryKey<ConfiguredFeature<?, ?>> registerKey(String name) {
         return RegistryKey.of(RegistryKeys.CONFIGURED_FEATURE, Identifier.of(MODID, name));
     }
 
-    private static <FC extends FeatureConfig, F extends Feature<FC>> void register(Registerable<ConfiguredFeature<?, ?>> context,
-                                                                                   RegistryKey<ConfiguredFeature<?, ?>> key, F feature, FC configuration) {
-        context.register(key, new ConfiguredFeature(feature, configuration));
+    private static <FC extends FeatureConfig, F extends Feature<FC>> void register(Registerable<ConfiguredFeature<?, ?>> context,                                                                                    RegistryKey<ConfiguredFeature<?, ?>> key, F feature, FC configuration) {
+        context.register(key, new ConfiguredFeature<>(feature, configuration));
     }
 }

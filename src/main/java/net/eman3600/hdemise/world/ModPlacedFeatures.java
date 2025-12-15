@@ -19,14 +19,14 @@ import java.util.List;
 
 public class ModPlacedFeatures {
 
-    public static final RegistryKey<PlacedFeature> ALMARITE_ORE_PLACED_KEY = registerKey("almarite_ore_placed");
+    public static final RegistryKey<PlacedFeature> ALMARITE_ORE_KEY = registerKey("almarite_ore");
 
     public static void bootstrap(Registerable<PlacedFeature> context) {
         var configuredFeatures = context.getRegistryLookup(RegistryKeys.CONFIGURED_FEATURE);
 
-        register(context, ALMARITE_ORE_PLACED_KEY, configuredFeatures.getOrThrow(ModConfiguredFeatures.ALMARITE_ORE_KEY),
-            ModOrePlacement.modifiersWithCount(200, 
-                HeightRangePlacementModifier.uniform(YOffset.fixed(-80), YOffset.fixed(8)))
+        register(context, ALMARITE_ORE_KEY, configuredFeatures.getOrThrow(ModConfiguredFeatures.ALMARITE_ORE_KEY),
+            ModOrePlacement.modifiersWithCount(12,
+                HeightRangePlacementModifier.trapezoid(YOffset.fixed(-80), YOffset.fixed(8)))
             );
     }
 

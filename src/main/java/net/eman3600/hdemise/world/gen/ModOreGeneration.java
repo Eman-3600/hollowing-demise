@@ -8,6 +8,6 @@ import net.minecraft.world.gen.GenerationStep;
 public class ModOreGeneration {
     public static void generateOres() {
         BiomeModifications.addFeature(BiomeSelectors.foundInOverworld(), GenerationStep.Feature.UNDERGROUND_ORES,
-            ModPlacedFeatures.ALMARITE_ORE_PLACED_KEY);
+            ModPlacedFeatures.ALMARITE_ORE_KEY);
     }
 }
