@@ -4,6 +4,7 @@ import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.item.ItemGroups;
 import net.minecraft.block.Block;
+import net.minecraft.block.ExperienceDroppingBlock;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;
@@ -12,6 +13,7 @@ import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.intprovider.UniformIntProvider;
 
 import java.util.function.Function;
 
@@ -24,6 +26,17 @@ public class ModBlocks {
         .strength(1.5f)
         .requiresTool()
         .sounds(BlockSoundGroup.AMETHYST_BLOCK), true);
+
+    public static final Block ALMARITE_ORE = register("almarite_ore", settings -> new ExperienceDroppingBlock(UniformIntProvider.create(3, 7), settings),
+        AbstractBlock.Settings.create()
+        .strength(3f)
+        .requiresTool(), true);
+
+    public static final Block DEEPSLATE_ALMARITE_ORE = register("deepslate_almarite_ore", settings -> new ExperienceDroppingBlock(UniformIntProvider.create(3, 7), settings),
+        AbstractBlock.Settings.create()
+        .strength(4.5f, 3f)
+        .requiresTool()
+        .sounds(BlockSoundGroup.DEEPSLATE), true);
 
     /**
      * Registers a block under a given ID string.
@@ -58,8 +71,13 @@ public class ModBlocks {
     public static void registerAll() {
         LOGGER.info("Registering Blocks for " + MODID);
 
-        ItemGroupEvents.modifyEntriesEvent(ItemGroups.BUILDING_BLOCKS).register((group) -> {
+        ItemGroupEvents.modifyEntriesEvent(ItemGroups.BUILDING_BLOCKS).register(group -> {
             group.add(ModBlocks.ALMARITE_BLOCK);
+        });
+
+        ItemGroupEvents.modifyEntriesEvent(ItemGroups.NATURAL).register(group -> {
+            group.add(ModBlocks.ALMARITE_ORE);
+            group.add(ModBlocks.DEEPSLATE_ALMARITE_ORE);
         });
     }
 }

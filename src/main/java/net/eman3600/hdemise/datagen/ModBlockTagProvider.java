@@ -16,6 +16,12 @@ public class ModBlockTagProvider extends FabricTagProvider.BlockTagProvider {
     @Override
     protected void configure(RegistryWrapper.WrapperLookup wrapperLookup) {
         valueLookupBuilder(BlockTags.PICKAXE_MINEABLE)
-            .add(ModBlocks.ALMARITE_BLOCK);
+            .add(ModBlocks.ALMARITE_BLOCK)
+            .add(ModBlocks.ALMARITE_ORE)
+            .add(ModBlocks.DEEPSLATE_ALMARITE_ORE);
+
+        valueLookupBuilder(BlockTags.NEEDS_IRON_TOOL)
+            .add(ModBlocks.ALMARITE_ORE)
+            .add(ModBlocks.DEEPSLATE_ALMARITE_ORE);
     }
 }
