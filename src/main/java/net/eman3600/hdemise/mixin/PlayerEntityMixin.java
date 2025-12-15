@@ -71,21 +71,12 @@ public abstract class PlayerEntityMixin extends PlayerLikeEntity {
         }
     }
 
-    @Inject(method = "canMoveVoluntarily", at = @At("HEAD"), cancellable = true)
-    private void hdemise$canMoveVoluntarily(CallbackInfoReturnable<Boolean> cir) {
+    @Inject(method = "isImmobile", at = @At("HEAD"), cancellable = true)
+    private void hdemise$isImmobile(CallbackInfoReturnable<Boolean> cir) {
         SoulComponent sc = SoulComponent.of(this);
 
         if (sc.lockedMovement()) {
-            cir.setReturnValue(false);
-        }
-    }
-
-    @Inject(method = "canActVoluntarily", at = @At("HEAD"), cancellable = true)
-    private void hdemise$canActVoluntarily(CallbackInfoReturnable<Boolean> cir) {
-        SoulComponent sc = SoulComponent.of(this);
-
-        if (sc.lockedMovement()) {
-            cir.setReturnValue(false);
+            cir.setReturnValue(true);
         }
     }
 }

@@ -33,7 +33,7 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
     public static final int BURN_SOUL_PER_TICK = 1;
     public static final int EXHAUSTION_THRESHOLD = 0;
     public static final int FOCUS_LENGTH = 20;
-    public static final int FOCUS_DELAY = 6;
+    public static final int FOCUS_DELAY = 8;
     public static final int FOCUS_RATE = 4;
     public static final float FOCUS_HP = 6f;
 
@@ -68,8 +68,6 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
             player.getHungerManager().setSaturationLevel(5f);
 
             reloadAttributes();
-
-            player.setHealth(player.getMaxHealth());
         }
 
         setFocusing(false);
@@ -125,7 +123,7 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
     }
 
     public void resetSoul() {
-        this.soul = MAX_SOUL/2;
+        this.soul = MAX_SOUL/5;
         this.soulDecay = SOUL_DECAY_TICKS;
         markDirty();
 
@@ -204,12 +202,13 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
                     addSoul(-FOCUS_RATE);
                 }
 
-                if (soul <= 0) {
+                if (soul <= 0 || !player.isOnGround()) {
                     setFocusing(false);
                 } else if (focusTime >= FOCUS_LENGTH) {
                     player.heal(FOCUS_HP);
+                    player.setHealth(MathHelper.ceil(player.getHealth()));
                     playFocusSound();
-                    setFocusing(canFocus());
+                    setFocusing(canFocus() && player.getHealth() < player.getMaxHealth());
                 }
             }
 
