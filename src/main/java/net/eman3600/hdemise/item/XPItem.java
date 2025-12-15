@@ -10,7 +10,7 @@ import net.minecraft.world.World;
 
 public class XPItem extends Item {
 
-    private static final int XP_AMOUNT = 10;
+    private static final int XP_AMOUNT = 16;
 
 
     public XPItem(Settings settings) {

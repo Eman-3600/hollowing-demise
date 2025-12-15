@@ -15,6 +15,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Environment(EnvType.CLIENT)
 @Mixin(MinecraftClient.class)
@@ -39,4 +40,13 @@ public abstract class MinecraftClientMixin extends ReentrantThreadExecutor<Runna
 //            while (this.options.jumpKey.wasPressed());
 //        }
 //    }
+
+    @Inject(method = "doAttack", at = @At("HEAD"), cancellable = true)
+    private void hdemise$doAttack(CallbackInfoReturnable<Boolean> cir) {
+        SoulComponent sc = SoulComponent.of(this.player);
+
+        if (sc.lockedInteraction()) {
+            cir.setReturnValue(false);
+        }
+    }
 }

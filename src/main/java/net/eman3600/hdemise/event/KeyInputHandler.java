@@ -1,6 +1,7 @@
 package net.eman3600.hdemise.event;
 
 import net.eman3600.hdemise.networking.c2s.FocusPayload;
+import net.eman3600.hdemise.networking.c2s.GhostPayload;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
@@ -15,8 +16,11 @@ import org.lwjgl.glfw.GLFW;
 @Environment(EnvType.CLIENT)
 public class KeyInputHandler {
     public static final String KEY_FOCUS = "key.hdemise.focus";
+    public static final String KEY_GHOST = "key.hdemise.ghost";
 
     public static KeyBinding focusKey;
+    public static KeyBinding ghostKey;
+
     private static boolean holdingFocusKey;
 
     public static void registerKeyInputs() {
@@ -27,20 +31,26 @@ public class KeyInputHandler {
                     holdingFocusKey = true;
                     FocusPayload payload = new FocusPayload(true);
                     ClientPlayNetworking.send(payload);
-//                    Vec2f movementInput = client.player.input.getMovementInput();
-//                    EntityComponents.INFUSION.get(client.player)
-//                            .tryDodgeClient(new Vec3d(movementInput.x, 0, movementInput.y));
                 }
             } else if (holdingFocusKey) {
                 holdingFocusKey = false;
                 FocusPayload payload = new FocusPayload(false);
                 ClientPlayNetworking.send(payload);
             }
+
+            while (ghostKey.wasPressed() && client.player != null) {
+
+                GhostPayload payload = new GhostPayload();
+                ClientPlayNetworking.send(payload);
+            }
+
+
         });
     }
 
     public static void registerBindings() {
 
         focusKey = KeyBindingHelper.registerKeyBinding(new KeyBinding(KEY_FOCUS, InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_R, KeyBinding.Category.GAMEPLAY));
+        ghostKey = KeyBindingHelper.registerKeyBinding(new KeyBinding(KEY_GHOST, InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_G, KeyBinding.Category.GAMEPLAY));
     }
 }

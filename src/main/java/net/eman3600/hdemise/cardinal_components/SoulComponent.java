@@ -28,7 +28,7 @@ import static net.eman3600.hdemise.HDemise.MODID;
 public class SoulComponent implements AutoSyncedComponent, ServerTickingComponent, ClientTickingComponent {
 
     public static final int MAX_SOUL = 800;
-    public static final int SOUL_PER_XP = 16;
+    public static final int SOUL_PER_XP = 10;
     public static final int SOUL_DECAY_TICKS = 75;
     public static final int BURN_SOUL_PER_TICK = 1;
     public static final int EXHAUSTION_THRESHOLD = 0;
@@ -79,6 +79,10 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
         return this.demonForm;
     }
 
+    public boolean isGhost() {
+        return ghostMode;
+    }
+
     public int getSoul() {
         return soul;
     }
@@ -89,6 +93,10 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
 
     public boolean canFocus() {
         return ((soul >= getFocusRequirement() && player.isOnGround()) || player.isCreative()) && demonForm;
+    }
+
+    public boolean canGhost() {
+        return (soul > 0 || player.isCreative()) && demonForm;
     }
 
     public float getSoulPercentage() {
@@ -114,12 +122,21 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
         markDirty();
     }
 
+    public void setGhost(boolean ghost) {
+        this.ghostMode = ghost;
+        markDirty();
+    }
+
     public boolean isFocusing() {
         return this.focusing;
     }
 
     public boolean lockedMovement() {
         return this.focusing;
+    }
+
+    public boolean lockedInteraction() {
+        return (this.ghostMode || this.focusing) && !player.isCreative();
     }
 
     public void resetSoul() {
