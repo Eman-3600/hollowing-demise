@@ -1,6 +1,7 @@
 package net.eman3600.hdemise.datagen;
 
 import net.eman3600.hdemise.init.ModBlocks;
+import net.eman3600.hdemise.init.ModItems;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootTableProvider;
 import net.minecraft.block.Block;
@@ -28,6 +29,8 @@ public class ModLootTableProvider extends FabricBlockLootTableProvider {
     @Override
     public void generate() {
         addDrop(ModBlocks.ALMARITE_BLOCK);
+        addDrop(ModBlocks.ALMARITE_ORE, multipleOreDrops(ModBlocks.ALMARITE_ORE, ModItems.ALMARITE, 3, 5));
+        addDrop(ModBlocks.DEEPSLATE_ALMARITE_ORE, multipleOreDrops(ModBlocks.DEEPSLATE_ALMARITE_ORE, ModItems.ALMARITE, 3, 5));
     }
 
     public LootTable.Builder multipleOreDrops(Block drop, Item item, float minDrops, float maxDrops) {

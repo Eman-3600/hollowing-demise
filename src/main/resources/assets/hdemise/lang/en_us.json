@@ -5,6 +5,10 @@
 
     "block.hdemise.almarite_block": "Block of Almarite",
     "item.hdemise.almarite_block": "Block of Almarite",
+    "block.hdemise.almarite_ore": "Almarite Ore",
+    "item.hdemise.almarite_ore": "Almarite Ore",
+    "block.hdemise.deepslate_almarite_ore": "Deepslate Almarite Ore",
+    "item.hdemise.deepslate_almarite_ore": "Deepslate Almarite Ore",
 
     "key.hdemise.focus": "Focus (Heal)"
 }
