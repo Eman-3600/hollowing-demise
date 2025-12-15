@@ -1,6 +1,9 @@
 // 1.21.11	-999999999-01-01T00:00:00	Hollowing Demise/Model Definitions
+60ee0cae11e2058333ea728aad1765414ce7e6df assets/hdemise/blockstates/almarite_block.json
 951dfc2ace5e93d3761356aca2bac3f74079c10f assets/hdemise/items/almarite.json
+135847a2baea8ae18352171be347c21e6909b253 assets/hdemise/items/almarite_block.json
 b39047316e2201d80c5041906968e75aa37a2ed5 assets/hdemise/items/form_switcher.json
+12340a40de0ce697a4c712fbee82cae65599ee1b assets/hdemise/models/block/almarite_block.json
 7e1874fdd2b22e80fe35b34e337e27936c5ae0a5 assets/hdemise/items/simple_cure.json
 34be9086e3ddec327de3bca70d5f4d104c4c3cf7 assets/hdemise/models/item/almarite.json
 b970df388eac67a015db7935d547bd4eef465a3a assets/hdemise/models/item/form_switcher.json

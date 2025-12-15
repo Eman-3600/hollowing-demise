@@ -1,1 +1,5 @@
 // 1.21.11	-999999999-01-01T00:00:00	Hollowing Demise/HDemise Recipes
+f4f928a43f407822b697a4d06586e85e0f6bd87c data/hdemise/advancement/recipes/building_blocks/almarite.json
+67074aca1e8d11c532607a2ac0856894a5117ada data/hdemise/advancement/recipes/tools/almarite_block.json
+b71b2a434fb86b54cb6c913c918ac5a39338f360 data/hdemise/recipe/almarite.json
+2f78292898c5af5c9ef05986fa62a8c908992f00 data/hdemise/recipe/almarite_block.json

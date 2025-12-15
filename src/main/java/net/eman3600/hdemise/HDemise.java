@@ -1,5 +1,6 @@
 package net.eman3600.hdemise;
 
+import net.eman3600.hdemise.init.ModBlocks;
 import net.eman3600.hdemise.init.ModCallbacks;
 import net.eman3600.hdemise.init.ModItems;
 import net.eman3600.hdemise.init.ModMessages;
@@ -15,7 +16,7 @@ public class HDemise implements ModInitializer {
 	@Override
 	public void onInitialize() {
 
-
+		ModBlocks.registerAll();
 		ModItems.registerAll();
 		ModCallbacks.registerCallbacks();
 		ModMessages.registerPackets();
