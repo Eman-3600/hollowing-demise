@@ -22,6 +22,9 @@ public class ConsumableCureItem extends Item {
             if (!world.isClient()) {
                 sc.setForm(false);
 
+                user.getHungerManager().setFoodLevel(8);
+                user.getHungerManager().setSaturationLevel(2f);
+
                 ItemStack stack = user.getStackInHand(hand);
                 stack.decrementUnlessCreative(1, user);
             }
