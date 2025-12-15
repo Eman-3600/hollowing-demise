@@ -1,10 +1,12 @@
 package net.eman3600.hdemise.datagen;
 
+import net.eman3600.hdemise.init.ModBlocks;
+import net.eman3600.hdemise.init.ModItems;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
-import net.minecraft.data.DataOutput;
 import net.minecraft.data.recipe.RecipeExporter;
 import net.minecraft.data.recipe.RecipeGenerator;
+import net.minecraft.recipe.book.RecipeCategory;
 import net.minecraft.registry.RegistryWrapper;
 import org.jetbrains.annotations.NotNull;
 
@@ -21,7 +23,7 @@ public class ModRecipeProvider extends FabricRecipeProvider {
         return new RecipeGenerator(wrapperLookup, recipeExporter) {
             @Override
             public void generate() {
-
+                offerReversibleCompactingRecipes(RecipeCategory.BUILDING_BLOCKS, ModItems.ALMARITE, RecipeCategory.TOOLS, ModBlocks.ALMARITE_BLOCK);
             }
         };
     }
