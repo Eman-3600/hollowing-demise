@@ -41,6 +41,7 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
     public static final int FOCUS_RATE = 4;
     public static final float FOCUS_HP = 6f;
     public static final int VANISH_TICKS = 20;
+    public static final int VANISH_DELAY = 16;
     public static final int REVEAL_TICKS = 8;
     public static final int VANISH_RATE = 2;
     public static final int WARNING_TICKS = 4;
@@ -150,7 +151,7 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
 
     public void setVanishing(boolean vanishing) {
         this.vanishing = vanishing;
-        this.vanishTime = 0;
+        this.vanishTime = vanishing && !ghostMode ? -VANISH_DELAY : 0;
         if (player.getVehicle() != null) {
             player.stopRiding();
         }
@@ -160,7 +161,7 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
     public void interruptVanish() {
         this.vanishing = false;
         this.vanishTime = 0;
-        this.setSoul(0);
+        this.setSoul(getSoul()/2);
         this.warnSoul();
         markDirty();
     }
@@ -317,7 +318,7 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
             if (vanishing) {
                 vanishTime++;
 
-                if (!player.isCreative() && !ghostMode) {
+                if (!player.isCreative() && !ghostMode && vanishTime > 0) {
                     addSoul(-VANISH_RATE);
                 }
 
