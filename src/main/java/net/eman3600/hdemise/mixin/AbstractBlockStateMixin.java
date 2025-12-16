@@ -37,7 +37,7 @@ public abstract class AbstractBlockStateMixin extends State<Block, BlockState> {
     private void hdemise$getCollisionShape(BlockView world, BlockPos pos, ShapeContext context, CallbackInfoReturnable<VoxelShape> cir) {
         VoxelShape blockShape = cir.getReturnValue();
         if(!blockShape.isEmpty() && context instanceof EntityShapeContext esc) {
-            if (esc.getEntity() instanceof PlayerEntity player && SoulComponent.of(player).isGhost() && player.getAbilities().flying && !this.isIn(ModTags.Blocks.IMPASSABLE)) {
+            if (esc.getEntity() instanceof PlayerEntity player && SoulComponent.of(player).isGhost() && player.getAbilities().flying && !this.isIn(ModTags.Blocks.IMPASSABLE) && !SoulComponent.of(player).ignoreGhostAbstrusion) {
                 cir.setReturnValue(VoxelShapes.empty());
             }
         }

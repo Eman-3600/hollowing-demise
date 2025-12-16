@@ -13,6 +13,7 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.world.World;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -23,6 +24,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(PlayerEntity.class)
 public abstract class PlayerEntityMixin extends PlayerLikeEntity {
     @Shadow public abstract PlayerAbilities getAbilities();
+
+    @Shadow @Final private PlayerAbilities abilities;
+
+    @Shadow public abstract boolean isCreative();
 
     protected PlayerEntityMixin(EntityType<? extends LivingEntity> entityType, World world) {
         super(entityType, world);
@@ -102,6 +107,13 @@ public abstract class PlayerEntityMixin extends PlayerLikeEntity {
     private void hdemise$collideWithEntity(Entity entity, CallbackInfo ci) {
         if (SoulComponent.of(this).isGhost() && entity.getType() != EntityType.EXPERIENCE_ORB) {
             ci.cancel();
+        }
+    }
+
+    @Inject(method = "getOffGroundSpeed", at = @At("HEAD"), cancellable = true)
+    private void hdemise$getOffGroundSpeed(CallbackInfoReturnable<Float> cir) {
+        if (SoulComponent.of(this).isGhost() && this.abilities.flying && !this.hasVehicle() && this.isSprinting() && !this.isCreative()) {
+            cir.setReturnValue(this.abilities.getFlySpeed() * 1.7F);
         }
     }
 }

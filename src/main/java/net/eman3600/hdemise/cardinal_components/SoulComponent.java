@@ -30,8 +30,10 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
 
     public static final int MAX_SOUL = 800;
     public static final int SOUL_PER_XP = 10;
-    public static final int SOUL_DECAY_TICKS = 15;
-    public static final int SOUL_DECAY_AMOUNT = 2;
+    // Rate of Soul Loss in Ghost Form is
+    // SOUL_DECAY_AMOUNT / SOUL_DECAY_TICKS
+    public static final int SOUL_DECAY_TICKS = 10;
+    public static final int SOUL_DECAY_AMOUNT = 1;
     public static final int BURN_SOUL_PER_TICK = 1;
     public static final int EXHAUSTION_THRESHOLD = 0;
     public static final int FOCUS_LENGTH = 20;
@@ -46,6 +48,7 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
     public static final int SUN_TICKS = 15;
     @Environment(EnvType.CLIENT)
     public int sunTicks;
+    public boolean ignoreGhostAbstrusion = false;
 
     public static final Identifier HP_ATTRIBUTE_ID = Identifier.of(MODID, "soul_hp");
     public static final Identifier SPEED_ATTRIBUTE_ID = Identifier.of(MODID, "soul_speed");
@@ -110,7 +113,7 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
     }
 
     public boolean canVanish() {
-        return (soul > 0 || player.isCreative()) && demonForm && warningTicks <= 0;
+        return (soul > 0 || player.isCreative()) && demonForm && !focusing && warningTicks <= 0;
     }
 
     public float getSoulPercentage() {
@@ -214,7 +217,7 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
     }
 
     public void resetSoul() {
-        this.soul = (int)(MAX_SOUL * 0.3f);
+        this.soul = (int)(MAX_SOUL * 0.5f);
         this.soulDecay = SOUL_DECAY_TICKS;
         this.vanishing = false;
         this.vanishTime = 0;
@@ -255,9 +258,9 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
 
             speedInstance.removeModifier(SPEED_ATTRIBUTE_ID);
 
-            if (ghostMode) {
-                speedInstance.addTemporaryModifier(new EntityAttributeModifier(SPEED_ATTRIBUTE_ID, .2, EntityAttributeModifier.Operation.ADD_MULTIPLIED_TOTAL));
-            }
+//            if (ghostMode) {
+//                speedInstance.addTemporaryModifier(new EntityAttributeModifier(SPEED_ATTRIBUTE_ID, .2, EntityAttributeModifier.Operation.ADD_MULTIPLIED_TOTAL));
+//            }
         }
     }
 
