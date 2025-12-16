@@ -1,8 +1,10 @@
 package net.eman3600.hdemise.datagen;
 
 import net.eman3600.hdemise.init.ModBlocks;
+import net.eman3600.hdemise.init.ModTags;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
+import net.minecraft.block.Blocks;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.registry.tag.BlockTags;
 
@@ -23,5 +25,8 @@ public class ModBlockTagProvider extends FabricTagProvider.BlockTagProvider {
         valueLookupBuilder(BlockTags.NEEDS_IRON_TOOL)
             .add(ModBlocks.ALMARITE_ORE)
             .add(ModBlocks.DEEPSLATE_ALMARITE_ORE);
+
+        valueLookupBuilder(ModTags.Blocks.IMPASSABLE)
+            .add(Blocks.BEDROCK);
     }
 }
