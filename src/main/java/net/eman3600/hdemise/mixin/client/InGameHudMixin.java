@@ -1,6 +1,7 @@
 package net.eman3600.hdemise.mixin.client;
 
 import net.eman3600.hdemise.cardinal_components.SoulComponent;
+import net.eman3600.hdemise.init.ModAttributes;
 import net.eman3600.hdemise.util.client.DemiseHeartType;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -54,26 +55,29 @@ public abstract class InGameHudMixin {
 
             int v = sc.getWarning() > 0 ? 72 : (sc.isGhost() && sc.isVanishing() && sc.hasSolarSickness(false)) ? 36 : (sc.isGhost() != sc.isVanishing()) ? 54 : sc.hasSolarSickness(true) ? 36 : 18;
 
-            int soulPerVessel = SoulComponent.MAX_SOUL/10;
+            int soulPerVessel = SoulComponent.SOUL_PER_VESSEL;
+            int vessels = (int)player.getAttributeValue(ModAttributes.MAX_SOUL);
             int soul = sc.getSoul();
 
-            for (int j = 0; j < 10; j++) {
-                int l = right - (9 - j) * 8 - 9;
-                int k = top;
-                int u = j == 0 ? 0 : j == 9 ? 18 : 9;
+            for (int j = 0; j < vessels; j++) {
+                int l = right - (j % 10) * 8 - 9;
+                int k = top - (j/10) * 10;
+                boolean rightmost = (j % 10) == 0;
+                boolean leftmost = (j % 10) == 9 || j == vessels - 1;
+                int u = rightmost && leftmost ? 27 : rightmost ? 18 : leftmost ? 0 : 9;
 
-                int fill = MathHelper.clamp(soul - (9 - j) * soulPerVessel, 0, soulPerVessel);
+                int fill = MathHelper.clamp(soul - j * soulPerVessel, 0, soulPerVessel);
 
                 if (sc.getSoul() <= SoulComponent.EXHAUSTION_THRESHOLD || sc.hasSolarSickness(true)) {
                     k += this.random.nextInt(3) - 1;
                 } else if ((sc.isFocusing() || sc.isVanishing()) && this.random.nextInt(4) == 0) {
                     k += this.random.nextInt(3) - 1;
-                } else if ((sc.getSoulPercentage() <= .3f || sc.isGhost()) && this.ticks % (int)(sc.getSoulPercentage() * (sc.isGhost() ? 60 : 120) + 2) == 0) {
+                } else if ((sc.getSoulVessels() <= 3f || sc.isGhost()) && this.ticks % (int)(sc.getSoulVessels() * (sc.isGhost() ? 6 : 12) + 2) == 0) {
                     k += this.random.nextInt(3) - 1;
                 }
 
                 context.drawTexture(RenderPipelines.GUI_TEXTURED, HUD_ICONS, l, k, u, v, 9, 9, 256, 256);
-                if (fill > 0) {
+                if (fill > 0 || (j % 10 != 0 && soul - j * soulPerVessel >= soulPerVessel)) {
                     int pixels = 1 + (int)(8 * (float)fill/soulPerVessel);
                     context.drawTexture(RenderPipelines.GUI_TEXTURED, HUD_ICONS, l + (9 - pixels), k, u + (9 - pixels), v + 9, pixels, 9, 256, 256);
                 }

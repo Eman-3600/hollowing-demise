@@ -1,10 +1,12 @@
 package net.eman3600.hdemise.mixin;
 
 import net.eman3600.hdemise.cardinal_components.SoulComponent;
+import net.eman3600.hdemise.init.ModAttributes;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.PlayerLikeEntity;
+import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerAbilities;
 import net.minecraft.entity.player.PlayerEntity;
@@ -115,5 +117,11 @@ public abstract class PlayerEntityMixin extends PlayerLikeEntity {
         if (SoulComponent.of(this).isGhost() && this.abilities.flying && !this.hasVehicle() && this.isSprinting() && !this.isCreative()) {
             cir.setReturnValue(this.abilities.getFlySpeed() * 1.7F);
         }
+    }
+
+    @Inject(method = "createPlayerAttributes", at = @At("RETURN"), cancellable = true)
+    private static void injectAttributes(CallbackInfoReturnable<DefaultAttributeContainer.Builder> info) {
+        info.setReturnValue((info.getReturnValue())
+                .add(ModAttributes.MAX_SOUL, 10d));
     }
 }
