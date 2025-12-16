@@ -175,4 +175,12 @@ public abstract class InGameHudMixin {
             ci.cancel();
         }
     }
+
+    @Inject(method = "renderArmor", at = @At("HEAD"), cancellable = true)
+    private static void hdemise$renderArmor(DrawContext context, PlayerEntity player, int y, int i, int healthBarLines, int x, CallbackInfo ci) {
+        SoulComponent sc = SoulComponent.of(player);
+        if (sc.isGhost()) {
+            ci.cancel();
+        }
+    }
 }

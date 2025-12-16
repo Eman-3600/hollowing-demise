@@ -56,6 +56,10 @@ public abstract class ClientPlayerEntityMixin extends AbstractClientPlayerEntity
         SoulComponent sc = SoulComponent.of(this);
 
         if (this.getAbilities().flying && sc.isGhost() && this.getGameMode() != null && this.getGameMode().isSurvivalLike()) {
+            BlockPos blockPos = BlockPos.ofFloored(getX(), getEyeY(), getZ());
+            if (!getEntityWorld().isSkyVisible(blockPos)) {
+                return;
+            }
             sc.ignoreGhostAbstrusion = true; // Yes this is cursed, but it works.
             double closestDistance = -100f;
             for (int i = -1; i <= 1; i++) {

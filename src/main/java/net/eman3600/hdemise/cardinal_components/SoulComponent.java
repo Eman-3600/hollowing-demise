@@ -41,7 +41,7 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
     public static final int FOCUS_RATE = 4;
     public static final float FOCUS_HP = 6f;
     public static final int VANISH_TICKS = 20;
-    public static final int VANISH_DELAY = 16;
+    public static final int VANISH_DELAY = 5;
     public static final int REVEAL_TICKS = 8;
     public static final int VANISH_RATE = 2;
     public static final int WARNING_TICKS = 4;
@@ -110,11 +110,11 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
     }
 
     public boolean canFocus() {
-        return ((soul >= getFocusRequirement() && player.isOnGround()) || player.isCreative()) && demonForm && !ghostMode && !vanishing && warningTicks <= 0;
+        return ((soul >= getFocusRequirement() && player.isOnGround()) || player.isCreative()) && demonForm && !ghostMode && !vanishing;
     }
 
     public boolean canVanish() {
-        return (soul > 0 || player.isCreative()) && demonForm && !focusing && warningTicks <= 0;
+        return (soul > 0 || player.isCreative()) && demonForm && !focusing;
     }
 
     public float getSoulPercentage() {
@@ -151,7 +151,7 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
 
     public void setVanishing(boolean vanishing) {
         this.vanishing = vanishing;
-        this.vanishTime = vanishing && !ghostMode ? -VANISH_DELAY : 0;
+        this.vanishTime = vanishing && !isGhost() ? -VANISH_DELAY : 0;
         if (player.getVehicle() != null) {
             player.stopRiding();
         }
