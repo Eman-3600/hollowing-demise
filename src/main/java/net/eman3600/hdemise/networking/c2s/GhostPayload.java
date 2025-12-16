@@ -33,8 +33,12 @@ public record GhostPayload() implements CustomPayload {
     public static void receive(GhostPayload payload, ServerPlayNetworking.Context context) {
         SoulComponent sc = SoulComponent.of(context.player());
 
-        if (sc != null && (sc.canGhost() || sc.isGhost())) {
-            sc.setGhost(!sc.isGhost());
+        if (sc != null) {
+            if (sc.isGhost()) {
+                sc.setGhost(false);
+            } else if (!sc.isVanishing() && sc.canVanish()) {
+                sc.beginVanishing();
+            }
         }
     }
 }

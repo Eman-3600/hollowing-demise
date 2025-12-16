@@ -12,6 +12,7 @@ import org.jspecify.annotations.Nullable;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -40,6 +41,27 @@ public abstract class MinecraftClientMixin extends ReentrantThreadExecutor<Runna
 //            while (this.options.jumpKey.wasPressed());
 //        }
 //    }
+
+    @Inject(method = "handleInputEvents", at = @At("HEAD"))
+    private void hdemise$handleInputEvents(CallbackInfo ci) {
+        SoulComponent sc = SoulComponent.of(this.player);
+
+        if (sc.lockedInteraction()) {
+            for (int i = 0; i < 9; i++) {
+                while(this.options.hotbarKeys[i].wasPressed()) hdemise$nothing();
+            }
+            while (this.options.inventoryKey.wasPressed()) hdemise$nothing();
+            while (this.options.swapHandsKey.wasPressed()) hdemise$nothing();
+            while (this.options.dropKey.wasPressed()) hdemise$nothing();
+            while (this.options.useKey.wasPressed()) hdemise$nothing();
+            this.options.useKey.setPressed(false);
+        }
+    }
+
+    @Unique
+    private void hdemise$nothing() {
+
+    }
 
     @Inject(method = "doAttack", at = @At("HEAD"), cancellable = true)
     private void hdemise$doAttack(CallbackInfoReturnable<Boolean> cir) {

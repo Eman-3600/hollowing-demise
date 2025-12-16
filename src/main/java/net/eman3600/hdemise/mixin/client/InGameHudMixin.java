@@ -7,6 +7,7 @@ import net.fabricmc.api.Environment;
 import net.minecraft.client.gl.RenderPipelines;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.hud.InGameHud;
+import net.minecraft.client.render.RenderTickCounter;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
@@ -39,7 +40,7 @@ public abstract class InGameHudMixin {
         SoulComponent sc = SoulComponent.of(player);
         if (sc.isDemon()) {
 
-            int v = sc.hasSolarSickness() ? 36 : 18;
+            int v = sc.getWarning() > 0 ? 72 : (sc.isGhost() || sc.isVanishing()) ? 54 : sc.hasSolarSickness() ? 36 : 18;
 
             int soulPerVessel = SoulComponent.MAX_SOUL/10;
             int soul = sc.getSoul();
@@ -53,9 +54,9 @@ public abstract class InGameHudMixin {
 
                 if (sc.getSoul() <= SoulComponent.EXHAUSTION_THRESHOLD || sc.hasSolarSickness()) {
                     k += this.random.nextInt(3) - 1;
-                } else if (sc.isFocusing() && this.random.nextInt(4) == 0) {
+                } else if ((sc.isFocusing() || sc.isVanishing()) && this.random.nextInt(4) == 0) {
                     k += this.random.nextInt(3) - 1;
-                }else if (sc.getSoulPercentage() <= .3f && this.ticks % (int)(sc.getSoulPercentage() * 120 + 2) == 0) {
+                } else if ((sc.getSoulPercentage() <= .3f || sc.isGhost()) && this.ticks % (int)(sc.getSoulPercentage() * (sc.isGhost() ? 60 : 120) + 2) == 0) {
                     k += this.random.nextInt(3) - 1;
                 }
 
@@ -75,6 +76,22 @@ public abstract class InGameHudMixin {
         }
     }
 
+    @Inject(method = "renderCrosshair", at = @At("HEAD"), cancellable = true)
+    private void hdemise$renderCrosshair(DrawContext context, RenderTickCounter tickCounter, CallbackInfo ci) {
+        SoulComponent sc = SoulComponent.of(getCameraPlayer());
+        if (sc.shouldHideInteraction()) {
+            ci.cancel();
+        }
+    }
+
+    @Inject(method = "renderHotbar", at = @At("HEAD"), cancellable = true)
+    private void hdemise$renderHotbar(DrawContext context, RenderTickCounter tickCounter, CallbackInfo ci) {
+        SoulComponent sc = SoulComponent.of(getCameraPlayer());
+        if (sc.shouldHideInteraction()) {
+            ci.cancel();
+        }
+    }
+
     @Inject(method = "getCurrentBarType", at = @At("RETURN"), cancellable = true)
     private void hdemise$getCurrentBarType(CallbackInfoReturnable<InGameHud.BarType> cir) {
         SoulComponent sc = SoulComponent.of(getCameraPlayer());
@@ -85,7 +102,10 @@ public abstract class InGameHudMixin {
 
     @Inject(method = "drawHeart", at = @At("HEAD"), cancellable = true)
     private void hdemise$drawHeart(DrawContext context, InGameHud.HeartType type, int x, int y, boolean hardcore, boolean blinking, boolean half, CallbackInfo ci) {
-        if (SoulComponent.of(getCameraPlayer()).isDemon() && type == InGameHud.HeartType.NORMAL) {
+        SoulComponent sc = SoulComponent.of(getCameraPlayer());
+        if (sc.isGhost()) {
+            ci.cancel();
+        } else if (sc.isDemon() && type == InGameHud.HeartType.NORMAL) {
 
             context.drawTexture(RenderPipelines.GUI_TEXTURED, DemiseHeartType.SOUL.getTexture(hardcore, half, blinking), x, y, 0, 0, 9, 9, 9, 9);
             ci.cancel();

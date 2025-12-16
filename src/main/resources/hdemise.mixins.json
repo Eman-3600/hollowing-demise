@@ -15,7 +15,11 @@
   },
   "client": [
     "client.ClientPlayerEntityMixin",
+    "client.ClientPlayerInteractionManagerMixin",
+    "client.ClientPlayNetworkHandlerMixin",
     "client.InGameHudMixin",
-    "client.MinecraftClientMixin"
+    "client.MinecraftClientMixin",
+    "client.MouseMixin",
+    "client.PlayerEntityRendererMixin"
   ]
 }

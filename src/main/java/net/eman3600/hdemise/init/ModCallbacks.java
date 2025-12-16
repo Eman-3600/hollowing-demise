@@ -14,6 +14,7 @@ public class ModCallbacks {
                 sc.setForm(true);
             } else if (sc.isDemon()) {
                 sc.reloadAttributes();
+                sc.updateAbilities();
             }
         });
 
@@ -22,6 +23,7 @@ public class ModCallbacks {
 
             sc.reloadAttributes();
             sc.setFocusing(false);
+            sc.updateAbilities();
         });
     }
 }

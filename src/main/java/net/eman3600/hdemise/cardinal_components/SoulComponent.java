@@ -8,12 +8,11 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.*;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.HungerManager;
+import net.minecraft.entity.player.PlayerAbilities;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvents;
 import net.minecraft.storage.ReadView;
 import net.minecraft.storage.WriteView;
 import net.minecraft.util.Identifier;
@@ -29,13 +28,17 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
 
     public static final int MAX_SOUL = 800;
     public static final int SOUL_PER_XP = 10;
-    public static final int SOUL_DECAY_TICKS = 75;
+    public static final int SOUL_DECAY_TICKS = 15;
+    public static final int SOUL_DECAY_AMOUNT = 2;
     public static final int BURN_SOUL_PER_TICK = 1;
     public static final int EXHAUSTION_THRESHOLD = 0;
     public static final int FOCUS_LENGTH = 20;
     public static final int FOCUS_DELAY = 8;
     public static final int FOCUS_RATE = 4;
     public static final float FOCUS_HP = 6f;
+    public static final int VANISH_TICKS = 20;
+    public static final int VANISH_RATE = 2;
+    public static final int WARNING_TICKS = 4;
 
     public static final Identifier HP_ATTRIBUTE_ID = Identifier.of(MODID, "soul_hp");
     public static final Identifier SPEED_ATTRIBUTE_ID = Identifier.of(MODID, "soul_speed");
@@ -48,6 +51,9 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
 
     private boolean focusing = false;
     private int focusTime = 0;
+    private boolean vanishing = false;
+    private int vanishTime = 0;
+    private int warningTicks = 0;
 
     private final PlayerEntity player;
 
@@ -71,6 +77,7 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
         }
 
         setFocusing(false);
+        setGhost(hasSolarSickness());
 
         markDirty();
     }
@@ -92,11 +99,11 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
     }
 
     public boolean canFocus() {
-        return ((soul >= getFocusRequirement() && player.isOnGround()) || player.isCreative()) && demonForm;
+        return ((soul >= getFocusRequirement() && player.isOnGround()) || player.isCreative()) && demonForm && !ghostMode && !vanishing && warningTicks <= 0;
     }
 
-    public boolean canGhost() {
-        return (soul > 0 || player.isCreative()) && demonForm;
+    public boolean canVanish() {
+        return (soul > 0 || player.isCreative()) && demonForm && warningTicks <= 0;
     }
 
     public float getSoulPercentage() {
@@ -116,14 +123,51 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
         markDirty();
     }
 
+    public void warnSoul() {
+        this.warningTicks = WARNING_TICKS;
+        markDirty();
+    }
+
+    public int getWarning() {
+        return this.warningTicks;
+    }
+
     public void setFocusing(boolean focusing) {
         this.focusing = focusing;
         focusTime = -FOCUS_DELAY;
         markDirty();
     }
 
+    public void beginVanishing() {
+        this.vanishing = true;
+        this.vanishTime = 0;
+        if (player.getVehicle() != null) {
+            player.stopRiding();
+        }
+        markDirty();
+    }
+
+    public void interruptVanish() {
+        this.vanishing = false;
+        this.vanishTime = 0;
+        this.setSoul(0);
+        this.warnSoul();
+        markDirty();
+    }
+
+    public boolean isVanishing() {
+        return vanishing;
+    }
+
     public void setGhost(boolean ghost) {
         this.ghostMode = ghost;
+        if (player.getVehicle() != null) {
+            player.stopRiding();
+        }
+        soulDecay = SOUL_DECAY_TICKS;
+        vanishing = false;
+        vanishTime = 0;
+        updateAbilities();
         markDirty();
     }
 
@@ -132,15 +176,35 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
     }
 
     public boolean lockedMovement() {
-        return this.focusing;
+        return this.focusing || this.vanishing;
     }
 
     public boolean lockedInteraction() {
-        return (this.ghostMode || this.focusing) && !player.isCreative();
+        return (this.ghostMode || this.focusing || this.vanishing) && !player.isCreative();
+    }
+
+    public boolean shouldHideInteraction() {
+        return this.ghostMode && !player.isCreative();
+    }
+
+    public boolean shouldFreeze() {
+        return this.vanishing;
+    }
+
+    public void updateAbilities() {
+        PlayerAbilities abilities = player.getAbilities();
+        player.getGameMode().setAbilities(abilities);
+        if (isGhost()) {
+            abilities.allowFlying = true;
+            abilities.flying = true;
+            abilities.invulnerable = true;
+            abilities.allowModifyWorld = false;
+        }
+        player.sendAbilitiesUpdate();
     }
 
     public void resetSoul() {
-        this.soul = MAX_SOUL/5;
+        this.soul = (int)(MAX_SOUL * 0.3f);
         this.soulDecay = SOUL_DECAY_TICKS;
         markDirty();
 
@@ -151,6 +215,7 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
         player.getHungerManager().setFoodLevel(20);
         player.getHungerManager().setSaturationLevel(0f);
 
+        updateAbilities();
         reloadAttributes();
 
         player.setHealth(player.getMaxHealth());
@@ -229,13 +294,24 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
                 }
             }
 
-            if (!player.isCreative() && !focusing) {
+            if (vanishing) {
+                vanishTime++;
 
-                soulDecay--;
-                if (soulDecay <= 0 && !player.isCreative()) {
-                    soulDecay = SOUL_DECAY_TICKS;
-                    addSoul(-1);
+                if (!player.isCreative()) {
+                    addSoul(-VANISH_RATE);
                 }
+
+                if (soul <= 0) {
+                    vanishing = false;
+                    vanishTime = 0;
+                    markDirty();
+                } else if (vanishTime >= VANISH_TICKS) {
+                    setGhost(true);
+                    playFocusSound(); // Subject to Change
+                }
+            }
+
+            if (!player.isCreative()) {
 
                 if (hasSolarSickness()) {
 
@@ -247,7 +323,23 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
                         addSoul(-BURN_SOUL_PER_TICK);
                     }
                 }
+
+                if (ghostMode) {
+                    soulDecay--;
+                    if (soulDecay <= 0) {
+                        soulDecay = SOUL_DECAY_TICKS;
+                        addSoul(-SOUL_DECAY_AMOUNT);
+                    }
+                    if (soul <= 0) {
+                        setGhost(false);
+                    }
+                }
             }
+        }
+
+        if (warningTicks > 0) {
+            warningTicks--;
+            markDirty();
         }
 
         if (this.isDirty) {
@@ -276,6 +368,9 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
         soulDecay = readView.getInt("soul_decay", SOUL_DECAY_TICKS);
         focusing = readView.getBoolean("focusing", false);
         focusTime = readView.getInt("focus_time", 0);
+        vanishing = readView.getBoolean("vanishing", false);
+        vanishTime = readView.getInt("vanish_time", 0);
+        warningTicks = readView.getInt("warning", 0);
     }
 
     @Override
@@ -286,6 +381,9 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
         writeView.putInt("soul_decay", soulDecay);
         writeView.putBoolean("focusing", focusing);
         writeView.putInt("focus_time", focusTime);
+        writeView.putBoolean("vanishing", vanishing);
+        writeView.putInt("vanish_time", vanishTime);
+        writeView.putInt("warning", warningTicks);
     }
 
     /**
@@ -304,7 +402,7 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
      */
     public boolean hasSolarSickness() {
 
-        if (!demonForm || player.hasStatusEffect(StatusEffects.FIRE_RESISTANCE)) {
+        if (!demonForm || ghostMode || player.hasStatusEffect(StatusEffects.FIRE_RESISTANCE)) {
             return false;
         }
 

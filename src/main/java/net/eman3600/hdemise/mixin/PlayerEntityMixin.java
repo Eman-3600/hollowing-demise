@@ -59,6 +59,8 @@ public abstract class PlayerEntityMixin extends PlayerLikeEntity {
 
         if (sc.isDemon() && (source.isIn(DamageTypeTags.IS_FALL))) {
             cir.setReturnValue(true);
+        } else if (sc.isGhost() && (!source.isIn(DamageTypeTags.BYPASSES_INVULNERABILITY))) {
+            cir.setReturnValue(true);
         }
     }
 
@@ -68,6 +70,10 @@ public abstract class PlayerEntityMixin extends PlayerLikeEntity {
 
         if (sc.isFocusing()) {
             sc.setFocusing(false);
+            sc.warnSoul();
+        }
+        if (sc.isVanishing()) {
+            sc.interruptVanish();
         }
     }
 

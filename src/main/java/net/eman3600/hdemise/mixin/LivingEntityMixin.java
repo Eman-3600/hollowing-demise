@@ -13,6 +13,7 @@ import net.minecraft.world.waypoint.ServerWaypoint;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(LivingEntity.class)
@@ -28,6 +29,28 @@ public abstract class LivingEntityMixin extends Entity implements Attackable, Se
 
             if (sc.isDemon() && (effect.equals(StatusEffects.POISON) || effect.equals(StatusEffects.HUNGER))) {
                 cir.setReturnValue(false);
+            }
+        }
+    }
+
+    @Inject(method = "tickMovement", at = @At("HEAD"), cancellable = true)
+    private void hdemise$tickMovement(CallbackInfo ci) {
+        if (((Object)this) instanceof PlayerEntity player) {
+            SoulComponent sc = SoulComponent.of(player);
+
+            if (sc.shouldFreeze()) {
+                this.setVelocity(this.getVelocity().multiply(0.6));
+            }
+        }
+    }
+
+    @Inject(method = "getEffectiveGravity", at = @At("HEAD"), cancellable = true)
+    private void hdemise$getEffectiveGravity(CallbackInfoReturnable<Double> cir) {
+        if (((Object)this) instanceof PlayerEntity player) {
+            SoulComponent sc = SoulComponent.of(player);
+
+            if (sc.shouldFreeze()) {
+                cir.setReturnValue(0d);
             }
         }
     }
