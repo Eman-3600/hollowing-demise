@@ -10,6 +10,8 @@
     "block.hdemise.deepslate_almarite_ore": "Deepslate Almarite Ore",
     "item.hdemise.deepslate_almarite_ore": "Deepslate Almarite Ore",
 
+    "itemgroup.hdemise.hdemise_group": "Hollowing Demise",
+
     "key.hdemise.focus": "Focus (Heal)",
     "key.hdemise.ghost": "Become Intangible"
 }
