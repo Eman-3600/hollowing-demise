@@ -54,4 +54,37 @@ public abstract class LivingEntityMixin extends Entity implements Attackable, Se
             }
         }
     }
+
+    @Inject(method = "pushAwayFrom", at = @At("HEAD"), cancellable = true)
+    private void hdemise$pushAwayFrom(Entity entity, CallbackInfo ci) {
+        if (((Object)this) instanceof PlayerEntity player) {
+            SoulComponent sc = SoulComponent.of(player);
+
+            if (sc.isGhost()) {
+                ci.cancel();
+            }
+        }
+    }
+
+    @Inject(method = "pushAway", at = @At("HEAD"), cancellable = true)
+    private void hdemise$pushAway(Entity entity, CallbackInfo ci) {
+        if (((Object)this) instanceof PlayerEntity player) {
+            SoulComponent sc = SoulComponent.of(player);
+
+            if (sc.isGhost()) {
+                ci.cancel();
+            }
+        }
+    }
+
+    @Inject(method = "canBreatheInWater", at = @At("HEAD"), cancellable = true)
+    private void hdemise$canBreatheInWater(CallbackInfoReturnable<Boolean> cir) {
+        if (((Object)this) instanceof PlayerEntity player) {
+            SoulComponent sc = SoulComponent.of(player);
+
+            if (sc.isDemon()) {
+                cir.setReturnValue(true);
+            }
+        }
+    }
 }

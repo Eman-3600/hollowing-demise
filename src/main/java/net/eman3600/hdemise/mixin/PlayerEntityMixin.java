@@ -1,6 +1,7 @@
 package net.eman3600.hdemise.mixin;
 
 import net.eman3600.hdemise.cardinal_components.SoulComponent;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.PlayerLikeEntity;
@@ -9,11 +10,14 @@ import net.minecraft.entity.player.PlayerAbilities;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.registry.tag.DamageTypeTags;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.Hand;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
@@ -57,7 +61,7 @@ public abstract class PlayerEntityMixin extends PlayerLikeEntity {
     private void hdemise$isInvulnerableTo(ServerWorld world, DamageSource source, CallbackInfoReturnable<Boolean> cir) {
         SoulComponent sc = SoulComponent.of(this);
 
-        if (sc.isDemon() && (source.isIn(DamageTypeTags.IS_FALL))) {
+        if (sc.isDemon() && (source.isIn(DamageTypeTags.IS_FALL) || source.isIn(DamageTypeTags.IS_DROWNING))) {
             cir.setReturnValue(true);
         } else if (sc.isGhost() && (!source.isIn(DamageTypeTags.BYPASSES_INVULNERABILITY))) {
             cir.setReturnValue(true);
@@ -83,6 +87,22 @@ public abstract class PlayerEntityMixin extends PlayerLikeEntity {
 
         if (sc.lockedMovement()) {
             cir.setReturnValue(true);
+        }
+    }
+
+    @Inject(method = "interact", at = @At("HEAD"), cancellable = true)
+    private void hdemise$interact(Entity entity, Hand hand, CallbackInfoReturnable<ActionResult> cir) {
+        if (SoulComponent.of(this).isGhost()) {
+            cir.setReturnValue(ActionResult.PASS);
+        }
+    }
+
+    // Common Side Ghost Locks
+
+    @Inject(method = "collideWithEntity", at = @At("HEAD"), cancellable = true)
+    private void hdemise$collideWithEntity(Entity entity, CallbackInfo ci) {
+        if (SoulComponent.of(this).isGhost() && entity.getType() != EntityType.EXPERIENCE_ORB) {
+            ci.cancel();
         }
     }
 }

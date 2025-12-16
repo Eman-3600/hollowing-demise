@@ -167,7 +167,7 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
         soulDecay = SOUL_DECAY_TICKS;
         vanishing = false;
         vanishTime = 0;
-        updateAbilities();
+        updateAbilities(true);
         markDirty();
     }
 
@@ -191,7 +191,7 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
         return this.vanishing;
     }
 
-    public void updateAbilities() {
+    public void updateAbilities(boolean shouldSync) {
         PlayerAbilities abilities = player.getAbilities();
         player.getGameMode().setAbilities(abilities);
         if (isGhost()) {
@@ -200,7 +200,9 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
             abilities.invulnerable = true;
             abilities.allowModifyWorld = false;
         }
-        player.sendAbilitiesUpdate();
+        if (shouldSync) {
+            player.sendAbilitiesUpdate();
+        }
     }
 
     public void resetSoul() {
@@ -215,7 +217,7 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
         player.getHungerManager().setFoodLevel(20);
         player.getHungerManager().setSaturationLevel(0f);
 
-        updateAbilities();
+        updateAbilities(true);
         reloadAttributes();
 
         player.setHealth(player.getMaxHealth());

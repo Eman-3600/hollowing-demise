@@ -40,6 +40,10 @@ public abstract class InGameHudMixin {
         SoulComponent sc = SoulComponent.of(player);
         if (sc.isDemon()) {
 
+            if (sc.isGhost()) {
+                right -= 51;
+            }
+
             int v = sc.getWarning() > 0 ? 72 : (sc.isGhost() || sc.isVanishing()) ? 54 : sc.hasSolarSickness() ? 36 : 18;
 
             int soulPerVessel = SoulComponent.MAX_SOUL/10;
@@ -80,6 +84,14 @@ public abstract class InGameHudMixin {
     private void hdemise$renderCrosshair(DrawContext context, RenderTickCounter tickCounter, CallbackInfo ci) {
         SoulComponent sc = SoulComponent.of(getCameraPlayer());
         if (sc.shouldHideInteraction()) {
+            ci.cancel();
+        }
+    }
+
+    @Inject(method = "renderAirBubbles", at = @At("HEAD"), cancellable = true)
+    private void hdemise$renderAirBubbles(DrawContext context, PlayerEntity player, int heartCount, int top, int left, CallbackInfo ci) {
+        SoulComponent sc = SoulComponent.of(getCameraPlayer());
+        if (sc.isDemon()) {
             ci.cancel();
         }
     }

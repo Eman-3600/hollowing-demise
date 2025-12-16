@@ -18,6 +18,7 @@ import net.minecraft.world.RaycastContext;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Environment(EnvType.CLIENT)
@@ -35,6 +36,13 @@ public abstract class ClientPlayerEntityMixin extends AbstractClientPlayerEntity
             double maxDistance = this.getBlockInteractionRange();
             Vec3d vec3d3 = vec3d.add(vec3d2.x * maxDistance, vec3d2.y * maxDistance, vec3d2.z * maxDistance);
             cir.setReturnValue(BlockHitResult.createMissed(vec3d3, Direction.getFacing(vec3d.x, vec3d.y, vec3d.z), BlockPos.ofFloored(vec3d3)));
+        }
+    }
+
+    @Inject(method = "pushOutOfBlocks", at = @At("HEAD"), cancellable = true)
+    private void hdemise$pushOutOfBlocks(double x, double z, CallbackInfo ci) {
+        if (SoulComponent.of(this).isGhost()) {
+            ci.cancel();
         }
     }
 }
