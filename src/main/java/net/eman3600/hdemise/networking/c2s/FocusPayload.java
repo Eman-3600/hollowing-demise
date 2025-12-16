@@ -36,7 +36,7 @@ public record FocusPayload(boolean beginning) implements CustomPayload {
     public static void receive(FocusPayload payload, ServerPlayNetworking.Context context) {
         SoulComponent sc = SoulComponent.of(context.player());
 
-        if (sc != null) {
+        if (sc != null && !context.player().isSpectator()) {
             sc.setFocusing(payload.beginning() && sc.canFocus());
         }
     }

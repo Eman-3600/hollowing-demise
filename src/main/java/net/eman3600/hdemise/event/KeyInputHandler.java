@@ -22,6 +22,7 @@ public class KeyInputHandler {
     public static KeyBinding ghostKey;
 
     private static boolean holdingFocusKey;
+    private static boolean holdingGhostKey;
 
     public static void registerKeyInputs() {
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
@@ -38,9 +39,16 @@ public class KeyInputHandler {
                 ClientPlayNetworking.send(payload);
             }
 
-            while (ghostKey.wasPressed() && client.player != null) {
+            if (ghostKey.isPressed() && client.player != null) {
 
-                GhostPayload payload = new GhostPayload();
+                if (!holdingGhostKey) {
+                    holdingGhostKey = true;
+                    GhostPayload payload = new GhostPayload(true);
+                    ClientPlayNetworking.send(payload);
+                }
+            } else if (holdingGhostKey) {
+                holdingGhostKey = false;
+                GhostPayload payload = new GhostPayload(false);
                 ClientPlayNetworking.send(payload);
             }
 

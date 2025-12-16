@@ -26,7 +26,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(AbstractBlock.AbstractBlockState.class)
 public abstract class AbstractBlockStateMixin extends State<Block, BlockState> {
 
+
     @Shadow public abstract boolean isIn(TagKey<Block> tag);
+
     protected AbstractBlockStateMixin(Block owner, Reference2ObjectArrayMap<Property<?>, Comparable<?>> propertyMap, MapCodec<BlockState> codec) {
         super(owner, propertyMap, codec);
     }
@@ -35,7 +37,7 @@ public abstract class AbstractBlockStateMixin extends State<Block, BlockState> {
     private void hdemise$getCollisionShape(BlockView world, BlockPos pos, ShapeContext context, CallbackInfoReturnable<VoxelShape> cir) {
         VoxelShape blockShape = cir.getReturnValue();
         if(!blockShape.isEmpty() && context instanceof EntityShapeContext esc) {
-            if (esc.getEntity() instanceof PlayerEntity player && SoulComponent.of(player).isGhost() && player.getAbilities().flying) {
+            if (esc.getEntity() instanceof PlayerEntity player && SoulComponent.of(player).isGhost() && player.getAbilities().flying && !this.isIn(ModTags.Blocks.IMPASSABLE)) {
                 cir.setReturnValue(VoxelShapes.empty());
             }
         }

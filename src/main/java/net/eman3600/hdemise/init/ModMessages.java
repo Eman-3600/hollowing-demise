@@ -2,7 +2,7 @@ package net.eman3600.hdemise.init;
 
 import net.eman3600.hdemise.networking.c2s.FocusPayload;
 import net.eman3600.hdemise.networking.c2s.GhostPayload;
-import net.eman3600.hdemise.networking.s2c.FocusSoundPayload;
+import net.eman3600.hdemise.networking.s2c.SoulEventPayload;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
@@ -15,7 +15,7 @@ public class ModMessages {
         PayloadTypeRegistry.playC2S().register(FocusPayload.TYPE, FocusPayload.CODEC);
         PayloadTypeRegistry.playC2S().register(GhostPayload.TYPE, GhostPayload.CODEC);
 
-        PayloadTypeRegistry.playS2C().register(FocusSoundPayload.TYPE, FocusSoundPayload.CODEC);
+        PayloadTypeRegistry.playS2C().register(SoulEventPayload.TYPE, SoulEventPayload.CODEC);
     }
 
     public static void registerC2SReceivers() {
@@ -25,6 +25,6 @@ public class ModMessages {
 
     @Environment(EnvType.CLIENT)
     public static void registerS2CReceivers() {
-        ClientPlayNetworking.registerGlobalReceiver(FocusSoundPayload.TYPE, FocusSoundPayload::receive);
+        ClientPlayNetworking.registerGlobalReceiver(SoulEventPayload.TYPE, SoulEventPayload::receive);
     }
 }

@@ -1,7 +1,9 @@
 package net.eman3600.hdemise.cardinal_components;
 
 import net.eman3600.hdemise.init.ModEntityComponents;
-import net.eman3600.hdemise.networking.s2c.FocusSoundPayload;
+import net.eman3600.hdemise.networking.s2c.SoulEventPayload;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.entity.LivingEntity;
@@ -37,8 +39,13 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
     public static final int FOCUS_RATE = 4;
     public static final float FOCUS_HP = 6f;
     public static final int VANISH_TICKS = 20;
+    public static final int REVEAL_TICKS = 8;
     public static final int VANISH_RATE = 2;
     public static final int WARNING_TICKS = 4;
+    @Environment(EnvType.CLIENT)
+    public static final int SUN_TICKS = 15;
+    @Environment(EnvType.CLIENT)
+    public int sunTicks;
 
     public static final Identifier HP_ATTRIBUTE_ID = Identifier.of(MODID, "soul_hp");
     public static final Identifier SPEED_ATTRIBUTE_ID = Identifier.of(MODID, "soul_speed");
@@ -77,7 +84,7 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
         }
 
         setFocusing(false);
-        setGhost(hasSolarSickness());
+        setGhost(hasSolarSickness(true));
 
         markDirty();
     }
@@ -138,8 +145,8 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
         markDirty();
     }
 
-    public void beginVanishing() {
-        this.vanishing = true;
+    public void setVanishing(boolean vanishing) {
+        this.vanishing = vanishing;
         this.vanishTime = 0;
         if (player.getVehicle() != null) {
             player.stopRiding();
@@ -193,10 +200,11 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
 
     public void updateAbilities(boolean shouldSync) {
         PlayerAbilities abilities = player.getAbilities();
+        boolean isFlying = player.getAbilities().flying;
         player.getGameMode().setAbilities(abilities);
         if (isGhost()) {
             abilities.allowFlying = true;
-            abilities.flying = true;
+            abilities.flying = isFlying;
             abilities.invulnerable = true;
             abilities.allowModifyWorld = false;
         }
@@ -208,6 +216,8 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
     public void resetSoul() {
         this.soul = (int)(MAX_SOUL * 0.3f);
         this.soulDecay = SOUL_DECAY_TICKS;
+        this.vanishing = false;
+        this.vanishTime = 0;
         markDirty();
 
         player.experienceLevel = 0;
@@ -258,7 +268,12 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
 
     @Override
     public void clientTick() {
-
+        if (hasSolarSickness(true)) {
+            if (sunTicks < SUN_TICKS)
+                sunTicks++;
+        } else if (sunTicks > 0) {
+            sunTicks--;
+        }
     }
 
     @Override
@@ -291,7 +306,7 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
                 } else if (focusTime >= FOCUS_LENGTH) {
                     player.heal(FOCUS_HP);
                     player.setHealth(MathHelper.ceil(player.getHealth()));
-                    playFocusSound();
+                    sendSoulEvent(SoulEventPayload.SoulEventType.FOCUS);
                     setFocusing(canFocus() && player.getHealth() < player.getMaxHealth());
                 }
             }
@@ -299,7 +314,7 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
             if (vanishing) {
                 vanishTime++;
 
-                if (!player.isCreative()) {
+                if (!player.isCreative() && !ghostMode) {
                     addSoul(-VANISH_RATE);
                 }
 
@@ -307,15 +322,15 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
                     vanishing = false;
                     vanishTime = 0;
                     markDirty();
-                } else if (vanishTime >= VANISH_TICKS) {
-                    setGhost(true);
-                    playFocusSound(); // Subject to Change
+                } else if (vanishTime >= (ghostMode ? REVEAL_TICKS : VANISH_TICKS)) {
+                    setGhost(!ghostMode);
+                    sendSoulEvent(SoulEventPayload.SoulEventType.VANISH); // Subject to Change
                 }
             }
 
             if (!player.isCreative()) {
 
-                if (hasSolarSickness()) {
+                if (hasSolarSickness(true)) {
 
                     if (soul <= EXHAUSTION_THRESHOLD) {
                         if (shouldSetOnFire()) {
@@ -354,8 +369,8 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
         this.isDirty = true;
     }
 
-    private void playFocusSound() {
-        FocusSoundPayload payload = new FocusSoundPayload(player.getX(), player.getY(), player.getZ());
+    private void sendSoulEvent(SoulEventPayload.SoulEventType eventType) {
+        SoulEventPayload payload = new SoulEventPayload(player.getX(), player.getY(), player.getZ(), player.getRandom().nextFloat(), eventType);
 
         for (ServerPlayerEntity otherPlayer : PlayerLookup.around((ServerWorld) player.getEntityWorld(), player.getEntityPos(), 16d)) {
             ServerPlayNetworking.send(otherPlayer, payload);
@@ -395,16 +410,16 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
     public boolean shouldSetOnFire() {
 
         float f = player.getBrightnessAtEyes();
-        return hasSolarSickness() && player.getRandom().nextFloat() * 30.0f < (f - 0.4f) * 2.0f;
+        return hasSolarSickness(true) && player.getRandom().nextFloat() * 30.0f < (f - 0.4f) * 2.0f;
     }
 
     /**
      * Determines whether the player should be burning due to sun exposure.
      * @return whether the player should burn
      */
-    public boolean hasSolarSickness() {
+    public boolean hasSolarSickness(boolean ghostIgnoresSun) {
 
-        if (!demonForm || ghostMode || player.hasStatusEffect(StatusEffects.FIRE_RESISTANCE)) {
+        if (!demonForm || (ghostMode && ghostIgnoresSun) || player.hasStatusEffect(StatusEffects.FIRE_RESISTANCE)) {
             return false;
         }
 

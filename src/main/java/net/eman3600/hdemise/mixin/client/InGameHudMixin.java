@@ -8,14 +8,17 @@ import net.minecraft.client.gl.RenderPipelines;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.hud.InGameHud;
 import net.minecraft.client.render.RenderTickCounter;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.ColorHelper;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.random.Random;
 import org.jspecify.annotations.Nullable;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -31,7 +34,12 @@ public abstract class InGameHudMixin {
 
     @Shadow @Final private Random random;
     @Shadow private int ticks;
+    @Unique
     private static final Identifier HUD_ICONS = Identifier.of(MODID, "textures/gui/hud/icons.png");
+    @Unique
+    private static final Identifier GHOST_VIGNETTE_TEXTURE = Identifier.of(MODID, "textures/misc/ghost_vignette.png");
+    @Unique
+    private static final Identifier SOLAR_VIGNETTE_TEXTURE = Identifier.of(MODID, "textures/misc/solar_vignette.png");
 
 
 
@@ -44,7 +52,7 @@ public abstract class InGameHudMixin {
                 right -= 51;
             }
 
-            int v = sc.getWarning() > 0 ? 72 : (sc.isGhost() || sc.isVanishing()) ? 54 : sc.hasSolarSickness() ? 36 : 18;
+            int v = sc.getWarning() > 0 ? 72 : (sc.isGhost() && sc.isVanishing() && sc.hasSolarSickness(false)) ? 36 : (sc.isGhost() != sc.isVanishing()) ? 54 : sc.hasSolarSickness(true) ? 36 : 18;
 
             int soulPerVessel = SoulComponent.MAX_SOUL/10;
             int soul = sc.getSoul();
@@ -56,7 +64,7 @@ public abstract class InGameHudMixin {
 
                 int fill = MathHelper.clamp(soul - (9 - j) * soulPerVessel, 0, soulPerVessel);
 
-                if (sc.getSoul() <= SoulComponent.EXHAUSTION_THRESHOLD || sc.hasSolarSickness()) {
+                if (sc.getSoul() <= SoulComponent.EXHAUSTION_THRESHOLD || sc.hasSolarSickness(true)) {
                     k += this.random.nextInt(3) - 1;
                 } else if ((sc.isFocusing() || sc.isVanishing()) && this.random.nextInt(4) == 0) {
                     k += this.random.nextInt(3) - 1;
@@ -78,6 +86,50 @@ public abstract class InGameHudMixin {
 
             ci.cancel();
         }
+    }
+
+    @Inject(method = "renderVignetteOverlay", at = @At("HEAD"), cancellable = true)
+    private void hdemise$renderVignetteOverlay(DrawContext context, Entity entity, CallbackInfo ci) {
+        if (entity instanceof PlayerEntity player) {
+            SoulComponent sc = SoulComponent.of(player);
+
+            if (sc.isGhost()) {
+
+                context.drawTexture(
+                        RenderPipelines.VIGNETTE,
+                        GHOST_VIGNETTE_TEXTURE,
+                        0,
+                        0,
+                        0.0F,
+                        0.0F,
+                        context.getScaledWindowWidth(),
+                        context.getScaledWindowHeight(),
+                        context.getScaledWindowWidth(),
+                        context.getScaledWindowHeight(),
+                        -1
+                );
+
+                ci.cancel();
+            } else if (sc.sunTicks > 0) {
+                float h = (float)sc.sunTicks / SoulComponent.SUN_TICKS;
+                context.drawTexture(
+                        RenderPipelines.VIGNETTE,
+                        SOLAR_VIGNETTE_TEXTURE,
+                        0,
+                        0,
+                        0.0F,
+                        0.0F,
+                        context.getScaledWindowWidth(),
+                        context.getScaledWindowHeight(),
+                        context.getScaledWindowWidth(),
+                        context.getScaledWindowHeight(),
+                        ColorHelper.fromFloats(1.0F, h, h, h)
+                );
+
+                // ci.cancel();
+            }
+        }
+
     }
 
     @Inject(method = "renderCrosshair", at = @At("HEAD"), cancellable = true)

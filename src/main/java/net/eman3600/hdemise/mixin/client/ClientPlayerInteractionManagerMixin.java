@@ -18,10 +18,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public abstract class ClientPlayerInteractionManagerMixin {
     @Shadow @Final private MinecraftClient client;
 
-    @Inject(method = "isFlyingLocked", at = @At("HEAD"), cancellable = true)
-    private void hdemise$isFlyingLocked(CallbackInfoReturnable<Boolean> cir) {
-        if (client.player != null && SoulComponent.of(client.player).isGhost()) {
-            cir.setReturnValue(true);
-        }
-    }
+//    @Inject(method = "isFlyingLocked", at = @At("HEAD"), cancellable = true)
+//    private void hdemise$isFlyingLocked(CallbackInfoReturnable<Boolean> cir) {
+//        if (client.player != null && SoulComponent.of(client.player).isGhost()) {
+//            cir.setReturnValue(true);
+//        }
+//    }
 }

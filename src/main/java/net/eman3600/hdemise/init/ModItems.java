@@ -58,6 +58,8 @@ public class ModItems {
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.TOOLS).register((group) -> {
             group.add(ModItems.ALMARITE);
             group.add(ModItems.SIMPLE_CURE);
+        });
+        ItemGroupEvents.modifyEntriesEvent(ItemGroups.OPERATOR).register((group) -> {
             group.add(ModItems.FORM_SWITCHER);
         });
     }

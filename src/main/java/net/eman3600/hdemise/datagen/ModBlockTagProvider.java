@@ -27,6 +27,9 @@ public class ModBlockTagProvider extends FabricTagProvider.BlockTagProvider {
             .add(ModBlocks.DEEPSLATE_ALMARITE_ORE);
 
         valueLookupBuilder(ModTags.Blocks.IMPASSABLE)
-            .add(Blocks.BEDROCK);
+            .add(Blocks.BEDROCK)
+            .add(Blocks.OBSIDIAN)
+            .add(Blocks.CRYING_OBSIDIAN)
+            .add(Blocks.RESPAWN_ANCHOR);
     }
 }
