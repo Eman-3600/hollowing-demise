@@ -348,7 +348,7 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
                     markDirty();
                 } else if (vanishTime >= (ghostMode ? REVEAL_TICKS : VANISH_TICKS)) {
                     setGhost(!ghostMode);
-                    sendSoulEvent(SoulEventPayload.SoulEventType.VANISH);
+                    sendSoulEvent(ghostMode ? SoulEventPayload.SoulEventType.VANISH : SoulEventPayload.SoulEventType.REAPPEAR);
                 }
             }
 
