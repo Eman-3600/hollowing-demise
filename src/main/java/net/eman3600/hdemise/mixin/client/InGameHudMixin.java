@@ -56,7 +56,7 @@ public abstract class InGameHudMixin {
             int v = sc.getWarning() > 0 ? 72 : (sc.isGhost() && sc.isVanishing() && sc.hasSolarSickness(false)) ? 36 : (sc.isGhost() != sc.isVanishing()) ? 54 : sc.hasSolarSickness(true) ? 36 : 18;
 
             int soulPerVessel = SoulComponent.SOUL_PER_VESSEL;
-            int vessels = (int)player.getAttributeValue(ModAttributes.MAX_SOUL);
+            int vessels = Math.max((int)player.getAttributeValue(ModAttributes.MAX_SOUL), 1);
             int soul = sc.getSoul();
 
             for (int j = 0; j < vessels; j++) {

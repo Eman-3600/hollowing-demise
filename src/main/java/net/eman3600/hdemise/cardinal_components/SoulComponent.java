@@ -325,13 +325,13 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
                     addSoul(-FOCUS_RATE);
                 }
 
-                if (soul <= 0 || !player.isOnGround()) {
-                    setFocusing(false);
-                } else if (focusTime >= FOCUS_LENGTH) {
+                if (focusTime >= FOCUS_LENGTH) {
                     player.heal(FOCUS_HP);
                     player.setHealth(MathHelper.ceil(player.getHealth()));
                     sendSoulEvent(SoulEventPayload.SoulEventType.FOCUS);
                     setFocusing(canFocus() && player.getHealth() < player.getMaxHealth());
+                } else if (soul <= 0 || !player.isOnGround()) {
+                    setFocusing(false);
                 }
             }
 
@@ -348,7 +348,7 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
                     markDirty();
                 } else if (vanishTime >= (ghostMode ? REVEAL_TICKS : VANISH_TICKS)) {
                     setGhost(!ghostMode);
-                    sendSoulEvent(SoulEventPayload.SoulEventType.VANISH); // Subject to Change
+                    sendSoulEvent(SoulEventPayload.SoulEventType.VANISH);
                 }
             }
 

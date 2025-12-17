@@ -12,6 +12,8 @@
 
     "itemgroup.hdemise.hdemise_group": "Hollowing Demise",
 
+    "attributes.hdemise.name.max_soul": "Max Soul",
+
     "key.hdemise.focus": "Focus (Heal)",
     "key.hdemise.ghost": "Become Intangible"
 }
