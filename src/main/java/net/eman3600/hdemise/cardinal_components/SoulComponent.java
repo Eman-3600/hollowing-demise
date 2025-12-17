@@ -9,10 +9,12 @@ import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.*;
+import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.HungerManager;
 import net.minecraft.entity.player.PlayerAbilities;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.particle.ParticleTypes;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
@@ -21,6 +23,7 @@ import net.minecraft.storage.WriteView;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.random.Random;
 import org.ladysnake.cca.api.v3.component.sync.AutoSyncedComponent;
 import org.ladysnake.cca.api.v3.component.tick.ClientTickingComponent;
 import org.ladysnake.cca.api.v3.component.tick.ServerTickingComponent;
@@ -46,10 +49,21 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
     public static final int REVEAL_TICKS = 8;
     public static final int VANISH_RATE = 2;
     public static final int WARNING_TICKS = 4;
+    public static final int CURE_TICKS = 60;
+
     @Environment(EnvType.CLIENT)
     public static final int SUN_TICKS = 15;
     @Environment(EnvType.CLIENT)
     public int sunTicks;
+    @Environment(EnvType.CLIENT)
+    public static final int CURE_RENDER_TICKS = 60;
+    @Environment(EnvType.CLIENT)
+    public int cureRenderTicks;
+
+    /**
+     * Determines if, at the given moment, blocks should lack
+     * collision for the ghost player.
+     */
     public boolean ignoreGhostAbstrusion = false;
 
     public static final Identifier HP_ATTRIBUTE_ID = Identifier.of(MODID, "soul_hp");
@@ -66,6 +80,8 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
     private int focusTime = 0;
     private boolean vanishing = false;
     private int vanishTime = 0;
+    private boolean curing = false;
+    private int cureTime = 0;
     private int warningTicks = 0;
 
     private final PlayerEntity player;
@@ -115,11 +131,15 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
     }
 
     public boolean canFocus() {
-        return ((soul >= getFocusRequirement() && player.isOnGround()) || player.isCreative()) && demonForm && !ghostMode && !vanishing;
+        return ((soul >= getFocusRequirement() && player.isOnGround()) || player.isCreative()) && demonForm && !ghostMode && !vanishing && !curing;
     }
 
     public boolean canVanish() {
-        return (soul > 0 || player.isCreative()) && demonForm && !focusing;
+        return (soul > 0 || player.isCreative()) && demonForm && !focusing && !curing;
+    }
+
+    public boolean canCure() {
+        return demonForm && !focusing && !vanishing;
     }
 
     public float getSoulVessels() {
@@ -163,10 +183,29 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
         markDirty();
     }
 
+    public void setCuring(boolean curing, int cureTime) {
+        this.curing = curing;
+        if (curing) {
+            this.cureTime = cureTime;
+        }
+        if (player.getVehicle() != null) {
+            player.stopRiding();
+        }
+        markDirty();
+    }
+
     public void interruptVanish() {
         this.vanishing = false;
         this.vanishTime = 0;
         this.setSoul(getSoul()/2);
+        this.warnSoul();
+        markDirty();
+    }
+
+    public void interruptCure() {
+        this.curing = false;
+        this.cureTime = 0;
+        this.setSoul(0);
         this.warnSoul();
         markDirty();
     }
@@ -191,12 +230,16 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
         return this.focusing;
     }
 
+    public boolean isCuring() {
+        return this.curing;
+    }
+
     public boolean lockedMovement() {
-        return this.focusing || this.vanishing;
+        return this.focusing || this.vanishing || this.curing;
     }
 
     public boolean lockedInteraction() {
-        return (this.ghostMode || this.focusing || this.vanishing) && !player.isCreative();
+        return (this.ghostMode || this.focusing || this.vanishing || this.curing) && !player.isCreative();
     }
 
     public boolean shouldHideInteraction() {
@@ -204,7 +247,7 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
     }
 
     public boolean shouldFreeze() {
-        return this.vanishing;
+        return this.vanishing || this.curing;
     }
 
     public void updateAbilities(boolean shouldSync) {
@@ -229,6 +272,8 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
         this.soulDecay = SOUL_DECAY_TICKS;
         this.vanishing = false;
         this.vanishTime = 0;
+        this.curing = false;
+        this.cureTime = 0;
 
         setFocusing(false);
         setGhost(hasSolarSickness(true));
@@ -298,6 +343,33 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
         } else if (sunTicks > 0) {
             sunTicks--;
         }
+
+        if (isFocusing()) {
+            Random random = player.getRandom();
+            player.getEntityWorld().addParticleClient(ParticleTypes.END_ROD.getType(),
+                    player.getX() + (random.nextFloat() - .5f) * .3f,
+                    player.getY() + 0.75f,
+                    player.getZ() + (random.nextFloat() - .5f) * .3f,
+                    (random.nextFloat() - .5f),
+                    (random.nextFloat() - .5f),
+                    (random.nextFloat() - .5f));
+        }
+
+        if (isCuring()) {
+            Random random = player.getRandom();
+            player.getEntityWorld().addParticleClient(ParticleTypes.TOTEM_OF_UNDYING.getType(),
+                    player.getX() + (random.nextFloat() - .5f) * .3f,
+                    player.getY() + 0.75f,
+                    player.getZ() + (random.nextFloat() - .5f) * .3f,
+                    (random.nextFloat() - .5f),
+                    (random.nextFloat() - .5f),
+                    (random.nextFloat() - .5f));
+
+            if (cureRenderTicks < CURE_RENDER_TICKS)
+                cureRenderTicks++;
+        } else if (cureRenderTicks > 0) {
+            cureRenderTicks--;
+        }
     }
 
     @Override
@@ -349,6 +421,18 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
                 } else if (vanishTime >= (ghostMode ? REVEAL_TICKS : VANISH_TICKS)) {
                     setGhost(!ghostMode);
                     sendSoulEvent(ghostMode ? SoulEventPayload.SoulEventType.VANISH : SoulEventPayload.SoulEventType.REAPPEAR);
+                }
+            }
+
+            if (curing) {
+                cureTime--;
+
+                if (cureTime <= 0) {
+                    setCuring(false, 0);
+                    setForm(false);
+                    player.clearStatusEffects();
+                    player.addStatusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 120, 0));
+                    sendSoulEvent(SoulEventPayload.SoulEventType.REVIVE);
                 }
             }
 
@@ -415,6 +499,8 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
         focusTime = readView.getInt("focus_time", 0);
         vanishing = readView.getBoolean("vanishing", false);
         vanishTime = readView.getInt("vanish_time", 0);
+        curing = readView.getBoolean("curing", false);
+        cureTime = readView.getInt("cure_time", 0);
         warningTicks = readView.getInt("warning", 0);
     }
 
@@ -428,6 +514,8 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
         writeView.putInt("focus_time", focusTime);
         writeView.putBoolean("vanishing", vanishing);
         writeView.putInt("vanish_time", vanishTime);
+        writeView.putBoolean("curing", curing);
+        writeView.putInt("cure_time", cureTime);
         writeView.putInt("warning", warningTicks);
     }
 
@@ -447,7 +535,7 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
      */
     public boolean hasSolarSickness(boolean ghostIgnoresSun) {
 
-        if (!demonForm || (ghostMode && ghostIgnoresSun) || player.hasStatusEffect(StatusEffects.FIRE_RESISTANCE)) {
+        if (!demonForm || curing || (ghostMode && ghostIgnoresSun) || player.hasStatusEffect(StatusEffects.FIRE_RESISTANCE)) {
             return false;
         }
 

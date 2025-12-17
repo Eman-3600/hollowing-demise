@@ -41,6 +41,8 @@ public abstract class InGameHudMixin {
     private static final Identifier GHOST_VIGNETTE_TEXTURE = Identifier.of(MODID, "textures/misc/ghost_vignette.png");
     @Unique
     private static final Identifier SOLAR_VIGNETTE_TEXTURE = Identifier.of(MODID, "textures/misc/solar_vignette.png");
+    @Unique
+    private static final Identifier CURE_VIGNETTE_TEXTURE = Identifier.of(MODID, "textures/misc/cure_vignette.png");
 
 
 
@@ -53,7 +55,7 @@ public abstract class InGameHudMixin {
                 right -= 51;
             }
 
-            int v = sc.getWarning() > 0 ? 72 : (sc.isGhost() && sc.isVanishing() && sc.hasSolarSickness(false)) ? 36 : (sc.isGhost() != sc.isVanishing()) ? 54 : sc.hasSolarSickness(true) ? 36 : 18;
+            int v = sc.isCuring() ? 90 : sc.getWarning() > 0 ? 72 : (sc.isGhost() && sc.isVanishing() && sc.hasSolarSickness(false)) ? 36 : (sc.isGhost() != sc.isVanishing()) ? 54 : sc.hasSolarSickness(true) ? 36 : 18;
 
             int soulPerVessel = SoulComponent.SOUL_PER_VESSEL;
             int vessels = Math.max((int)player.getAttributeValue(ModAttributes.MAX_SOUL), 1);
@@ -114,6 +116,21 @@ public abstract class InGameHudMixin {
                 );
 
                 ci.cancel();
+            } else if (sc.cureRenderTicks > 0) {
+                float h = (float)sc.cureRenderTicks / SoulComponent.CURE_RENDER_TICKS;
+                context.drawTexture(
+                        RenderPipelines.VIGNETTE,
+                        CURE_VIGNETTE_TEXTURE,
+                        0,
+                        0,
+                        0.0F,
+                        0.0F,
+                        context.getScaledWindowWidth(),
+                        context.getScaledWindowHeight(),
+                        context.getScaledWindowWidth(),
+                        context.getScaledWindowHeight(),
+                        ColorHelper.fromFloats(1.0F, h, h, h)
+                );
             } else if (sc.sunTicks > 0) {
                 float h = (float)sc.sunTicks / SoulComponent.SUN_TICKS;
                 context.drawTexture(

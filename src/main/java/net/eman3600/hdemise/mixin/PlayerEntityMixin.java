@@ -85,6 +85,9 @@ public abstract class PlayerEntityMixin extends PlayerLikeEntity {
         if (sc.isVanishing()) {
             sc.interruptVanish();
         }
+        if (sc.isCuring()) {
+            sc.interruptCure();
+        }
     }
 
     @Inject(method = "isImmobile", at = @At("HEAD"), cancellable = true)
@@ -123,5 +126,12 @@ public abstract class PlayerEntityMixin extends PlayerLikeEntity {
     private static void injectAttributes(CallbackInfoReturnable<DefaultAttributeContainer.Builder> info) {
         info.setReturnValue((info.getReturnValue())
                 .add(ModAttributes.MAX_SOUL, 10d));
+    }
+
+    @Inject(method = "canConsume", at = @At("HEAD"), cancellable = true)
+    private void hdemise$canConsume(boolean ignoreHunger, CallbackInfoReturnable<Boolean> cir) {
+        if (SoulComponent.of(this).isDemon() && !this.abilities.invulnerable) {
+            cir.setReturnValue(false);
+        }
     }
 }

@@ -21,7 +21,7 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_almarite_block"
+      "has_almarite"
     ]
   ],
   "rewards": {

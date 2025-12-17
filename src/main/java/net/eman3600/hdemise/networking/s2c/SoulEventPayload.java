@@ -56,6 +56,9 @@ public record SoulEventPayload(double x, double y, double z, float variance, Sou
         }),
         REAPPEAR((player, pos, variance) -> {
             player.getEntityWorld().playSoundClient(pos.x, pos.y, pos.z, SoundEvents.ENTITY_BAT_TAKEOFF, SoundCategory.PLAYERS, 1f, .95f + (variance * .3f), true);
+        }),
+        REVIVE((player, pos, variance) -> {
+            player.getEntityWorld().playSoundClient(pos.x, pos.y, pos.z, SoundEvents.ENTITY_ZOMBIE_VILLAGER_CONVERTED, SoundCategory.PLAYERS, 1f, .95f + (variance * .3f), true);
         });
 
 
