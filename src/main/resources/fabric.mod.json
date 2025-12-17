@@ -3,9 +3,10 @@
 	"id": "hdemise",
 	"version": "${version}",
 	"name": "Hollowing Demise",
-	"description": "This is an example description! Tell everyone what your mod is about!",
+	"description": "Adds a unique challenge after dying. Dead players become hollows: frail spirits that burn in the sun but don't need to eat and can spend experience to heal and become ethereal. Find strength in death, or seek a path to rejoin the living.",
 	"authors": [
-		"Eman3600"
+		"Eman3600",
+		"ThereIsProblemo"
 	],
 	"contact": {
 		"sources": "https://github.com/Eman-3600/hollowing-demise"

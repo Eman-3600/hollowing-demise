@@ -30,7 +30,7 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                 
                 offerSmelting(ALMARITE_SMELTABLES, RecipeCategory.TOOLS, ModItems.ALMARITE, 1f, 200, "almarite");
                 offerBlasting(ALMARITE_SMELTABLES, RecipeCategory.TOOLS, ModItems.ALMARITE, 1f, 100, "almarite");
-                offerReversibleCompactingRecipes(RecipeCategory.BUILDING_BLOCKS, ModItems.ALMARITE, RecipeCategory.TOOLS, ModBlocks.ALMARITE_BLOCK);
+                offerReversibleCompactingRecipes(RecipeCategory.TOOLS, ModItems.ALMARITE, RecipeCategory.BUILDING_BLOCKS, ModBlocks.ALMARITE_BLOCK);
             }
         };
     }

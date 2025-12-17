@@ -1,6 +1,7 @@
 {
     "item.hdemise.almarite": "Almarite Shard",
     "item.hdemise.simple_cure": "Restorative Cluster",
+    "item.hdemise.simple_cure.tooltip": "§7Restores hollows to life",
     "item.hdemise.form_switcher": "Mortality Adjuster",
 
     "block.hdemise.almarite_block": "Block of Almarite",
