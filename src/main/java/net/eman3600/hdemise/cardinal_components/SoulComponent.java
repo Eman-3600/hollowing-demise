@@ -1,5 +1,6 @@
 package net.eman3600.hdemise.cardinal_components;
 
+import net.eman3600.hdemise.init.ModAttributes;
 import net.eman3600.hdemise.init.ModEntityComponents;
 import net.eman3600.hdemise.networking.s2c.SoulEventPayload;
 import net.fabricmc.api.EnvType;
@@ -28,7 +29,7 @@ import static net.eman3600.hdemise.HDemise.MODID;
 
 public class SoulComponent implements AutoSyncedComponent, ServerTickingComponent, ClientTickingComponent {
 
-    public static final int MAX_SOUL = 800;
+    public static final int SOUL_PER_VESSEL = 80;
     public static final int SOUL_PER_XP = 10;
     // Rate of Soul Loss in Ghost Form is
     // SOUL_DECAY_AMOUNT / SOUL_DECAY_TICKS
@@ -53,6 +54,7 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
 
     public static final Identifier HP_ATTRIBUTE_ID = Identifier.of(MODID, "soul_hp");
     public static final Identifier SPEED_ATTRIBUTE_ID = Identifier.of(MODID, "soul_speed");
+    public static final Identifier MAX_SOUL_ATTRIBUTE_ID = Identifier.of(MODID, "soul_max");
 
     private boolean demonForm = false;
     private boolean ghostMode = false;
@@ -83,12 +85,11 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
 
             player.getHungerManager().setFoodLevel(20);
             player.getHungerManager().setSaturationLevel(5f);
+            setFocusing(false);
+            setGhost(false);
 
             reloadAttributes();
         }
-
-        setFocusing(false);
-        setGhost(hasSolarSickness(true));
 
         markDirty();
     }
@@ -105,6 +106,10 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
         return soul;
     }
 
+    public int getMaxSoul() {
+        return SOUL_PER_VESSEL * Math.max(1, (int)player.getAttributeValue(ModAttributes.MAX_SOUL));
+    }
+
     public int getFocusRequirement() {
         return FOCUS_LENGTH * FOCUS_RATE;
     }
@@ -117,8 +122,8 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
         return (soul > 0 || player.isCreative()) && demonForm && !focusing;
     }
 
-    public float getSoulPercentage() {
-        return (float) soul / MAX_SOUL;
+    public float getSoulVessels() {
+        return (float) soul / SOUL_PER_VESSEL;
     }
 
     public void gainSoulFromXP(int xp) {
@@ -130,7 +135,7 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
     }
 
     public void setSoul(int soul) {
-        this.soul = MathHelper.clamp(soul, 0, MAX_SOUL);
+        this.soul = MathHelper.clamp(soul, 0, getMaxSoul());
         markDirty();
     }
 
@@ -218,11 +223,15 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
     }
 
     public void resetSoul() {
-        this.soul = (int)(MAX_SOUL * 0.5f);
+        reloadAttributes();
+
+        this.soul = getMaxSoul()/2;
         this.soulDecay = SOUL_DECAY_TICKS;
         this.vanishing = false;
         this.vanishTime = 0;
-        markDirty();
+
+        setFocusing(false);
+        setGhost(hasSolarSickness(true));
 
         player.experienceLevel = 0;
         player.experienceProgress = 0;
@@ -232,7 +241,6 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
         player.getHungerManager().setSaturationLevel(0f);
 
         updateAbilities(true);
-        reloadAttributes();
 
         player.setHealth(player.getMaxHealth());
     }
@@ -250,6 +258,18 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
             if (demonForm) {
                 hpInstance.addTemporaryModifier(new EntityAttributeModifier(HP_ATTRIBUTE_ID, -.4, EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE));
             }
+        }
+
+        RegistryEntry<EntityAttribute> maxSoul = ModAttributes.MAX_SOUL;
+        EntityAttributeInstance maxSoulInstance = container.getCustomInstance(maxSoul);
+
+        if (maxSoulInstance != null) {
+
+            maxSoulInstance.removeModifier(MAX_SOUL_ATTRIBUTE_ID);
+
+//            if (demonForm) {
+//                maxSoulInstance.addTemporaryModifier(new EntityAttributeModifier(MAX_SOUL_ATTRIBUTE_ID, -2, EntityAttributeModifier.Operation.ADD_VALUE));
+//            }
         }
 
         RegistryEntry<EntityAttribute> speed = EntityAttributes.MOVEMENT_SPEED;
@@ -305,13 +325,13 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
                     addSoul(-FOCUS_RATE);
                 }
 
-                if (soul <= 0 || !player.isOnGround()) {
-                    setFocusing(false);
-                } else if (focusTime >= FOCUS_LENGTH) {
+                if (focusTime >= FOCUS_LENGTH) {
                     player.heal(FOCUS_HP);
                     player.setHealth(MathHelper.ceil(player.getHealth()));
                     sendSoulEvent(SoulEventPayload.SoulEventType.FOCUS);
                     setFocusing(canFocus() && player.getHealth() < player.getMaxHealth());
+                } else if (soul <= 0 || !player.isOnGround()) {
+                    setFocusing(false);
                 }
             }
 
@@ -328,7 +348,7 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
                     markDirty();
                 } else if (vanishTime >= (ghostMode ? REVEAL_TICKS : VANISH_TICKS)) {
                     setGhost(!ghostMode);
-                    sendSoulEvent(SoulEventPayload.SoulEventType.VANISH); // Subject to Change
+                    sendSoulEvent(ghostMode ? SoulEventPayload.SoulEventType.VANISH : SoulEventPayload.SoulEventType.REAPPEAR);
                 }
             }
 
@@ -355,6 +375,10 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
                         setGhost(false);
                     }
                 }
+            }
+
+            if (soul > getMaxSoul() || soul < 0) {
+                setSoul(getSoul());
             }
         }
 
@@ -385,7 +409,7 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
     public void readData(ReadView readView) {
         demonForm = readView.getBoolean("demon_form", false);
         ghostMode = readView.getBoolean("ghost_mode", false);
-        soul = readView.getInt("soul", MAX_SOUL/2);
+        soul = readView.getInt("soul", 0);
         soulDecay = readView.getInt("soul_decay", SOUL_DECAY_TICKS);
         focusing = readView.getBoolean("focusing", false);
         focusTime = readView.getInt("focus_time", 0);

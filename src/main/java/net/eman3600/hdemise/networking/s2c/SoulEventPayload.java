@@ -52,7 +52,10 @@ public record SoulEventPayload(double x, double y, double z, float variance, Sou
             player.getEntityWorld().playSoundClient(pos.x, pos.y, pos.z, SoundEvents.ENTITY_WITCH_DRINK, SoundCategory.PLAYERS, 1f, .75f + (variance * .5f), true);
         }),
         VANISH((player, pos, variance) -> {
-            player.getEntityWorld().playSoundClient(pos.x, pos.y, pos.z, SoundEvents.ENTITY_BLAZE_SHOOT, SoundCategory.PLAYERS, 1f, .95f + (variance * .3f), true);
+            player.getEntityWorld().playSoundClient(pos.x, pos.y, pos.z, SoundEvents.BLOCK_BEACON_POWER_SELECT, SoundCategory.PLAYERS, 1f, .95f + (variance * .3f), true);
+        }),
+        REAPPEAR((player, pos, variance) -> {
+            player.getEntityWorld().playSoundClient(pos.x, pos.y, pos.z, SoundEvents.ENTITY_BAT_TAKEOFF, SoundCategory.PLAYERS, 1f, .95f + (variance * .3f), true);
         });
 
 
