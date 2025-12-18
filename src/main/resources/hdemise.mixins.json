@@ -4,6 +4,7 @@
   "compatibilityLevel": "JAVA_21",
   "mixins": [
     "AbstractBlockStateMixin",
+    "ConditionMixin",
     "HungerManagerMixin",
     "LivingEntityMixin",
     "PlayerEntityMixin",
