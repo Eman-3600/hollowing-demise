@@ -60,12 +60,6 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
     @Environment(EnvType.CLIENT)
     public int cureRenderTicks;
 
-    /**
-     * Determines if, at the given moment, blocks should lack
-     * collision for the ghost player.
-     */
-    public boolean ignoreGhostAbstrusion = false;
-
     public static final Identifier HP_ATTRIBUTE_ID = Identifier.of(MODID, "soul_hp");
     public static final Identifier SPEED_ATTRIBUTE_ID = Identifier.of(MODID, "soul_speed");
     public static final Identifier MAX_SOUL_ATTRIBUTE_ID = Identifier.of(MODID, "soul_max");
