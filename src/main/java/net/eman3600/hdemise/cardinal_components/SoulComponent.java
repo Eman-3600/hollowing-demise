@@ -131,15 +131,15 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
     }
 
     public boolean canFocus() {
-        return ((soul >= getFocusRequirement() && player.isOnGround()) || player.isCreative()) && demonForm && !ghostMode && !vanishing && !curing;
+        return ((soul >= getFocusRequirement() && player.isOnGround()) || player.isCreative()) && isDemon() && !isGhost() && !vanishing && !curing;
     }
 
     public boolean canVanish() {
-        return (soul > 0 || player.isCreative()) && demonForm && !focusing && !curing;
+        return (soul > 0 || player.isCreative()) && isDemon() && !focusing && !curing;
     }
 
     public boolean canCure() {
-        return demonForm && !focusing && !vanishing;
+        return isDemon() && !focusing && !vanishing;
     }
 
     public float getSoulVessels() {
@@ -239,11 +239,11 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
     }
 
     public boolean lockedInteraction() {
-        return (this.ghostMode || this.focusing || this.vanishing || this.curing) && !player.isCreative();
+        return (isGhost() || this.focusing || this.vanishing || this.curing) && !player.isCreative();
     }
 
     public boolean shouldHideInteraction() {
-        return this.ghostMode && !player.isCreative();
+        return isGhost() && !player.isCreative();
     }
 
     public boolean shouldFreeze() {
@@ -300,7 +300,7 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
 
             hpInstance.removeModifier(HP_ATTRIBUTE_ID);
 
-            if (demonForm) {
+            if (isDemon()) {
                 hpInstance.addTemporaryModifier(new EntityAttributeModifier(HP_ATTRIBUTE_ID, -.4, EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE));
             }
         }
@@ -375,7 +375,7 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
     @Override
     public void serverTick() {
 
-        if (demonForm) {
+        if (isDemon()) {
 
             if (player.totalExperience > 0 || player.experienceLevel > 0) {
 
@@ -410,7 +410,7 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
             if (vanishing) {
                 vanishTime++;
 
-                if (!player.isCreative() && !ghostMode && vanishTime > 0) {
+                if (!player.isCreative() && !isGhost() && vanishTime > 0) {
                     addSoul(-VANISH_RATE);
                 }
 
@@ -418,9 +418,9 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
                     vanishing = false;
                     vanishTime = 0;
                     markDirty();
-                } else if (vanishTime >= (ghostMode ? REVEAL_TICKS : VANISH_TICKS)) {
-                    setGhost(!ghostMode);
-                    sendSoulEvent(ghostMode ? SoulEventPayload.SoulEventType.VANISH : SoulEventPayload.SoulEventType.REAPPEAR);
+                } else if (vanishTime >= (isGhost() ? REVEAL_TICKS : VANISH_TICKS)) {
+                    setGhost(!isGhost());
+                    sendSoulEvent(isGhost() ? SoulEventPayload.SoulEventType.VANISH : SoulEventPayload.SoulEventType.REAPPEAR);
                 }
             }
 
@@ -449,7 +449,7 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
                     }
                 }
 
-                if (ghostMode) {
+                if (isGhost()) {
                     soulDecay--;
                     if (soulDecay <= 0) {
                         soulDecay = SOUL_DECAY_TICKS;
@@ -535,7 +535,7 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
      */
     public boolean hasSolarSickness(boolean ghostIgnoresSun) {
 
-        if (!demonForm || curing || (ghostMode && ghostIgnoresSun) || player.hasStatusEffect(StatusEffects.FIRE_RESISTANCE)) {
+        if (!isDemon() || curing || (isGhost() && ghostIgnoresSun) || player.hasStatusEffect(StatusEffects.FIRE_RESISTANCE)) {
             return false;
         }
 
