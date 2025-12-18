@@ -280,8 +280,6 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
         player.getHungerManager().setSaturationLevel(0f);
 
         updateAbilities(true);
-
-        player.setHealth(player.getMaxHealth());
     }
 
     public void reloadAttributes() {

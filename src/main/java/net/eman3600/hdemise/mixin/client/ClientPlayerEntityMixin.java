@@ -49,10 +49,10 @@ public abstract class ClientPlayerEntityMixin extends AbstractClientPlayerEntity
         SoulComponent sc = SoulComponent.of(this);
 
         if (this.getAbilities().flying && sc.isGhost() && this.getGameMode() != null && this.getGameMode().isSurvivalLike()) {
-            BlockPos blockPos = BlockPos.ofFloored(getX(), getEyeY(), getZ());
-            if (!getEntityWorld().isSkyVisible(blockPos)) {
-                return;
-            }
+//            BlockPos blockPos = BlockPos.ofFloored(getX(), getEyeY(), getZ());
+//            if (!getEntityWorld().isSkyVisible(blockPos)) {
+//                return;
+//            }
             double closestDistance = -100f;
             for (int i = -1; i <= 1; i++) {
                 for (int j = -1; j <= 1; j++) {
