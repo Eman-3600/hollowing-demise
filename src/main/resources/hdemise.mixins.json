@@ -21,9 +21,12 @@
     "client.ClientPlayerEntityMixin",
     "client.ClientPlayerInteractionManagerMixin",
     "client.ClientPlayNetworkHandlerMixin",
+    "client.HeldItemRendererMixin",
     "client.InGameHudMixin",
+    "client.LivingEntityRendererMixin",
     "client.MinecraftClientMixin",
     "client.MouseMixin",
-    "client.PlayerEntityRendererMixin"
+    "client.PlayerEntityRendererMixin",
+    "client.PlayerEntityRenderStateMixin"
   ]
 }
