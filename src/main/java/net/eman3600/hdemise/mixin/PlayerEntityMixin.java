@@ -134,4 +134,11 @@ public abstract class PlayerEntityMixin extends PlayerLikeEntity {
             cir.setReturnValue(false);
         }
     }
+
+    @Inject(method = "shouldRenderName", at = @At("HEAD"), cancellable = true)
+    private void hdemise$shouldRenderName(CallbackInfoReturnable<Boolean> cir) {
+        if (SoulComponent.of(this).isGhost()) {
+            cir.setReturnValue(false);
+        }
+    }
 }
