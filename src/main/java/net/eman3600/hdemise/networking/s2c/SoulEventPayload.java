@@ -49,7 +49,7 @@ public record SoulEventPayload(double x, double y, double z, float variance, Sou
 
     public enum SoulEventType {
         FOCUS((player, pos, variance) -> {
-            player.getEntityWorld().playSoundClient(pos.x, pos.y, pos.z, SoundEvents.ENTITY_WITCH_DRINK, SoundCategory.PLAYERS, 1f, .75f + (variance * .5f), true);
+            player.getEntityWorld().playSoundClient(pos.x, pos.y, pos.z, SoundEvents.ENTITY_EVOKER_CAST_SPELL, SoundCategory.PLAYERS, 1f, 1.1f + (variance * .3f), true);
         }),
         VANISH((player, pos, variance) -> {
             player.getEntityWorld().playSoundClient(pos.x, pos.y, pos.z, SoundEvents.BLOCK_BEACON_POWER_SELECT, SoundCategory.PLAYERS, 1f, .95f + (variance * .3f), true);
