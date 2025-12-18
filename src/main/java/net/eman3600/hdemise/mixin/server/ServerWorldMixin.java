@@ -1,0 +1,30 @@
+package net.eman3600.hdemise.mixin.server;
+
+import net.minecraft.registry.DynamicRegistryManager;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.entry.RegistryEntry;
+import net.minecraft.server.world.ServerWorld;
+import net.minecraft.world.EntityLookupView;
+import net.minecraft.world.MutableWorldProperties;
+import net.minecraft.world.StructureWorldAccess;
+import net.minecraft.world.World;
+import net.minecraft.world.dimension.DimensionType;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.ModifyArg;
+
+@Mixin(ServerWorld.class)
+public abstract class ServerWorldMixin extends World implements EntityLookupView, StructureWorldAccess {
+
+    protected ServerWorldMixin(MutableWorldProperties properties, RegistryKey<World> registryRef, DynamicRegistryManager registryManager, RegistryEntry<DimensionType> dimensionEntry, boolean isClient, boolean debugWorld, long seed, int maxChainedNeighborUpdates) {
+        super(properties, registryRef, registryManager, dimensionEntry, isClient, debugWorld, seed, maxChainedNeighborUpdates);
+    }
+
+    @ModifyArg(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/world/ServerWorld;setTimeOfDay(J)V"), index = 0)
+    private long hdemise$setTime(long ignored) {
+        long t = isDay() ? 12000L : 24000L;
+        long timeOfDay = this.properties.getTimeOfDay();
+        long l = timeOfDay + t;
+        return (l - l % t) + (isDay() & timeOfDay % 24000L < 12000L ? 1000L : 0L);
+    }
+}
