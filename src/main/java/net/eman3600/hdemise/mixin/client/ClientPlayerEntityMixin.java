@@ -44,23 +44,15 @@ public abstract class ClientPlayerEntityMixin extends AbstractClientPlayerEntity
         }
     }
 
-    @Inject(method = "pushOutOfBlocks", at = @At("HEAD"), cancellable = true)
-    private void hdemise$pushOutOfBlocks(double x, double z, CallbackInfo ci) {
-        if (SoulComponent.of(this).isGhost()) {
-            ci.cancel();
-        }
-    }
-
     @Inject(method = "tickMovement", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/network/ClientPlayerEntity;isCamera()Z"), cancellable = true)
     private void hdemise$tickMovement$cancelFlight(CallbackInfo ci) {
         SoulComponent sc = SoulComponent.of(this);
 
         if (this.getAbilities().flying && sc.isGhost() && this.getGameMode() != null && this.getGameMode().isSurvivalLike()) {
-            BlockPos blockPos = BlockPos.ofFloored(getX(), getEyeY(), getZ());
-            if (!getEntityWorld().isSkyVisible(blockPos)) {
-                return;
-            }
-            sc.ignoreGhostAbstrusion = true; // Yes this is cursed, but it works.
+//            BlockPos blockPos = BlockPos.ofFloored(getX(), getEyeY(), getZ());
+//            if (!getEntityWorld().isSkyVisible(blockPos)) {
+//                return;
+//            }
             double closestDistance = -100f;
             for (int i = -1; i <= 1; i++) {
                 for (int j = -1; j <= 1; j++) {
@@ -79,8 +71,6 @@ public abstract class ClientPlayerEntityMixin extends AbstractClientPlayerEntity
                     }
                 }
             }
-
-            sc.ignoreGhostAbstrusion = false;
 
             if (closestDistance < -10f) {
 
@@ -101,14 +91,12 @@ public abstract class ClientPlayerEntityMixin extends AbstractClientPlayerEntity
 //        if (sc.isGhost() && this.getGameMode() != null && this.getGameMode().isSurvivalLike() && vec3d.y > 0) {
 //            Vec3d pos = getEyePos();
 //            Vec3d maxPos = getEntityPos().add(0, -2, 0);
-//            sc.ignoreGhostAbstrusion = true; // Yes this is cursed, but it works.
 //            BlockHitResult hitResult1 = this.getEntityWorld()
 //                    .raycast(
 //                            new RaycastContext(
 //                                    pos, maxPos, RaycastContext.ShapeType.COLLIDER, RaycastContext.FluidHandling.NONE, this
 //                            )
 //                    );
-//            sc.ignoreGhostAbstrusion = false;
 //
 //            if (hitResult1.getType() == HitResult.Type.MISS) {
 //

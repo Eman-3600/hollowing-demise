@@ -22,6 +22,7 @@ import net.minecraft.storage.ReadView;
 import net.minecraft.storage.WriteView;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Box;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.random.Random;
 import org.ladysnake.cca.api.v3.component.sync.AutoSyncedComponent;
@@ -59,12 +60,6 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
     public static final int CURE_RENDER_TICKS = 60;
     @Environment(EnvType.CLIENT)
     public int cureRenderTicks;
-
-    /**
-     * Determines if, at the given moment, blocks should lack
-     * collision for the ghost player.
-     */
-    public boolean ignoreGhostAbstrusion = false;
 
     public static final Identifier HP_ATTRIBUTE_ID = Identifier.of(MODID, "soul_hp");
     public static final Identifier SPEED_ATTRIBUTE_ID = Identifier.of(MODID, "soul_speed");
@@ -286,8 +281,6 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
         player.getHungerManager().setSaturationLevel(0f);
 
         updateAbilities(true);
-
-        player.setHealth(player.getMaxHealth());
     }
 
     public void reloadAttributes() {
@@ -346,24 +339,65 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
 
         if (isFocusing()) {
             Random random = player.getRandom();
-            player.getEntityWorld().addParticleClient(ParticleTypes.END_ROD.getType(),
-                    player.getX() + (random.nextFloat() - .5f) * .3f,
-                    player.getY() + 0.75f,
-                    player.getZ() + (random.nextFloat() - .5f) * .3f,
-                    (random.nextFloat() - .5f),
-                    (random.nextFloat() - .5f),
-                    (random.nextFloat() - .5f));
+            Box box = player.getBoundingBox().expand(.3);
+            for (int i = 0; i < 5; i++) {
+                player.getEntityWorld().addParticleClient(ParticleTypes.END_ROD.getType(),
+                        box.minX + random.nextFloat() * (box.maxX - box.minX),
+                        player.getY(),
+                        box.minZ + random.nextFloat() * (box.maxZ - box.minZ),
+                        0,
+                        random.nextFloat() * .2f + .4f,
+                        0);
+            }
+        }
+
+        if (isVanishing()) {
+            Random random = player.getRandom();
+            Box box = player.getBoundingBox();
+            if (isGhost()) {
+
+                for (int i = 0; i < 10; i++) {
+                    player.getEntityWorld().addParticleClient(ParticleTypes.SMOKE.getType(),
+                            player.getX() + (random.nextFloat() - .5f) * .2f,
+                            box.minY + random.nextFloat() * (box.maxY - box.minY),
+                            player.getZ() + (random.nextFloat() - .5f) * .2f,
+                            (random.nextFloat() - .5f),
+                            (random.nextFloat() - .5f) * .5f,
+                            (random.nextFloat() - .5f));
+                }
+            } else {
+
+                for (int i = 0; i < 10; i++) {
+                    player.getEntityWorld().addParticleClient(ParticleTypes.REVERSE_PORTAL.getType(),
+                            player.getX() + (random.nextFloat() - .5f) * .2f,
+                            box.minY + random.nextFloat() * (box.maxY - box.minY),
+                            player.getZ() + (random.nextFloat() - .5f) * .2f,
+                            (random.nextFloat() - .5f) * 4f,
+                            (random.nextFloat() - .5f) * 2f,
+                            (random.nextFloat() - .5f) * 4f);
+                }
+            }
         }
 
         if (isCuring()) {
             Random random = player.getRandom();
-            player.getEntityWorld().addParticleClient(ParticleTypes.TOTEM_OF_UNDYING.getType(),
-                    player.getX() + (random.nextFloat() - .5f) * .3f,
-                    player.getY() + 0.75f,
-                    player.getZ() + (random.nextFloat() - .5f) * .3f,
-                    (random.nextFloat() - .5f),
-                    (random.nextFloat() - .5f),
-                    (random.nextFloat() - .5f));
+            Box box = player.getBoundingBox().expand(.3);
+            for (int i = 0; i < 5; i++) {
+                player.getEntityWorld().addParticleClient(ParticleTypes.TOTEM_OF_UNDYING.getType(),
+                        box.minX + random.nextFloat() * (box.maxX - box.minX),
+                        player.getY(),
+                        box.minZ + random.nextFloat() * (box.maxZ - box.minZ),
+                        0,
+                        random.nextFloat() * .4f + .8f,
+                        0);
+            }
+//            player.getEntityWorld().addParticleClient(ParticleTypes.TOTEM_OF_UNDYING.getType(),
+//                    player.getX() + (random.nextFloat() - .5f) * .3f,
+//                    player.getY() + 0.75f,
+//                    player.getZ() + (random.nextFloat() - .5f) * .3f,
+//                    (random.nextFloat() - .5f),
+//                    (random.nextFloat() - .5f),
+//                    (random.nextFloat() - .5f));
 
             if (cureRenderTicks < CURE_RENDER_TICKS)
                 cureRenderTicks++;
@@ -374,6 +408,10 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
 
     @Override
     public void serverTick() {
+
+        if (shouldFreeze()) {
+            player.fallDistance = 0;
+        }
 
         if (isDemon()) {
 
@@ -393,7 +431,7 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
             if (focusing) {
                 focusTime++;
 
-                if (focusTime > 0) {
+                if (focusTime > 0 && !player.isCreative()) {
                     addSoul(-FOCUS_RATE);
                 }
 
