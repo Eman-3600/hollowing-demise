@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "simple_cure",
+  "key": {
+    "#": "minecraft:blaze_powder",
+    "X": "minecraft:nether_wart",
+    "A": "minecraft:paper"
+  },
+  "pattern": [
+    "X#X",
+    "#A#",
+    "X#X"
+  ],
+  "result": {
+    "count": 1,
+    "id": "hdemise:demon_scroll"
+  }
+}
