@@ -23,6 +23,7 @@ public class ModItemGroups {
             entries.add(ModBlocks.ALMARITE_BLOCK);
             entries.add(ModItems.ALMARITE);
             entries.add(ModItems.SIMPLE_CURE);
+            entries.add(ModItems.DEMON_SCROLL);
             entries.add(ModItems.FORM_SWITCHER);
         }).build());
     
