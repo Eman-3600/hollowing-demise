@@ -6,6 +6,9 @@
     "item.hdemise.demon_scroll.tooltip": "§7Transforms the user into a hollow",
     "item.hdemise.demon_scroll.warning": "§4Removes all levels",
     "item.hdemise.form_switcher": "Mortality Adjuster",
+    "item.hdemise.experience_core": "Orb of Knowledge",
+    "item.hdemise.experience_core.tooltip.level": "Level: %s",
+    "item.hdemise.experience_core.tooltip.points": "Extra Points: %s",
 
     "block.hdemise.almarite_block": "Block of Almarite",
     "item.hdemise.almarite_block": "Block of Almarite",

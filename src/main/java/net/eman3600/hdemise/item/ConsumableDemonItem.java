@@ -15,6 +15,8 @@ import net.minecraft.world.World;
 
 import java.util.function.Consumer;
 
+import static net.eman3600.hdemise.init.ModItems.EXPERIENCE_CORE;
+
 public class ConsumableDemonItem extends Item {
     public ConsumableDemonItem(Settings settings) {
         super(settings);
@@ -27,6 +29,9 @@ public class ConsumableDemonItem extends Item {
 
         if (!sc.isDemon()) {
             if (!world.isClient()) {
+                ItemStack coreStack = EXPERIENCE_CORE.extractPlayerExperience(user);
+                user.giveItemStack(coreStack);
+
                 sc.setForm(true);
 
                 ItemStack stack = user.getStackInHand(hand);

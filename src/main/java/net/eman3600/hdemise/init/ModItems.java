@@ -1,10 +1,9 @@
 package net.eman3600.hdemise.init;
 
-import net.eman3600.hdemise.item.ConsumableCureItem;
-import net.eman3600.hdemise.item.ConsumableDemonItem;
-import net.eman3600.hdemise.item.FormSwitcherItem;
-import net.eman3600.hdemise.item.XPItem;
+import net.eman3600.hdemise.item.*;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
+import net.minecraft.component.ComponentType;
+import net.minecraft.component.DataComponentTypes;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroups;
 import net.minecraft.registry.Registries;
@@ -22,9 +21,10 @@ import static net.eman3600.hdemise.HDemise.MODID;
 public class ModItems {
 
     public static final Item ALMARITE = register("almarite", XPItem::new, new Item.Settings());
-    public static final Item FORM_SWITCHER = register("form_switcher", FormSwitcherItem::new, new Item.Settings().rarity(Rarity.EPIC));
+    public static final Item FORM_SWITCHER = register("form_switcher", FormSwitcherItem::new, new Item.Settings().rarity(Rarity.EPIC).maxCount(1));
     public static final Item SIMPLE_CURE = register("simple_cure", ConsumableCureItem::new, new Item.Settings().rarity(Rarity.UNCOMMON));
-    public static final Item DEMON_SCROLL = register("demon_scroll", ConsumableDemonItem::new, new Item.Settings().rarity(Rarity.UNCOMMON));
+    public static final Item DEMON_SCROLL = register("demon_scroll", ConsumableDemonItem::new, new Item.Settings().rarity(Rarity.UNCOMMON).maxCount(1));
+    public static final XPCoreItem EXPERIENCE_CORE = (XPCoreItem) register("experience_core", XPCoreItem::new, new Item.Settings().rarity(Rarity.RARE).component(DataComponentTypes.ENCHANTMENT_GLINT_OVERRIDE, true));
 
 
 
@@ -61,6 +61,7 @@ public class ModItems {
             group.add(ModItems.ALMARITE);
             group.add(ModItems.SIMPLE_CURE);
             group.add(ModItems.DEMON_SCROLL);
+            group.add(ModItems.EXPERIENCE_CORE);
         });
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.OPERATOR).register((group) -> {
             group.add(ModItems.FORM_SWITCHER);

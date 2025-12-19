@@ -469,7 +469,7 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
                     setCuring(false, 0);
                     setForm(false);
                     player.clearStatusEffects();
-                    player.addStatusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 120, 0));
+                    player.addStatusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 140, 0));
                     sendSoulEvent(SoulEventPayload.SoulEventType.REVIVE);
                 }
             }

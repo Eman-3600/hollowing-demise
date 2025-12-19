@@ -15,7 +15,7 @@ public class ModItemGroups {
 
     public static final ItemGroup HDEMISE_GROUP = Registry.register(Registries.ITEM_GROUP, Identifier.of(MODID, "hdemise_group"),
      FabricItemGroup.builder()
-        .icon(() -> new ItemStack(ModItems.SIMPLE_CURE))
+        .icon(() -> new ItemStack(ModItems.DEMON_SCROLL))
         .displayName(Text.translatable("itemgroup.hdemise.hdemise_group"))
         .entries((displayContext, entries) -> {
             entries.add(ModBlocks.ALMARITE_ORE);
@@ -24,6 +24,7 @@ public class ModItemGroups {
             entries.add(ModItems.ALMARITE);
             entries.add(ModItems.SIMPLE_CURE);
             entries.add(ModItems.DEMON_SCROLL);
+            entries.add(ModItems.EXPERIENCE_CORE);
             entries.add(ModItems.FORM_SWITCHER);
         }).build());
     
