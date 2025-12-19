@@ -1,6 +1,7 @@
 package net.eman3600.hdemise.item;
 
 import net.eman3600.hdemise.cardinal_components.SoulComponent;
+import net.eman3600.hdemise.init.ModDataComponentTypes;
 import net.minecraft.component.type.TooltipDisplayComponent;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
@@ -30,7 +31,9 @@ public class ConsumableDemonItem extends Item {
         if (!sc.isDemon()) {
             if (!world.isClient()) {
                 ItemStack coreStack = EXPERIENCE_CORE.extractPlayerExperience(user);
-                user.giveItemStack(coreStack);
+                if (coreStack.get(ModDataComponentTypes.XP_STORAGE).totalXP() > 0) {
+                    user.giveItemStack(coreStack);
+                }
 
                 sc.setForm(true);
 

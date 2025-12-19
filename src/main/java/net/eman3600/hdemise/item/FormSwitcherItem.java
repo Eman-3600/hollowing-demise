@@ -1,6 +1,7 @@
 package net.eman3600.hdemise.item;
 
 import net.eman3600.hdemise.cardinal_components.SoulComponent;
+import net.eman3600.hdemise.init.ModDataComponentTypes;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -32,7 +33,9 @@ public class FormSwitcherItem extends Item {
                 world.playSound(user, user.getX(), user.getY(), user.getZ(), SoundEvents.ENTITY_WITHER_SPAWN, SoundCategory.PLAYERS, .8f, .8f + .4f * world.getRandom().nextFloat());
             } else {
                 ItemStack coreStack = EXPERIENCE_CORE.extractPlayerExperience(user);
-                user.giveItemStack(coreStack);
+                if (coreStack.get(ModDataComponentTypes.XP_STORAGE).totalXP() > 0) {
+                    user.giveItemStack(coreStack);
+                }
 
                 sc.setForm(true);
             }

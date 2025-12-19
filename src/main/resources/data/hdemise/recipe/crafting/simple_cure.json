@@ -3,14 +3,14 @@
   "category": "misc",
   "group": "simple_cure",
   "key": {
-    "#": "minecraft:amethyst_shard",
-    "X": "minecraft:lapis_lazuli",
-    "A": "hdemise:almarite"
+    "#": "minecraft:gold_ingot",
+    "X": "hdemise:almarite",
+    "N": "minecraft:gold_nugget"
   },
   "pattern": [
     "X#X",
-    "#A#",
-    "X#X"
+    "N#N",
+    " # "
   ],
   "result": {
     "count": 1,
