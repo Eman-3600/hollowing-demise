@@ -22,5 +22,7 @@
     "attributes.hdemise.name.max_soul": "Max Soul",
 
     "key.hdemise.focus": "Focus (Heal)",
-    "key.hdemise.ghost": "Become Intangible"
+    "key.hdemise.ghost": "Become Intangible",
+
+    "sleep.hdemise.skipping_day": "Sleeping through this day"
 }

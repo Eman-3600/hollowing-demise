@@ -39,10 +39,6 @@ public abstract class ServerWorldMixin extends World implements EntityLookupView
 
     @Redirect(method = "sendSleepingStatus", at = @At(value = "INVOKE", target = "Lnet/minecraft/text/Text;translatable(Ljava/lang/String;)Lnet/minecraft/text/MutableText;"))
     private MutableText hdemise$translatable(String key) {
-        MutableText text = Text.translatable(key);
-        if(isDayTime() && key.equals("sleep.skipping_night")) {
-            text = Text.literal("Sleeping through this day");
-        }
-        return text;
+        return isDayTime() ? Text.translatable("sleep.hdemise.skipping_day") : Text.translatable(key);
     }
 }
