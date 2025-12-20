@@ -5,11 +5,13 @@
   "key": {
     "#": "minecraft:blaze_powder",
     "X": "minecraft:nether_wart",
-    "A": "minecraft:paper"
+    "A": "minecraft:paper",
+    "P": "minecraft:crimson_planks",
+    "I": "minecraft:ink_sac"
   },
   "pattern": [
-    "X#X",
-    "#A#",
+    "XIX",
+    "PAP",
     "X#X"
   ],
   "result": {
