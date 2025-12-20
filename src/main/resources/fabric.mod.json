@@ -11,7 +11,7 @@
 	"contact": {
 		"sources": "https://github.com/Eman-3600/hollowing-demise"
 	},
-	"license": "Apache-2.0",
+	"license": "CC-BY-SA-4.0",
 	"icon": "assets/hdemise/icon.png",
 	"environment": "*",
 	"accessWidener": "hdemise.classtweaker",
