@@ -5,7 +5,9 @@
 	"name": "Hollowing Demise",
 	"description": "Adds a unique challenge after dying. Dead players become hollows: frail spirits that burn in the sun but don't need to eat and can spend experience to heal and become ethereal. Find strength in death, or seek a path to rejoin the living.",
 	"authors": [
-		"Eman3600",
+		"Eman3600"
+	],
+	"contributers": [
 		"ThereIsProblemo"
 	],
 	"contact": {
