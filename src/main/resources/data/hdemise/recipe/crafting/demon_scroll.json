@@ -1,7 +1,7 @@
 {
   "type": "minecraft:crafting_shaped",
   "category": "misc",
-  "group": "simple_cure",
+  "group": "demon_scroll",
   "key": {
     "#": "minecraft:blaze_powder",
     "X": "minecraft:nether_wart",
