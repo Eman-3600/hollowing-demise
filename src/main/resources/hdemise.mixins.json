@@ -18,6 +18,7 @@
     "requireAnnotations": true
   },
   "client": [
+    "client.BarMixin",
     "client.ClientPlayerEntityMixin",
     "client.ClientPlayerInteractionManagerMixin",
     "client.ClientPlayNetworkHandlerMixin",

@@ -4,6 +4,7 @@ import net.eman3600.hdemise.init.custom.ModSoulTypes;
 import net.minecraft.entity.attribute.AttributeContainer;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.MathHelper;
 import org.jspecify.annotations.Nullable;
 
 public abstract class SoulType {
@@ -62,7 +63,7 @@ public abstract class SoulType {
     }
 
     public boolean hasExperience() {
-        return !usesSoul();
+        return true;
     }
 
     public abstract boolean canVanish();
@@ -79,10 +80,24 @@ public abstract class SoulType {
     public void applyAttributes(AttributeContainer container) {}
     public void removeAttributes(AttributeContainer container) {}
 
+    /**
+     * Triggers when the player finishes focusing.
+     * @param player the player focusing
+     * @param focusAmount the focus value (usually hp restored)
+     * @return whether the player should continue focusing automatically
+     */
+    public boolean onFocus(PlayerEntity player, float focusAmount) {
+        player.heal(focusAmount);
+        player.setHealth(MathHelper.ceil(player.getHealth()));
+
+        return player.getHealth() < player.getMaxHealth();
+    }
+
 
     public enum MeterType {
         HUNGER(true, false),
         SOUL(false, true),
+        BOTH(true, true),
         NONE(false, false);
 
         public final boolean usesHunger;

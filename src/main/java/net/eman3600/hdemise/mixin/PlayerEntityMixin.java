@@ -31,6 +31,8 @@ public abstract class PlayerEntityMixin extends PlayerLikeEntity {
 
     @Shadow public abstract boolean isCreative();
 
+    @Shadow public abstract void addExperience(int experience);
+
     protected PlayerEntityMixin(EntityType<? extends LivingEntity> entityType, World world) {
         super(entityType, world);
     }
@@ -39,8 +41,19 @@ public abstract class PlayerEntityMixin extends PlayerLikeEntity {
     private void hdemise$addExperience(int experience, CallbackInfo ci) {
         SoulComponent sc = SoulComponent.of(this);
 
-        if (sc.usesSoul()) {
+        if (sc.usesSoul() && ((experience > 0 && sc.getSoul() < sc.getMaxSoul()) || (experience < 0 && sc.getSoul() > 0))) {
+
+            int remainingXP = (experience * SoulComponent.SOUL_PER_XP - ((experience > 0 ? sc.getMaxSoul() : 0) - sc.getSoul()))/SoulComponent.SOUL_PER_XP;
             sc.gainSoulFromXP(experience);
+
+            ci.cancel();
+
+            if (experience * remainingXP > 0) {
+                addExperience(remainingXP);
+            }
+        }
+
+        if (!sc.hasExperience()) {
             ci.cancel();
         }
     }
@@ -67,9 +80,10 @@ public abstract class PlayerEntityMixin extends PlayerLikeEntity {
     private void hdemise$isInvulnerableTo(ServerWorld world, DamageSource source, CallbackInfoReturnable<Boolean> cir) {
         SoulComponent sc = SoulComponent.of(this);
 
-        if (sc.isUndead() && (source.isIn(DamageTypeTags.IS_FALL) || source.isIn(DamageTypeTags.IS_DROWNING))) {
-            cir.setReturnValue(true);
-        } else if (sc.isGhost() && (!source.isIn(DamageTypeTags.BYPASSES_INVULNERABILITY))) {
+        if ((sc.getSoulType().canVanish() && source.isIn(DamageTypeTags.IS_FALL))
+                || sc.isUndead() && source.isIn(DamageTypeTags.IS_DROWNING)
+                || (sc.isGhost() && !source.isIn(DamageTypeTags.BYPASSES_INVULNERABILITY))) {
+
             cir.setReturnValue(true);
         }
     }

@@ -8,20 +8,26 @@ import org.jspecify.annotations.Nullable;
 
 import static net.eman3600.hdemise.HDemise.MODID;
 
-public class HollowSoulType extends SoulType {
+public class PhantomSoulType extends SoulType {
 
-    public static final Identifier ATTRIBUTE_ID = Identifier.of(MODID, "hollow_soul");
+    public static final Identifier ATTRIBUTE_ID = Identifier.of(MODID, "phantom_soul");
 
-    public static final Identifier HEART_TYPE = Identifier.of(MODID,"textures/gui/hud/heart/hollow.png");
+    public static final Identifier HEART_TYPE = Identifier.of(MODID,"textures/gui/hud/heart/phantom.png");
+    public static final Identifier HEART_CONTAINER_TYPE = Identifier.of(MODID,"textures/gui/hud/heart/phantom_container.png");
 
 
-    public HollowSoulType(Identifier id) {
+    public PhantomSoulType(Identifier id) {
         super(MeterType.SOUL, id);
     }
 
     @Override
     public @Nullable Identifier heartType() {
         return HEART_TYPE;
+    }
+
+    @Override
+    public @Nullable Identifier heartContainerType() {
+        return HEART_CONTAINER_TYPE;
     }
 
     @Override
@@ -39,10 +45,6 @@ public class HollowSoulType extends SoulType {
         return true;
     }
 
-    @Override
-    public boolean hasExperience() {
-        return false;
-    }
 
     @Override
     public void applyAttributes(AttributeContainer container) {
@@ -54,14 +56,6 @@ public class HollowSoulType extends SoulType {
 
             hpInstance.addTemporaryModifier(new EntityAttributeModifier(ATTRIBUTE_ID, -.4, EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE));
         }
-
-
-        RegistryEntry<EntityAttribute> maxSoul = ModAttributes.MAX_SOUL;
-        EntityAttributeInstance maxSoulInstance = container.getCustomInstance(maxSoul);
-        if (maxSoulInstance != null) {
-
-            maxSoulInstance.addTemporaryModifier(new EntityAttributeModifier(ATTRIBUTE_ID, -2, EntityAttributeModifier.Operation.ADD_VALUE));
-        }
     }
 
     @Override
@@ -72,14 +66,6 @@ public class HollowSoulType extends SoulType {
         if (hpInstance != null) {
 
             hpInstance.removeModifier(ATTRIBUTE_ID);
-        }
-
-        RegistryEntry<EntityAttribute> maxSoul = ModAttributes.MAX_SOUL;
-        EntityAttributeInstance maxSoulInstance = container.getCustomInstance(maxSoul);
-
-        if (maxSoulInstance != null) {
-
-            maxSoulInstance.removeModifier(ATTRIBUTE_ID);
         }
     }
 }
