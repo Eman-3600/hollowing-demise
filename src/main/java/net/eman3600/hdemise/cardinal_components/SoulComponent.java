@@ -495,6 +495,7 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
                     }
                     if (soul <= 0) {
                         setGhost(false);
+                        sendSoulEvent(SoulEventPayload.SoulEventType.REAPPEAR);
                     }
                 }
             }
