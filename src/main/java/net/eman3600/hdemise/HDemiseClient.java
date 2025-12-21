@@ -1,7 +1,7 @@
 package net.eman3600.hdemise;
 
 import net.eman3600.hdemise.event.KeyInputHandler;
-import net.eman3600.hdemise.init.ModMessages;
+import net.eman3600.hdemise.init.event.ModMessages;
 import net.fabricmc.api.ClientModInitializer;
 
 public class HDemiseClient implements ClientModInitializer {

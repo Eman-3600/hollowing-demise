@@ -1,7 +1,7 @@
 package net.eman3600.hdemise.cardinal_components;
 
-import net.eman3600.hdemise.init.ModAttributes;
-import net.eman3600.hdemise.init.ModEntityComponents;
+import net.eman3600.hdemise.init.entity.ModAttributes;
+import net.eman3600.hdemise.init.cca.ModEntityComponents;
 import net.eman3600.hdemise.networking.s2c.SoulEventPayload;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;

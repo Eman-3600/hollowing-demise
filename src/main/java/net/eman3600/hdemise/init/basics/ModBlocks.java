@@ -1,4 +1,4 @@
-package net.eman3600.hdemise.init;
+package net.eman3600.hdemise.init.basics;
 
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.block.AbstractBlock;

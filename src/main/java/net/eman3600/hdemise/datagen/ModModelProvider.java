@@ -1,7 +1,7 @@
 package net.eman3600.hdemise.datagen;
 
-import net.eman3600.hdemise.init.ModBlocks;
-import net.eman3600.hdemise.init.ModItems;
+import net.eman3600.hdemise.init.basics.ModBlocks;
+import net.eman3600.hdemise.init.basics.ModItems;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.datagen.v1.provider.FabricModelProvider;

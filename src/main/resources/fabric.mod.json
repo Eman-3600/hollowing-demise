@@ -28,7 +28,7 @@
 			"net.eman3600.hdemise.HDemiseDataGenerator"
 		],
 		"cardinal-components": [
-			"net.eman3600.hdemise.init.ModEntityComponents"
+			"net.eman3600.hdemise.init.cca.ModEntityComponents"
 		]
 	},
 	"mixins": [

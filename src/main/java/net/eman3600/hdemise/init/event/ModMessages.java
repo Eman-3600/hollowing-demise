@@ -1,4 +1,4 @@
-package net.eman3600.hdemise.init;
+package net.eman3600.hdemise.init.event;
 
 import net.eman3600.hdemise.networking.c2s.FocusPayload;
 import net.eman3600.hdemise.networking.c2s.GhostPayload;

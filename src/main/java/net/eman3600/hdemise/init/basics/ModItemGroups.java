@@ -1,4 +1,4 @@
-package net.eman3600.hdemise.init;
+package net.eman3600.hdemise.init.basics;
 
 import static net.eman3600.hdemise.HDemise.LOGGER;
 import static net.eman3600.hdemise.HDemise.MODID;

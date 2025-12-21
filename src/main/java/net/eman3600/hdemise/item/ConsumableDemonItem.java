@@ -1,7 +1,7 @@
 package net.eman3600.hdemise.item;
 
 import net.eman3600.hdemise.cardinal_components.SoulComponent;
-import net.eman3600.hdemise.init.ModDataComponentTypes;
+import net.eman3600.hdemise.init.basics.ModDataComponentTypes;
 import net.minecraft.component.type.TooltipDisplayComponent;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
@@ -16,7 +16,7 @@ import net.minecraft.world.World;
 
 import java.util.function.Consumer;
 
-import static net.eman3600.hdemise.init.ModItems.EXPERIENCE_CORE;
+import static net.eman3600.hdemise.init.basics.ModItems.EXPERIENCE_CORE;
 
 public class ConsumableDemonItem extends Item {
     public ConsumableDemonItem(Settings settings) {

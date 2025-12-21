@@ -1,7 +1,7 @@
 package net.eman3600.hdemise.item;
 
 import net.eman3600.hdemise.cardinal_components.SoulComponent;
-import net.eman3600.hdemise.init.ModDataComponentTypes;
+import net.eman3600.hdemise.init.basics.ModDataComponentTypes;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -11,7 +11,7 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.world.World;
 
-import static net.eman3600.hdemise.init.ModItems.EXPERIENCE_CORE;
+import static net.eman3600.hdemise.init.basics.ModItems.EXPERIENCE_CORE;
 
 public class FormSwitcherItem extends Item {
     public FormSwitcherItem(Settings settings) {

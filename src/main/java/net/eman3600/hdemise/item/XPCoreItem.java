@@ -2,8 +2,7 @@ package net.eman3600.hdemise.item;
 
 import net.eman3600.hdemise.cardinal_components.SoulComponent;
 import net.eman3600.hdemise.data_component.XPStorageComponent;
-import net.eman3600.hdemise.init.ModDataComponentTypes;
-import net.minecraft.component.ComponentType;
+import net.eman3600.hdemise.init.basics.ModDataComponentTypes;
 import net.minecraft.component.type.TooltipDisplayComponent;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
@@ -17,7 +16,6 @@ import net.minecraft.util.Hand;
 import net.minecraft.world.World;
 
 import java.util.function.Consumer;
-import java.util.function.UnaryOperator;
 
 public class XPCoreItem extends Item {
     public XPCoreItem(Settings settings) {

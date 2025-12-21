@@ -1,7 +1,7 @@
 package net.eman3600.hdemise.mixin;
 
 import net.eman3600.hdemise.cardinal_components.SoulComponent;
-import net.eman3600.hdemise.init.ModAttributes;
+import net.eman3600.hdemise.init.entity.ModAttributes;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;

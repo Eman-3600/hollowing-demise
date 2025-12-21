@@ -1,4 +1,4 @@
-package net.eman3600.hdemise.init;
+package net.eman3600.hdemise.init.event;
 
 import net.eman3600.hdemise.cardinal_components.SoulComponent;
 import net.fabricmc.fabric.api.entity.event.v1.ServerPlayerEvents;

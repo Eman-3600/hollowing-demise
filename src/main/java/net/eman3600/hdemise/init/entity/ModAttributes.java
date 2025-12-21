@@ -1,4 +1,4 @@
-package net.eman3600.hdemise.init;
+package net.eman3600.hdemise.init.entity;
 
 import net.minecraft.entity.attribute.ClampedEntityAttribute;
 import net.minecraft.entity.attribute.EntityAttribute;

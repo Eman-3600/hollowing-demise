@@ -1,8 +1,7 @@
-package net.eman3600.hdemise.init;
+package net.eman3600.hdemise.init.basics;
 
 import net.eman3600.hdemise.item.*;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
-import net.minecraft.component.ComponentType;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroups;

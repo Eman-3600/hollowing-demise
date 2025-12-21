@@ -1,6 +1,12 @@
 package net.eman3600.hdemise;
 
-import net.eman3600.hdemise.init.*;
+import net.eman3600.hdemise.init.basics.ModBlocks;
+import net.eman3600.hdemise.init.basics.ModDataComponentTypes;
+import net.eman3600.hdemise.init.basics.ModItemGroups;
+import net.eman3600.hdemise.init.basics.ModItems;
+import net.eman3600.hdemise.init.entity.ModAttributes;
+import net.eman3600.hdemise.init.event.ModCallbacks;
+import net.eman3600.hdemise.init.event.ModMessages;
 import net.eman3600.hdemise.world.gen.ModWorldGeneration;
 import net.fabricmc.api.ModInitializer;
 

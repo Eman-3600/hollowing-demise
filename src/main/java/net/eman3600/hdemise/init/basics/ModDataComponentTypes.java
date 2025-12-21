@@ -1,4 +1,4 @@
-package net.eman3600.hdemise.init;
+package net.eman3600.hdemise.init.basics;
 
 import net.eman3600.hdemise.HDemise;
 import net.eman3600.hdemise.data_component.XPStorageComponent;

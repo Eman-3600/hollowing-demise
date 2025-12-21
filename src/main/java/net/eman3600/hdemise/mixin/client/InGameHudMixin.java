@@ -1,7 +1,7 @@
 package net.eman3600.hdemise.mixin.client;
 
 import net.eman3600.hdemise.cardinal_components.SoulComponent;
-import net.eman3600.hdemise.init.ModAttributes;
+import net.eman3600.hdemise.init.entity.ModAttributes;
 import net.eman3600.hdemise.util.client.DemiseHeartType;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;

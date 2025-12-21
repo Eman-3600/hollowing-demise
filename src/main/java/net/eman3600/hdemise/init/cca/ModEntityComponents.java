@@ -1,4 +1,4 @@
-package net.eman3600.hdemise.init;
+package net.eman3600.hdemise.init.cca;
 
 import net.eman3600.hdemise.cardinal_components.SoulComponent;
 import net.minecraft.util.Identifier;

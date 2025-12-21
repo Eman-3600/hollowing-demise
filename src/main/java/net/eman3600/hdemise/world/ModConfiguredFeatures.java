@@ -1,6 +1,6 @@
 package net.eman3600.hdemise.world;
 
-import net.eman3600.hdemise.init.ModBlocks;
+import net.eman3600.hdemise.init.basics.ModBlocks;
 import net.minecraft.registry.Registerable;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;

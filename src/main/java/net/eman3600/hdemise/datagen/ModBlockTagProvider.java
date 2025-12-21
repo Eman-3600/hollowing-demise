@@ -1,7 +1,7 @@
 package net.eman3600.hdemise.datagen;
 
-import net.eman3600.hdemise.init.ModBlocks;
-import net.eman3600.hdemise.init.ModTags;
+import net.eman3600.hdemise.init.basics.ModBlocks;
+import net.eman3600.hdemise.init.basics.ModTags;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
 import net.minecraft.block.Blocks;
