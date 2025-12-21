@@ -1,8 +1,11 @@
 package net.eman3600.hdemise.cardinal_components;
 
+import net.eman3600.hdemise.HDemise;
+import net.eman3600.hdemise.init.custom.ModSoulTypes;
 import net.eman3600.hdemise.init.entity.ModAttributes;
 import net.eman3600.hdemise.init.cca.ModEntityComponents;
 import net.eman3600.hdemise.networking.s2c.SoulEventPayload;
+import net.eman3600.hdemise.soul_type.SoulType;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
@@ -61,15 +64,12 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
     @Environment(EnvType.CLIENT)
     public int cureRenderTicks;
 
-    public static final Identifier HP_ATTRIBUTE_ID = Identifier.of(MODID, "soul_hp");
-    public static final Identifier SPEED_ATTRIBUTE_ID = Identifier.of(MODID, "soul_speed");
-    public static final Identifier MAX_SOUL_ATTRIBUTE_ID = Identifier.of(MODID, "soul_max");
-
-    private boolean demonForm = false;
     private boolean ghostMode = false;
     private int soul = 0;
     private int soulDecay = 0;
     private boolean isDirty = false;
+
+    private SoulType soulType;
 
     private boolean focusing = false;
     private int focusTime = 0;
@@ -83,30 +83,43 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
 
     public SoulComponent(PlayerEntity player) {
         this.player = player;
+        this.soulType = ModSoulTypes.MORTAL;
     }
 
+    public void setSoulType(SoulType soulType) {
+        this.soulType.removeAttributes(this.player);
+        this.soulType = soulType;
+        this.soulType.applyAttributes(this.player);
+        resetSoul();
+    }
 
-    public void setForm(boolean demonForm) {
-        this.demonForm = demonForm;
+    public SoulType getSoulType() {
+        return this.soulType;
+    }
 
-        if (demonForm) {
-            resetSoul();
+    public void onDeath() {
+        if (this.soulType != ModSoulTypes.HOLLOW) {
+            this.setSoulType(ModSoulTypes.HOLLOW);
         } else {
-            this.soul = 0;
-
-            player.getHungerManager().setFoodLevel(20);
-            player.getHungerManager().setSaturationLevel(5f);
-            setFocusing(false);
-            setGhost(false);
-
             reloadAttributes();
+            resetSoul();
         }
-
-        markDirty();
     }
 
-    public boolean isDemon() {
-        return this.demonForm;
+    public boolean isSoulless() {
+        return this.soulType == ModSoulTypes.HOLLOW;
+    }
+
+    public boolean usesSoul() {
+        return this.soulType.usesSoul();
+    }
+
+    public boolean usesHunger() {
+        return this.soulType.usesHunger();
+    }
+
+    public boolean hasExperience() {
+        return this.soulType.hasExperience();
     }
 
     public boolean isGhost() {
@@ -126,15 +139,15 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
     }
 
     public boolean canFocus() {
-        return ((soul >= getFocusRequirement() && player.isOnGround()) || player.isCreative()) && isDemon() && !isGhost() && !vanishing && !curing;
+        return ((soul >= getFocusRequirement() && player.isOnGround()) || player.isCreative()) && usesSoul() && !isGhost() && !vanishing && !curing;
     }
 
     public boolean canVanish() {
-        return (soul > 0 || player.isCreative()) && isDemon() && !focusing && !curing;
+        return (soul > 0 || player.isCreative() || !usesSoul()) && getSoulType().canVanish() && !focusing && !curing;
     }
 
     public boolean canCure() {
-        return isDemon() && !focusing && !vanishing;
+        return isSoulless() && !focusing && !vanishing;
     }
 
     public float getSoulVessels() {
@@ -209,6 +222,10 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
         return vanishing;
     }
 
+    public boolean isUndead() {
+        return this.soulType.isUndead();
+    }
+
     public void setGhost(boolean ghost) {
         this.ghostMode = ghost;
         if (player.getVehicle() != null) {
@@ -261,7 +278,6 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
     }
 
     public void resetSoul() {
-        reloadAttributes();
 
         this.soul = getMaxSoul()/2;
         this.soulDecay = SOUL_DECAY_TICKS;
@@ -271,56 +287,28 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
         this.cureTime = 0;
 
         setFocusing(false);
-        setGhost(hasSolarSickness(true));
+        setGhost(hasSolarSickness(true) && soulType.canVanish());
 
-        player.experienceLevel = 0;
-        player.experienceProgress = 0;
-        player.totalExperience = 0;
+        if (!hasExperience()) {
 
-        player.getHungerManager().setFoodLevel(20);
-        player.getHungerManager().setSaturationLevel(0f);
+            player.experienceLevel = 0;
+            player.experienceProgress = 0;
+            player.totalExperience = 0;
+        }
+
+        if (!usesHunger()) {
+            player.getHungerManager().setFoodLevel(20);
+            player.getHungerManager().setSaturationLevel(0f);
+        }
+
+        markDirty();
 
         updateAbilities(true);
     }
 
     public void reloadAttributes() {
-        AttributeContainer container = player.getAttributes();
-
-        RegistryEntry<EntityAttribute> hp = EntityAttributes.MAX_HEALTH;
-        EntityAttributeInstance hpInstance = container.getCustomInstance(hp);
-
-        if (hpInstance != null) {
-
-            hpInstance.removeModifier(HP_ATTRIBUTE_ID);
-
-            if (isDemon()) {
-                hpInstance.addTemporaryModifier(new EntityAttributeModifier(HP_ATTRIBUTE_ID, -.4, EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE));
-            }
-        }
-
-        RegistryEntry<EntityAttribute> maxSoul = ModAttributes.MAX_SOUL;
-        EntityAttributeInstance maxSoulInstance = container.getCustomInstance(maxSoul);
-
-        if (maxSoulInstance != null) {
-
-            maxSoulInstance.removeModifier(MAX_SOUL_ATTRIBUTE_ID);
-
-//            if (demonForm) {
-//                maxSoulInstance.addTemporaryModifier(new EntityAttributeModifier(MAX_SOUL_ATTRIBUTE_ID, -2, EntityAttributeModifier.Operation.ADD_VALUE));
-//            }
-        }
-
-        RegistryEntry<EntityAttribute> speed = EntityAttributes.MOVEMENT_SPEED;
-        EntityAttributeInstance speedInstance = container.getCustomInstance(speed);
-
-        if (speedInstance != null) {
-
-            speedInstance.removeModifier(SPEED_ATTRIBUTE_ID);
-
-//            if (ghostMode) {
-//                speedInstance.addTemporaryModifier(new EntityAttributeModifier(SPEED_ATTRIBUTE_ID, .2, EntityAttributeModifier.Operation.ADD_MULTIPLIED_TOTAL));
-//            }
-        }
+        this.soulType.removeAttributes(this.player);
+        this.soulType.applyAttributes(this.player);
     }
 
 
@@ -413,97 +401,100 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
             player.fallDistance = 0;
         }
 
-        if (isDemon()) {
 
-            if (player.totalExperience > 0 || player.experienceLevel > 0) {
 
-                player.experienceLevel = 0;
-                player.experienceProgress = 0;
-                player.totalExperience = 0;
-            }
+        if (!hasExperience() && (player.totalExperience > 0 || player.experienceLevel > 0)) {
+
+            player.experienceLevel = 0;
+            player.experienceProgress = 0;
+            player.totalExperience = 0;
+        }
+
+        if (!usesHunger()) {
 
             HungerManager manager = player.getHungerManager();
             if (manager.getFoodLevel() < 20 || manager.getSaturationLevel() > 0) {
                 manager.setSaturationLevel(0f);
                 manager.setFoodLevel(20);
             }
+        }
 
-            if (focusing) {
-                focusTime++;
+        if (focusing) {
+            focusTime++;
 
-                if (focusTime > 0 && !player.isCreative()) {
-                    addSoul(-FOCUS_RATE);
-                }
-
-                if (focusTime >= FOCUS_LENGTH) {
-                    player.heal(FOCUS_HP);
-                    player.setHealth(MathHelper.ceil(player.getHealth()));
-                    sendSoulEvent(SoulEventPayload.SoulEventType.FOCUS);
-                    setFocusing(canFocus() && player.getHealth() < player.getMaxHealth());
-                } else if (soul <= 0 || !player.isOnGround()) {
-                    setFocusing(false);
-                }
+            if (focusTime > 0 && !player.isCreative()) {
+                addSoul(-FOCUS_RATE);
             }
 
-            if (vanishing) {
-                vanishTime++;
-
-                if (!player.isCreative() && !isGhost() && vanishTime > 0) {
-                    addSoul(-VANISH_RATE);
-                }
-
-                if (soul <= 0) {
-                    vanishing = false;
-                    vanishTime = 0;
-                    markDirty();
-                } else if (vanishTime >= (isGhost() ? REVEAL_TICKS : VANISH_TICKS)) {
-                    setGhost(!isGhost());
-                    sendSoulEvent(isGhost() ? SoulEventPayload.SoulEventType.VANISH : SoulEventPayload.SoulEventType.REAPPEAR);
-                }
-            }
-
-            if (curing) {
-                cureTime--;
-
-                if (cureTime <= 0) {
-                    setCuring(false, 0);
-                    setForm(false);
-                    player.clearStatusEffects();
-                    player.addStatusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 140, 0));
-                    sendSoulEvent(SoulEventPayload.SoulEventType.REVIVE);
-                }
-            }
-
-            if (!player.isCreative()) {
-
-                if (hasSolarSickness(true)) {
-
-                    if (soul <= EXHAUSTION_THRESHOLD) {
-                        if (shouldSetOnFire()) {
-                            player.setOnFireFor(8f);
-                        }
-                    } else {
-                        addSoul(-BURN_SOUL_PER_TICK);
-                    }
-                }
-
-                if (isGhost()) {
-                    soulDecay--;
-                    if (soulDecay <= 0) {
-                        soulDecay = SOUL_DECAY_TICKS;
-                        addSoul(-SOUL_DECAY_AMOUNT);
-                    }
-                    if (soul <= 0) {
-                        setGhost(false);
-                        sendSoulEvent(SoulEventPayload.SoulEventType.REAPPEAR);
-                    }
-                }
-            }
-
-            if (soul > getMaxSoul() || soul < 0) {
-                setSoul(getSoul());
+            if (focusTime >= FOCUS_LENGTH) {
+                player.heal(FOCUS_HP);
+                player.setHealth(MathHelper.ceil(player.getHealth()));
+                sendSoulEvent(SoulEventPayload.SoulEventType.FOCUS);
+                setFocusing(canFocus() && player.getHealth() < player.getMaxHealth());
+            } else if (soul <= 0 || !player.isOnGround()) {
+                setFocusing(false);
             }
         }
+
+        if (vanishing) {
+            vanishTime++;
+
+            if (!player.isCreative() && !isGhost() && vanishTime > 0 && usesSoul()) {
+                addSoul(-VANISH_RATE);
+            }
+
+            if (soul <= 0 && usesSoul()) {
+                vanishing = false;
+                vanishTime = 0;
+                markDirty();
+            } else if (vanishTime >= (isGhost() ? REVEAL_TICKS : VANISH_TICKS)) {
+                setGhost(!isGhost());
+                sendSoulEvent(isGhost() ? SoulEventPayload.SoulEventType.VANISH : SoulEventPayload.SoulEventType.REAPPEAR);
+            }
+        }
+
+        if (curing) {
+            cureTime--;
+
+            if (cureTime <= 0) {
+                setCuring(false, 0);
+                setSoulType(ModSoulTypes.MORTAL);
+                player.clearStatusEffects();
+                player.addStatusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 140, 0));
+                sendSoulEvent(SoulEventPayload.SoulEventType.REVIVE);
+            }
+        }
+
+        if (!player.isCreative()) {
+
+            if (hasSolarSickness(true)) {
+
+                if (soul <= EXHAUSTION_THRESHOLD) {
+                    if (shouldSetOnFire()) {
+                        player.setOnFireFor(8f);
+                    }
+                } else {
+                    addSoul(-BURN_SOUL_PER_TICK);
+                }
+            }
+
+            if (isGhost()) {
+                soulDecay--;
+                if (soulDecay <= 0) {
+                    soulDecay = SOUL_DECAY_TICKS;
+                    addSoul(-SOUL_DECAY_AMOUNT);
+                }
+                if (soul <= 0) {
+                    setGhost(false);
+                    sendSoulEvent(SoulEventPayload.SoulEventType.REAPPEAR);
+                }
+            }
+        }
+
+        if (soul > getMaxSoul() || soul < 0) {
+            setSoul(getSoul());
+        }
+
 
         if (warningTicks > 0) {
             warningTicks--;
@@ -530,7 +521,6 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
 
     @Override
     public void readData(ReadView readView) {
-        demonForm = readView.getBoolean("demon_form", false);
         ghostMode = readView.getBoolean("ghost_mode", false);
         soul = readView.getInt("soul", 0);
         soulDecay = readView.getInt("soul_decay", SOUL_DECAY_TICKS);
@@ -541,11 +531,11 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
         curing = readView.getBoolean("curing", false);
         cureTime = readView.getInt("cure_time", 0);
         warningTicks = readView.getInt("warning", 0);
+        soulType = SoulType.ofSerializable(readView.getString("soul_type", "hdemise:mortal"));
     }
 
     @Override
     public void writeData(WriteView writeView) {
-        writeView.putBoolean("demon_form", demonForm);
         writeView.putBoolean("ghost_mode", ghostMode);
         writeView.putInt("soul", soul);
         writeView.putInt("soul_decay", soulDecay);
@@ -556,6 +546,7 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
         writeView.putBoolean("curing", curing);
         writeView.putInt("cure_time", cureTime);
         writeView.putInt("warning", warningTicks);
+        writeView.putString("soul_type", soulType.getSerializable());
     }
 
     /**
@@ -574,7 +565,7 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
      */
     public boolean hasSolarSickness(boolean ghostIgnoresSun) {
 
-        if (!isDemon() || curing || (isGhost() && ghostIgnoresSun) || player.hasStatusEffect(StatusEffects.FIRE_RESISTANCE)) {
+        if (!soulType.burnsInDaylight() || curing || (isGhost() && ghostIgnoresSun) || player.hasStatusEffect(StatusEffects.FIRE_RESISTANCE)) {
             return false;
         }
 

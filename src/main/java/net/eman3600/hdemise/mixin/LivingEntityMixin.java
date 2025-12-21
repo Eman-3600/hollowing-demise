@@ -27,7 +27,8 @@ public abstract class LivingEntityMixin extends Entity implements Attackable, Se
         if (((Object)this) instanceof PlayerEntity player) {
             SoulComponent sc = SoulComponent.of(player);
 
-            if (sc.isDemon() && (effect.equals(StatusEffects.POISON) || effect.equals(StatusEffects.HUNGER))) {
+            if ((sc.isUndead() && effect.equals(StatusEffects.POISON))
+                    || (!sc.usesHunger() && effect.equals(StatusEffects.HUNGER))) {
                 cir.setReturnValue(false);
             }
         }
@@ -82,7 +83,18 @@ public abstract class LivingEntityMixin extends Entity implements Attackable, Se
         if (((Object)this) instanceof PlayerEntity player) {
             SoulComponent sc = SoulComponent.of(player);
 
-            if (sc.isDemon()) {
+            if (sc.isUndead()) {
+                cir.setReturnValue(true);
+            }
+        }
+    }
+
+    @Inject(method = "hasInvertedHealingAndHarm", at = @At("HEAD"), cancellable = true)
+    private void hdemise$hasInvertedHealingAndHarm(CallbackInfoReturnable<Boolean> cir) {
+        if (((Object)this) instanceof PlayerEntity player) {
+            SoulComponent sc = SoulComponent.of(player);
+
+            if (sc.isUndead()) {
                 cir.setReturnValue(true);
             }
         }

@@ -17,8 +17,8 @@ public class ModCallbacks {
             SoulComponent sc = SoulComponent.of(newPlayer);
 
             if (!alive) {
-                sc.setForm(true);
-            } else if (sc.isDemon()) {
+                sc.onDeath();
+            } else {
                 sc.reloadAttributes();
                 sc.updateAbilities(true);
             }

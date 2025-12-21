@@ -17,7 +17,7 @@ public class HungerManagerMixin {
     private void hdemise$update(ServerPlayerEntity player, CallbackInfo ci) {
         SoulComponent sc = SoulComponent.of(player);
 
-        if (sc.isDemon() && this.exhaustion > 4f) {
+        if (!sc.usesHunger() && this.exhaustion > 4f) {
             this.exhaustion -= 4f;
 
             ci.cancel();

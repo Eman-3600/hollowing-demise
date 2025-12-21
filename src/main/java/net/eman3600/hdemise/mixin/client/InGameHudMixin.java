@@ -2,6 +2,7 @@ package net.eman3600.hdemise.mixin.client;
 
 import net.eman3600.hdemise.cardinal_components.SoulComponent;
 import net.eman3600.hdemise.init.entity.ModAttributes;
+import net.eman3600.hdemise.soul_type.SoulType;
 import net.eman3600.hdemise.util.client.DemiseHeartType;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -49,7 +50,14 @@ public abstract class InGameHudMixin {
     @Inject(method = "renderFood", at = @At("HEAD"), cancellable = true)
     private void hdemise$renderFood(DrawContext context, PlayerEntity player, int top, int right, CallbackInfo ci) {
         SoulComponent sc = SoulComponent.of(player);
-        if (sc.isDemon()) {
+
+        if (sc.usesHunger()) {
+            top -= 10;
+        } else {
+            ci.cancel();
+        }
+
+        if (sc.usesSoul()) {
 
             if (sc.isGhost()) {
                 right -= 51;
@@ -84,13 +92,6 @@ public abstract class InGameHudMixin {
                     context.drawTexture(RenderPipelines.GUI_TEXTURED, HUD_ICONS, l + (9 - pixels), k, u + (9 - pixels), v + 9, pixels, 9, 256, 256);
                 }
             }
-
-//            int pixels = (int)(81 * sc.getSoulPercentage());
-//            context.drawTexture(RenderPipelines.GUI_TEXTURED, HUD_ICONS, left, top, 0, 0, 81, 9, 256, 256);
-//            context.drawTexture(RenderPipelines.GUI_TEXTURED, HUD_ICONS, right - pixels, top, 81 - pixels, 9, pixels, 9, 256, 256);
-
-
-            ci.cancel();
         }
     }
 
@@ -164,7 +165,7 @@ public abstract class InGameHudMixin {
     @Inject(method = "renderAirBubbles", at = @At("HEAD"), cancellable = true)
     private void hdemise$renderAirBubbles(DrawContext context, PlayerEntity player, int heartCount, int top, int left, CallbackInfo ci) {
         SoulComponent sc = SoulComponent.of(getCameraPlayer());
-        if (sc.isDemon()) {
+        if (sc.isUndead()) {
             ci.cancel();
         }
     }
@@ -180,7 +181,7 @@ public abstract class InGameHudMixin {
     @Inject(method = "getCurrentBarType", at = @At("RETURN"), cancellable = true)
     private void hdemise$getCurrentBarType(CallbackInfoReturnable<InGameHud.BarType> cir) {
         SoulComponent sc = SoulComponent.of(getCameraPlayer());
-        if (cir.getReturnValue() == InGameHud.BarType.EXPERIENCE && sc != null && sc.isDemon()) {
+        if (cir.getReturnValue() == InGameHud.BarType.EXPERIENCE && sc != null && !sc.hasExperience()) {
             cir.setReturnValue(InGameHud.BarType.EMPTY);
         }
     }
@@ -188,13 +189,21 @@ public abstract class InGameHudMixin {
     @Inject(method = "drawHeart", at = @At("HEAD"), cancellable = true)
     private void hdemise$drawHeart(DrawContext context, InGameHud.HeartType type, int x, int y, boolean hardcore, boolean blinking, boolean half, CallbackInfo ci) {
         SoulComponent sc = SoulComponent.of(getCameraPlayer());
+        Identifier heartTexture = sc.getSoulType().heartType();
         if (sc.isGhost()) {
             ci.cancel();
-        } else if (sc.isDemon() && type == InGameHud.HeartType.NORMAL) {
+        } else if (heartTexture != null && type == InGameHud.HeartType.NORMAL) {
 
-            context.drawTexture(RenderPipelines.GUI_TEXTURED, DemiseHeartType.SOUL.getTexture(hardcore, half, blinking), x, y, 0, 0, 9, 9, 9, 9);
+            hdemise$drawCustomHeart(context, heartTexture, x, y, hardcore, blinking, half);
             ci.cancel();
         }
+    }
+
+    @Unique
+    private void hdemise$drawCustomHeart(DrawContext context, Identifier texture, int x, int y, boolean hardcore, boolean blinking, boolean half) {
+        int u = (hardcore ? 36 : 0) + (half ? 18 : 0) + (blinking ? 9 : 0);
+
+        context.drawTexture(RenderPipelines.GUI_TEXTURED, texture, x, y, u, 0, 9, 9, 72, 9);
     }
 
     @Inject(method = "renderArmor", at = @At("HEAD"), cancellable = true)

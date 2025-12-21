@@ -39,7 +39,7 @@ public abstract class PlayerEntityMixin extends PlayerLikeEntity {
     private void hdemise$addExperience(int experience, CallbackInfo ci) {
         SoulComponent sc = SoulComponent.of(this);
 
-        if (sc.isDemon()) {
+        if (sc.usesSoul()) {
             sc.gainSoulFromXP(experience);
             ci.cancel();
         }
@@ -49,7 +49,7 @@ public abstract class PlayerEntityMixin extends PlayerLikeEntity {
     private void hdemise$canFoodHeal(CallbackInfoReturnable<Boolean> cir) {
         SoulComponent sc = SoulComponent.of(this);
 
-        if (sc.isDemon()) {
+        if (!sc.usesHunger()) {
             cir.setReturnValue(false);
         }
     }
@@ -58,7 +58,7 @@ public abstract class PlayerEntityMixin extends PlayerLikeEntity {
     private void hdemise$canSprintOrFly(CallbackInfoReturnable<Boolean> cir) {
         SoulComponent sc = SoulComponent.of(this);
 
-        if (sc.isDemon() && (sc.getSoul() <= SoulComponent.EXHAUSTION_THRESHOLD || sc.hasSolarSickness(true)) && !getAbilities().allowFlying) {
+        if (sc.usesSoul() && (sc.getSoul() <= SoulComponent.EXHAUSTION_THRESHOLD || sc.hasSolarSickness(true)) && !getAbilities().allowFlying) {
             cir.setReturnValue(false);
         }
     }
@@ -67,7 +67,7 @@ public abstract class PlayerEntityMixin extends PlayerLikeEntity {
     private void hdemise$isInvulnerableTo(ServerWorld world, DamageSource source, CallbackInfoReturnable<Boolean> cir) {
         SoulComponent sc = SoulComponent.of(this);
 
-        if (sc.isDemon() && (source.isIn(DamageTypeTags.IS_FALL) || source.isIn(DamageTypeTags.IS_DROWNING))) {
+        if (sc.isUndead() && (source.isIn(DamageTypeTags.IS_FALL) || source.isIn(DamageTypeTags.IS_DROWNING))) {
             cir.setReturnValue(true);
         } else if (sc.isGhost() && (!source.isIn(DamageTypeTags.BYPASSES_INVULNERABILITY))) {
             cir.setReturnValue(true);
@@ -130,7 +130,7 @@ public abstract class PlayerEntityMixin extends PlayerLikeEntity {
 
     @Inject(method = "canConsume", at = @At("HEAD"), cancellable = true)
     private void hdemise$canConsume(boolean ignoreHunger, CallbackInfoReturnable<Boolean> cir) {
-        if (SoulComponent.of(this).isDemon() && !this.abilities.invulnerable) {
+        if (!SoulComponent.of(this).usesHunger() && !this.abilities.invulnerable) {
             cir.setReturnValue(false);
         }
     }

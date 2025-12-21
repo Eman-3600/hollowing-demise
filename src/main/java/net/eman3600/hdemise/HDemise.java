@@ -4,6 +4,7 @@ import net.eman3600.hdemise.init.basics.ModBlocks;
 import net.eman3600.hdemise.init.basics.ModDataComponentTypes;
 import net.eman3600.hdemise.init.basics.ModItemGroups;
 import net.eman3600.hdemise.init.basics.ModItems;
+import net.eman3600.hdemise.init.custom.ModSoulTypes;
 import net.eman3600.hdemise.init.entity.ModAttributes;
 import net.eman3600.hdemise.init.event.ModCallbacks;
 import net.eman3600.hdemise.init.event.ModMessages;
@@ -21,6 +22,7 @@ public class HDemise implements ModInitializer {
 	public void onInitialize() {
 
 		ModAttributes.registerAttributes();
+		ModSoulTypes.registerAll();
 
 		ModItemGroups.registerItemGroups();
 		ModBlocks.registerAll();

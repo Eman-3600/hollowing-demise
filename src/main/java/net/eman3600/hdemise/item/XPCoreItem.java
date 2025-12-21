@@ -29,7 +29,7 @@ public class XPCoreItem extends Item {
         ItemStack stack = user.getStackInHand(hand);
         XPStorageComponent component = stack.get(ModDataComponentTypes.XP_STORAGE);
 
-        if (!sc.isDemon() && component != null) {
+        if (sc.hasExperience() && component != null) {
             if (!world.isClient()) {
                 user.addExperience(component.totalXP());
 
