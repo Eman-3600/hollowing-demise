@@ -44,6 +44,15 @@ public abstract class SoulType {
         return null;
     }
 
+    /**
+     * The spritesheet that should be used for this soul type's heart container
+     * @return the identifier path of the heart container spritesheet
+     */
+    @Nullable
+    public Identifier heartContainerType() {
+        return null;
+    }
+
     public boolean usesSoul() {
         return meterType.usesSoul;
     }

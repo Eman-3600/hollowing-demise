@@ -88,6 +88,11 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
 
     public void setSoulType(SoulType soulType) {
         this.soulType.removeAttributes(this.player);
+        if (!this.soulType.usesHunger() && soulType.usesHunger()) {
+            HungerManager manager = player.getHungerManager();
+            manager.setFoodLevel(20);
+            manager.setSaturationLevel(5f);
+        }
         this.soulType = soulType;
         this.soulType.applyAttributes(this.player);
         resetSoul();

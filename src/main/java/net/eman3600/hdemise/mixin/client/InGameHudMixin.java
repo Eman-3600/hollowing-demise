@@ -190,20 +190,28 @@ public abstract class InGameHudMixin {
     private void hdemise$drawHeart(DrawContext context, InGameHud.HeartType type, int x, int y, boolean hardcore, boolean blinking, boolean half, CallbackInfo ci) {
         SoulComponent sc = SoulComponent.of(getCameraPlayer());
         Identifier heartTexture = sc.getSoulType().heartType();
+        Identifier heartContainerTexture = sc.getSoulType().heartContainerType();
         if (sc.isGhost()) {
             ci.cancel();
-        } else if (heartTexture != null && type == InGameHud.HeartType.NORMAL) {
+        } else {
+            if (heartTexture != null && type == InGameHud.HeartType.NORMAL) {
 
-            hdemise$drawCustomHeart(context, heartTexture, x, y, hardcore, blinking, half);
-            ci.cancel();
+                hdemise$drawCustomHeart(context, heartTexture, x, y, hardcore, blinking, half, false);
+                ci.cancel();
+            }
+
+            if (heartContainerTexture != null && type == InGameHud.HeartType.CONTAINER) {
+                hdemise$drawCustomHeart(context, heartContainerTexture, x, y, false, blinking, false, true);
+                ci.cancel();
+            }
         }
     }
 
     @Unique
-    private void hdemise$drawCustomHeart(DrawContext context, Identifier texture, int x, int y, boolean hardcore, boolean blinking, boolean half) {
+    private void hdemise$drawCustomHeart(DrawContext context, Identifier texture, int x, int y, boolean hardcore, boolean blinking, boolean half, boolean container) {
         int u = (hardcore ? 36 : 0) + (half ? 18 : 0) + (blinking ? 9 : 0);
 
-        context.drawTexture(RenderPipelines.GUI_TEXTURED, texture, x, y, u, 0, 9, 9, 72, 9);
+        context.drawTexture(RenderPipelines.GUI_TEXTURED, texture, x, y, u, 0, 9, 9, container ? 18 : 72, 9);
     }
 
     @Inject(method = "renderArmor", at = @At("HEAD"), cancellable = true)
