@@ -24,6 +24,7 @@ public class ModItemGroups {
             entries.add(ModItems.ALMARITE);
             entries.add(ModItems.SIMPLE_CURE);
             entries.add(ModItems.DEMON_SCROLL);
+            entries.add(ModItems.AMETHYST_APPLE);
             entries.add(ModItems.EXPERIENCE_CORE);
             entries.add(ModItems.FORM_SWITCHER);
         }).build());

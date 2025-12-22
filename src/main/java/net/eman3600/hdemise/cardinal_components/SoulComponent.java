@@ -44,9 +44,7 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
     public static final int SOUL_DECAY_AMOUNT = 1;
     public static final int BURN_SOUL_PER_TICK = 1;
     public static final int EXHAUSTION_THRESHOLD = 0;
-    public static final int FOCUS_LENGTH = 20;
     public static final int FOCUS_DELAY = 8;
-    public static final int FOCUS_RATE = 4;
     public static final float FOCUS_HP = 6f;
     public static final int VANISH_TICKS = 20;
     public static final int VANISH_DELAY = 5;
@@ -54,6 +52,7 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
     public static final int VANISH_RATE = 2;
     public static final int WARNING_TICKS = 4;
     public static final int CURE_TICKS = 60;
+    public static final float REGEN_REQUIREMENT = 100f;
 
     @Environment(EnvType.CLIENT)
     public static final int SUN_TICKS = 15;
@@ -78,6 +77,8 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
     private boolean curing = false;
     private int cureTime = 0;
     private int warningTicks = 0;
+
+    private float regenTime = 0f;
 
     private final PlayerEntity player;
 
@@ -136,11 +137,15 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
     }
 
     public int getMaxSoul() {
-        return SOUL_PER_VESSEL * Math.max(1, (int)player.getAttributeValue(ModAttributes.MAX_SOUL));
+        return usesSoul() ? (SOUL_PER_VESSEL * Math.max(1, (int)player.getAttributeValue(ModAttributes.MAX_SOUL))) : 0;
+    }
+
+    public float getRegenRate() {
+        return (float) player.getAttributeValue(ModAttributes.REGEN);
     }
 
     public int getFocusRequirement() {
-        return FOCUS_LENGTH * FOCUS_RATE;
+        return soulType.getFocusTicks() * soulType.getFocusRate();
     }
 
     public boolean canFocus() {
@@ -290,6 +295,7 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
         this.vanishTime = 0;
         this.curing = false;
         this.cureTime = 0;
+        this.regenTime = 0f;
 
         setFocusing(false);
         setGhost(hasSolarSickness(true) && soulType.canVanish());
@@ -406,7 +412,20 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
             player.fallDistance = 0;
         }
 
+        float regenRate = getRegenRate();
+        if (regenRate > 0 && player.getHealth() < player.getMaxHealth()) {
+            regenTime += regenRate;
 
+            if (regenTime >= REGEN_REQUIREMENT) {
+                regenTime -= REGEN_REQUIREMENT;
+                player.heal(1);
+            }
+
+            markDirty();
+        } else if (regenTime > 0) {
+            regenTime = 0;
+            markDirty();
+        }
 
         if (!hasExperience() && (player.totalExperience > 0 || player.experienceLevel > 0)) {
 
@@ -428,10 +447,10 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
             focusTime++;
 
             if (focusTime > 0 && !player.isCreative()) {
-                addSoul(-FOCUS_RATE);
+                addSoul(-soulType.getFocusRate());
             }
 
-            if (focusTime >= FOCUS_LENGTH) {
+            if (focusTime >= soulType.getFocusTicks()) {
                 boolean continueFocusing = this.soulType.onFocus(player, FOCUS_HP);
                 sendSoulEvent(SoulEventPayload.SoulEventType.FOCUS);
                 setFocusing(canFocus() && continueFocusing);
@@ -536,6 +555,7 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
         cureTime = readView.getInt("cure_time", 0);
         warningTicks = readView.getInt("warning", 0);
         soulType = SoulType.ofSerializable(readView.getString("soul_type", "hdemise:mortal"));
+        regenTime = readView.getFloat("regen_time", 0f);
     }
 
     @Override
@@ -551,6 +571,7 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
         writeView.putInt("cure_time", cureTime);
         writeView.putInt("warning", warningTicks);
         writeView.putString("soul_type", soulType.getSerializable());
+        writeView.putFloat("regen_time", regenTime);
     }
 
     /**

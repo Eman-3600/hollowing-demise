@@ -2,6 +2,8 @@
     "item.hdemise.almarite": "Almarite Shard",
     "item.hdemise.simple_cure": "Totem of Restoration",
     "item.hdemise.simple_cure.tooltip": "§7Restores hollows to life",
+    "item.hdemise.amethyst_apple": "Amethyst Apple",
+    "item.hdemise.amethyst_apple.tooltip": "§7Restores hollows to life?",
     "item.hdemise.demon_scroll": "Infernal Scroll",
     "item.hdemise.demon_scroll.tooltip": "§7Transforms the user into a hollow",
     "item.hdemise.demon_scroll.warning": "§7Extracts all levels",
@@ -19,10 +21,19 @@
 
     "itemgroup.hdemise.hdemise_group": "Hollowing Demise",
 
-    "attributes.hdemise.name.max_soul": "Max Soul",
+    "attribute.hdemise.name.max_soul": "Max Soul",
+    "attribute.hdemise.name.regen": "Regenerative Power",
 
     "key.hdemise.focus": "Focus (Heal)",
     "key.hdemise.ghost": "Become Intangible",
 
-    "sleep.hdemise.skipping_day": "Sleeping through this day"
+    "sleep.hdemise.skipping_day": "Sleeping through this day",
+
+    "soul_type.hdemise.mortal": "Pure",
+    "soul_type.hdemise.hollow": "Hollow",
+    "soul_type.hdemise.amethyst": "Amethyst",
+    "soul_type.hdemise.phantom": "Phantom",
+    "soul_type.hdemise.stalwart": "Stalwart",
+    "soul_type.hdemise.rotten": "Mummified",
+    "soul_type.hdemise.regenerative": "Regenerative"
 }

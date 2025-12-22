@@ -11,16 +11,16 @@ import org.jspecify.annotations.Nullable;
 
 import static net.eman3600.hdemise.HDemise.MODID;
 
-public class AmethystSoulType extends SoulType {
+public class RottenSoulType extends SoulType {
 
-    public static final Identifier ATTRIBUTE_ID = Identifier.of(MODID, "amethyst_soul");
+    public static final Identifier ATTRIBUTE_ID = Identifier.of(MODID, "rotten_soul");
 
-    public static final Identifier HEART_TYPE = Identifier.of(MODID,"textures/gui/hud/heart/amethyst.png");
-    public static final Identifier HEART_CONTAINER_TYPE = Identifier.of(MODID,"textures/gui/hud/heart/amethyst_container.png");
+    public static final Identifier HEART_TYPE = Identifier.of(MODID,"textures/gui/hud/heart/rotten.png");
+    public static final Identifier HEART_CONTAINER_TYPE = Identifier.of(MODID,"textures/gui/hud/heart/rotten_container.png");
 
 
-    public AmethystSoulType(Identifier id) {
-        super(MeterType.SOUL, id);
+    public RottenSoulType(Identifier id) {
+        super(MeterType.BOTH, id);
     }
 
     @Override
@@ -40,12 +40,22 @@ public class AmethystSoulType extends SoulType {
 
     @Override
     public boolean isUndead() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean burnsInDaylight() {
         return false;
+    }
+
+    @Override
+    public int getFocusRate() {
+        return 8;
+    }
+
+    @Override
+    public int getFocusTicks() {
+        return 10;
     }
 
     @Override
@@ -63,7 +73,7 @@ public class AmethystSoulType extends SoulType {
         EntityAttributeInstance maxSoulInstance = container.getCustomInstance(maxSoul);
         if (maxSoulInstance != null) {
 
-            maxSoulInstance.addTemporaryModifier(new EntityAttributeModifier(ATTRIBUTE_ID, -4, EntityAttributeModifier.Operation.ADD_VALUE));
+            maxSoulInstance.addTemporaryModifier(new EntityAttributeModifier(ATTRIBUTE_ID, -6, EntityAttributeModifier.Operation.ADD_VALUE));
         }
     }
 
@@ -88,8 +98,9 @@ public class AmethystSoulType extends SoulType {
 
     @Override
     public boolean onFocus(PlayerEntity player, float focusAmount) {
-        player.addStatusEffect(new StatusEffectInstance(StatusEffects.HASTE, 600, 0, true, true));
+        player.addStatusEffect(new StatusEffectInstance(StatusEffects.RESISTANCE, 30 * (int)(focusAmount), 0, true, true));
+        player.addStatusEffect(new StatusEffectInstance(StatusEffects.STRENGTH, 30 * (int)(focusAmount), 0, true, true));
 
-        return super.onFocus(player, focusAmount);
+        return false;
     }
 }

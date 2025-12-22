@@ -40,7 +40,13 @@ public class FormSwitcherItem extends Item {
                 sc.setSoulType(ModSoulTypes.AMETHYST);
             } else if (currentType == ModSoulTypes.AMETHYST) {
                 sc.setSoulType(ModSoulTypes.PHANTOM);
-            }else {
+            } else if (currentType == ModSoulTypes.PHANTOM) {
+                sc.setSoulType(ModSoulTypes.STALWART);
+            } else if (currentType == ModSoulTypes.STALWART) {
+                sc.setSoulType(ModSoulTypes.ROTTEN);
+            } else if (currentType == ModSoulTypes.ROTTEN) {
+                sc.setSoulType(ModSoulTypes.REGENERATIVE);
+            } else {
                 sc.setSoulType(ModSoulTypes.MORTAL);
             }
         }

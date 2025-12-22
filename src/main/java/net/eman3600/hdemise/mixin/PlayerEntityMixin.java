@@ -71,7 +71,7 @@ public abstract class PlayerEntityMixin extends PlayerLikeEntity {
     private void hdemise$canSprintOrFly(CallbackInfoReturnable<Boolean> cir) {
         SoulComponent sc = SoulComponent.of(this);
 
-        if (sc.usesSoul() && (sc.getSoul() <= SoulComponent.EXHAUSTION_THRESHOLD || sc.hasSolarSickness(true)) && !getAbilities().allowFlying) {
+        if (sc.usesSoul() && !sc.usesHunger() && (sc.getSoul() <= SoulComponent.EXHAUSTION_THRESHOLD || sc.hasSolarSickness(true)) && !getAbilities().allowFlying) {
             cir.setReturnValue(false);
         }
     }
@@ -139,7 +139,8 @@ public abstract class PlayerEntityMixin extends PlayerLikeEntity {
     @Inject(method = "createPlayerAttributes", at = @At("RETURN"), cancellable = true)
     private static void injectAttributes(CallbackInfoReturnable<DefaultAttributeContainer.Builder> info) {
         info.setReturnValue((info.getReturnValue())
-                .add(ModAttributes.MAX_SOUL, 10d));
+                .add(ModAttributes.MAX_SOUL, 10d)
+                .add(ModAttributes.REGEN, 0d));
     }
 
     @Inject(method = "canConsume", at = @At("HEAD"), cancellable = true)

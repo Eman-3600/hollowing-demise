@@ -11,6 +11,9 @@ public class ModSoulTypes {
     public static final SoulType HOLLOW = SoulTypeRegistry.register("hollow", HollowSoulType::new);
     public static final SoulType AMETHYST = SoulTypeRegistry.register("amethyst", AmethystSoulType::new);
     public static final SoulType PHANTOM = SoulTypeRegistry.register("phantom", PhantomSoulType::new);
+    public static final SoulType STALWART = SoulTypeRegistry.register("stalwart", StalwartSoulType::new);
+    public static final SoulType ROTTEN = SoulTypeRegistry.register("rotten", RottenSoulType::new);
+    public static final SoulType REGENERATIVE = SoulTypeRegistry.register("regenerative", RegenerativeSoulType::new);
 
 
     public static void registerAll() {

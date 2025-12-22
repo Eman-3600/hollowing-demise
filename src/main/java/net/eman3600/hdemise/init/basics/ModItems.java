@@ -3,6 +3,7 @@ package net.eman3600.hdemise.init.basics;
 import net.eman3600.hdemise.item.*;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.FoodComponents;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroups;
 import net.minecraft.registry.Registries;
@@ -23,6 +24,7 @@ public class ModItems {
     public static final Item FORM_SWITCHER = register("form_switcher", FormSwitcherItem::new, new Item.Settings().rarity(Rarity.EPIC).maxCount(1));
     public static final Item SIMPLE_CURE = register("simple_cure", ConsumableCureItem::new, new Item.Settings().rarity(Rarity.UNCOMMON).maxCount(1));
     public static final Item DEMON_SCROLL = register("demon_scroll", ConsumableDemonItem::new, new Item.Settings().rarity(Rarity.UNCOMMON).maxCount(1));
+    public static final Item AMETHYST_APPLE = register("amethyst_apple", AmethystAppleItem::new, new Item.Settings().rarity(Rarity.UNCOMMON).food(FoodComponents.APPLE));
     public static final XPCoreItem EXPERIENCE_CORE = (XPCoreItem) register("experience_core", XPCoreItem::new, new Item.Settings().rarity(Rarity.RARE).maxCount(1).component(DataComponentTypes.ENCHANTMENT_GLINT_OVERRIDE, true));
 
 
@@ -60,7 +62,11 @@ public class ModItems {
             group.add(ModItems.ALMARITE);
             group.add(ModItems.SIMPLE_CURE);
             group.add(ModItems.DEMON_SCROLL);
+            group.add(ModItems.AMETHYST_APPLE);
             group.add(ModItems.EXPERIENCE_CORE);
+        });
+        ItemGroupEvents.modifyEntriesEvent(ItemGroups.FOOD_AND_DRINK).register((group) -> {
+            group.add(ModItems.AMETHYST_APPLE);
         });
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.OPERATOR).register((group) -> {
             group.add(ModItems.FORM_SWITCHER);

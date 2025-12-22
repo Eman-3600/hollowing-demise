@@ -31,5 +31,6 @@ public class ModModelProvider extends FabricModelProvider {
         itemModelGenerator.register(ModItems.SIMPLE_CURE, Models.GENERATED);
         itemModelGenerator.register(ModItems.DEMON_SCROLL, Models.GENERATED);
         itemModelGenerator.register(ModItems.EXPERIENCE_CORE, Models.GENERATED);
+        itemModelGenerator.register(ModItems.AMETHYST_APPLE, Models.GENERATED);
     }
 }

@@ -167,7 +167,7 @@ public abstract class InGameHudMixin {
     @Inject(method = "renderAirBubbles", at = @At("HEAD"), cancellable = true)
     private void hdemise$renderAirBubbles(DrawContext context, PlayerEntity player, int heartCount, int top, int left, CallbackInfo ci) {
         SoulComponent sc = SoulComponent.of(getCameraPlayer());
-        if (sc.isUndead()) {
+        if (sc.isUndead() || sc.isGhost()) {
             ci.cancel();
         }
     }

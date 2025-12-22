@@ -66,6 +66,14 @@ public abstract class SoulType {
         return true;
     }
 
+    public int getFocusRate() {
+        return 4;
+    }
+
+    public int getFocusTicks() {
+        return 20;
+    }
+
     public abstract boolean canVanish();
     public abstract boolean isUndead();
     public abstract boolean burnsInDaylight();

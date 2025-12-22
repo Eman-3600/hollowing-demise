@@ -11,16 +11,16 @@ import org.jspecify.annotations.Nullable;
 
 import static net.eman3600.hdemise.HDemise.MODID;
 
-public class AmethystSoulType extends SoulType {
+public class RegenerativeSoulType extends SoulType {
 
-    public static final Identifier ATTRIBUTE_ID = Identifier.of(MODID, "amethyst_soul");
+    public static final Identifier ATTRIBUTE_ID = Identifier.of(MODID, "regenerative_soul");
 
-    public static final Identifier HEART_TYPE = Identifier.of(MODID,"textures/gui/hud/heart/amethyst.png");
-    public static final Identifier HEART_CONTAINER_TYPE = Identifier.of(MODID,"textures/gui/hud/heart/amethyst_container.png");
+    public static final Identifier HEART_TYPE = Identifier.of(MODID,"textures/gui/hud/heart/regenerative.png");
+    public static final Identifier HEART_CONTAINER_TYPE = Identifier.of(MODID,"textures/gui/hud/heart/regenerative_container.png");
 
 
-    public AmethystSoulType(Identifier id) {
-        super(MeterType.SOUL, id);
+    public RegenerativeSoulType(Identifier id) {
+        super(MeterType.NONE, id);
     }
 
     @Override
@@ -55,15 +55,15 @@ public class AmethystSoulType extends SoulType {
         EntityAttributeInstance hpInstance = container.getCustomInstance(hp);
         if (hpInstance != null) {
 
-            hpInstance.addTemporaryModifier(new EntityAttributeModifier(ATTRIBUTE_ID, -.1, EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE));
+            hpInstance.addTemporaryModifier(new EntityAttributeModifier(ATTRIBUTE_ID, -.2, EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE));
         }
 
 
-        RegistryEntry<EntityAttribute> maxSoul = ModAttributes.MAX_SOUL;
-        EntityAttributeInstance maxSoulInstance = container.getCustomInstance(maxSoul);
-        if (maxSoulInstance != null) {
+        RegistryEntry<EntityAttribute> regen = ModAttributes.REGEN;
+        EntityAttributeInstance regenInstance = container.getCustomInstance(regen);
+        if (regenInstance != null) {
 
-            maxSoulInstance.addTemporaryModifier(new EntityAttributeModifier(ATTRIBUTE_ID, -4, EntityAttributeModifier.Operation.ADD_VALUE));
+            regenInstance.addTemporaryModifier(new EntityAttributeModifier(ATTRIBUTE_ID, 1.25, EntityAttributeModifier.Operation.ADD_VALUE));
         }
     }
 
@@ -77,19 +77,12 @@ public class AmethystSoulType extends SoulType {
             hpInstance.removeModifier(ATTRIBUTE_ID);
         }
 
-        RegistryEntry<EntityAttribute> maxSoul = ModAttributes.MAX_SOUL;
-        EntityAttributeInstance maxSoulInstance = container.getCustomInstance(maxSoul);
 
-        if (maxSoulInstance != null) {
+        RegistryEntry<EntityAttribute> regen = ModAttributes.REGEN;
+        EntityAttributeInstance regenInstance = container.getCustomInstance(regen);
+        if (regenInstance != null) {
 
-            maxSoulInstance.removeModifier(ATTRIBUTE_ID);
+            regenInstance.removeModifier(ATTRIBUTE_ID);
         }
-    }
-
-    @Override
-    public boolean onFocus(PlayerEntity player, float focusAmount) {
-        player.addStatusEffect(new StatusEffectInstance(StatusEffects.HASTE, 600, 0, true, true));
-
-        return super.onFocus(player, focusAmount);
     }
 }
