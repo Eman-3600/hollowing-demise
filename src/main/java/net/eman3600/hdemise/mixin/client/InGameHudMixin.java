@@ -80,11 +80,11 @@ public abstract class InGameHudMixin {
 
                 int fill = MathHelper.clamp(soul - j * soulPerVessel, 0, soulPerVessel);
 
-                if (sc.getSoul() <= SoulComponent.EXHAUSTION_THRESHOLD || sc.hasSolarSickness(true)) {
+                if ((sc.getSoul() <= SoulComponent.EXHAUSTION_THRESHOLD && !sc.usesHunger()) || sc.hasSolarSickness(true)) {
                     k += this.random.nextInt(3) - 1;
                 } else if ((sc.isFocusing() || sc.isVanishing()) && this.random.nextInt(4) == 0) {
                     k += this.random.nextInt(3) - 1;
-                } else if ((sc.getSoulVessels() <= 3f || sc.isGhost()) && this.ticks % (int)(sc.getSoulVessels() * (sc.isGhost() ? 6 : 12) + 2) == 0) {
+                } else if (((sc.getSoulVessels() <= 3f && !sc.usesHunger()) || sc.isGhost()) && this.ticks % (int)(sc.getSoulVessels() * (sc.isGhost() ? 6 : 12) + 2) == 0) {
                     k += this.random.nextInt(3) - 1;
                 }
 

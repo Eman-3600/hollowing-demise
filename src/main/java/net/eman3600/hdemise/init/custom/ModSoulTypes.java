@@ -14,6 +14,7 @@ public class ModSoulTypes {
     public static final SoulType STALWART = SoulTypeRegistry.register("stalwart", StalwartSoulType::new);
     public static final SoulType ROTTEN = SoulTypeRegistry.register("rotten", RottenSoulType::new);
     public static final SoulType REGENERATIVE = SoulTypeRegistry.register("regenerative", RegenerativeSoulType::new);
+    public static final SoulType NEGATIVE = SoulTypeRegistry.register("negative", NegativeSoulType::new);
 
 
     public static void registerAll() {

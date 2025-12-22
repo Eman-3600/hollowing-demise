@@ -46,6 +46,8 @@ public class FormSwitcherItem extends Item {
                 sc.setSoulType(ModSoulTypes.ROTTEN);
             } else if (currentType == ModSoulTypes.ROTTEN) {
                 sc.setSoulType(ModSoulTypes.REGENERATIVE);
+            } else if (currentType == ModSoulTypes.REGENERATIVE) {
+                sc.setSoulType(ModSoulTypes.NEGATIVE);
             } else {
                 sc.setSoulType(ModSoulTypes.MORTAL);
             }
