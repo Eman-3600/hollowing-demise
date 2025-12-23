@@ -22,6 +22,7 @@ public class ModModelProvider extends FabricModelProvider {
         blockStateModelGenerator.registerSimpleCubeAll(ModBlocks.ALMARITE_BLOCK);
         blockStateModelGenerator.registerSimpleCubeAll(ModBlocks.ALMARITE_ORE);
         blockStateModelGenerator.registerSimpleCubeAll(ModBlocks.DEEPSLATE_ALMARITE_ORE);
+        blockStateModelGenerator.registerSimpleState(ModBlocks.INFUSION_TABLE);
     }
 
     @Override

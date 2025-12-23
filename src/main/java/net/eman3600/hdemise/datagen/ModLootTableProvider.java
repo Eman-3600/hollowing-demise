@@ -31,6 +31,7 @@ public class ModLootTableProvider extends FabricBlockLootTableProvider {
         addDrop(ModBlocks.ALMARITE_BLOCK);
         addDrop(ModBlocks.ALMARITE_ORE, multipleOreDrops(ModBlocks.ALMARITE_ORE, ModItems.ALMARITE, 3, 5));
         addDrop(ModBlocks.DEEPSLATE_ALMARITE_ORE, multipleOreDrops(ModBlocks.DEEPSLATE_ALMARITE_ORE, ModItems.ALMARITE, 3, 5));
+        addDrop(ModBlocks.INFUSION_TABLE);
     }
 
     public LootTable.Builder multipleOreDrops(Block drop, Item item, float minDrops, float maxDrops) {

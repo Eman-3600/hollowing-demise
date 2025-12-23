@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "infusion_table",
+  "key": {
+    "#": "minecraft:crying_obsidian",
+    "E": "minecraft:ender_eye",
+    "A": "hdemise:almarite"
+  },
+  "pattern": [
+    " E ",
+    "A#A",
+    "###"
+  ],
+  "result": {
+    "count": 1,
+    "id": "hdemise:infusion_table"
+  }
+}

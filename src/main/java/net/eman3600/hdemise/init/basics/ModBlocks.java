@@ -1,5 +1,6 @@
 package net.eman3600.hdemise.init.basics;
 
+import net.eman3600.hdemise.block.InfusionTableBlock;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.item.ItemGroups;
@@ -37,6 +38,12 @@ public class ModBlocks {
         .strength(4.5f, 3f)
         .requiresTool()
         .sounds(BlockSoundGroup.DEEPSLATE), true);
+
+    public static final Block INFUSION_TABLE = register("infusion_table", InfusionTableBlock::new,
+            AbstractBlock.Settings.create()
+            .requiresTool()
+            .luminance(state -> 10)
+            .strength(5.0f, 1200.0f), true);
 
     /**
      * Registers a block under a given ID string.
@@ -78,6 +85,10 @@ public class ModBlocks {
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.NATURAL).register(group -> {
             group.add(ModBlocks.ALMARITE_ORE);
             group.add(ModBlocks.DEEPSLATE_ALMARITE_ORE);
+        });
+
+        ItemGroupEvents.modifyEntriesEvent(ItemGroups.FUNCTIONAL).register(group -> {
+            group.add(ModBlocks.INFUSION_TABLE);
         });
     }
 }
