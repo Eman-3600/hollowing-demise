@@ -40,10 +40,10 @@ public class ModBlocks {
         .sounds(BlockSoundGroup.DEEPSLATE), true);
 
     public static final Block INFUSION_TABLE = register("infusion_table", InfusionTableBlock::new,
-            AbstractBlock.Settings.create()
-            .requiresTool()
-            .luminance(state -> 10)
-            .strength(5.0f, 1200.0f), true);
+        AbstractBlock.Settings.create()
+        .strength(5.0f, 1200.0f)
+        .requiresTool()
+        .luminance(state -> 10), true);
 
     /**
      * Registers a block under a given ID string.
