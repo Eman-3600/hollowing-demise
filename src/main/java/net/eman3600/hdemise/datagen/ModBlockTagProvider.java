@@ -20,7 +20,8 @@ public class ModBlockTagProvider extends FabricTagProvider.BlockTagProvider {
         valueLookupBuilder(BlockTags.PICKAXE_MINEABLE)
             .add(ModBlocks.ALMARITE_BLOCK)
             .add(ModBlocks.ALMARITE_ORE)
-            .add(ModBlocks.DEEPSLATE_ALMARITE_ORE);
+            .add(ModBlocks.DEEPSLATE_ALMARITE_ORE)
+            .add(ModBlocks.INFUSION_TABLE);
 
         valueLookupBuilder(BlockTags.NEEDS_IRON_TOOL)
             .add(ModBlocks.ALMARITE_ORE)
