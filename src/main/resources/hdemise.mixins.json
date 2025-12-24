@@ -5,6 +5,7 @@
   "mixins": [
     "AbstractBlockStateMixin",
     "ConditionMixin",
+    "EntityMixin",
     "HungerManagerMixin",
     "LivingEntityMixin",
     "PlayerEntityMixin",

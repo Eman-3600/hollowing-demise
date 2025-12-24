@@ -1,7 +1,9 @@
 package net.eman3600.hdemise.mixin;
 
 import net.eman3600.hdemise.cardinal_components.SoulComponent;
+import net.eman3600.hdemise.init.custom.ModSoulTypes;
 import net.eman3600.hdemise.init.entity.ModAttributes;
+import net.eman3600.hdemise.soul_type.MortalSoulType;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -81,7 +83,7 @@ public abstract class PlayerEntityMixin extends PlayerLikeEntity {
         SoulComponent sc = SoulComponent.of(this);
 
         if ((sc.getSoulType().canVanish() && source.isIn(DamageTypeTags.IS_FALL))
-                || sc.isUndead() && source.isIn(DamageTypeTags.IS_DROWNING)
+                || (sc.isDrowningImmune()) && source.isIn(DamageTypeTags.IS_DROWNING)
                 || (sc.isGhost() && !source.isIn(DamageTypeTags.BYPASSES_INVULNERABILITY))) {
 
             cir.setReturnValue(true);
@@ -140,7 +142,8 @@ public abstract class PlayerEntityMixin extends PlayerLikeEntity {
     private static void injectAttributes(CallbackInfoReturnable<DefaultAttributeContainer.Builder> info) {
         info.setReturnValue((info.getReturnValue())
                 .add(ModAttributes.MAX_SOUL, 10d)
-                .add(ModAttributes.REGEN, 0d));
+                .add(ModAttributes.REGEN, 0d)
+                .add(ModAttributes.FOCUS_POWER, 6d));
     }
 
     @Inject(method = "canConsume", at = @At("HEAD"), cancellable = true)

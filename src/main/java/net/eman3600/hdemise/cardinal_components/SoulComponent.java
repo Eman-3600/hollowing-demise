@@ -45,7 +45,6 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
     public static final int BURN_SOUL_PER_TICK = 1;
     public static final int EXHAUSTION_THRESHOLD = 0;
     public static final int FOCUS_DELAY = 8;
-    public static final float FOCUS_HP = 6f;
     public static final int VANISH_TICKS = 20;
     public static final int VANISH_DELAY = 5;
     public static final int REVEAL_TICKS = 8;
@@ -53,6 +52,8 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
     public static final int WARNING_TICKS = 4;
     public static final int CURE_TICKS = 60;
     public static final float REGEN_REQUIREMENT = 100f;
+    public static final int SOLAR_SOUL_TICKS = 10;
+    public static final int SUN_MULTIPLIER = 4;
 
     @Environment(EnvType.CLIENT)
     public static final int SUN_TICKS = 15;
@@ -79,6 +80,7 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
     private int warningTicks = 0;
 
     private float regenTime = 0f;
+    private float solarSoulTime = 0f;
 
     private final PlayerEntity player;
 
@@ -104,7 +106,7 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
     }
 
     public void onDeath() {
-        if (this.soulType != ModSoulTypes.HOLLOW) {
+        if (this.soulType != ModSoulTypes.HOLLOW && this.soulType != ModSoulTypes.NEGATIVE) {
             this.setSoulType(ModSoulTypes.HOLLOW);
         } else {
             reloadAttributes();
@@ -130,6 +132,10 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
 
     public boolean isGhost() {
         return ghostMode;
+    }
+
+    public boolean isDrowningImmune() {
+        return ghostMode || isUndead() || soulType == ModSoulTypes.CONSTRUCT;
     }
 
     public int getSoul() {
@@ -173,6 +179,9 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
     }
 
     public void setSoul(int soul) {
+        if (soul < this.soul) {
+            this.solarSoulTime = 0;
+        }
         this.soul = MathHelper.clamp(soul, 0, getMaxSoul());
         markDirty();
     }
@@ -296,6 +305,7 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
         this.curing = false;
         this.cureTime = 0;
         this.regenTime = 0f;
+        this.solarSoulTime = 0f;
 
         setFocusing(false);
         setGhost(hasSolarSickness(true) && soulType.canVanish());
@@ -427,6 +437,17 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
             markDirty();
         }
 
+        if (this.soulType == ModSoulTypes.CONSTRUCT && getSoul() < getMaxSoul() && player.getEntityWorld().isSkyVisibleAllowingSea(BlockPos.ofFloored(player.getX(), player.getEyeY(), player.getZ()))) {
+            solarSoulTime += player.getEntityWorld().isDay() ? SUN_MULTIPLIER : 1;
+
+            if (solarSoulTime >= SOLAR_SOUL_TICKS) {
+                solarSoulTime -= SOLAR_SOUL_TICKS;
+                addSoul(1);
+            }
+
+            markDirty();
+        }
+
         if (!hasExperience() && (player.totalExperience > 0 || player.experienceLevel > 0)) {
 
             player.experienceLevel = 0;
@@ -451,7 +472,7 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
             }
 
             if (focusTime >= soulType.getFocusTicks()) {
-                boolean continueFocusing = this.soulType.onFocus(player, FOCUS_HP);
+                boolean continueFocusing = this.soulType.onFocus(player, (float)player.getAttributeValue(ModAttributes.FOCUS_POWER));
                 sendSoulEvent(SoulEventPayload.SoulEventType.FOCUS);
                 setFocusing(canFocus() && continueFocusing);
             } else if (soul <= 0 || !player.isOnGround()) {
@@ -556,6 +577,7 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
         warningTicks = readView.getInt("warning", 0);
         soulType = SoulType.ofSerializable(readView.getString("soul_type", "hdemise:mortal"));
         regenTime = readView.getFloat("regen_time", 0f);
+        solarSoulTime = readView.getFloat("solar_soul_time", 0f);
     }
 
     @Override
@@ -572,6 +594,7 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
         writeView.putInt("warning", warningTicks);
         writeView.putString("soul_type", soulType.getSerializable());
         writeView.putFloat("regen_time", regenTime);
+        writeView.putFloat("solar_soul_time", solarSoulTime);
     }
 
     /**

@@ -19,6 +19,9 @@ public class ModAttributes {
     public static final RegistryEntry<EntityAttribute> REGEN = register(
             "regen", new ClampedEntityAttribute("attribute.hdemise.name.regen", 0.0, 0.0, 100.0).setTracked(true)
     );
+    public static final RegistryEntry<EntityAttribute> FOCUS_POWER = register(
+            "focus_power", new ClampedEntityAttribute("attribute.hdemise.name.focus_power", 6.0, 0.0, 100.0).setTracked(true)
+    );
 
 
     private static RegistryEntry<EntityAttribute> register(String id, EntityAttribute attribute) {

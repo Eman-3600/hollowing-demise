@@ -41,12 +41,10 @@ public class FormSwitcherItem extends Item {
             } else if (currentType == ModSoulTypes.AMETHYST) {
                 sc.setSoulType(ModSoulTypes.PHANTOM);
             } else if (currentType == ModSoulTypes.PHANTOM) {
-                sc.setSoulType(ModSoulTypes.STALWART);
-            } else if (currentType == ModSoulTypes.STALWART) {
+                sc.setSoulType(ModSoulTypes.CONSTRUCT);
+            } else if (currentType == ModSoulTypes.CONSTRUCT) {
                 sc.setSoulType(ModSoulTypes.ROTTEN);
             } else if (currentType == ModSoulTypes.ROTTEN) {
-                sc.setSoulType(ModSoulTypes.REGENERATIVE);
-            } else if (currentType == ModSoulTypes.REGENERATIVE) {
                 sc.setSoulType(ModSoulTypes.NEGATIVE);
             } else {
                 sc.setSoulType(ModSoulTypes.MORTAL);

@@ -1,6 +1,7 @@
 package net.eman3600.hdemise.mixin.client;
 
 import net.eman3600.hdemise.cardinal_components.SoulComponent;
+import net.eman3600.hdemise.init.custom.ModSoulTypes;
 import net.eman3600.hdemise.mixin_interfaces.PlayerEntityRenderStateAccess;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;

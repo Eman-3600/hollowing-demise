@@ -73,7 +73,7 @@ public class RottenSoulType extends SoulType {
         EntityAttributeInstance maxSoulInstance = container.getCustomInstance(maxSoul);
         if (maxSoulInstance != null) {
 
-            maxSoulInstance.addTemporaryModifier(new EntityAttributeModifier(ATTRIBUTE_ID, -6, EntityAttributeModifier.Operation.ADD_VALUE));
+            maxSoulInstance.addTemporaryModifier(new EntityAttributeModifier(ATTRIBUTE_ID, -4, EntityAttributeModifier.Operation.ADD_VALUE));
         }
     }
 

@@ -2,21 +2,24 @@ package net.eman3600.hdemise.soul_type;
 
 import net.eman3600.hdemise.init.entity.ModAttributes;
 import net.minecraft.entity.attribute.*;
+import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.effect.StatusEffects;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.util.Identifier;
 import org.jspecify.annotations.Nullable;
 
 import static net.eman3600.hdemise.HDemise.MODID;
 
-public class NegativeSoulType extends SoulType {
+public class ConstructSoulType extends SoulType {
 
-    public static final Identifier ATTRIBUTE_ID = Identifier.of(MODID, "negative_soul");
+    public static final Identifier ATTRIBUTE_ID = Identifier.of(MODID, "construct_soul");
 
-    public static final Identifier HEART_TYPE = Identifier.of(MODID,"textures/gui/hud/heart/negative.png");
-    public static final Identifier HEART_CONTAINER_TYPE = Identifier.of(MODID,"textures/gui/hud/heart/negative_container.png");
+    public static final Identifier HEART_TYPE = Identifier.of(MODID,"textures/gui/hud/heart/construct.png");
+    public static final Identifier HEART_CONTAINER_TYPE = Identifier.of(MODID,"textures/gui/hud/heart/construct_container.png");
 
 
-    public NegativeSoulType(Identifier id) {
+    public ConstructSoulType(Identifier id) {
         super(MeterType.SOUL, id);
     }
 
@@ -37,7 +40,7 @@ public class NegativeSoulType extends SoulType {
 
     @Override
     public boolean isUndead() {
-        return true;
+        return false;
     }
 
     @Override
@@ -46,27 +49,37 @@ public class NegativeSoulType extends SoulType {
     }
 
     @Override
-    public boolean hasExperience() {
-        return false;
+    public int getFocusRate() {
+        return 8;
+    }
+
+    @Override
+    public int getFocusTicks() {
+        return 10;
+    }
+
+    @Override
+    public boolean onFocus(PlayerEntity player, float focusAmount) {
+
+        return super.onFocus(player, focusAmount/2);
     }
 
     @Override
     public void applyAttributes(AttributeContainer container) {
 
-
-        RegistryEntry<EntityAttribute> hp = EntityAttributes.MAX_HEALTH;
-        EntityAttributeInstance hpInstance = container.getCustomInstance(hp);
-        if (hpInstance != null) {
-
-            hpInstance.addTemporaryModifier(new EntityAttributeModifier(ATTRIBUTE_ID, -.6, EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE));
-        }
-
-
         RegistryEntry<EntityAttribute> maxSoul = ModAttributes.MAX_SOUL;
         EntityAttributeInstance maxSoulInstance = container.getCustomInstance(maxSoul);
         if (maxSoulInstance != null) {
 
-            maxSoulInstance.addTemporaryModifier(new EntityAttributeModifier(ATTRIBUTE_ID, -8, EntityAttributeModifier.Operation.ADD_VALUE));
+            maxSoulInstance.addTemporaryModifier(new EntityAttributeModifier(ATTRIBUTE_ID, -5, EntityAttributeModifier.Operation.ADD_VALUE));
+        }
+
+
+        RegistryEntry<EntityAttribute> toughness = EntityAttributes.ARMOR_TOUGHNESS;
+        EntityAttributeInstance toughnessInstance = container.getCustomInstance(toughness);
+        if (toughnessInstance != null) {
+
+            toughnessInstance.addTemporaryModifier(new EntityAttributeModifier(ATTRIBUTE_ID, 8, EntityAttributeModifier.Operation.ADD_VALUE));
         }
 
 
@@ -80,14 +93,6 @@ public class NegativeSoulType extends SoulType {
 
     @Override
     public void removeAttributes(AttributeContainer container) {
-        RegistryEntry<EntityAttribute> hp = EntityAttributes.MAX_HEALTH;
-        EntityAttributeInstance hpInstance = container.getCustomInstance(hp);
-
-        if (hpInstance != null) {
-
-            hpInstance.removeModifier(ATTRIBUTE_ID);
-        }
-
         RegistryEntry<EntityAttribute> maxSoul = ModAttributes.MAX_SOUL;
         EntityAttributeInstance maxSoulInstance = container.getCustomInstance(maxSoul);
 
@@ -95,6 +100,15 @@ public class NegativeSoulType extends SoulType {
 
             maxSoulInstance.removeModifier(ATTRIBUTE_ID);
         }
+
+
+        RegistryEntry<EntityAttribute> toughness = EntityAttributes.ARMOR_TOUGHNESS;
+        EntityAttributeInstance toughnessInstance = container.getCustomInstance(toughness);
+        if (toughnessInstance != null) {
+
+            toughnessInstance.removeModifier(ATTRIBUTE_ID);
+        }
+
 
         RegistryEntry<EntityAttribute> focusPower = ModAttributes.FOCUS_POWER;
         EntityAttributeInstance focusPowerInstance = container.getCustomInstance(focusPower);

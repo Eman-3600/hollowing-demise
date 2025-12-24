@@ -24,10 +24,11 @@
     "itemgroup.hdemise.hdemise_group": "Hollowing Demise",
 
     "attribute.hdemise.name.max_soul": "Max Soul",
-    "attribute.hdemise.name.regen": "Regenerative Power",
+    "attribute.hdemise.name.regen": "Healing Factor",
+    "attribute.hdemise.name.focus_power": "Focus Power",
 
     "key.hdemise.focus": "Focus (Heal)",
-    "key.hdemise.ghost": "Become Intangible",
+    "key.hdemise.ghost": "Vanish",
 
     "sleep.hdemise.skipping_day": "Sleeping through this day",
 
