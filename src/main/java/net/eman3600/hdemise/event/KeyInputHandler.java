@@ -2,15 +2,15 @@ package net.eman3600.hdemise.event;
 
 import net.eman3600.hdemise.networking.c2s.FocusPayload;
 import net.eman3600.hdemise.networking.c2s.GhostPayload;
+import net.eman3600.hdemise.networking.c2s.AirJumpPayload;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
-import net.minecraft.util.math.Vec2f;
-import net.minecraft.util.math.Vec3d;
 import org.lwjgl.glfw.GLFW;
 
 @Environment(EnvType.CLIENT)
@@ -23,6 +23,7 @@ public class KeyInputHandler {
 
     private static boolean holdingFocusKey;
     private static boolean holdingGhostKey;
+    private static boolean holdingJumpKey;
 
     public static void registerKeyInputs() {
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
@@ -52,6 +53,16 @@ public class KeyInputHandler {
                 ClientPlayNetworking.send(payload);
             }
 
+            if (MinecraftClient.getInstance().options.jumpKey.isPressed()) {
+                if (!holdingJumpKey && MinecraftClient.getInstance().player != null) {
+                    holdingJumpKey = true;
+                    if (!MinecraftClient.getInstance().player.isOnGround())
+                        ClientPlayNetworking.send(new AirJumpPayload(true));
+                }
+            } else if (holdingJumpKey) {
+                holdingJumpKey = false;
+                ClientPlayNetworking.send(new AirJumpPayload(false));
+            }
 
         });
     }

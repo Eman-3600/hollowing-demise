@@ -2,6 +2,7 @@ package net.eman3600.hdemise.init.event;
 
 import net.eman3600.hdemise.networking.c2s.FocusPayload;
 import net.eman3600.hdemise.networking.c2s.GhostPayload;
+import net.eman3600.hdemise.networking.c2s.AirJumpPayload;
 import net.eman3600.hdemise.networking.s2c.SoulEventPayload;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -19,6 +20,7 @@ public class ModMessages {
 
         PayloadTypeRegistry.playC2S().register(FocusPayload.TYPE, FocusPayload.CODEC);
         PayloadTypeRegistry.playC2S().register(GhostPayload.TYPE, GhostPayload.CODEC);
+        PayloadTypeRegistry.playC2S().register(AirJumpPayload.TYPE, AirJumpPayload.CODEC);
 
         PayloadTypeRegistry.playS2C().register(SoulEventPayload.TYPE, SoulEventPayload.CODEC);
     }
@@ -28,6 +30,7 @@ public class ModMessages {
 
         ServerPlayNetworking.registerGlobalReceiver(FocusPayload.TYPE, FocusPayload::receive);
         ServerPlayNetworking.registerGlobalReceiver(GhostPayload.TYPE, GhostPayload::receive);
+        ServerPlayNetworking.registerGlobalReceiver(AirJumpPayload.TYPE, AirJumpPayload::receive);
     }
 
     @Environment(EnvType.CLIENT)

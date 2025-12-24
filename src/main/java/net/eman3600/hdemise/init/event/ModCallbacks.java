@@ -29,6 +29,7 @@ public class ModCallbacks {
 
             sc.reloadAttributes();
             sc.setFocusing(false);
+            sc.setJetting(false);
             sc.updateAbilities(true);
         });
     }

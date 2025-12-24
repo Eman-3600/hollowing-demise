@@ -21,12 +21,15 @@ import net.minecraft.particle.ParticleTypes;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.storage.ReadView;
 import net.minecraft.storage.WriteView;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.random.Random;
 import org.ladysnake.cca.api.v3.component.sync.AutoSyncedComponent;
 import org.ladysnake.cca.api.v3.component.tick.ClientTickingComponent;
@@ -54,6 +57,8 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
     public static final float REGEN_REQUIREMENT = 100f;
     public static final int SOLAR_SOUL_TICKS = 10;
     public static final int SUN_MULTIPLIER = 4;
+    public static final double JET_SPEED_CAP = .8;
+    public static final double JET_ACCELERATION = 0.16;
 
     @Environment(EnvType.CLIENT)
     public static final int SUN_TICKS = 15;
@@ -77,7 +82,9 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
     private int vanishTime = 0;
     private boolean curing = false;
     private int cureTime = 0;
+
     private int warningTicks = 0;
+    private boolean jetting = false;
 
     private float regenTime = 0f;
     private float solarSoulTime = 0f;
@@ -241,6 +248,15 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
         return vanishing;
     }
 
+    public boolean isJetting() {
+        return this.jetting;
+    }
+
+    public void setJetting(boolean jetting) {
+        this.jetting = jetting;
+        markDirty();
+    }
+
     public boolean isUndead() {
         return this.soulType.isUndead();
     }
@@ -306,6 +322,7 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
         this.cureTime = 0;
         this.regenTime = 0f;
         this.solarSoulTime = 0f;
+        this.jetting = false;
 
         setFocusing(false);
         setGhost(hasSolarSickness(true) && soulType.canVanish());
@@ -413,6 +430,40 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
         } else if (cureRenderTicks > 0) {
             cureRenderTicks--;
         }
+
+        if (isJetting()) {
+            Random random = player.getRandom();
+            Box box = player.getBoundingBox();
+            for (int i = 0; i < 2; i++) {
+                player.getEntityWorld().addParticleClient(ParticleTypes.SOUL_FIRE_FLAME.getType(),
+                        box.minX + random.nextFloat() * (box.maxX - box.minX),
+                        player.getY(),
+                        box.minZ + random.nextFloat() * (box.maxZ - box.minZ),
+                        (random.nextFloat() - .5f) * .1f,
+                        -random.nextFloat() * .4f - .8f,
+                        (random.nextFloat() - .5f) * .1f);
+
+                player.getEntityWorld().addParticleClient(ParticleTypes.SMOKE.getType(),
+                        box.minX + random.nextFloat() * (box.maxX - box.minX),
+                        player.getY(),
+                        box.minZ + random.nextFloat() * (box.maxZ - box.minZ),
+                        (random.nextFloat() - .5f) * .3f,
+                        -random.nextFloat() * .4f - .8f,
+                        (random.nextFloat() - .5f) * .3f);
+            }
+
+            player.getEntityWorld().playSound(player, player.getX(), player.getY(), player.getZ(), SoundEvents.ENTITY_BLAZE_SHOOT, SoundCategory.PLAYERS, .5f, .5f);
+
+            Vec3d velocity = player.getVelocity();
+            double velY = velocity.y;
+
+            if (velY < JET_SPEED_CAP) {
+                velY =  Math.min(velY + JET_ACCELERATION, JET_SPEED_CAP);
+
+                player.setVelocity(velocity.x, velY, velocity.z);
+                player.velocityDirty = true;
+            }
+        }
     }
 
     @Override
@@ -446,6 +497,27 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
             }
 
             markDirty();
+        }
+
+        if (isJetting()) {
+            if (!player.isCreative()) {
+                addSoul(-1);
+            }
+
+            Vec3d velocity = player.getVelocity();
+            double velY = velocity.y;
+
+            if (velY < JET_SPEED_CAP) {
+                velY =  Math.min(velY + JET_ACCELERATION, JET_SPEED_CAP);
+
+                player.setVelocity(velocity.x, velY, velocity.z);
+            }
+
+            if (getSoul() <= 0) {
+                setJetting(false);
+            }
+
+            player.fallDistance = 0;
         }
 
         if (!hasExperience() && (player.totalExperience > 0 || player.experienceLevel > 0)) {
@@ -578,6 +650,7 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
         soulType = SoulType.ofSerializable(readView.getString("soul_type", "hdemise:mortal"));
         regenTime = readView.getFloat("regen_time", 0f);
         solarSoulTime = readView.getFloat("solar_soul_time", 0f);
+        jetting = readView.getBoolean("jetting", false);
     }
 
     @Override
@@ -595,6 +668,7 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
         writeView.putString("soul_type", soulType.getSerializable());
         writeView.putFloat("regen_time", regenTime);
         writeView.putFloat("solar_soul_time", solarSoulTime);
+        writeView.putBoolean("jetting", jetting);
     }
 
     /**
