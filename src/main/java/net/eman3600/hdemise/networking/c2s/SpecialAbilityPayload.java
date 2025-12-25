@@ -35,7 +35,7 @@ public record SpecialAbilityPayload(boolean beginning) implements CustomPayload 
         SoulComponent sc = SoulComponent.of(context.player());
 
         if (sc != null && !context.player().isSpectator()) {
-            
+
         }
     }
 }

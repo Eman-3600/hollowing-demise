@@ -65,7 +65,12 @@ public abstract class InGameHudMixin {
                 right -= 51 + 4 * Math.max(0, 10 - vessels);
             }
 
-            int v = sc.isCuring() ? 90 : sc.getWarning() > 0 ? 72 : (sc.isGhost() && sc.isVanishing() && sc.hasSolarSickness(false)) ? 36 : (sc.isGhost() != sc.isVanishing()) ? 54 : sc.hasSolarSickness(true) ? 36 : 18;
+            int v = sc.isCuring() ? 90
+                    : sc.getWarning() > 0 ? 72
+                    : (sc.isGhost() && sc.isVanishing() && sc.hasSolarSickness(false)) ? 36
+                    : (sc.isGhost() != sc.isVanishing()) ? 54
+                    : sc.hasSolarSickness(true) ? 36
+                    : 18;
 
             int soulPerVessel = SoulComponent.SOUL_PER_VESSEL;
 
@@ -82,7 +87,7 @@ public abstract class InGameHudMixin {
 
                 if ((sc.getSoul() <= SoulComponent.EXHAUSTION_THRESHOLD && !sc.usesHunger()) || sc.hasSolarSickness(true)) {
                     k += this.random.nextInt(3) - 1;
-                } else if ((sc.isFocusing() || sc.isVanishing()) && this.random.nextInt(4) == 0) {
+                } else if ((sc.isFocusing() || sc.isVanishing() || sc.isJetting()) && this.random.nextInt(4) == 0) {
                     k += this.random.nextInt(3) - 1;
                 } else if (((sc.getSoulVessels() <= 3f && !sc.usesHunger()) || sc.isGhost()) && this.ticks % (int)(sc.getSoulVessels() * (sc.isGhost() ? 6 : 12) + 2) == 0) {
                     k += this.random.nextInt(3) - 1;
