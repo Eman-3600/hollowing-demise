@@ -28,7 +28,8 @@
     "attribute.hdemise.name.focus_power": "Focus Power",
 
     "key.hdemise.focus": "Focus (Heal)",
-    "key.hdemise.ghost": "Vanish",
+    "key.hdemise.ghost": "Vanish/Special",
+    "key.hdemise.special": "???",
 
     "sleep.hdemise.skipping_day": "Sleeping through this day",
 
@@ -38,6 +39,8 @@
     "soul_type.hdemise.phantom": "Phantom",
     "soul_type.hdemise.stalwart": "Stalwart",
     "soul_type.hdemise.construct": "Constructed",
+    "soul_type.hdemise.construct.enable_jet": "Enabled Jetpack",
+    "soul_type.hdemise.construct.disable_jet": "Disabled Jetpack",
     "soul_type.hdemise.rotten": "Revenant",
     "soul_type.hdemise.regenerative": "Regenerative",
     "soul_type.hdemise.negative": "Void"

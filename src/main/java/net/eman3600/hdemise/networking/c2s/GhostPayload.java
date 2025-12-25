@@ -2,6 +2,7 @@ package net.eman3600.hdemise.networking.c2s;
 
 import io.netty.buffer.ByteBuf;
 import net.eman3600.hdemise.cardinal_components.SoulComponent;
+import net.eman3600.hdemise.init.custom.ModSoulTypes;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.network.codec.PacketCodec;
 import net.minecraft.network.packet.CustomPayload;
@@ -37,6 +38,10 @@ public record GhostPayload(boolean beginning) implements CustomPayload {
             if (payload.beginning) {
                 if (!sc.isVanishing() && (sc.canVanish() || sc.isGhost())) {
                     sc.setVanishing(true);
+                }
+
+                if (sc.getSoulType() == ModSoulTypes.CONSTRUCT) {
+                    sc.enableJet(!sc.isJetEnabled());
                 }
             } else if (sc.isVanishing()) {
                 sc.setVanishing(false);

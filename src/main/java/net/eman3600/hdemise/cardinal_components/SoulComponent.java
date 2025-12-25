@@ -1,6 +1,5 @@
 package net.eman3600.hdemise.cardinal_components;
 
-import net.eman3600.hdemise.HDemise;
 import net.eman3600.hdemise.init.custom.ModSoulTypes;
 import net.eman3600.hdemise.init.entity.ModAttributes;
 import net.eman3600.hdemise.init.cca.ModEntityComponents;
@@ -12,21 +11,19 @@ import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.attribute.*;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.HungerManager;
 import net.minecraft.entity.player.PlayerAbilities;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.particle.ParticleTypes;
-import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.storage.ReadView;
 import net.minecraft.storage.WriteView;
-import net.minecraft.util.Identifier;
+import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.MathHelper;
@@ -35,8 +32,6 @@ import net.minecraft.util.math.random.Random;
 import org.ladysnake.cca.api.v3.component.sync.AutoSyncedComponent;
 import org.ladysnake.cca.api.v3.component.tick.ClientTickingComponent;
 import org.ladysnake.cca.api.v3.component.tick.ServerTickingComponent;
-
-import static net.eman3600.hdemise.HDemise.MODID;
 
 public class SoulComponent implements AutoSyncedComponent, ServerTickingComponent, ClientTickingComponent {
 
@@ -85,6 +80,7 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
     private int cureTime = 0;
 
     private int warningTicks = 0;
+    private boolean jetEnabled = false;
     private boolean jetting = false;
 
     private float regenTime = 0f;
@@ -258,6 +254,21 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
         markDirty();
     }
 
+    public void enableJet(boolean jetEnabled) {
+        this.jetEnabled = jetEnabled;
+        markDirty();
+
+        if (!jetEnabled && jetting) {
+            setJetting(false);
+        }
+
+        player.sendMessage(Text.translatable(jetEnabled ? "soul_type.hdemise.construct.enable_jet" : "soul_type.hdemise.construct.disable_jet"), true);
+    }
+
+    public boolean isJetEnabled() {
+        return this.jetEnabled;
+    }
+
     public boolean isUndead() {
         return this.soulType.isUndead();
     }
@@ -324,6 +335,7 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
         this.regenTime = 0f;
         this.solarSoulTime = 0f;
         this.jetting = false;
+        this.jetEnabled = false;
 
         setFocusing(false);
         setGhost(hasSolarSickness(true) && soulType.canVanish());
@@ -703,6 +715,7 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
         regenTime = readView.getFloat("regen_time", 0f);
         solarSoulTime = readView.getFloat("solar_soul_time", 0f);
         jetting = readView.getBoolean("jetting", false);
+        jetEnabled = readView.getBoolean("jet_enabled", false);
     }
 
     @Override
@@ -721,6 +734,7 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
         writeView.putFloat("regen_time", regenTime);
         writeView.putFloat("solar_soul_time", solarSoulTime);
         writeView.putBoolean("jetting", jetting);
+        writeView.putBoolean("jet_enabled", jetEnabled);
     }
 
     /**
