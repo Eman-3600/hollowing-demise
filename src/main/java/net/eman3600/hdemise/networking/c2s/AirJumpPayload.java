@@ -34,7 +34,7 @@ public record AirJumpPayload(boolean beginning) implements CustomPayload {
     public static void receive(AirJumpPayload payload, ServerPlayNetworking.Context context) {
         SoulComponent sc = SoulComponent.of(context.player());
 
-        if (sc != null && !context.player().isSpectator() && !context.player().getAbilities().flying) {
+        if (sc != null && !context.player().isSpectator() && context.player().getVehicle() == null && !context.player().getAbilities().flying) {
             sc.setJetting(sc.getSoul() > 0 && payload.beginning() && !context.player().isOnGround() && sc.getSoulType() == ModSoulTypes.CONSTRUCT);
         }
     }

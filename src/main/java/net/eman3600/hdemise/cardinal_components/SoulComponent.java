@@ -6,6 +6,7 @@ import net.eman3600.hdemise.init.entity.ModAttributes;
 import net.eman3600.hdemise.init.cca.ModEntityComponents;
 import net.eman3600.hdemise.networking.s2c.SoulEventPayload;
 import net.eman3600.hdemise.soul_type.SoulType;
+import net.eman3600.hdemise.util.RayHelper;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
@@ -432,33 +433,89 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
         }
 
         if (isJetting()) {
-            Random random = player.getRandom();
-            Box box = player.getBoundingBox();
-            for (int i = 0; i < 2; i++) {
-                player.getEntityWorld().addParticleClient(ParticleTypes.SOUL_FIRE_FLAME.getType(),
-                        box.minX + random.nextFloat() * (box.maxX - box.minX),
-                        player.getY(),
-                        box.minZ + random.nextFloat() * (box.maxZ - box.minZ),
-                        (random.nextFloat() - .5f) * .1f,
-                        -random.nextFloat() * .4f - .8f,
-                        (random.nextFloat() - .5f) * .1f);
 
-                player.getEntityWorld().addParticleClient(ParticleTypes.SMOKE.getType(),
-                        box.minX + random.nextFloat() * (box.maxX - box.minX),
-                        player.getY(),
-                        box.minZ + random.nextFloat() * (box.maxZ - box.minZ),
-                        (random.nextFloat() - .5f) * .3f,
-                        -random.nextFloat() * .4f - .8f,
-                        (random.nextFloat() - .5f) * .3f);
+
+            moveWithJet(true);
+        }
+    }
+
+    private void moveWithJet(boolean isClient) {
+
+        if (player.isGliding() || player.isInSwimmingPose()) {
+            Vec3d forward = RayHelper.rayZVector(player.getYaw(), player.getPitch());
+
+            if (isClient) {
+                Random random = player.getRandom();
+                Box box = player.getBoundingBox();
+                Vec3d backward = forward.normalize().multiply(-random.nextFloat() * .4f - .8f);
+                for (int i = 0; i < 5; i++) {
+
+                    player.getEntityWorld().addParticleClient(ParticleTypes.SOUL_FIRE_FLAME.getType(),
+                            box.minX + random.nextFloat() * (box.maxX - box.minX) + backward.x * 2,
+                            box.minY + random.nextFloat() * (box.maxY - box.minY) + backward.y * 2,
+                            box.minZ + random.nextFloat() * (box.maxZ - box.minZ) + backward.z * 2,
+                            backward.x,
+                            backward.y,
+                            backward.z);
+
+                    player.getEntityWorld().addParticleClient(ParticleTypes.SMOKE.getType(),
+                            box.minX + random.nextFloat() * (box.maxX - box.minX) + backward.x * 2,
+                            box.minY + random.nextFloat() * (box.maxY - box.minY) + backward.y * 2,
+                            box.minZ + random.nextFloat() * (box.maxZ - box.minZ) + backward.z * 2,
+                            backward.x,
+                            backward.y,
+                            backward.z);
+                }
+
+                player.getEntityWorld().playSound(player, player.getX(), player.getY(), player.getZ(), SoundEvents.ENTITY_BLAZE_SHOOT, SoundCategory.PLAYERS, .5f, .5f);
             }
 
-            player.getEntityWorld().playSound(player, player.getX(), player.getY(), player.getZ(), SoundEvents.ENTITY_BLAZE_SHOOT, SoundCategory.PLAYERS, .5f, .5f);
+            Vec3d velocity = player.getVelocity().add(forward.multiply(JET_ACCELERATION));
+
+            if (velocity.lengthSquared() > 16) {
+
+                velocity = velocity.normalize().multiply(4);
+            }
+
+            player.setVelocity(velocity);
+            player.velocityDirty = true;
+
+        } else {
+
+
+            if (isClient) {
+                Random random = player.getRandom();
+                Box box = player.getBoundingBox();
+                for (int i = 0; i < ((player.isSneaking()) ? 1 : 3); i++) {
+
+                    player.getEntityWorld().addParticleClient(ParticleTypes.SOUL_FIRE_FLAME.getType(),
+                            box.minX + random.nextFloat() * (box.maxX - box.minX),
+                            player.getY(),
+                            box.minZ + random.nextFloat() * (box.maxZ - box.minZ),
+                            (random.nextFloat() - .5f) * .1f,
+                            -random.nextFloat() * .4f - .8f,
+                            (random.nextFloat() - .5f) * .1f);
+
+                    player.getEntityWorld().addParticleClient(ParticleTypes.SMOKE.getType(),
+                            box.minX + random.nextFloat() * (box.maxX - box.minX),
+                            player.getY(),
+                            box.minZ + random.nextFloat() * (box.maxZ - box.minZ),
+                            (random.nextFloat() - .5f) * .3f,
+                            -random.nextFloat() * .4f - .8f,
+                            (random.nextFloat() - .5f) * .3f);
+                }
+
+                player.getEntityWorld().playSound(player, player.getX(), player.getY(), player.getZ(), SoundEvents.ENTITY_BLAZE_SHOOT, SoundCategory.PLAYERS, .5f, .5f);
+            }
+
 
             Vec3d velocity = player.getVelocity();
             double velY = velocity.y;
 
-            if (velY < JET_SPEED_CAP) {
-                velY =  Math.min(velY + JET_ACCELERATION, JET_SPEED_CAP);
+            double targetSpeed = player.isSneaking() ? 0 : JET_SPEED_CAP;
+
+            if (velY < targetSpeed) {
+                velY =  Math.min(velY + JET_ACCELERATION, targetSpeed);
 
                 player.setVelocity(velocity.x, velY, velocity.z);
                 player.velocityDirty = true;
@@ -488,8 +545,8 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
             markDirty();
         }
 
-        if (this.soulType == ModSoulTypes.CONSTRUCT && getSoul() < getMaxSoul() && player.getEntityWorld().isSkyVisibleAllowingSea(BlockPos.ofFloored(player.getX(), player.getEyeY(), player.getZ()))) {
-            solarSoulTime += player.getEntityWorld().isDay() ? SUN_MULTIPLIER : 1;
+        if (this.soulType == ModSoulTypes.CONSTRUCT && getSoul() < getMaxSoul()) {
+            solarSoulTime += player.getEntityWorld().isDay() && player.getEntityWorld().isSkyVisibleAllowingSea(BlockPos.ofFloored(player.getX(), player.getEyeY(), player.getZ())) ? SUN_MULTIPLIER : 1;
 
             if (solarSoulTime >= SOLAR_SOUL_TICKS) {
                 solarSoulTime -= SOLAR_SOUL_TICKS;
@@ -500,20 +557,15 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
         }
 
         if (isJetting()) {
-            if (!player.isCreative()) {
-                addSoul(-1);
+            if (!player.isCreative() && (!player.isSneaking() || player.isInSwimmingPose() || player.isGliding() || player.getRandom().nextInt(8) == 0)) {
+                addSoul(player.isInSwimmingPose() || player.isGliding() ? -2 : -1);
             }
+            solarSoulTime = 0;
+            markDirty();
 
-            Vec3d velocity = player.getVelocity();
-            double velY = velocity.y;
+            moveWithJet(false);
 
-            if (velY < JET_SPEED_CAP) {
-                velY =  Math.min(velY + JET_ACCELERATION, JET_SPEED_CAP);
-
-                player.setVelocity(velocity.x, velY, velocity.z);
-            }
-
-            if (getSoul() <= 0) {
+            if (getSoul() <= 0 || player.getVehicle() != null || shouldFreeze()) {
                 setJetting(false);
             }
 

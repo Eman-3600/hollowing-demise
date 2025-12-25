@@ -2,6 +2,7 @@ package net.eman3600.hdemise.mixin;
 
 import net.eman3600.hdemise.cardinal_components.SoulComponent;
 import net.eman3600.hdemise.init.custom.ModSoulTypes;
+import net.eman3600.hdemise.mixin_interfaces.LivingEntityAccess;
 import net.minecraft.entity.Attackable;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -12,13 +13,16 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.world.World;
 import net.minecraft.world.waypoint.ServerWaypoint;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(LivingEntity.class)
-public abstract class LivingEntityMixin extends Entity implements Attackable, ServerWaypoint {
+public abstract class LivingEntityMixin extends Entity implements Attackable, ServerWaypoint, LivingEntityAccess {
+    @Shadow protected boolean jumping;
+
     public LivingEntityMixin(EntityType<?> type, World world) {
         super(type, world);
     }
@@ -99,5 +103,10 @@ public abstract class LivingEntityMixin extends Entity implements Attackable, Se
                 cir.setReturnValue(true);
             }
         }
+    }
+
+    @Override
+    public boolean hdemise$isJumping() {
+        return this.jumping;
     }
 }
