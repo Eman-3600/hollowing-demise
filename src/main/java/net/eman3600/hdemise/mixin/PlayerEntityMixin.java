@@ -16,6 +16,7 @@ import net.minecraft.registry.tag.DamageTypeTags;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -50,7 +51,7 @@ public abstract class PlayerEntityMixin extends PlayerLikeEntity {
 
             ci.cancel();
 
-            if (experience * remainingXP > 0) {
+            if (MathHelper.sign(experience) * remainingXP > 0) {
                 addExperience(remainingXP);
             }
         }

@@ -27,7 +27,7 @@ public class XPCoreItem extends Item {
 
         SoulComponent sc = SoulComponent.of(user);
         ItemStack stack = user.getStackInHand(hand);
-        XPStorageComponent component = stack.get(ModDataComponentTypes.XP_STORAGE);
+        XPStorageComponent component = stack.getOrDefault(ModDataComponentTypes.XP_STORAGE, new XPStorageComponent(0, 0, 0));
 
         if (sc.hasExperience() && component != null) {
             if (!world.isClient()) {
