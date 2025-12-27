@@ -39,7 +39,7 @@ public abstract class LivingEntityMixin extends Entity implements Attackable, Se
         }
     }
 
-    @Inject(method = "tickMovement", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "tickMovement", at = @At("HEAD"))
     private void hdemise$tickMovement(CallbackInfo ci) {
         if (((Object)this) instanceof PlayerEntity player) {
             SoulComponent sc = SoulComponent.of(player);

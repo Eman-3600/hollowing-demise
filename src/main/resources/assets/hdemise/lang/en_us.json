@@ -19,6 +19,7 @@
     "block.hdemise.deepslate_almarite_ore": "Deepslate Almarite Ore",
     "item.hdemise.deepslate_almarite_ore": "Deepslate Almarite Ore",
     "block.hdemise.infusion_table": "Infusion Table",
+    "block.hdemise.infusion_table.not_enough_shelves": "Requires Bookshelves: %s/%s",
     "item.hdemise.infusion_table": "Infusion Table",
 
     "itemgroup.hdemise.hdemise_group": "Hollowing Demise",
