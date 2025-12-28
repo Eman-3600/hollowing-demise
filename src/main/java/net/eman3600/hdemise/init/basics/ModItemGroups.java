@@ -26,8 +26,9 @@ public class ModItemGroups {
             entries.add(ModItems.DEMON_SCROLL);
             entries.add(ModItems.AMETHYST_APPLE);
             entries.add(ModItems.EXPERIENCE_CORE);
-            entries.add(ModItems.FORM_SWITCHER);
             entries.add(ModBlocks.INFUSION_TABLE);
+            entries.add(ModItems.FEATHER_TOKEN);
+            entries.add(ModItems.FORM_SWITCHER);
         }).build());
     
     public static void registerItemGroups() {

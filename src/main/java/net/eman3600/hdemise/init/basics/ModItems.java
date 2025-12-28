@@ -26,7 +26,7 @@ public class ModItems {
     public static final Item DEMON_SCROLL = register("demon_scroll", ConsumableDemonItem::new, new Item.Settings().rarity(Rarity.UNCOMMON).maxCount(1));
     public static final Item AMETHYST_APPLE = register("amethyst_apple", AmethystAppleItem::new, new Item.Settings().rarity(Rarity.UNCOMMON).food(FoodComponents.APPLE));
     public static final XPCoreItem EXPERIENCE_CORE = (XPCoreItem) register("experience_core", XPCoreItem::new, new Item.Settings().rarity(Rarity.RARE).maxCount(1).component(DataComponentTypes.ENCHANTMENT_GLINT_OVERRIDE, true));
-
+    public static final Item FEATHER_TOKEN = register("feather_token", Item::new, new Item.Settings());
 
 
     /**
