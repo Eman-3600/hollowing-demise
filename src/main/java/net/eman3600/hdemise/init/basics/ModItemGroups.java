@@ -31,6 +31,8 @@ public class ModItemGroups {
             entries.add(ModItems.ECTOPLASMIC_BONE);
             entries.add(ModItems.FORM_SWITCHER);
             entries.add(ModItems.PURE_SOUL);
+            entries.add(ModItems.CRYSTAL_SOUL);
+            entries.add(ModItems.FRACTURED_CRYSTAL_HEART);
         }).build());
     
     public static void registerItemGroups() {

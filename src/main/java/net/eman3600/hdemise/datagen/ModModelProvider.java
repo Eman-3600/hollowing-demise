@@ -36,5 +36,7 @@ public class ModModelProvider extends FabricModelProvider {
         itemModelGenerator.register(ModItems.FEATHER_TOKEN, Models.GENERATED);
         itemModelGenerator.register(ModItems.ECTOPLASMIC_BONE, Models.GENERATED);
         itemModelGenerator.register(ModItems.PURE_SOUL, Models.GENERATED);
+        itemModelGenerator.register(ModItems.CRYSTAL_SOUL, Models.GENERATED);
+        itemModelGenerator.register(ModItems.FRACTURED_CRYSTAL_HEART, Models.GENERATED);
     }
 }
