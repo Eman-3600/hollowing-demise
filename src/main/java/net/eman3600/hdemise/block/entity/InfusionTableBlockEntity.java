@@ -1,6 +1,5 @@
 package net.eman3600.hdemise.block.entity;
 
-import net.eman3600.hdemise.cardinal_components.SoulComponent;
 import net.eman3600.hdemise.init.entity.ModBlockEntities;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.EnchantingTableBlock;
@@ -10,13 +9,11 @@ import net.minecraft.storage.ReadView;
 import net.minecraft.storage.WriteView;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Box;
 import net.minecraft.world.World;
 
 public class InfusionTableBlockEntity extends BlockEntity {
 
-    public static final int REQUIRED_SHELVES = 3;
-    public static final int MAX_SHELVES = 15;
+    public static final int REQUIRED_SHELVES = 7;
 
     private int shelves = 0;
     private int ticks = 0;
@@ -76,15 +73,6 @@ public class InfusionTableBlockEntity extends BlockEntity {
             shelves = s;
             markDirty();
         }
-    }
-
-    /**
-     * Level is used as a threshold for enabling table abilities
-     * and unlocking augment slots on souls.
-     * @return the level, max 3
-     */
-    public int getLevel() {
-        return (Math.min(shelves, MAX_SHELVES) - 3)/4;
     }
 
 
