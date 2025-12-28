@@ -28,6 +28,7 @@ public class ModItemGroups {
             entries.add(ModItems.EXPERIENCE_CORE);
             entries.add(ModBlocks.INFUSION_TABLE);
             entries.add(ModItems.FEATHER_TOKEN);
+            entries.add(ModItems.ECTOPLASMIC_BONE);
             entries.add(ModItems.FORM_SWITCHER);
         }).build());
     
