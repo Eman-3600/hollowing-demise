@@ -28,6 +28,7 @@ public class ModItems {
     public static final XPCoreItem EXPERIENCE_CORE = (XPCoreItem) register("experience_core", XPCoreItem::new, new Item.Settings().rarity(Rarity.RARE).maxCount(1).component(DataComponentTypes.ENCHANTMENT_GLINT_OVERRIDE, true));
     public static final Item FEATHER_TOKEN = register("feather_token", Item::new, new Item.Settings());
     public static final Item ECTOPLASMIC_BONE = register("ectoplasmic_bone", Item::new, new Item.Settings());
+    public static final Item PURE_SOUL = register("pure_soul", Item::new, new Item.Settings());
 
     /**
      * Registers an item under a given ID string.

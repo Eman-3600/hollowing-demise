@@ -30,6 +30,7 @@ public class ModItemGroups {
             entries.add(ModItems.FEATHER_TOKEN);
             entries.add(ModItems.ECTOPLASMIC_BONE);
             entries.add(ModItems.FORM_SWITCHER);
+            entries.add(ModItems.PURE_SOUL);
         }).build());
     
     public static void registerItemGroups() {

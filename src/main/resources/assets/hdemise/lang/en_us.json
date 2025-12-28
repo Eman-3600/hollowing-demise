@@ -9,10 +9,11 @@
     "item.hdemise.demon_scroll.warning": "§7Extracts all levels",
     "item.hdemise.form_switcher": "Mortality Adjuster",
     "item.hdemise.experience_core": "Orb of Knowledge",
-    "item.hdemise.feather_token": "Feather Token",
-    "item.hdemise.ectoplasmic_bone": "Ectoplasmic Bone",
     "item.hdemise.experience_core.tooltip.level": "Level: %s",
     "item.hdemise.experience_core.tooltip.points": "Extra Points: %s",
+    "item.hdemise.feather_token": "Feather Token",
+    "item.hdemise.ectoplasmic_bone": "Ectoplasmic Bone",
+    "item.hdemise.pure_soul": "Pure Soul",
 
     "block.hdemise.almarite_block": "Block of Almarite",
     "item.hdemise.almarite_block": "Block of Almarite",
