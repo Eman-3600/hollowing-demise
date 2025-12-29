@@ -59,6 +59,7 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
     public static final double JET_SPEED_CAP = .8;
     public static final double JET_ACCELERATION = 0.16;
     public static final int LUNGE_COOLDOWN_TICKS = 15;
+    public static final int INTENDED_LUNGE_DURATION = 12;
     public static final double LUNGE_SPEED = 1.0;
 
     @Environment(EnvType.CLIENT)
@@ -89,6 +90,7 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
     private boolean jetting = false;
     private boolean lunging = false;
     private int lungeCooldown = 0;
+    private double lungeGravity = 0d;
 
     private float regenTime = 0f;
     private float solarSoulTime = 0f;
@@ -284,10 +286,14 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
         return !lunging && lungeCooldown <= 0;
     }
 
-    public void lunge() {
-        Vec3d forward = RayHelper.rayZVector(player.getYaw(), player.getPitch());
+    public double getLungeGravity() {
+        return lungeGravity;
+    }
 
-        player.setVelocity(forward.multiply(LUNGE_SPEED));
+    public void lunge() {
+        Vec3d vel = RayHelper.rayZVector(player.getYaw(), player.getPitch()).multiply(LUNGE_SPEED);
+
+        player.setVelocity(vel);
         player.velocityDirty = true;
         player.currentExplosionImpactPos = player.getEntityPos().add(0, -2, 0);
         player.setIgnoreFallDamageFromCurrentExplosion(true);
@@ -296,8 +302,9 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
         if (!player.getEntityWorld().isClient()) {
             lunging = true;
             lungeCooldown = LUNGE_COOLDOWN_TICKS;
+            lungeGravity = Math.max(2 * vel.y / INTENDED_LUNGE_DURATION, player.getFinalGravity());
             player.setOnGround(false);
-            ModStatusEffect.reduceDuration(player, ModStatusEffects.RAGE, ModStatusEffect.RAGE_REDUCTION_ON_LUNGE);
+            // ModStatusEffect.reduceDuration(player, ModStatusEffects.RAGE, ModStatusEffect.RAGE_REDUCTION_ON_LUNGE);
             markDirty();
 
             ((ServerPlayerEntity)player).networkHandler.sendPacket(new EntityVelocityUpdateS2CPacket(player));
@@ -762,6 +769,7 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
         jetEnabled = readView.getBoolean("jet_enabled", false);
         lunging = readView.getBoolean("lunging", false);
         lungeCooldown = readView.getInt("lunge_cooldown", 0);
+        lungeGravity = readView.getDouble("lunge_gravity", 0.08d);
     }
 
     @Override
@@ -783,6 +791,7 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
         writeView.putBoolean("jet_enabled", jetEnabled);
         writeView.putBoolean("lunging", lunging);
         writeView.putInt("lunge_cooldown", lungeCooldown);
+        writeView.putDouble("lunge_gravity", lungeGravity);
     }
 
     /**

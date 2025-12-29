@@ -58,7 +58,7 @@ public abstract class LivingEntityMixin extends Entity implements Attackable, Se
             if (sc.shouldFreeze()) {
                 cir.setReturnValue(0d);
             } else if (sc.isLunging()) {
-                cir.setReturnValue(getFinalGravity() * 1.5);
+                cir.setReturnValue(Math.max(getFinalGravity(), sc.getLungeGravity()));
             }
         }
     }
