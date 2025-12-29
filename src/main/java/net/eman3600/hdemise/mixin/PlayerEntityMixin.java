@@ -3,6 +3,8 @@ package net.eman3600.hdemise.mixin;
 import net.eman3600.hdemise.cardinal_components.SoulComponent;
 import net.eman3600.hdemise.init.custom.ModSoulTypes;
 import net.eman3600.hdemise.init.entity.ModAttributes;
+import net.eman3600.hdemise.init.entity.ModStatusEffects;
+import net.eman3600.hdemise.mob_effects.ModStatusEffect;
 import net.eman3600.hdemise.soul_type.MortalSoulType;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -104,6 +106,11 @@ public abstract class PlayerEntityMixin extends PlayerLikeEntity {
         }
         if (sc.isCuring()) {
             sc.interruptCure();
+        }
+
+
+        if (hasStatusEffect(ModStatusEffects.RAGE)) {
+            ModStatusEffect.reduceDuration(this, ModStatusEffects.RAGE, ModStatusEffect.RAGE_REDUCTION_ON_HIT);
         }
     }
 

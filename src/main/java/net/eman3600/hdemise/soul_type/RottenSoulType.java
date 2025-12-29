@@ -1,6 +1,7 @@
 package net.eman3600.hdemise.soul_type;
 
 import net.eman3600.hdemise.init.entity.ModAttributes;
+import net.eman3600.hdemise.init.entity.ModStatusEffects;
 import net.minecraft.entity.attribute.*;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
@@ -99,8 +100,7 @@ public class RottenSoulType extends SoulType {
     @Override
     public boolean onFocus(PlayerEntity player, float focusAmount) {
         //player.addStatusEffect(new StatusEffectInstance(StatusEffects.RESISTANCE, 30 * (int)(focusAmount), 0, true, true));
-        player.addStatusEffect(new StatusEffectInstance(StatusEffects.STRENGTH, 30 * (int)(focusAmount), 0, true, true));
-        player.addStatusEffect(new StatusEffectInstance(StatusEffects.SPEED, 30 * (int)(focusAmount), 1, true, true));
+        player.addStatusEffect(new StatusEffectInstance(ModStatusEffects.RAGE, 30 * (int)(focusAmount), 0, true, true));
 
         return false;
     }

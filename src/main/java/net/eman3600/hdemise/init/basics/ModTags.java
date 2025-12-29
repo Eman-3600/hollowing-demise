@@ -20,6 +20,10 @@ public class ModTags {
 
     public static class Items {
 
+        public static final TagKey<Item> YELLOW_AUGMENT = createTag("yellow_augment");
+        public static final TagKey<Item> GREEN_AUGMENT = createTag("green_augment");
+        public static final TagKey<Item> RED_AUGMENT = createTag("red_augment");
+
         private static TagKey<Item> createTag(String name) {
             return TagKey.of(RegistryKeys.ITEM, Identifier.of(MODID, name));
         }

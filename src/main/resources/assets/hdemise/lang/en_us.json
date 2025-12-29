@@ -11,8 +11,10 @@
     "item.hdemise.experience_core": "Orb of Knowledge",
     "item.hdemise.experience_core.tooltip.level": "Level: %s",
     "item.hdemise.experience_core.tooltip.points": "Extra Points: %s",
+
     "item.hdemise.feather_token": "Feather Token",
     "item.hdemise.ectoplasmic_bone": "Ectoplasmic Bone",
+
     "item.hdemise.pure_soul": "Pure Soul",
     "item.hdemise.crystal_soul": "Crystal Soul",
     "item.hdemise.fractured_crystal_heart": "Fractured Crystal Heart",
@@ -28,6 +30,8 @@
     "item.hdemise.infusion_table": "Infusion Table",
 
     "itemgroup.hdemise.hdemise_group": "Hollowing Demise",
+
+    "effect.hdemise.rage": "Rage",
 
     "attribute.hdemise.name.max_soul": "Max Soul",
     "attribute.hdemise.name.regen": "Healing Factor",
