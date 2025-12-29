@@ -165,7 +165,7 @@ public abstract class InGameHudMixin {
     @Inject(method = "renderCrosshair", at = @At("HEAD"), cancellable = true)
     private void hdemise$renderCrosshair(DrawContext context, RenderTickCounter tickCounter, CallbackInfo ci) {
         SoulComponent sc = SoulComponent.of(getCameraPlayer());
-        if (sc.shouldHideInteraction()) {
+        if (sc != null && sc.shouldHideInteraction()) {
             ci.cancel();
         }
     }

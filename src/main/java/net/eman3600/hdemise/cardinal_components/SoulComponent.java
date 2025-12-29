@@ -3,6 +3,8 @@ package net.eman3600.hdemise.cardinal_components;
 import net.eman3600.hdemise.init.custom.ModSoulTypes;
 import net.eman3600.hdemise.init.entity.ModAttributes;
 import net.eman3600.hdemise.init.cca.ModEntityComponents;
+import net.eman3600.hdemise.init.entity.ModStatusEffects;
+import net.eman3600.hdemise.mob_effects.ModStatusEffect;
 import net.eman3600.hdemise.networking.s2c.SoulEventPayload;
 import net.eman3600.hdemise.soul_type.SoulType;
 import net.eman3600.hdemise.util.RayHelper;
@@ -16,6 +18,7 @@ import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.HungerManager;
 import net.minecraft.entity.player.PlayerAbilities;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.network.packet.s2c.play.EntityVelocityUpdateS2CPacket;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
@@ -55,6 +58,8 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
     public static final int SUN_MULTIPLIER = 4;
     public static final double JET_SPEED_CAP = .8;
     public static final double JET_ACCELERATION = 0.16;
+    public static final int LUNGE_COOLDOWN_TICKS = 15;
+    public static final double LUNGE_SPEED = 1.0;
 
     @Environment(EnvType.CLIENT)
     public static final int SUN_TICKS = 15;
@@ -82,6 +87,8 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
     private int warningTicks = 0;
     private boolean jetEnabled = false;
     private boolean jetting = false;
+    private boolean lunging = false;
+    private int lungeCooldown = 0;
 
     private float regenTime = 0f;
     private float solarSoulTime = 0f;
@@ -249,6 +256,10 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
         return this.jetting;
     }
 
+    public boolean isLunging() {
+        return lunging && lungeCooldown > 0;
+    }
+
     public void setJetting(boolean jetting) {
         this.jetting = jetting;
         markDirty();
@@ -267,6 +278,30 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
 
     public boolean isJetEnabled() {
         return this.jetEnabled;
+    }
+
+    public boolean isLungeAvailable() {
+        return !lunging && lungeCooldown <= 0;
+    }
+
+    public void lunge() {
+        Vec3d forward = RayHelper.rayZVector(player.getYaw(), player.getPitch());
+
+        player.setVelocity(forward.multiply(LUNGE_SPEED));
+        player.velocityDirty = true;
+        player.currentExplosionImpactPos = player.getEntityPos().add(0, -2, 0);
+        player.setIgnoreFallDamageFromCurrentExplosion(true);
+
+
+        if (!player.getEntityWorld().isClient()) {
+            lunging = true;
+            lungeCooldown = LUNGE_COOLDOWN_TICKS;
+            player.setOnGround(false);
+            ModStatusEffect.reduceDuration(player, ModStatusEffects.RAGE, ModStatusEffect.RAGE_REDUCTION_ON_LUNGE);
+            markDirty();
+
+            ((ServerPlayerEntity)player).networkHandler.sendPacket(new EntityVelocityUpdateS2CPacket(player));
+        }
     }
 
     public boolean isUndead() {
@@ -584,6 +619,15 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
             player.fallDistance = 0;
         }
 
+        if (lunging && player.isOnGround()) {
+            lunging = false;
+            markDirty();
+        }
+        if (lungeCooldown > 0) {
+            lungeCooldown--;
+            markDirty();
+        }
+
         if (!hasExperience() && (player.totalExperience > 0 || player.experienceLevel > 0)) {
 
             player.experienceLevel = 0;
@@ -716,6 +760,8 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
         solarSoulTime = readView.getFloat("solar_soul_time", 0f);
         jetting = readView.getBoolean("jetting", false);
         jetEnabled = readView.getBoolean("jet_enabled", false);
+        lunging = readView.getBoolean("lunging", false);
+        lungeCooldown = readView.getInt("lunge_cooldown", 0);
     }
 
     @Override
@@ -735,6 +781,8 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
         writeView.putFloat("solar_soul_time", solarSoulTime);
         writeView.putBoolean("jetting", jetting);
         writeView.putBoolean("jet_enabled", jetEnabled);
+        writeView.putBoolean("lunging", lunging);
+        writeView.putInt("lunge_cooldown", lungeCooldown);
     }
 
     /**
@@ -770,6 +818,8 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
      * @return the component, or null if the passed in entity was not a player
      */
     public static SoulComponent of(LivingEntity player) {
+
+        if (player == null) return null;
 
         return ModEntityComponents.SOUL.getNullable(player);
     }

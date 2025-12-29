@@ -57,6 +57,19 @@ public abstract class LivingEntityMixin extends Entity implements Attackable, Se
 
             if (sc.shouldFreeze()) {
                 cir.setReturnValue(0d);
+            } else if (sc.isLunging()) {
+                cir.setReturnValue(getFinalGravity() * 1.5);
+            }
+        }
+    }
+
+    @Inject(method = "hasNoDrag", at = @At("HEAD"), cancellable = true)
+    private void hdemise$hasNoDrag(CallbackInfoReturnable<Boolean> cir) {
+        if (((Object)this) instanceof PlayerEntity player) {
+            SoulComponent sc = SoulComponent.of(player);
+
+            if (sc.isLunging()) {
+                cir.setReturnValue(true);
             }
         }
     }

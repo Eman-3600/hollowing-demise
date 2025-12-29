@@ -3,6 +3,7 @@ package net.eman3600.hdemise.networking.c2s;
 import io.netty.buffer.ByteBuf;
 import net.eman3600.hdemise.cardinal_components.SoulComponent;
 import net.eman3600.hdemise.init.custom.ModSoulTypes;
+import net.eman3600.hdemise.init.entity.ModStatusEffects;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.network.codec.PacketCodec;
 import net.minecraft.network.packet.CustomPayload;
@@ -42,6 +43,10 @@ public record GhostPayload(boolean beginning) implements CustomPayload {
 
                 if (sc.getSoulType() == ModSoulTypes.CONSTRUCT) {
                     sc.enableJet(!sc.isJetEnabled());
+                }
+
+                if (sc.getSoulType() == ModSoulTypes.ROTTEN && context.player().hasStatusEffect(ModStatusEffects.RAGE) && sc.isLungeAvailable()) {
+                    sc.lunge();
                 }
             } else if (sc.isVanishing()) {
                 sc.setVanishing(false);

@@ -11,6 +11,7 @@ import net.minecraft.registry.entry.RegistryEntry;
 public class ModStatusEffect extends StatusEffect {
 
     public static final int RAGE_REDUCTION_ON_HIT = 40;
+    public static final int RAGE_REDUCTION_ON_LUNGE = 20;
 
 
 
@@ -31,6 +32,8 @@ public class ModStatusEffect extends StatusEffect {
     public static void reduceDuration(LivingEntity entity, RegistryEntry<StatusEffect> effect, int amount) {
         if (entity.hasStatusEffect(effect)) {
             StatusEffectInstance current = entity.getStatusEffect(effect);
+
+            if (current.isInfinite()) return;
 
             int duration = current.getDuration() - amount;
             entity.removeStatusEffect(effect);
