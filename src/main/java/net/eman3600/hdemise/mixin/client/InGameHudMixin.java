@@ -53,6 +53,7 @@ public abstract class InGameHudMixin {
 
         if (sc.usesHunger() && !sc.isGhost()) {
             top -= 10;
+            right -= 1;
         } else {
             ci.cancel();
         }
