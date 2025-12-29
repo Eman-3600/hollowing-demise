@@ -23,6 +23,7 @@
     "client.ClientPlayerEntityMixin",
     "client.ClientPlayerInteractionManagerMixin",
     "client.ClientPlayNetworkHandlerMixin",
+    "client.EntityModelsMixin",
     "client.HeldItemRendererMixin",
     "client.InGameHudMixin",
     "client.LivingEntityRendererMixin",
