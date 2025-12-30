@@ -60,7 +60,7 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
     public static final double JET_ACCELERATION = 0.16;
     public static final int LUNGE_COOLDOWN_TICKS = 15;
     public static final int INTENDED_LUNGE_DURATION = 12;
-    public static final double LUNGE_SPEED = 1.0;
+    public static final double LUNGE_SPEED = 1.15;
 
     @Environment(EnvType.CLIENT)
     public static final int SUN_TICKS = 15;
@@ -302,7 +302,7 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
         if (!player.getEntityWorld().isClient()) {
             lunging = true;
             lungeCooldown = LUNGE_COOLDOWN_TICKS;
-            lungeGravity = Math.max(2 * vel.y / INTENDED_LUNGE_DURATION, player.getFinalGravity());
+            lungeGravity = Math.max(2 * vel.y / INTENDED_LUNGE_DURATION, player.getFinalGravity()/2);
             player.setOnGround(false);
             // ModStatusEffect.reduceDuration(player, ModStatusEffects.RAGE, ModStatusEffect.RAGE_REDUCTION_ON_LUNGE);
             markDirty();
