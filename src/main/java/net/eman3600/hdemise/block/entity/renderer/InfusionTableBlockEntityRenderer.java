@@ -29,7 +29,7 @@ public class InfusionTableBlockEntityRenderer implements BlockEntityRenderer<Inf
 
     private final SpriteHolder materials;
     private final ModelPart pearl;
-    public static final SpriteIdentifier PEARL_TEXTURE = TexturedRenderLayers.ENTITY_SPRITE_MAPPER.map(Identifier.of(MODID, "infusion_pearl"));
+    public static final SpriteIdentifier PEARL_TEXTURE = TexturedRenderLayers.BLOCK_SPRITE_MAPPER.map(Identifier.of(MODID, "infusion_pearl"));
 
     public InfusionTableBlockEntityRenderer(BlockEntityRendererFactory.Context ctx) {
         this.materials = ctx.spriteHolder();
