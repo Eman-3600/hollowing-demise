@@ -121,10 +121,13 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
     public void onDeath() {
         if (this.soulType != ModSoulTypes.HOLLOW && this.soulType != ModSoulTypes.NEGATIVE) {
             this.setSoulType(ModSoulTypes.HOLLOW);
+            setSoul(getMaxSoul()/2);
         } else {
             reloadAttributes();
             resetSoul();
         }
+
+
     }
 
     public boolean isSoulless() {
@@ -368,7 +371,7 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
 
     public void resetSoul() {
 
-        this.soul = getMaxSoul()/2;
+        setSoul(getSoul());
         this.soulDecay = SOUL_DECAY_TICKS;
         this.vanishing = false;
         this.vanishTime = 0;

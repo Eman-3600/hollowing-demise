@@ -8,7 +8,7 @@ public class ModCommands {
     public static void registerAll() {
         CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> {
 
-            SoulTypeCommand.register(dispatcher, registryAccess);
+            SoulCommand.register(dispatcher, registryAccess);
         });
     }
 }
