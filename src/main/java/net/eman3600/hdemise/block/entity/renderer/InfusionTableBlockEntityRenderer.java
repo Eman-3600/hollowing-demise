@@ -72,7 +72,7 @@ public class InfusionTableBlockEntityRenderer implements BlockEntityRenderer<Inf
                 OverlayTexture.DEFAULT_UV,
                 this.materials.getSprite(PEARL_TEXTURE),
                 -1,
-                state.crumblingOverlay
+                null
         );
         matrices.pop();
     }

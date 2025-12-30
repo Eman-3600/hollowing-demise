@@ -32,7 +32,7 @@ public class ModItemGroups {
             entries.add(ModItems.FORM_SWITCHER);
             entries.add(ModItems.PURE_SOUL);
             entries.add(ModItems.CRYSTAL_SOUL);
-            entries.add(ModItems.FRACTURED_CRYSTAL_HEART);
+            entries.add(ModItems.CRYSTAL_SOUL_FRACTURED);
         }).build());
     
     public static void registerItemGroups() {

@@ -17,7 +17,13 @@
 
     "item.hdemise.pure_soul": "Pure Soul",
     "item.hdemise.crystal_soul": "Crystal Soul",
-    "item.hdemise.fractured_crystal_heart": "Fractured Crystal Soul",
+    "item.hdemise.crystal_soul_fractured": "Fractured Crystal Soul",
+    "item.hdemise.phantom_soul": "Phantom Soul",
+    "item.hdemise.phantom_soul_fractured": "Fractured Phantom Soul",
+    "item.hdemise.revenant_soul": "Revenant's Soul",
+    "item.hdemise.revenant_soul_fractured": "Fractured Revenant's Soul",
+    "item.hdemise.construct_soul": "Mechanical Soul",
+    "item.hdemise.construct_soul_fractured": "Fractured Mechanical Soul",
 
 
     "block.hdemise.almarite_block": "Block of Almarite",
@@ -62,7 +68,7 @@
     "soul_type.hdemise.construct.enable_jet": "Enabled Jetpack",
     "soul_type.hdemise.construct.disable_jet": "Disabled Jetpack",
 
-    "soul_type.hdemise.rotten": "Revenant",
+    "soul_type.hdemise.revenant": "Revenant",
     
     "soul_type.hdemise.negative": "Void",
 

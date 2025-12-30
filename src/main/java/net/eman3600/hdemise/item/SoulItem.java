@@ -9,6 +9,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.util.Rarity;
 
 public class SoulItem extends Item {
 
@@ -21,6 +22,10 @@ public class SoulItem extends Item {
 
     public SoulType getSoulType() {
         return soulType;
+    }
+
+    public static Settings getDefaultSettings() {
+        return new Item.Settings().maxCount(1).rarity(Rarity.UNCOMMON);
     }
 
     public static void saveStats(PlayerEntity player, ItemStack stack) {
@@ -45,6 +50,8 @@ public class SoulItem extends Item {
     public static void loadStats(PlayerEntity player, ItemStack stack, boolean setSoulType) {
         if (stack.isEmpty()) return;
 
+
+
         NbtComponent component = stack.getOrDefault(ModDataComponentTypes.SOUL, NbtComponent.of(new NbtCompound()));
 
         final SoulComponent sc = SoulComponent.of(player);
@@ -52,7 +59,7 @@ public class SoulItem extends Item {
 
         NbtCompound nbt = component.copyNbt();
 
-        if (stack.getItem() instanceof SoulItem item) {
+        if (setSoulType && stack.getItem() instanceof SoulItem item) {
             sc.setSoulType(item.getSoulType());
         }
 

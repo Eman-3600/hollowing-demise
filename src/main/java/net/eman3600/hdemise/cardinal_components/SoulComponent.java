@@ -125,10 +125,26 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
         }
     }
 
+    public void topUp() {
+        player.setHealth(player.getMaxHealth());
+        HungerManager manager = player.getHungerManager();
+        manager.setFoodLevel(20);
+        manager.setSaturationLevel(20f);
+        setSoul(getMaxSoul());
+    }
+
     public void replaceSoulStack() {
         ItemStack stack = this.soulType.getDefaultSoulStack();
         SoulItem.saveStats(player, stack);
         inventory.setStack(0, stack);
+    }
+
+    public void applySoulStack(ItemStack stack) {
+        if (stack.isEmpty()) {
+            setSoulType(ModSoulTypes.HOLLOW);
+        } else {
+            SoulItem.loadStats(player, stack, true);
+        }
     }
 
     public void setSoulType(SoulType soulType) {

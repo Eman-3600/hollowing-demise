@@ -1,7 +1,6 @@
 package net.eman3600.hdemise.item;
 
 import net.eman3600.hdemise.cardinal_components.SoulComponent;
-import net.eman3600.hdemise.init.basics.ModDataComponentTypes;
 import net.eman3600.hdemise.init.custom.ModSoulTypes;
 import net.minecraft.component.type.TooltipDisplayComponent;
 import net.minecraft.entity.player.PlayerEntity;
@@ -17,8 +16,6 @@ import net.minecraft.world.World;
 
 import java.util.function.Consumer;
 
-import static net.eman3600.hdemise.init.basics.ModItems.EXPERIENCE_CORE;
-
 public class ConsumableDemonItem extends Item {
     public ConsumableDemonItem(Settings settings) {
         super(settings);
@@ -29,11 +26,13 @@ public class ConsumableDemonItem extends Item {
 
         SoulComponent sc = SoulComponent.of(user);
 
-        if (sc.getSoulType() == ModSoulTypes.MORTAL) {
+        if (!sc.isSoulless()) {
             if (!world.isClient()) {
                 XPCoreItem.extractToWorld(user);
 
                 sc.setSoulType(ModSoulTypes.HOLLOW);
+                sc.topUp();
+                sc.validateSoulStack();
 
                 ItemStack stack = user.getStackInHand(hand);
                 stack.decrementUnlessCreative(1, user);

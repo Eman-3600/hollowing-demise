@@ -52,12 +52,12 @@ public class SoulCommand {
             if (sc.getSoulType() != type) {
                 XPCoreItem.extractToWorld(player);
                 sc.setSoulType(type);
-                sc.replaceSoulStack();
                 sc.setSoul(sc.getMaxSoul());
                 player.setHealth(player.getMaxHealth());
                 HungerManager hg = player.getHungerManager();
                 hg.setFoodLevel(20);
                 hg.setSaturationLevel(20f);
+                sc.replaceSoulStack();
                 affected++;
             }
         }

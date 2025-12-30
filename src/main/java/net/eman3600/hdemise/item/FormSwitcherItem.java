@@ -1,19 +1,15 @@
 package net.eman3600.hdemise.item;
 
 import net.eman3600.hdemise.cardinal_components.SoulComponent;
-import net.eman3600.hdemise.init.basics.ModDataComponentTypes;
 import net.eman3600.hdemise.init.custom.ModSoulTypes;
 import net.eman3600.hdemise.soul_type.SoulType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.world.World;
-
-import static net.eman3600.hdemise.init.basics.ModItems.EXPERIENCE_CORE;
 
 public class FormSwitcherItem extends Item {
     public FormSwitcherItem(Settings settings) {
@@ -40,8 +36,8 @@ public class FormSwitcherItem extends Item {
             } else if (currentType == ModSoulTypes.PHANTOM) {
                 sc.setSoulType(ModSoulTypes.CONSTRUCT);
             } else if (currentType == ModSoulTypes.CONSTRUCT) {
-                sc.setSoulType(ModSoulTypes.ROTTEN);
-            } else if (currentType == ModSoulTypes.ROTTEN) {
+                sc.setSoulType(ModSoulTypes.REVENANT);
+            } else if (currentType == ModSoulTypes.REVENANT) {
                 sc.setSoulType(ModSoulTypes.NEGATIVE);
             } else {
                 sc.setSoulType(ModSoulTypes.MORTAL);

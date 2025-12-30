@@ -4,7 +4,6 @@ import net.eman3600.hdemise.init.entity.ModAttributes;
 import net.eman3600.hdemise.init.entity.ModStatusEffects;
 import net.minecraft.entity.attribute.*;
 import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.util.Identifier;
@@ -12,7 +11,7 @@ import org.jspecify.annotations.Nullable;
 
 import static net.eman3600.hdemise.HDemise.MODID;
 
-public class RottenSoulType extends SoulType {
+public class RevenantSoulType extends SoulType {
 
     public static final Identifier ATTRIBUTE_ID = Identifier.of(MODID, "rotten_soul");
 
@@ -20,7 +19,7 @@ public class RottenSoulType extends SoulType {
     public static final Identifier HEART_CONTAINER_TYPE = Identifier.of(MODID,"textures/gui/hud/heart/rotten_container.png");
 
 
-    public RottenSoulType(Identifier id) {
+    public RevenantSoulType(Identifier id) {
         super(MeterType.BOTH, id);
     }
 
