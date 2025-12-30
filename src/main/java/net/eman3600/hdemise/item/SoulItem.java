@@ -6,16 +6,24 @@ import net.eman3600.hdemise.mixin_interfaces.ServerPlayerEntityAccess;
 import net.eman3600.hdemise.soul_type.SoulType;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.component.type.NbtComponent;
+import net.minecraft.component.type.TooltipDisplayComponent;
 import net.minecraft.entity.player.HungerManager;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvents;
+import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
+import net.minecraft.util.Colors;
 import net.minecraft.util.Hand;
 import net.minecraft.util.Rarity;
 import net.minecraft.world.World;
+
+import java.util.function.Consumer;
 
 public class SoulItem extends Item {
 
@@ -49,6 +57,8 @@ public class SoulItem extends Item {
                 stack.decrementUnlessCreative(1, user);
             }
 
+            world.playSound(user, user.getX(), user.getY(), user.getZ(), SoundEvents.ENTITY_ZOMBIE_VILLAGER_CONVERTED, SoundCategory.PLAYERS, .8f, .8f + .4f * world.getRandom().nextFloat());
+
             return ActionResult.SUCCESS;
         }
 
@@ -73,6 +83,7 @@ public class SoulItem extends Item {
             nbt.putInt("soul", sc.getSoul());
             nbt.putInt("level", player.experienceLevel);
             nbt.putFloat("experience_progress", player.experienceProgress);
+            nbt.putInt("display_points", (int)(player.experienceProgress * player.getNextLevelExperience()));
         });
 
         stack.set(ModDataComponentTypes.SOUL, component);
@@ -111,5 +122,20 @@ public class SoulItem extends Item {
     public static void resetStats(ItemStack stack) {
         if (stack.isEmpty()) return;
         stack.remove(ModDataComponentTypes.SOUL);
+    }
+
+    @Override
+    public void appendTooltip(ItemStack stack, TooltipContext context, TooltipDisplayComponent displayComponent, Consumer<Text> textConsumer, TooltipType type) {
+        super.appendTooltip(stack, context, displayComponent, textConsumer, type);
+
+        NbtComponent component = stack.get(ModDataComponentTypes.SOUL);
+        if (component == null) {
+            textConsumer.accept(Text.translatable("tooltip.hdemise.soul.first").withColor(Colors.GRAY));
+        } else {
+            NbtCompound nbt = component.copyNbt();
+
+            textConsumer.accept(Text.translatable("tooltip.hdemise.soul.level", nbt.getInt("level", 0)).withColor(Colors.GRAY));
+            textConsumer.accept(Text.translatable("tooltip.hdemise.soul.extra", nbt.getInt("display_points", 0)).withColor(Colors.GRAY));
+        }
     }
 }

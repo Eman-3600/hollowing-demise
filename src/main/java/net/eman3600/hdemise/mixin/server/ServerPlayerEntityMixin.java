@@ -4,6 +4,7 @@ import com.mojang.authlib.GameProfile;
 import net.eman3600.hdemise.cardinal_components.SoulComponent;
 import net.eman3600.hdemise.item.SoulItem;
 import net.eman3600.hdemise.mixin_interfaces.ServerPlayerEntityAccess;
+import net.minecraft.component.DataComponentTypes;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -32,10 +33,19 @@ public abstract class ServerPlayerEntityMixin extends PlayerEntity implements Se
     private void hdemise$onDeath(DamageSource damageSource, CallbackInfo ci) {
         SoulComponent sc = SoulComponent.of(this);
 
+        if (sc.getInventory().getStack(0).contains(DataComponentTypes.UNBREAKABLE)) {
+            SoulItem.resetStats(sc.getInventory().getStack(0));
+            return;
+        }
+
+        sc.replaceSoulStack();
+
         ItemStack stack = sc.getInventory().removeStack(0);
 
         if (stack.getItem() instanceof SoulItem item) {
             sc.getInventory().setStack(0, item.breakSoul());
+        } else {
+            sc.getInventory().removeStack(0);
         }
 
         sc.markDirty();

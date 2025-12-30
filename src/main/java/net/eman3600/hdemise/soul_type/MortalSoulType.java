@@ -12,12 +12,12 @@ import java.util.List;
 public class MortalSoulType extends SoulType {
 
     private static final List<AugmentSpace> augments = List.of(
-            new AugmentSpace(3, 3, ModTags.Items.YELLOW_AUGMENT),
-            new AugmentSpace(21, 3, ModTags.Items.YELLOW_AUGMENT),
-            new AugmentSpace(39, 3, ModTags.Items.YELLOW_AUGMENT),
-            new AugmentSpace(3, 39, ModTags.Items.RED_AUGMENT),
-            new AugmentSpace(21, 39, ModTags.Items.RED_AUGMENT),
-            new AugmentSpace(39, 39, ModTags.Items.RED_AUGMENT)
+            new AugmentSpace(35, 3, ModTags.Items.YELLOW_AUGMENT),
+            new AugmentSpace(9, 59, ModTags.Items.YELLOW_AUGMENT),
+            new AugmentSpace(35, 113, ModTags.Items.YELLOW_AUGMENT),
+            new AugmentSpace(115, 3, ModTags.Items.RED_AUGMENT),
+            new AugmentSpace(141, 59, ModTags.Items.RED_AUGMENT),
+            new AugmentSpace(115, 113, ModTags.Items.RED_AUGMENT)
     );
 
 

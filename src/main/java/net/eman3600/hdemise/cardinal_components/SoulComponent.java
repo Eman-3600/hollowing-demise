@@ -4,6 +4,7 @@ import net.eman3600.hdemise.init.custom.ModSoulTypes;
 import net.eman3600.hdemise.init.entity.ModAttributes;
 import net.eman3600.hdemise.init.cca.ModEntityComponents;
 import net.eman3600.hdemise.item.SoulItem;
+import net.eman3600.hdemise.item.XPCoreItem;
 import net.eman3600.hdemise.networking.s2c.SoulEventPayload;
 import net.eman3600.hdemise.soul_type.SoulType;
 import net.eman3600.hdemise.util.RayHelper;
@@ -167,6 +168,7 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
     public void onDeath() {
         if (this.soulType != ModSoulTypes.HOLLOW && this.soulType != ModSoulTypes.NEGATIVE) {
             SoulItem.resetStats(inventory.getStack(0));
+            XPCoreItem.extractToWorld(player);
             this.setSoulType(ModSoulTypes.HOLLOW);
             setSoul(getMaxSoul()/2);
             validateSoulStack();

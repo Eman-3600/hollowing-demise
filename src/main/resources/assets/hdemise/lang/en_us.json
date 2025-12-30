@@ -26,6 +26,11 @@
     "item.hdemise.construct_soul_fractured": "Fractured Mechanical Soul",
 
 
+    "tooltip.hdemise.soul.first": "No Experience",
+    "tooltip.hdemise.soul.level": "Level: %s",
+    "tooltip.hdemise.soul.extra": "Extra Points: %s",
+
+
     "block.hdemise.almarite_block": "Block of Almarite",
     "item.hdemise.almarite_block": "Block of Almarite",
     "block.hdemise.almarite_ore": "Almarite Ore",

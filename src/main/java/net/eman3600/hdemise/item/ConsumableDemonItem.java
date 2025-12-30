@@ -37,9 +37,9 @@ public class ConsumableDemonItem extends Item {
 
                 ItemStack stack = user.getStackInHand(hand);
                 stack.decrementUnlessCreative(1, user);
-            } else {
-                world.playSound(user, user.getX(), user.getY(), user.getZ(), SoundEvents.ENTITY_WITHER_SPAWN, SoundCategory.PLAYERS, .8f, .8f + .4f * world.getRandom().nextFloat());
             }
+
+            world.playSound(user, user.getX(), user.getY(), user.getZ(), SoundEvents.ENTITY_WITHER_SPAWN, SoundCategory.PLAYERS, .8f, .8f + .4f * world.getRandom().nextFloat());
 
             return ActionResult.SUCCESS;
         }
