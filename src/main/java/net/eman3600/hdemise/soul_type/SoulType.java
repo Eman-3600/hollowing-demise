@@ -101,6 +101,10 @@ public abstract class SoulType {
         return player.getHealth() < player.getMaxHealth();
     }
 
+    public String getTranslationKey() {
+        return getId().toTranslationKey("soul_type");
+    }
+
 
     public enum MeterType {
         HUNGER(true, false),

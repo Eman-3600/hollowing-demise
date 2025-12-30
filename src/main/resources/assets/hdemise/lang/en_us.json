@@ -53,5 +53,9 @@
     "soul_type.hdemise.construct.disable_jet": "Disabled Jetpack",
     "soul_type.hdemise.rotten": "Revenant",
     "soul_type.hdemise.regenerative": "Regenerative",
-    "soul_type.hdemise.negative": "Void"
+    "soul_type.hdemise.negative": "Void",
+
+    "soul_type.soulTypeNotFound": "Unknown soul type: %s",
+    "commands.hdemise.soul_type.set_success": "Set soul type of %s targets to %s",
+    "commands.hdemise.soul_type.set_none": "Could not set soul type to %s. Targets had it already"
 }

@@ -58,7 +58,7 @@ public class NegativeSoulType extends SoulType {
         EntityAttributeInstance hpInstance = container.getCustomInstance(hp);
         if (hpInstance != null) {
 
-            hpInstance.addTemporaryModifier(new EntityAttributeModifier(ATTRIBUTE_ID, -.6, EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE));
+            hpInstance.addTemporaryModifier(new EntityAttributeModifier(ATTRIBUTE_ID, -.5, EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE));
         }
 
 
