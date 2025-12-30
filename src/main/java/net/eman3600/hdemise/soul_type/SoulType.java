@@ -1,12 +1,15 @@
 package net.eman3600.hdemise.soul_type;
 
 import net.eman3600.hdemise.init.custom.ModSoulTypes;
+import net.eman3600.hdemise.util.inventory.AugmentSpace;
 import net.minecraft.entity.attribute.AttributeContainer;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
 import org.jspecify.annotations.Nullable;
+
+import java.util.List;
 
 public abstract class SoulType {
 
@@ -78,6 +81,7 @@ public abstract class SoulType {
     public abstract boolean canVanish();
     public abstract boolean isUndead();
     public abstract boolean burnsInDaylight();
+    public abstract List<AugmentSpace> getAugments();
 
     public final void applyAttributes(PlayerEntity player) {
         applyAttributes(player.getAttributes());

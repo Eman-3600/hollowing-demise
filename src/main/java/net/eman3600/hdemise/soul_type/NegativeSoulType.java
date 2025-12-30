@@ -1,14 +1,20 @@
 package net.eman3600.hdemise.soul_type;
 
+import net.eman3600.hdemise.init.basics.ModTags;
 import net.eman3600.hdemise.init.entity.ModAttributes;
+import net.eman3600.hdemise.util.inventory.AugmentSpace;
 import net.minecraft.entity.attribute.*;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.util.Identifier;
 import org.jspecify.annotations.Nullable;
 
+import java.util.List;
+
 import static net.eman3600.hdemise.HDemise.MODID;
 
 public class NegativeSoulType extends SoulType {
+
+    private static final List<AugmentSpace> augments = List.of();
 
     public static final Identifier ATTRIBUTE_ID = Identifier.of(MODID, "negative_soul");
 
@@ -43,6 +49,11 @@ public class NegativeSoulType extends SoulType {
     @Override
     public boolean burnsInDaylight() {
         return false;
+    }
+
+    @Override
+    public List<AugmentSpace> getAugments() {
+        return augments;
     }
 
     @Override

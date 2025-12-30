@@ -89,6 +89,11 @@ public class SoulInventory implements Inventory {
         }
     }
 
+    public void scatterAll(PlayerEntity player) {
+        ItemScatterer.spawn(player.getEntityWorld(), player, this);
+        clear();
+    }
+
     public void readData(ReadView readView) {
         Inventories.readData(readView, stacks);
     }

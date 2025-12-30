@@ -1,7 +1,9 @@
 package net.eman3600.hdemise.soul_type;
 
 import net.eman3600.hdemise.init.basics.ModItems;
+import net.eman3600.hdemise.init.basics.ModTags;
 import net.eman3600.hdemise.init.entity.ModAttributes;
+import net.eman3600.hdemise.util.inventory.AugmentSpace;
 import net.minecraft.entity.attribute.*;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
@@ -11,9 +13,20 @@ import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.util.Identifier;
 import org.jspecify.annotations.Nullable;
 
+import java.util.List;
+
 import static net.eman3600.hdemise.HDemise.MODID;
 
 public class CrystalSoulType extends SoulType {
+
+    private static final List<AugmentSpace> augments = List.of(
+            new AugmentSpace(3, 3, ModTags.Items.YELLOW_AUGMENT),
+            new AugmentSpace(21, 3, ModTags.Items.YELLOW_AUGMENT),
+            new AugmentSpace(3, 21, ModTags.Items.GREEN_AUGMENT),
+            new AugmentSpace(21, 21, ModTags.Items.GREEN_AUGMENT),
+            new AugmentSpace(39, 21, ModTags.Items.GREEN_AUGMENT),
+            new AugmentSpace(39, 39, ModTags.Items.RED_AUGMENT)
+    );
 
     public static final Identifier ATTRIBUTE_ID = Identifier.of(MODID, "crystal_soul");
 
@@ -48,6 +61,11 @@ public class CrystalSoulType extends SoulType {
     @Override
     public boolean burnsInDaylight() {
         return false;
+    }
+
+    @Override
+    public List<AugmentSpace> getAugments() {
+        return augments;
     }
 
     @Override

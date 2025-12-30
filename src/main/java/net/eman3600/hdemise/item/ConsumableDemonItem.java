@@ -28,8 +28,9 @@ public class ConsumableDemonItem extends Item {
 
         if (!sc.isSoulless()) {
             if (!world.isClient()) {
-                XPCoreItem.extractToWorld(user);
+                //XPCoreItem.extractToWorld(user);
 
+                sc.validateSoulStack();
                 sc.setSoulType(ModSoulTypes.HOLLOW);
                 sc.topUp();
                 sc.validateSoulStack();

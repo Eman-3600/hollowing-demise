@@ -166,8 +166,10 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
 
     public void onDeath() {
         if (this.soulType != ModSoulTypes.HOLLOW && this.soulType != ModSoulTypes.NEGATIVE) {
+            SoulItem.resetStats(inventory.getStack(0));
             this.setSoulType(ModSoulTypes.HOLLOW);
             setSoul(getMaxSoul()/2);
+            validateSoulStack();
         } else {
             reloadAttributes();
             resetSoul();
@@ -569,8 +571,6 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
                             backward.y,
                             backward.z);
                 }
-
-                player.getEntityWorld().playSound(player, player.getX(), player.getY(), player.getZ(), SoundEvents.ENTITY_BLAZE_SHOOT, SoundCategory.PLAYERS, .5f, .5f);
             }
 
             Vec3d velocity = player.getVelocity().add(forward.multiply(JET_ACCELERATION));
@@ -607,8 +607,6 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
                             -random.nextFloat() * .4f - .8f,
                             (random.nextFloat() - .5f) * .3f);
                 }
-
-                player.getEntityWorld().playSound(player, player.getX(), player.getY(), player.getZ(), SoundEvents.ENTITY_BLAZE_SHOOT, SoundCategory.PLAYERS, .5f, .5f);
             }
 
 
@@ -624,6 +622,8 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
                 player.velocityDirty = true;
             }
         }
+
+        player.getEntityWorld().playSound(player, player.getX(), player.getY(), player.getZ(), SoundEvents.ENTITY_BLAZE_SHOOT, SoundCategory.PLAYERS, .5f, .5f);
     }
 
     @Override

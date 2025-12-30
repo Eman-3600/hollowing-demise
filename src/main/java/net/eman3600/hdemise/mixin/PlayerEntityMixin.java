@@ -4,6 +4,7 @@ import net.eman3600.hdemise.cardinal_components.SoulComponent;
 import net.eman3600.hdemise.init.custom.ModSoulTypes;
 import net.eman3600.hdemise.init.entity.ModAttributes;
 import net.eman3600.hdemise.init.entity.ModStatusEffects;
+import net.eman3600.hdemise.item.SoulItem;
 import net.eman3600.hdemise.mob_effects.ModStatusEffect;
 import net.eman3600.hdemise.soul_type.MortalSoulType;
 import net.minecraft.entity.Entity;
@@ -14,6 +15,7 @@ import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerAbilities;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.registry.tag.DamageTypeTags;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.ActionResult;
@@ -166,5 +168,12 @@ public abstract class PlayerEntityMixin extends PlayerLikeEntity {
         if (SoulComponent.of(this).isGhost()) {
             cir.setReturnValue(false);
         }
+    }
+
+    @Inject(method = "dropInventory", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/player/PlayerInventory;dropAll()V"))
+    private void hdemise$dropInventory(ServerWorld world, CallbackInfo ci) {
+        SoulComponent sc = SoulComponent.of(this);
+
+        sc.getInventory().scatterAll((PlayerEntity)(Object)this);
     }
 }

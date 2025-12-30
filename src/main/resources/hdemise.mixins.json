@@ -9,6 +9,7 @@
     "HungerManagerMixin",
     "LivingEntityMixin",
     "PlayerEntityMixin",
+    "server.ServerPlayerEntityMixin",
     "server.ServerPlayerInteractionManagerMixin",
     "server.ServerWorldMixin"
   ],
