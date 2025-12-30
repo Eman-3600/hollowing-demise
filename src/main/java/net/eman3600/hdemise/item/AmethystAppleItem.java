@@ -53,7 +53,7 @@ public class AmethystAppleItem extends Item {
         SoulComponent sc = SoulComponent.of(user);
 
         if (!world.isClient()) {
-            sc.setSoulType(ModSoulTypes.AMETHYST);
+            sc.setSoulType(ModSoulTypes.CRYSTAL);
         } else {
             world.playSound(user, user.getX(), user.getY(), user.getZ(), SoundEvents.ENTITY_ZOMBIE_VILLAGER_CONVERTED, SoundCategory.PLAYERS, .8f, .8f + .4f * world.getRandom().nextFloat());
         }

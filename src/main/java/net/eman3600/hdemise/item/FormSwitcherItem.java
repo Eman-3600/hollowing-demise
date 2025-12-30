@@ -27,18 +27,15 @@ public class FormSwitcherItem extends Item {
         if (world.isClient()) {
             world.playSound(user, user.getX(), user.getY(), user.getZ(), SoundEvents.ENTITY_WITHER_SPAWN, SoundCategory.PLAYERS, .8f, .8f + .4f * world.getRandom().nextFloat());
         } else {
-            ItemStack coreStack = EXPERIENCE_CORE.extractPlayerExperience(user);
-            if (coreStack.get(ModDataComponentTypes.XP_STORAGE).totalXP() > 0) {
-                user.giveItemStack(coreStack);
-            }
+            XPCoreItem.extractToWorld(user);
 
             SoulType currentType = sc.getSoulType();
 
             if (currentType == ModSoulTypes.MORTAL) {
                 sc.setSoulType(ModSoulTypes.HOLLOW);
             } else if (currentType == ModSoulTypes.HOLLOW) {
-                sc.setSoulType(ModSoulTypes.AMETHYST);
-            } else if (currentType == ModSoulTypes.AMETHYST) {
+                sc.setSoulType(ModSoulTypes.CRYSTAL);
+            } else if (currentType == ModSoulTypes.CRYSTAL) {
                 sc.setSoulType(ModSoulTypes.PHANTOM);
             } else if (currentType == ModSoulTypes.PHANTOM) {
                 sc.setSoulType(ModSoulTypes.CONSTRUCT);

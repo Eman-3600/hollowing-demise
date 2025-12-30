@@ -31,10 +31,7 @@ public class ConsumableDemonItem extends Item {
 
         if (sc.getSoulType() == ModSoulTypes.MORTAL) {
             if (!world.isClient()) {
-                ItemStack coreStack = EXPERIENCE_CORE.extractPlayerExperience(user);
-                if (coreStack.get(ModDataComponentTypes.XP_STORAGE).totalXP() > 0) {
-                    user.giveItemStack(coreStack);
-                }
+                XPCoreItem.extractToWorld(user);
 
                 sc.setSoulType(ModSoulTypes.HOLLOW);
 

@@ -6,6 +6,7 @@ import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.exceptions.DynamicCommandExceptionType;
 import net.eman3600.hdemise.cardinal_components.SoulComponent;
+import net.eman3600.hdemise.item.XPCoreItem;
 import net.eman3600.hdemise.soul_type.SoulType;
 import net.eman3600.hdemise.soul_type.SoulTypeRegistry;
 import net.minecraft.command.CommandRegistryAccess;
@@ -52,6 +53,7 @@ public class SoulTypeCommand {
             SoulComponent sc = SoulComponent.of(player);
 
             if (sc.getSoulType() != type) {
+                XPCoreItem.extractToWorld(player);
                 sc.setSoulType(type);
                 affected++;
             }

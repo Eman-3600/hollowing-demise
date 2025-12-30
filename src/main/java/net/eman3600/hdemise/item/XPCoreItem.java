@@ -3,16 +3,19 @@ package net.eman3600.hdemise.item;
 import net.eman3600.hdemise.cardinal_components.SoulComponent;
 import net.eman3600.hdemise.data_component.XPStorageComponent;
 import net.eman3600.hdemise.init.basics.ModDataComponentTypes;
+import net.eman3600.hdemise.init.basics.ModItems;
 import net.minecraft.component.type.TooltipDisplayComponent;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.tooltip.TooltipType;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
+import net.minecraft.util.ItemScatterer;
 import net.minecraft.world.World;
 
 import java.util.function.Consumer;
@@ -67,5 +70,17 @@ public class XPCoreItem extends Item {
         stack.set(ModDataComponentTypes.XP_STORAGE, component);
 
         return stack;
+    }
+
+    public static void extractToWorld(PlayerEntity player) {
+        ItemStack stack = ModItems.EXPERIENCE_CORE.extractPlayerExperience(player);
+
+        if (stack.get(ModDataComponentTypes.XP_STORAGE).totalXP() <= 0) {
+            return;
+        }
+
+        if (!player.giveItemStack(stack)) {
+            ItemScatterer.spawn(player.getEntityWorld(), player.getX(), player.getY(), player.getZ(), stack);
+        }
     }
 }

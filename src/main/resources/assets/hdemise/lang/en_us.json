@@ -17,7 +17,8 @@
 
     "item.hdemise.pure_soul": "Pure Soul",
     "item.hdemise.crystal_soul": "Crystal Soul",
-    "item.hdemise.fractured_crystal_heart": "Fractured Crystal Heart",
+    "item.hdemise.fractured_crystal_heart": "Fractured Crystal Soul",
+
 
     "block.hdemise.almarite_block": "Block of Almarite",
     "item.hdemise.almarite_block": "Block of Almarite",
@@ -29,30 +30,40 @@
     "block.hdemise.infusion_table.not_enough_shelves": "Requires Bookshelves: %s/%s",
     "item.hdemise.infusion_table": "Infusion Table",
 
+
+
     "itemgroup.hdemise.hdemise_group": "Hollowing Demise",
 
     "effect.hdemise.rage": "Rage",
+
 
     "attribute.hdemise.name.max_soul": "Max Essence",
     "attribute.hdemise.name.regen": "Healing Factor",
     "attribute.hdemise.name.focus_power": "Focus Power",
 
+
     "key.hdemise.focus": "Focus (Heal)",
     "key.hdemise.ghost": "Vanish/Special",
     "key.hdemise.special": "???",
 
+
     "sleep.hdemise.skipping_day": "Sleeping through this day",
 
+
     "soul_type.hdemise.mortal": "Pure",
+
     "soul_type.hdemise.hollow": "Hollow",
-    "soul_type.hdemise.amethyst": "Amethyst",
+
+    "soul_type.hdemise.crystal": "Crystal",
+
     "soul_type.hdemise.phantom": "Phantom",
-    "soul_type.hdemise.stalwart": "Stalwart",
+    
     "soul_type.hdemise.construct": "Constructed",
     "soul_type.hdemise.construct.enable_jet": "Enabled Jetpack",
     "soul_type.hdemise.construct.disable_jet": "Disabled Jetpack",
+
     "soul_type.hdemise.rotten": "Revenant",
-    "soul_type.hdemise.regenerative": "Regenerative",
+    
     "soul_type.hdemise.negative": "Void",
 
     "soul_type.soulTypeNotFound": "Unknown soul type: %s",

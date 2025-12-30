@@ -25,7 +25,7 @@ public abstract class PlayerEntityRenderStateMixin extends BipedEntityRenderStat
     }
 
     public void hdemise$updateWithSoulComponent(SoulComponent sc) {
-        this.isDemon = sc.isSoulless();
+        this.isDemon = sc.getSoulType().canVanish();
         this.isGhost = sc.isGhost();
     }
 }

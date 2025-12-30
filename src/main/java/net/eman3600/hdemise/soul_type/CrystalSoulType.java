@@ -11,15 +11,15 @@ import org.jspecify.annotations.Nullable;
 
 import static net.eman3600.hdemise.HDemise.MODID;
 
-public class AmethystSoulType extends SoulType {
+public class CrystalSoulType extends SoulType {
 
-    public static final Identifier ATTRIBUTE_ID = Identifier.of(MODID, "amethyst_soul");
+    public static final Identifier ATTRIBUTE_ID = Identifier.of(MODID, "crystal_soul");
 
     public static final Identifier HEART_TYPE = Identifier.of(MODID,"textures/gui/hud/heart/amethyst.png");
     public static final Identifier HEART_CONTAINER_TYPE = Identifier.of(MODID,"textures/gui/hud/heart/amethyst_container.png");
 
 
-    public AmethystSoulType(Identifier id) {
+    public CrystalSoulType(Identifier id) {
         super(MeterType.SOUL, id);
     }
 
