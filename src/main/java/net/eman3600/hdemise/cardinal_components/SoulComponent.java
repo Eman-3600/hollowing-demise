@@ -3,11 +3,11 @@ package net.eman3600.hdemise.cardinal_components;
 import net.eman3600.hdemise.init.custom.ModSoulTypes;
 import net.eman3600.hdemise.init.entity.ModAttributes;
 import net.eman3600.hdemise.init.cca.ModEntityComponents;
-import net.eman3600.hdemise.init.entity.ModStatusEffects;
-import net.eman3600.hdemise.mob_effects.ModStatusEffect;
+import net.eman3600.hdemise.item.SoulItem;
 import net.eman3600.hdemise.networking.s2c.SoulEventPayload;
 import net.eman3600.hdemise.soul_type.SoulType;
 import net.eman3600.hdemise.util.RayHelper;
+import net.eman3600.hdemise.util.inventory.SoulInventory;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
@@ -18,6 +18,7 @@ import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.HungerManager;
 import net.minecraft.entity.player.PlayerAbilities;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.network.packet.s2c.play.EntityVelocityUpdateS2CPacket;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -27,6 +28,7 @@ import net.minecraft.sound.SoundEvents;
 import net.minecraft.storage.ReadView;
 import net.minecraft.storage.WriteView;
 import net.minecraft.text.Text;
+import net.minecraft.util.ItemScatterer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.MathHelper;
@@ -97,9 +99,36 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
 
     private final PlayerEntity player;
 
+    private final SoulInventory inventory;
+
     public SoulComponent(PlayerEntity player) {
         this.player = player;
         this.soulType = ModSoulTypes.MORTAL;
+        inventory = new SoulInventory();
+    }
+
+    public SoulInventory getInventory() {
+        return inventory;
+    }
+
+    public void validateSoulStack() {
+        ItemStack stack = inventory.getStack(0);
+
+        if (!stack.isEmpty() && stack.getItem() instanceof SoulItem item && item.getSoulType() == this.soulType) {
+            SoulItem.saveStats(player, stack);
+        } else {
+            if (!player.giveItemStack(inventory.removeStack(0))) {
+                ItemScatterer.spawn(player.getEntityWorld(), player.getX(), player.getY(), player.getZ(), stack);
+            }
+
+            replaceSoulStack();
+        }
+    }
+
+    public void replaceSoulStack() {
+        ItemStack stack = this.soulType.getDefaultSoulStack();
+        SoulItem.saveStats(player, stack);
+        inventory.setStack(0, stack);
     }
 
     public void setSoulType(SoulType soulType) {
@@ -110,6 +139,7 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
             manager.setSaturationLevel(5f);
         }
         this.soulType = soulType;
+        this.inventory.scatterAugments(this.player);
         this.soulType.applyAttributes(this.player);
         resetSoul();
     }
@@ -693,6 +723,7 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
             if (cureTime <= 0) {
                 setCuring(false, 0);
                 setSoulType(ModSoulTypes.MORTAL);
+                validateSoulStack();
                 player.clearStatusEffects();
                 player.addStatusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 140, 0));
                 sendSoulEvent(SoulEventPayload.SoulEventType.REVIVE);
@@ -773,6 +804,8 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
         lunging = readView.getBoolean("lunging", false);
         lungeCooldown = readView.getInt("lunge_cooldown", 0);
         lungeGravity = readView.getDouble("lunge_gravity", 0.08d);
+
+        inventory.readData(readView);
     }
 
     @Override
@@ -795,6 +828,8 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
         writeView.putBoolean("lunging", lunging);
         writeView.putInt("lunge_cooldown", lungeCooldown);
         writeView.putDouble("lunge_gravity", lungeGravity);
+
+        inventory.writeData(writeView);
     }
 
     /**

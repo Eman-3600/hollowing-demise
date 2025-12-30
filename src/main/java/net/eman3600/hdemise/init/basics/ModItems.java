@@ -1,5 +1,6 @@
 package net.eman3600.hdemise.init.basics;
 
+import net.eman3600.hdemise.init.custom.ModSoulTypes;
 import net.eman3600.hdemise.item.*;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.component.DataComponentTypes;
@@ -28,8 +29,9 @@ public class ModItems {
     public static final XPCoreItem EXPERIENCE_CORE = (XPCoreItem) register("experience_core", XPCoreItem::new, new Item.Settings().rarity(Rarity.RARE).maxCount(1).component(DataComponentTypes.ENCHANTMENT_GLINT_OVERRIDE, true));
     public static final Item FEATHER_TOKEN = register("feather_token", Item::new, new Item.Settings());
     public static final Item ECTOPLASMIC_BONE = register("ectoplasmic_bone", Item::new, new Item.Settings());
-    public static final Item PURE_SOUL = register("pure_soul", Item::new, new Item.Settings());
-    public static final Item CRYSTAL_SOUL = register("crystal_soul", Item::new, new Item.Settings());
+
+    public static final Item PURE_SOUL = register("pure_soul", (settings) -> new SoulItem(settings, ModSoulTypes.MORTAL), new Item.Settings());
+    public static final Item CRYSTAL_SOUL = register("crystal_soul", (settings) -> new SoulItem(settings, ModSoulTypes.CRYSTAL), new Item.Settings());
     public static final Item FRACTURED_CRYSTAL_HEART = register("fractured_crystal_heart", Item::new, new Item.Settings());
 
     /**

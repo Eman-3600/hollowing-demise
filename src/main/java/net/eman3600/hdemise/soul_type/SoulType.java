@@ -3,6 +3,7 @@ package net.eman3600.hdemise.soul_type;
 import net.eman3600.hdemise.init.custom.ModSoulTypes;
 import net.minecraft.entity.attribute.AttributeContainer;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
 import org.jspecify.annotations.Nullable;
@@ -103,6 +104,10 @@ public abstract class SoulType {
 
     public String getTranslationKey() {
         return getId().toTranslationKey("soul_type");
+    }
+
+    public ItemStack getDefaultSoulStack() {
+        return ItemStack.EMPTY;
     }
 
 
