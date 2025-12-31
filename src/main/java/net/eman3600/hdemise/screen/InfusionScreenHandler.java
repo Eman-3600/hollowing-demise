@@ -18,6 +18,8 @@ import net.minecraft.screen.Property;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.ScreenHandlerContext;
 import net.minecraft.screen.slot.Slot;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvent;
 
 import java.util.*;
 
@@ -112,6 +114,10 @@ public class InfusionScreenHandler extends ScreenHandler {
     public void setPage(Page page) {
         this.page = page;
         this.syncState();
+    }
+
+    public void playSound(SoundEvent sound, float volume, float pitchMin, float pitchMax) {
+        context.run((world, blockPos) -> world.playSound(null, blockPos, sound, SoundCategory.BLOCKS, volume, pitchMin + (pitchMax - pitchMin) * world.getRandom().nextFloat()));
     }
 
     public void reloadSlots() {

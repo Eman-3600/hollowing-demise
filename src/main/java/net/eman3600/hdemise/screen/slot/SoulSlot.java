@@ -7,6 +7,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.screen.slot.Slot;
+import net.minecraft.sound.SoundEvents;
 
 public class SoulSlot extends DynamicSlot {
 
@@ -37,6 +38,8 @@ public class SoulSlot extends DynamicSlot {
 
         super.setStack(stack, previousStack);
 
+
         handler.reloadSlots();
+        handler.playSound(SoundEvents.BLOCK_ENCHANTMENT_TABLE_USE, 1, .9f, 1f);
     }
 }

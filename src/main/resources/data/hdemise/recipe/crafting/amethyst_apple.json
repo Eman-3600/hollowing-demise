@@ -1,7 +1,7 @@
 {
   "type": "minecraft:crafting_shaped",
   "category": "misc",
-  "group": "simple_cure",
+  "group": "amethyst_apple",
   "key": {
     "#": "minecraft:apple",
     "X": "minecraft:amethyst_shard",
