@@ -3,8 +3,10 @@ package net.eman3600.hdemise.item;
 import net.eman3600.hdemise.cardinal_components.SoulComponent;
 import net.eman3600.hdemise.init.custom.ModSoulTypes;
 import net.eman3600.hdemise.soul_type.SoulType;
+import net.minecraft.component.DataComponentTypes;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.ActionResult;
@@ -20,28 +22,19 @@ public class FormSwitcherItem extends Item {
     public ActionResult use(World world, PlayerEntity user, Hand hand) {
 
         SoulComponent sc = SoulComponent.of(user);
-        if (world.isClient()) {
-            world.playSound(user, user.getX(), user.getY(), user.getZ(), SoundEvents.ENTITY_WITHER_SPAWN, SoundCategory.PLAYERS, .8f, .8f + .4f * world.getRandom().nextFloat());
-        } else {
-            XPCoreItem.extractToWorld(user);
-
-            SoulType currentType = sc.getSoulType();
-
-            if (currentType == ModSoulTypes.MORTAL) {
-                sc.setSoulType(ModSoulTypes.HOLLOW);
-            } else if (currentType == ModSoulTypes.HOLLOW) {
-                sc.setSoulType(ModSoulTypes.CRYSTAL);
-            } else if (currentType == ModSoulTypes.CRYSTAL) {
-                sc.setSoulType(ModSoulTypes.PHANTOM);
-            } else if (currentType == ModSoulTypes.PHANTOM) {
-                sc.setSoulType(ModSoulTypes.CONSTRUCT);
-            } else if (currentType == ModSoulTypes.CONSTRUCT) {
-                sc.setSoulType(ModSoulTypes.REVENANT);
-            } else if (currentType == ModSoulTypes.REVENANT) {
-                sc.setSoulType(ModSoulTypes.NEGATIVE);
-            } else {
-                sc.setSoulType(ModSoulTypes.MORTAL);
+        if (sc.isSoulless() && sc.canCure()) {
+            if (!world.isClient()) {
+                sc.setCuring(true, 20);
             }
+            world.playSound(user, user.getX(), user.getY(), user.getZ(), SoundEvents.ENTITY_ZOMBIE_VILLAGER_CURE, SoundCategory.PLAYERS, .8f, .8f + .4f * world.getRandom().nextFloat());
+        } else if (!sc.isSoulless()) {
+            if (!world.isClient()) {
+                sc.validateSoulStack();
+                sc.setSoulType(ModSoulTypes.HOLLOW);
+                sc.topUp();
+                sc.validateSoulStack();
+            }
+            world.playSound(user, user.getX(), user.getY(), user.getZ(), SoundEvents.ENTITY_WITHER_SPAWN, SoundCategory.PLAYERS, .8f, .8f + .4f * world.getRandom().nextFloat());
         }
 
         return ActionResult.SUCCESS;

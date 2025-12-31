@@ -83,5 +83,7 @@
 
     "soul_type.soulTypeNotFound": "Unknown soul type: %s",
     "commands.hdemise.soul.set_success": "Set soul type of %s targets to %s",
-    "commands.hdemise.soul.set_none": "Could not set soul type to %s. Targets had it already"
+    "commands.hdemise.soul.set_none": "Could not set soul type to %s. Targets had it already",
+    "commands.hdemise.soul.extract_success": "Extracted a copy of %s's soul",
+    "commands.hdemise.soul.extract_hollow": "Could not extract %s's soul because they had none"
 }

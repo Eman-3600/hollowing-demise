@@ -14,10 +14,12 @@ import net.minecraft.command.argument.EntityArgumentType;
 import net.minecraft.command.argument.RegistryEntryReferenceArgumentType;
 import net.minecraft.entity.player.HungerManager;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.text.Text;
+import net.minecraft.util.ItemScatterer;
 
 public class SoulCommand {
 
@@ -32,12 +34,35 @@ public class SoulCommand {
         root.then(CommandManager.literal("set")
                 .then(CommandManager.argument("targets", EntityArgumentType.players())
                         .then(CommandManager.argument("type", RegistryEntryReferenceArgumentType.registryEntry(registryAccess, SoulTypeRegistry.KEY))
-                                .executes(SoulCommand::setSoulType))));
+                                .executes(SoulCommand::setSoulType))))
+            .then(CommandManager.literal("extract")
+                .then(CommandManager.argument("target", EntityArgumentType.player())
+                        .executes(SoulCommand::extractSoul)));
 
 
         dispatcher.register(
                 root
         );
+    }
+
+    private static int extractSoul(CommandContext<ServerCommandSource> context) throws CommandSyntaxException {
+        PlayerEntity player = EntityArgumentType.getPlayer(context, "target");
+        SoulComponent sc = SoulComponent.of(player);
+
+        sc.validateSoulStack();
+        ItemStack stack = sc.getInventory().getStack(0).copy();
+
+        if (!stack.isEmpty()) {
+            if (!player.giveItemStack(stack)) {
+                ItemScatterer.spawn(context.getSource().getWorld(), player.getX(), player.getY(), player.getZ(), stack);
+            }
+            context.getSource().sendFeedback(() -> Text.translatable("commands.hdemise.soul.extract_success", player.getName()), true);
+            return 1;
+        }
+
+        context.getSource().sendError(Text.translatable("commands.hdemise.soul.extract_hollow", player.getName()));
+
+        return 0;
     }
 
     private static int setSoulType(CommandContext<ServerCommandSource> context) throws CommandSyntaxException {
