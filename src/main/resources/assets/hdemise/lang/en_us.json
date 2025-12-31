@@ -47,6 +47,8 @@
 
 
     "container.hdemise.infusion": "Infusion",
+    "container.hdemise.infusion.top_up": "Full Restore",
+    "container.hdemise.infusion.top_up_cooldown": "Recharging: %sm %ss",
 
 
     "effect.hdemise.rage": "Rage",

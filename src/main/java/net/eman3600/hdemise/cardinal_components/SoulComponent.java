@@ -64,6 +64,7 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
     public static final int LUNGE_COOLDOWN_TICKS = 15;
     public static final int INTENDED_LUNGE_DURATION = 12;
     public static final double LUNGE_SPEED = 1.15;
+    public static final int TOP_UP_COOLDOWN = 6000;
 
     @Environment(EnvType.CLIENT)
     public static final int SUN_TICKS = 15;
@@ -98,6 +99,7 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
     private float hollowHp = 0;
     private int hollowSoul = 0;
     private boolean hollowTopped = true;
+    private int topUpCooldown =0;
 
     private float regenTime = 0f;
     private float solarSoulTime = 0f;
@@ -201,19 +203,19 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
     public void onDeath() {
 
         setHollowTopped(true);
+        this.topUpCooldown = 0;
+
         if (this.soulType != ModSoulTypes.HOLLOW && this.soulType != ModSoulTypes.NEGATIVE) {
             SoulItem.resetStats(inventory.getStack(0));
             XPCoreItem.extractToWorld(player);
             this.setSoulType(ModSoulTypes.HOLLOW);
-            setSoul(getMaxSoul()/2);
-            validateSoulStack();
         } else {
             reloadAttributes();
             resetSoul();
-            setSoul(getMaxSoul()/2);
-            validateSoulStack();
         }
 
+        setSoul(getMaxSoul()/2);
+        validateSoulStack();
 
     }
 
@@ -423,6 +425,23 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
 
     public boolean isCuring() {
         return this.curing;
+    }
+
+    public boolean canTopUp() {
+        return this.topUpCooldown <= 0;
+    }
+
+    public int getTopUpCooldown() {
+        return topUpCooldown;
+    }
+
+    public void startTopUpCooldown() {
+        this.topUpCooldown = TOP_UP_COOLDOWN;
+        markDirty();
+    }
+
+    public int getTopUpDisplayPixels() {
+        return (int)((float)(TOP_UP_COOLDOWN - this.topUpCooldown)/TOP_UP_COOLDOWN * 7);
     }
 
     public boolean lockedMovement() {
@@ -687,6 +706,11 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
             markDirty();
         }
 
+        if (topUpCooldown > 0) {
+            topUpCooldown--;
+            markDirty();
+        }
+
         if (this.soulType == ModSoulTypes.CONSTRUCT && getSoul() < getMaxSoul()) {
             solarSoulTime += player.getEntityWorld().isDay() && player.getEntityWorld().isSkyVisibleAllowingSea(BlockPos.ofFloored(player.getX(), player.getEyeY(), player.getZ())) ? SUN_MULTIPLIER : 1;
 
@@ -863,6 +887,7 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
         hollowHp = readView.getFloat("hollow_hp", 12);
         hollowSoul = readView.getInt("hollow_soul", 640);
         hollowTopped = readView.getBoolean("hollow_topped", true);
+        topUpCooldown = readView.getInt("top_up_cooldown", 0);
 
         inventory.readData(readView);
     }
@@ -891,6 +916,7 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
         writeView.putFloat("hollow_hp", hollowHp);
         writeView.putInt("hollow_soul", hollowSoul);
         writeView.putBoolean("hollow_topped", hollowTopped);
+        writeView.putInt("top_up_cooldown", topUpCooldown);
 
         inventory.writeData(writeView);
     }

@@ -20,6 +20,7 @@ import net.minecraft.screen.ScreenHandlerContext;
 import net.minecraft.screen.slot.Slot;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
+import net.minecraft.sound.SoundEvents;
 
 import java.util.*;
 
@@ -136,6 +137,33 @@ public class InfusionScreenHandler extends ScreenHandler {
                 infoSoulSlot.enable();
             }
         }
+    }
+
+    @Override
+    public boolean onButtonClick(PlayerEntity player, int id) {
+        SoulComponent sc = SoulComponent.of(player);
+
+        switch (id) {
+            case 0 -> {
+                if (sc.canTopUp()) {
+
+                    if (!player.getEntityWorld().isClient()) {
+
+                        sc.topUp();
+                        sc.setHollowTopped(!sc.isSoulless());
+                        sc.validateSoulStack();
+
+                        playSound(SoundEvents.ENTITY_ZOMBIE_VILLAGER_CONVERTED, 1, .8f, 1.2f);
+                    }
+
+                    sc.startTopUpCooldown();
+
+                    return true;
+                }
+            }
+        }
+
+        return super.onButtonClick(player, id);
     }
 
     public enum Page {
