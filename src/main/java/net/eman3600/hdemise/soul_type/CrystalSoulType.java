@@ -25,7 +25,7 @@ public class CrystalSoulType extends SoulType {
             new AugmentSpace(96, 38, ModTags.Items.GREEN_AUGMENT),
             new AugmentSpace(40, 38, ModTags.Items.GREEN_AUGMENT),
             new AugmentSpace(96, 94, ModTags.Items.GREEN_AUGMENT),
-            new AugmentSpace(5, 81, ModTags.Items.RED_AUGMENT)
+            new AugmentSpace(53, 81, ModTags.Items.RED_AUGMENT)
     );
 
     public static final Identifier ATTRIBUTE_ID = Identifier.of(MODID, "crystal_soul");

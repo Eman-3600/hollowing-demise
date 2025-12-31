@@ -8,31 +8,35 @@ import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.screen.slot.Slot;
 
-public class SoulSlot extends Slot {
+public class SoulSlot extends DynamicSlot {
 
     private final InfusionScreenHandler handler;
     private final PlayerEntity player;
 
-    public SoulSlot(InfusionScreenHandler handler, PlayerEntity player, int x, int y) {
-        super(SoulComponent.of(player).getInventory(), 0, x, y);
+    public SoulSlot(InfusionScreenHandler handler, PlayerEntity player, int x, int y, boolean enabled) {
+        super(SoulComponent.of(player).getInventory(), 0, x, y, enabled);
 
         this.handler = handler;
         this.player = player;
     }
 
     @Override
-    public void onTakeItem(PlayerEntity player, ItemStack stack) {
-        super.onTakeItem(player, stack);
-
-        SoulItem.saveStats(player, stack);
+    public boolean canInsert(ItemStack stack) {
+        return stack.getItem() instanceof SoulItem && super.canInsert(stack);
     }
 
+    //    @Override
+//    public void onTakeItem(PlayerEntity player, ItemStack stack) {
+//        super.onTakeItem(player, stack);
+//    }
+
     @Override
-    public ItemStack insertStack(ItemStack stack, int count) {
-        ItemStack s = super.insertStack(stack, count);
+    public void setStack(ItemStack stack, ItemStack previousStack) {
+        SoulItem.saveStats(player, previousStack);
+        SoulItem.loadStats(player, stack, true);
 
-        SoulItem.loadStats(player, s, true);
+        super.setStack(stack, previousStack);
 
-        return s;
+        handler.reloadSlots();
     }
 }

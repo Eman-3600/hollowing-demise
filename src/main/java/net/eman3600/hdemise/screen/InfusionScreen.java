@@ -4,6 +4,8 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import net.eman3600.hdemise.cardinal_components.SoulComponent;
 import net.eman3600.hdemise.screen.InfusionScreenHandler.Page;
 import net.eman3600.hdemise.soul_type.SoulType;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.gl.RenderPipelines;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
@@ -14,6 +16,7 @@ import net.minecraft.util.Identifier;
 
 import static net.eman3600.hdemise.HDemise.MODID;
 
+@Environment(EnvType.CLIENT)
 public class InfusionScreen extends HandledScreen<InfusionScreenHandler> {
 
     private static final Identifier MAIN_TEXTURE = Identifier.of(MODID, "textures/gui/container/infusion_table/main.png");
@@ -53,5 +56,12 @@ public class InfusionScreen extends HandledScreen<InfusionScreenHandler> {
                 context.drawTexture(RenderPipelines.GUI_TEXTURED, REPAIR_TEXTURE, i, j, 0.0F, 0.0F, this.backgroundWidth, this.backgroundHeight, 256, 256);
             }
         }
+    }
+
+    @Override
+    public void render(DrawContext context, int mouseX, int mouseY, float deltaTicks) {
+        super.render(context, mouseX, mouseY, deltaTicks);
+
+        this.drawMouseoverTooltip(context, mouseX, mouseY);
     }
 }

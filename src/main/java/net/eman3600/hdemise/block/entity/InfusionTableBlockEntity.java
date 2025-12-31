@@ -1,5 +1,6 @@
 package net.eman3600.hdemise.block.entity;
 
+import net.eman3600.hdemise.cardinal_components.SoulComponent;
 import net.eman3600.hdemise.init.entity.ModBlockEntities;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -62,6 +63,7 @@ public class InfusionTableBlockEntity extends BlockEntity {
         if (!usable()) {
             player.sendMessage(Text.translatable("block.hdemise.infusion_table.not_enough_shelves", shelves, REQUIRED_SHELVES), true);
         } else {
+            SoulComponent.of(player).validateSoulStack();
             player.openHandledScreen(getCachedState().createScreenHandlerFactory(getWorld(), getPos()));
         }
     }

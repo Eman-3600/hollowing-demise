@@ -1,5 +1,6 @@
 package net.eman3600.hdemise.soul_type;
 
+import net.eman3600.hdemise.init.basics.ModItems;
 import net.eman3600.hdemise.init.basics.ModTags;
 import net.eman3600.hdemise.init.entity.ModAttributes;
 import net.eman3600.hdemise.util.inventory.AugmentSpace;
@@ -7,6 +8,7 @@ import net.minecraft.entity.attribute.*;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.util.Identifier;
 import org.jspecify.annotations.Nullable;
@@ -132,5 +134,10 @@ public class ConstructSoulType extends SoulType {
 
             focusPowerInstance.removeModifier(ATTRIBUTE_ID);
         }
+    }
+
+    @Override
+    public ItemStack getDefaultSoulStack() {
+        return ModItems.CONSTRUCT_SOUL.getDefaultStack();
     }
 }

@@ -1,5 +1,6 @@
 package net.eman3600.hdemise.soul_type;
 
+import net.eman3600.hdemise.init.basics.ModItems;
 import net.eman3600.hdemise.init.basics.ModTags;
 import net.eman3600.hdemise.init.entity.ModAttributes;
 import net.eman3600.hdemise.init.entity.ModStatusEffects;
@@ -7,6 +8,7 @@ import net.eman3600.hdemise.util.inventory.AugmentSpace;
 import net.minecraft.entity.attribute.*;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.util.Identifier;
 import org.jspecify.annotations.Nullable;
@@ -119,5 +121,10 @@ public class RevenantSoulType extends SoulType {
         player.addStatusEffect(new StatusEffectInstance(ModStatusEffects.RAGE, 30 * (int)(focusAmount), 0, true, true));
 
         return false;
+    }
+
+    @Override
+    public ItemStack getDefaultSoulStack() {
+        return ModItems.REVENANT_SOUL.getDefaultStack();
     }
 }

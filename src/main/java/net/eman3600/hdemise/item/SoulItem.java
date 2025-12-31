@@ -2,6 +2,7 @@ package net.eman3600.hdemise.item;
 
 import net.eman3600.hdemise.cardinal_components.SoulComponent;
 import net.eman3600.hdemise.init.basics.ModDataComponentTypes;
+import net.eman3600.hdemise.init.custom.ModSoulTypes;
 import net.eman3600.hdemise.mixin_interfaces.ServerPlayerEntityAccess;
 import net.eman3600.hdemise.soul_type.SoulType;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
@@ -70,11 +71,14 @@ public class SoulItem extends Item {
     }
 
     public static void saveStats(PlayerEntity player, ItemStack stack) {
-        if (stack.isEmpty()) return;
+        final SoulComponent sc = SoulComponent.of(player);
+
+        if (stack.isEmpty()) {
+            sc.saveHollowStats();
+            return;
+        }
 
         NbtComponent component = stack.getOrDefault(ModDataComponentTypes.SOUL, NbtComponent.of(new NbtCompound()));
-
-        final SoulComponent sc = SoulComponent.of(player);
 
         component = component.apply(nbt -> {
             nbt.putFloat("hp", player.getHealth());
@@ -90,18 +94,34 @@ public class SoulItem extends Item {
     }
 
     public static void loadStats(PlayerEntity player, ItemStack stack, boolean setSoulType) {
-        if (stack.isEmpty()) return;
-
         final SoulComponent sc = SoulComponent.of(player);
+
+        if (stack.isEmpty()) {
+            if (setSoulType) {
+                sc.setSoulType(ModSoulTypes.HOLLOW);
+                sc.setGhost(false);
+                if (sc.isHollowTopped()) {
+                    sc.topUp();
+                } else {
+                    sc.loadHollowStats();
+                }
+            }
+            return;
+        }
+
         HungerManager manager = player.getHungerManager();
 
         if (setSoulType && stack.getItem() instanceof SoulItem item) {
             sc.setSoulType(item.getSoulType());
+            sc.setGhost(false);
         }
 
         NbtComponent component = stack.get(ModDataComponentTypes.SOUL);
         if (component == null) {
             sc.topUp();
+            player.experienceLevel = 0;
+            player.experienceProgress = 0;
+            player.totalExperience = 0;
             saveStats(player, stack);
         } else {
             NbtCompound nbt = component.copyNbt();

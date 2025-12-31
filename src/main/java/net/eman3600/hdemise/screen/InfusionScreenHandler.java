@@ -1,16 +1,36 @@
 package net.eman3600.hdemise.screen;
 
+import net.eman3600.hdemise.cardinal_components.SoulComponent;
 import net.eman3600.hdemise.init.event.ModScreenHandlerTypes;
+import net.eman3600.hdemise.screen.slot.AugmentSlot;
+import net.eman3600.hdemise.screen.slot.DynamicSlot;
+import net.eman3600.hdemise.screen.slot.SoulSlot;
+import net.eman3600.hdemise.soul_type.SoulType;
+import net.eman3600.hdemise.soul_type.SoulTypeRegistry;
+import net.eman3600.hdemise.util.inventory.AugmentSpace;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.ScreenHandlerContext;
 import net.minecraft.screen.slot.Slot;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 public class InfusionScreenHandler extends ScreenHandler {
 
     private Page page = Page.MAIN;
+    private final SoulSlot soulSlot;
+    private final SoulSlot infoSoulSlot;
+
+    private final PlayerEntity player;
+
+    private final List<DynamicSlot> dynamicSlots;
+    private final Map<SoulType, List<AugmentSlot>> typeAugments;
 
 
     public InfusionScreenHandler(int syncId, PlayerInventory playerInventory) {
@@ -20,9 +40,40 @@ public class InfusionScreenHandler extends ScreenHandler {
     public InfusionScreenHandler(int syncId, PlayerInventory playerInventory, ScreenHandlerContext context) {
         super(ModScreenHandlerTypes.INFUSION, syncId);
 
+        this.player = playerInventory.player;
+
+        SoulComponent sc = SoulComponent.of(player);
+
+        List<DynamicSlot> dynamicSlots = new ArrayList<>();
+        this.typeAugments = new HashMap<>();
+
         this.addPlayerSlots(playerInventory, 8, 140);
 
+        this.soulSlot = new SoulSlot(this, playerInventory.player, 80, 64, true);
+        this.infoSoulSlot = new SoulSlot(this, playerInventory.player, 8, 64, false);
 
+        this.addSlot(soulSlot);
+        this.addSlot(infoSoulSlot);
+
+        dynamicSlots.add(soulSlot);
+        dynamicSlots.add(infoSoulSlot);
+
+        for (SoulType type : SoulTypeRegistry.REGISTRY) {
+
+            List<AugmentSlot> augmentSlots = new ArrayList<>();
+
+            for (int i = 0; i < type.getAugments().size(); i++) {
+                AugmentSlot slot = new AugmentSlot(this, player, type.getAugments().get(i), i + 1, type == sc.getSoulType());
+
+                dynamicSlots.add(slot);
+                augmentSlots.add(slot);
+                this.addSlot(slot);
+            }
+
+            typeAugments.put(type, List.copyOf(augmentSlots));
+        }
+
+        this.dynamicSlots = List.copyOf(dynamicSlots);
     }
 
     @Override
@@ -42,6 +93,24 @@ public class InfusionScreenHandler extends ScreenHandler {
     public void setPage(Page page) {
         this.page = page;
         this.syncState();
+    }
+
+    public void reloadSlots() {
+        DynamicSlot.disableAll(dynamicSlots);
+
+        SoulComponent sc = SoulComponent.of(player);
+
+        switch (page) {
+            case MAIN -> {
+                soulSlot.enable();
+
+                List<AugmentSlot> augments = typeAugments.getOrDefault(sc.getSoulType(), List.of());
+                DynamicSlot.enableAll(augments);
+            }
+            case INFO -> {
+                infoSoulSlot.enable();
+            }
+        }
     }
 
     public enum Page {

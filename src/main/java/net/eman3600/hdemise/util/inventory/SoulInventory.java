@@ -82,10 +82,11 @@ public class SoulInventory implements Inventory {
     public void scatterAugments(PlayerEntity player) {
         for (int i = 1; i < stacks.size(); i++) {
             if (stacks.get(i).isEmpty()) continue;
-            ItemStack stack = stacks.remove(i);
+            ItemStack stack = stacks.get(i);
             if (!player.giveItemStack(stack)) {
                 ItemScatterer.spawn(player.getEntityWorld(), player.getX(), player.getY(), player.getZ(), stack);
             }
+            stacks.set(i, ItemStack.EMPTY);
         }
     }
 

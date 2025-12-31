@@ -1,9 +1,11 @@
 package net.eman3600.hdemise.soul_type;
 
+import net.eman3600.hdemise.init.basics.ModItems;
 import net.eman3600.hdemise.init.basics.ModTags;
 import net.eman3600.hdemise.init.entity.ModAttributes;
 import net.eman3600.hdemise.util.inventory.AugmentSpace;
 import net.minecraft.entity.attribute.*;
+import net.minecraft.item.ItemStack;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.util.Identifier;
 import org.jspecify.annotations.Nullable;
@@ -83,5 +85,10 @@ public class PhantomSoulType extends SoulType {
 
             hpInstance.removeModifier(ATTRIBUTE_ID);
         }
+    }
+
+    @Override
+    public ItemStack getDefaultSoulStack() {
+        return ModItems.PHANTOM_SOUL.getDefaultStack();
     }
 }

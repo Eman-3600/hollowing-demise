@@ -95,6 +95,10 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
     private int lungeCooldown = 0;
     private double lungeGravity = 0d;
 
+    private float hollowHp = 0;
+    private int hollowSoul = 0;
+    private boolean hollowTopped = true;
+
     private float regenTime = 0f;
     private float solarSoulTime = 0f;
 
@@ -134,6 +138,35 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
         setSoul(getMaxSoul());
     }
 
+    public void setHollowTopped(boolean topped) {
+        this.hollowTopped = topped;
+        markDirty();
+    }
+
+    public boolean isHollowTopped() {
+        return hollowTopped;
+    }
+
+    public float getHollowHp() {
+        return hollowHp;
+    }
+
+    public int getHollowSoul() {
+        return hollowSoul;
+    }
+
+    public void saveHollowStats() {
+        this.hollowHp = player.getHealth();
+        this.hollowSoul = getSoul();
+        this.hollowTopped = false;
+        markDirty();
+    }
+
+    public void loadHollowStats() {
+        player.setHealth(this.hollowHp);
+        setSoul(this.hollowSoul);
+    }
+
     public void replaceSoulStack() {
         ItemStack stack = this.soulType.getDefaultSoulStack();
         SoulItem.saveStats(player, stack);
@@ -166,6 +199,8 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
     }
 
     public void onDeath() {
+
+        setHollowTopped(true);
         if (this.soulType != ModSoulTypes.HOLLOW && this.soulType != ModSoulTypes.NEGATIVE) {
             SoulItem.resetStats(inventory.getStack(0));
             XPCoreItem.extractToWorld(player);
@@ -175,6 +210,8 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
         } else {
             reloadAttributes();
             resetSoul();
+            setSoul(getMaxSoul()/2);
+            validateSoulStack();
         }
 
 
@@ -823,6 +860,10 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
         lungeCooldown = readView.getInt("lunge_cooldown", 0);
         lungeGravity = readView.getDouble("lunge_gravity", 0.08d);
 
+        hollowHp = readView.getFloat("hollow_hp", 12);
+        hollowSoul = readView.getInt("hollow_soul", 640);
+        hollowTopped = readView.getBoolean("hollow_topped", true);
+
         inventory.readData(readView);
     }
 
@@ -846,6 +887,10 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
         writeView.putBoolean("lunging", lunging);
         writeView.putInt("lunge_cooldown", lungeCooldown);
         writeView.putDouble("lunge_gravity", lungeGravity);
+
+        writeView.putFloat("hollow_hp", hollowHp);
+        writeView.putInt("hollow_soul", hollowSoul);
+        writeView.putBoolean("hollow_topped", hollowTopped);
 
         inventory.writeData(writeView);
     }
