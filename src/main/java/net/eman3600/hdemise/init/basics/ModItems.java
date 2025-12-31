@@ -29,6 +29,7 @@ public class ModItems {
     public static final XPCoreItem EXPERIENCE_CORE = (XPCoreItem) register("experience_core", XPCoreItem::new, new Item.Settings().rarity(Rarity.RARE).maxCount(1).component(DataComponentTypes.ENCHANTMENT_GLINT_OVERRIDE, true));
     public static final Item FEATHER_TOKEN = register("feather_token", Item::new, new Item.Settings());
     public static final Item ECTOPLASMIC_BONE = register("ectoplasmic_bone", Item::new, new Item.Settings());
+    public static final Item GOLEM_STRENGTH_BELT = register("golem_strength_belt", Item::new, new Item.Settings());
 
     public static final Item PURE_SOUL = register("pure_soul", (settings) -> new SoulItem(settings, ModSoulTypes.MORTAL), SoulItem.getDefaultSettings());
     public static final Item CRYSTAL_SOUL_FRACTURED = register("crystal_soul_fractured", Item::new, SoulItem.getDefaultSettings());
