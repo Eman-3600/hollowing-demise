@@ -43,29 +43,6 @@ public class SoulItem extends Item {
         return soulType;
     }
 
-    @Override
-    public ActionResult use(World world, PlayerEntity user, Hand hand) {
-        SoulComponent sc = SoulComponent.of(user);
-
-        if (sc.isSoulless()) {
-            if (!world.isClient()) {
-                ItemStack stack = user.getStackInHand(hand);
-                ItemStack copy = stack.copyWithCount(1);
-
-                sc.getInventory().setStack(0, copy);
-                sc.applySoulStack(copy);
-
-                stack.decrementUnlessCreative(1, user);
-            }
-
-            world.playSound(user, user.getX(), user.getY(), user.getZ(), SoundEvents.ENTITY_ZOMBIE_VILLAGER_CONVERTED, SoundCategory.PLAYERS, .8f, .8f + .4f * world.getRandom().nextFloat());
-
-            return ActionResult.SUCCESS;
-        }
-
-        return super.use(world, user, hand);
-    }
-
     public static Settings getDefaultSettings() {
         return new Item.Settings().maxCount(1).rarity(Rarity.UNCOMMON);
     }
