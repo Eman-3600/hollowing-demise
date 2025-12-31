@@ -1,6 +1,8 @@
 package net.eman3600.hdemise.screen;
 
+import net.eman3600.hdemise.block.entity.InfusionTableBlockEntity;
 import net.eman3600.hdemise.cardinal_components.SoulComponent;
+import net.eman3600.hdemise.init.basics.ModBlocks;
 import net.eman3600.hdemise.init.event.ModScreenHandlerTypes;
 import net.eman3600.hdemise.screen.slot.AugmentSlot;
 import net.eman3600.hdemise.screen.slot.DynamicSlot;
@@ -12,20 +14,20 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.registry.entry.RegistryEntry;
+import net.minecraft.screen.Property;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.ScreenHandlerContext;
 import net.minecraft.screen.slot.Slot;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class InfusionScreenHandler extends ScreenHandler {
 
+    private final ScreenHandlerContext context;
     private Page page = Page.MAIN;
     private final SoulSlot soulSlot;
     private final SoulSlot infoSoulSlot;
+    private final Property pageProperty;
 
     private final PlayerEntity player;
 
@@ -41,6 +43,19 @@ public class InfusionScreenHandler extends ScreenHandler {
         super(ModScreenHandlerTypes.INFUSION, syncId);
 
         this.player = playerInventory.player;
+        this.context = context;
+        this.pageProperty = addProperty(new Property() {
+            @Override
+            public int get() {
+                return InfusionScreenHandler.this.page.id();
+            }
+
+            @Override
+            public void set(int value) {
+                InfusionScreenHandler.this.page = Page.fromId(value);
+            }
+        });
+        this.addProperty(pageProperty);
 
         SoulComponent sc = SoulComponent.of(player);
 
@@ -83,7 +98,11 @@ public class InfusionScreenHandler extends ScreenHandler {
 
     @Override
     public boolean canUse(PlayerEntity player) {
-        return true;
+        return canUse(this.context, player, ModBlocks.INFUSION_TABLE) && context.get((world, pos) -> {
+            InfusionTableBlockEntity entity = world.getBlockEntity(pos) instanceof InfusionTableBlockEntity e ? e : null;
+
+            return (entity != null && entity.usable());
+        }, true);
     }
 
     public Page getPage() {
