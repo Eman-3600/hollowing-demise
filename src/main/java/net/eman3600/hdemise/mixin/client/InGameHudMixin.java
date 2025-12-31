@@ -1,8 +1,10 @@
 package net.eman3600.hdemise.mixin.client;
 
 import net.eman3600.hdemise.cardinal_components.SoulComponent;
+import net.eman3600.hdemise.init.custom.ModSoulTypes;
 import net.eman3600.hdemise.init.entity.ModAttributes;
 import net.eman3600.hdemise.init.entity.ModStatusEffects;
+import net.eman3600.hdemise.soul_type.RevenantSoulType;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.gl.RenderPipelines;
@@ -200,18 +202,26 @@ public abstract class InGameHudMixin {
     @Inject(method = "drawHeart", at = @At("HEAD"), cancellable = true)
     private void hdemise$drawHeart(DrawContext context, InGameHud.HeartType type, int x, int y, boolean hardcore, boolean blinking, boolean half, CallbackInfo ci) {
         SoulComponent sc = SoulComponent.of(getCameraPlayer());
+        if (sc == null) return;
         Identifier heartTexture = sc.getSoulType().heartType();
         Identifier heartContainerTexture = sc.getSoulType().heartContainerType();
         if (sc.isGhost()) {
             ci.cancel();
         } else {
             if (heartTexture != null && type == InGameHud.HeartType.NORMAL) {
+                if (sc.getSoulType() == ModSoulTypes.REVENANT && getCameraPlayer().hasStatusEffect(ModStatusEffects.RAGE)) {
+                    heartTexture = RevenantSoulType.RAGE_HEART_TYPE;
+                }
 
                 hdemise$drawCustomHeart(context, heartTexture, x, y, hardcore, blinking, half, false);
                 ci.cancel();
             }
 
             if (heartContainerTexture != null && type == InGameHud.HeartType.CONTAINER) {
+                if (sc.getSoulType() == ModSoulTypes.REVENANT && getCameraPlayer().hasStatusEffect(ModStatusEffects.RAGE)) {
+                    blinking = ticks/2 % 2 == 0;
+                }
+
                 hdemise$drawCustomHeart(context, heartContainerTexture, x, y, false, blinking, false, true);
                 ci.cancel();
             }

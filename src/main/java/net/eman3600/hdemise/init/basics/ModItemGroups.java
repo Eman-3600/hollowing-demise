@@ -15,7 +15,7 @@ public class ModItemGroups {
 
     public static final ItemGroup HDEMISE_GROUP = Registry.register(Registries.ITEM_GROUP, Identifier.of(MODID, "hdemise_group"),
      FabricItemGroup.builder()
-        .icon(() -> new ItemStack(ModItems.DEMON_SCROLL))
+        .icon(() -> new ItemStack(ModItems.PURE_SOUL))
         .displayName(Text.translatable("itemgroup.hdemise.hdemise_group"))
         .entries((displayContext, entries) -> {
             entries.add(ModBlocks.ALMARITE_ORE);

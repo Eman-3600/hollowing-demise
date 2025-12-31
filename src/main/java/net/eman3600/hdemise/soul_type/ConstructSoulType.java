@@ -20,10 +20,10 @@ import static net.eman3600.hdemise.HDemise.MODID;
 public class ConstructSoulType extends SoulType {
 
     private static final List<AugmentSpace> augments = List.of(
-            new AugmentSpace(3, 3, ModTags.Items.YELLOW_AUGMENT),
-            new AugmentSpace(21, 3, ModTags.Items.YELLOW_AUGMENT),
-            new AugmentSpace(3, 21, ModTags.Items.GREEN_AUGMENT),
-            new AugmentSpace(3, 39, ModTags.Items.RED_AUGMENT)
+            new AugmentSpace(43, 27, ModTags.Items.YELLOW_AUGMENT),
+            new AugmentSpace(107, 27, ModTags.Items.YELLOW_AUGMENT),
+            new AugmentSpace(75, 10, ModTags.Items.GREEN_AUGMENT),
+            new AugmentSpace(75, 81, ModTags.Items.RED_AUGMENT)
     );
 
     public static final Identifier ATTRIBUTE_ID = Identifier.of(MODID, "construct_soul");

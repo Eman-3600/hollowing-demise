@@ -4,12 +4,13 @@
   "group": "simple_cure",
   "key": {
     "#": "minecraft:apple",
-    "X": "minecraft:amethyst_shard"
+    "X": "minecraft:amethyst_shard",
+    "B": "minecraft:amethyst_block"
   },
   "pattern": [
-    "XXX",
-    "X#X",
-    "XXX"
+    "XBX",
+    "B#B",
+    "XBX"
   ],
   "result": {
     "count": 1,

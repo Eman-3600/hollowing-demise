@@ -17,10 +17,10 @@ import static net.eman3600.hdemise.HDemise.MODID;
 public class PhantomSoulType extends SoulType {
 
     private static final List<AugmentSpace> augments = List.of(
-            new AugmentSpace(3, 3, ModTags.Items.YELLOW_AUGMENT),
-            new AugmentSpace(21, 3, ModTags.Items.YELLOW_AUGMENT),
-            new AugmentSpace(3, 21, ModTags.Items.GREEN_AUGMENT),
-            new AugmentSpace(21, 21, ModTags.Items.GREEN_AUGMENT)
+            new AugmentSpace(46, 17, ModTags.Items.YELLOW_AUGMENT),
+            new AugmentSpace(104, 17, ModTags.Items.YELLOW_AUGMENT),
+            new AugmentSpace(46, 80, ModTags.Items.GREEN_AUGMENT),
+            new AugmentSpace(104, 80, ModTags.Items.GREEN_AUGMENT)
     );
 
     public static final Identifier ATTRIBUTE_ID = Identifier.of(MODID, "phantom_soul");
@@ -72,7 +72,7 @@ public class PhantomSoulType extends SoulType {
         EntityAttributeInstance hpInstance = container.getCustomInstance(hp);
         if (hpInstance != null) {
 
-            hpInstance.addTemporaryModifier(new EntityAttributeModifier(ATTRIBUTE_ID, -.4, EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE));
+            hpInstance.addTemporaryModifier(new EntityAttributeModifier(ATTRIBUTE_ID, -.3, EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE));
         }
     }
 

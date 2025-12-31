@@ -20,17 +20,18 @@ import static net.eman3600.hdemise.HDemise.MODID;
 public class RevenantSoulType extends SoulType {
 
     private static final List<AugmentSpace> augments = List.of(
-            new AugmentSpace(3, 3, ModTags.Items.YELLOW_AUGMENT),
-            new AugmentSpace(21, 3, ModTags.Items.YELLOW_AUGMENT),
-            new AugmentSpace(3, 21, ModTags.Items.GREEN_AUGMENT),
-            new AugmentSpace(21, 21, ModTags.Items.GREEN_AUGMENT),
-            new AugmentSpace(3, 39, ModTags.Items.RED_AUGMENT)
+            new AugmentSpace(93, 35, ModTags.Items.YELLOW_AUGMENT),
+            new AugmentSpace(125, 27, ModTags.Items.GREEN_AUGMENT),
+            new AugmentSpace(64, 100, ModTags.Items.GREEN_AUGMENT),
+            new AugmentSpace(35, 24, ModTags.Items.RED_AUGMENT),
+            new AugmentSpace(15, 61, ModTags.Items.RED_AUGMENT)
     );
 
     public static final Identifier ATTRIBUTE_ID = Identifier.of(MODID, "revenant_soul");
 
     public static final Identifier HEART_TYPE = Identifier.of(MODID,"textures/gui/hud/heart/revenant.png");
     public static final Identifier HEART_CONTAINER_TYPE = Identifier.of(MODID,"textures/gui/hud/heart/revenant_container.png");
+    public static final Identifier RAGE_HEART_TYPE = Identifier.of(MODID,"textures/gui/hud/heart/rage.png");
 
 
     public RevenantSoulType(Identifier id) {
