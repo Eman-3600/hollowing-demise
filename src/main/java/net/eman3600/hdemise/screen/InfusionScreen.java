@@ -11,6 +11,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gl.RenderPipelines;
 import net.minecraft.client.gui.Click;
 import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.gui.cursor.StandardCursors;
 import net.minecraft.client.gui.hud.InGameHud;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.gui.widget.ButtonWidget;
@@ -75,6 +76,9 @@ public class InfusionScreen extends HandledScreen<InfusionScreenHandler> {
 
         if (sc.canTopUp()) {
             topUpButton.draw(context, MAIN_TEXTURE, mouseX, mouseY);
+
+            if (topUpButton.isSelected(mouseX, mouseY))
+                context.setCursor(StandardCursors.POINTING_HAND);
         }
 
         if (client.world == null) return;
