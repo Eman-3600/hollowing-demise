@@ -21,7 +21,8 @@ public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
                 .add(ModItems.ALMARITE);
 
         valueLookupBuilder(ModTags.Items.YELLOW_AUGMENT)
-                .add(ModItems.FEATHER_TOKEN);
+                .add(ModItems.FEATHER_TOKEN)
+                .add(ModItems.GOLEM_STRENGTH_BELT);
 
         valueLookupBuilder(ModTags.Items.GREEN_AUGMENT)
                 .add(ModItems.DEMON_SCROLL);

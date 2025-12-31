@@ -29,7 +29,7 @@ public class ModItemGroups {
             entries.add(ModBlocks.INFUSION_TABLE);
             entries.add(ModItems.FEATHER_TOKEN);
             entries.add(ModItems.ECTOPLASMIC_BONE);
-            entries.add(ModItems.FORM_SWITCHER);
+            entries.add(ModItems.GOLEM_STRENGTH_BELT);
             entries.add(ModItems.PURE_SOUL);
             entries.add(ModItems.CRYSTAL_SOUL);
             entries.add(ModItems.CRYSTAL_SOUL_FRACTURED);
@@ -39,6 +39,7 @@ public class ModItemGroups {
             entries.add(ModItems.PHANTOM_SOUL_FRACTURED);
             entries.add(ModItems.REVENANT_SOUL);
             entries.add(ModItems.REVENANT_SOUL_FRACTURED);
+            entries.add(ModItems.FORM_SWITCHER);
         }).build());
     
     public static void registerItemGroups() {
