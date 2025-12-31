@@ -42,10 +42,14 @@
     "item.hdemise.infusion_table": "Infusion Table",
 
 
-
     "itemgroup.hdemise.hdemise_group": "Hollowing Demise",
 
+
+    "container.hdemise.infusion": "Infusion",
+
+
     "effect.hdemise.rage": "Rage",
+    "effect.hdemise.chained": "Chained Soul",
 
 
     "attribute.hdemise.name.max_soul": "Max Essence",

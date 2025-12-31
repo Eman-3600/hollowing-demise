@@ -21,6 +21,8 @@ public class ModStatusEffects {
             .addAttributeModifier(EntityAttributes.ATTACK_SPEED, Identifier.of(MODID, "effect.rage"), .25, EntityAttributeModifier.Operation.ADD_MULTIPLIED_TOTAL)
             .addAttributeModifier(EntityAttributes.ATTACK_KNOCKBACK, Identifier.of(MODID, "effect.rage"), -.5, EntityAttributeModifier.Operation.ADD_MULTIPLIED_TOTAL));
 
+    public static final RegistryEntry<StatusEffect> CHAINED = register("chained", new ModStatusEffect(StatusEffectCategory.HARMFUL, 0x495065));
+
 
     private static RegistryEntry<StatusEffect> register(String id, StatusEffect statusEffect) {
         return Registry.registerReference(Registries.STATUS_EFFECT, Identifier.of(MODID, id), statusEffect);

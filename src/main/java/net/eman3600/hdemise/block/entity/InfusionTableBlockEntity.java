@@ -61,6 +61,8 @@ public class InfusionTableBlockEntity extends BlockEntity {
 
         if (!usable()) {
             player.sendMessage(Text.translatable("block.hdemise.infusion_table.not_enough_shelves", shelves, REQUIRED_SHELVES), true);
+        } else {
+            player.openHandledScreen(getCachedState().createScreenHandlerFactory(getWorld(), getPos()));
         }
     }
 

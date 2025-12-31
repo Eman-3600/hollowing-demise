@@ -2,6 +2,7 @@ package net.eman3600.hdemise.mixin.client;
 
 import net.eman3600.hdemise.cardinal_components.SoulComponent;
 import net.eman3600.hdemise.init.entity.ModAttributes;
+import net.eman3600.hdemise.init.entity.ModStatusEffects;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.gl.RenderPipelines;
@@ -74,6 +75,7 @@ public abstract class InGameHudMixin {
             int soulPerVessel = SoulComponent.SOUL_PER_VESSEL;
 
             int soul = sc.getSoul();
+            boolean drawChains = player.hasStatusEffect(ModStatusEffects.CHAINED);
 
             for (int j = 0; j < vessels; j++) {
                 int l = right - (j % 10) * 8 - 9;
@@ -96,6 +98,9 @@ public abstract class InGameHudMixin {
                 if (fill > 0 || (j % 10 != 0 && soul - j * soulPerVessel >= soulPerVessel)) {
                     int pixels = 1 + (int)(8 * (float)fill/soulPerVessel);
                     context.drawTexture(RenderPipelines.GUI_TEXTURED, HUD_ICONS, l + (9 - pixels), k, u + (9 - pixels), v + 9, pixels, 9, 256, 256);
+                }
+                if (drawChains) {
+                    context.drawTexture(RenderPipelines.GUI_TEXTURED, HUD_ICONS, l, k, u, 126, 9, 9, 256, 256);
                 }
             }
         }

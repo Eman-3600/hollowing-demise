@@ -4,7 +4,9 @@ import net.eman3600.hdemise.cardinal_components.SoulComponent;
 import net.eman3600.hdemise.data_component.XPStorageComponent;
 import net.eman3600.hdemise.init.basics.ModDataComponentTypes;
 import net.eman3600.hdemise.init.basics.ModItems;
+import net.eman3600.hdemise.init.entity.ModStatusEffects;
 import net.minecraft.component.type.TooltipDisplayComponent;
+import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -34,6 +36,7 @@ public class XPCoreItem extends Item {
 
         if (sc.hasExperience() && component != null) {
             if (!world.isClient()) {
+                user.addStatusEffect(new StatusEffectInstance(ModStatusEffects.CHAINED, 30, 0, false, false, true));
                 user.addExperience(component.totalXP());
 
                 stack.decrementUnlessCreative(1, user);

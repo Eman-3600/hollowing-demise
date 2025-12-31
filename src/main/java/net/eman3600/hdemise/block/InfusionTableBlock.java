@@ -3,6 +3,7 @@ package net.eman3600.hdemise.block;
 import com.mojang.serialization.MapCodec;
 import net.eman3600.hdemise.block.entity.InfusionTableBlockEntity;
 import net.eman3600.hdemise.init.entity.ModBlockEntities;
+import net.eman3600.hdemise.screen.InfusionScreenHandler;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
@@ -11,6 +12,10 @@ import net.minecraft.block.entity.EnchantingTableBlockEntity;
 import net.minecraft.entity.ai.pathing.NavigationType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.particle.ParticleTypes;
+import net.minecraft.screen.NamedScreenHandlerFactory;
+import net.minecraft.screen.ScreenHandlerContext;
+import net.minecraft.screen.SimpleNamedScreenHandlerFactory;
+import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
@@ -23,6 +28,8 @@ import org.jspecify.annotations.Nullable;
 public class InfusionTableBlock extends BlockWithEntity implements BlockEntityProvider {
     private static final VoxelShape SHAPE = Block.createColumnShape(16.0, 0.0, 12.0);
     public static final MapCodec<InfusionTableBlock> CODEC = InfusionTableBlock.createCodec(InfusionTableBlock::new);
+
+    private static final Text CONTAINER_TITLE = Text.translatable("container.hdemise.infusion");
 
     public InfusionTableBlock(Settings settings) {
         super(settings);
@@ -104,5 +111,17 @@ public class InfusionTableBlock extends BlockWithEntity implements BlockEntityPr
         }
 
         return super.onUse(state, world, pos, player, hit);
+    }
+
+    @Nullable
+    @Override
+    protected NamedScreenHandlerFactory createScreenHandlerFactory(BlockState state, World world, BlockPos pos) {
+        if (world.getBlockEntity(pos) instanceof InfusionTableBlockEntity) {
+            return new SimpleNamedScreenHandlerFactory(
+                    (syncId, inventory, player) -> new InfusionScreenHandler(syncId, inventory, ScreenHandlerContext.create(world, pos)), CONTAINER_TITLE
+            );
+        } else {
+            return null;
+        }
     }
 }

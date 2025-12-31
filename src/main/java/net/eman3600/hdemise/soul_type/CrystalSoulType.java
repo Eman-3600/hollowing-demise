@@ -20,12 +20,12 @@ import static net.eman3600.hdemise.HDemise.MODID;
 public class CrystalSoulType extends SoulType {
 
     private static final List<AugmentSpace> augments = List.of(
-            new AugmentSpace(3, 3, ModTags.Items.YELLOW_AUGMENT),
-            new AugmentSpace(21, 3, ModTags.Items.YELLOW_AUGMENT),
-            new AugmentSpace(3, 21, ModTags.Items.GREEN_AUGMENT),
-            new AugmentSpace(21, 21, ModTags.Items.GREEN_AUGMENT),
-            new AugmentSpace(39, 21, ModTags.Items.GREEN_AUGMENT),
-            new AugmentSpace(39, 39, ModTags.Items.RED_AUGMENT)
+            new AugmentSpace(96, 4, ModTags.Items.YELLOW_AUGMENT),
+            new AugmentSpace(130, 38, ModTags.Items.YELLOW_AUGMENT),
+            new AugmentSpace(96, 38, ModTags.Items.GREEN_AUGMENT),
+            new AugmentSpace(40, 38, ModTags.Items.GREEN_AUGMENT),
+            new AugmentSpace(96, 94, ModTags.Items.GREEN_AUGMENT),
+            new AugmentSpace(5, 81, ModTags.Items.RED_AUGMENT)
     );
 
     public static final Identifier ATTRIBUTE_ID = Identifier.of(MODID, "crystal_soul");
