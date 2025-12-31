@@ -25,10 +25,10 @@ public class RevenantSoulType extends SoulType {
             new AugmentSpace(3, 39, ModTags.Items.RED_AUGMENT)
     );
 
-    public static final Identifier ATTRIBUTE_ID = Identifier.of(MODID, "rotten_soul");
+    public static final Identifier ATTRIBUTE_ID = Identifier.of(MODID, "revenant_soul");
 
-    public static final Identifier HEART_TYPE = Identifier.of(MODID,"textures/gui/hud/heart/rotten.png");
-    public static final Identifier HEART_CONTAINER_TYPE = Identifier.of(MODID,"textures/gui/hud/heart/rotten_container.png");
+    public static final Identifier HEART_TYPE = Identifier.of(MODID,"textures/gui/hud/heart/revenant.png");
+    public static final Identifier HEART_CONTAINER_TYPE = Identifier.of(MODID,"textures/gui/hud/heart/revenant_container.png");
 
 
     public RevenantSoulType(Identifier id) {

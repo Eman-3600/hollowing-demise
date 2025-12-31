@@ -33,6 +33,12 @@ public class ModItemGroups {
             entries.add(ModItems.PURE_SOUL);
             entries.add(ModItems.CRYSTAL_SOUL);
             entries.add(ModItems.CRYSTAL_SOUL_FRACTURED);
+            entries.add(ModItems.CONSTRUCT_SOUL);
+            entries.add(ModItems.CONSTRUCT_SOUL_FRACTURED);
+            entries.add(ModItems.PHANTOM_SOUL);
+            entries.add(ModItems.PHANTOM_SOUL_FRACTURED);
+            entries.add(ModItems.REVENANT_SOUL);
+            entries.add(ModItems.REVENANT_SOUL_FRACTURED);
         }).build());
     
     public static void registerItemGroups() {
