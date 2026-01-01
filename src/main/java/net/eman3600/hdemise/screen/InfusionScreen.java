@@ -7,6 +7,7 @@ import net.eman3600.hdemise.soul_type.SoulType;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gl.RenderPipelines;
 import net.minecraft.client.gui.Click;
 import net.minecraft.client.gui.DrawContext;
@@ -15,9 +16,13 @@ import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.sound.PositionedSoundInstance;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.sound.SoundEvents;
+import net.minecraft.text.OrderedText;
+import net.minecraft.text.StringVisitable;
 import net.minecraft.text.Text;
 import net.minecraft.util.Colors;
 import net.minecraft.util.Identifier;
+
+import java.util.List;
 
 import static net.eman3600.hdemise.HDemise.MODID;
 
@@ -136,6 +141,32 @@ public class InfusionScreen extends HandledScreen<InfusionScreenHandler> {
             }
         } else if (mainPageButton.isSelected(mouseX, mouseY)) {
             context.drawTooltip(Text.translatable("container.hdemise.infusion.main_page"), mouseX, mouseY);
+        }
+
+        if (this.handler.getPage() == Page.INFO && sc != null) {
+            Text soulName = Text.translatable(sc.getSoulType().getTranslationKey());
+            Text description = Text.translatable(sc.getSoulType().getTranslationKey() + ".description");
+
+            int left = this.x + 31;
+            int top = this.y + 18;
+            int right = this.x + 145;
+            int bottom = this.y + 124;
+
+            int i = (left + right)/2 - (textRenderer.getWidth(soulName)/2);
+            context.drawText(textRenderer, soulName, i, top, sc.isSoulless() ? Colors.CYAN : Colors.LIGHT_YELLOW, true);
+
+            int j = top + 12;
+            List<OrderedText> list = textRenderer.wrapLines(description, right - left);
+            i = 0;
+            for (OrderedText txt : list) {
+                if (textRenderer.getWidth(txt) > i) {
+                    i = textRenderer.getWidth(txt);
+                }
+            }
+            i = (left + right)/2 - (i/2);
+            for (int k = 0; k < list.size(); k++) {
+                context.drawText(textRenderer, list.get(k), i, j + k * 10, Colors.WHITE, true);
+            }
         }
 
         this.drawMouseoverTooltip(context, mouseX, mouseY);

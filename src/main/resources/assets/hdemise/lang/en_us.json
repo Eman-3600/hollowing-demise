@@ -77,20 +77,27 @@
 
 
     "soul_type.hdemise.mortal": "Pure",
+    "soul_type.hdemise.mortal.description": "The basic and versatile soul of a mortal. Heals from eating food.",
 
     "soul_type.hdemise.hollow": "Hollow",
+    "soul_type.hdemise.hollow.description": "Without a soul, one cannot retain experience. Burns in the daylight. Can become ethereal to avoid the sun.",
 
     "soul_type.hdemise.crystal": "Crystal",
+    "soul_type.hdemise.crystal.description": "An enchanting soul fueled by essence with high magic potential.",
 
     "soul_type.hdemise.phantom": "Phantom",
+    "soul_type.hdemise.phantom.description": "A soul, only barely. Retains the Hollow's abilities and weaknesses but is less frail and can gather experience.",
     
     "soul_type.hdemise.construct": "Constructed",
+    "soul_type.hdemise.construct.description": "Soul of a solar-powered automaton. Equipped with a jetpack. Gain essence over time, but focus with less potency.",
     "soul_type.hdemise.construct.enable_jet": "Enabled Jetpack",
     "soul_type.hdemise.construct.disable_jet": "Disabled Jetpack",
 
     "soul_type.hdemise.revenant": "Revenant",
+    "soul_type.hdemise.revenant.description": "Soul of an undead beast. Heals from eating food. Focus essence to enter a rage and lunge at foes.",
     
-    "soul_type.hdemise.negative": "Void",
+    "soul_type.hdemise.negative": "Absent",
+    "soul_type.hdemise.negative.description": "Where the soul once stood, now there is less than nothing.",
 
     "soul_type.soulTypeNotFound": "Unknown soul type: %s",
     "commands.hdemise.soul.set_success": "Set soul type of %s targets to %s",
