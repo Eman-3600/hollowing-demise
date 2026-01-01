@@ -216,7 +216,7 @@ public class InfusionScreenHandler extends ScreenHandler {
                     if (player instanceof ServerPlayerEntityAccess access) {
                         SoulComponent.of(player).validateSoulStack();
                         access.hdemise$markXPDirty();
-                        playSound(SoundEvents.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 1, 1.1f);
+                        playSound(SoundEvents.ENTITY_PLAYER_LEVELUP, 1, 1, 1.1f);
                     }
                     return true;
                 }

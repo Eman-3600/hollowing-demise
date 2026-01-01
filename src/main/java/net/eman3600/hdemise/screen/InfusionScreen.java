@@ -157,7 +157,7 @@ public class InfusionScreen extends HandledScreen<InfusionScreenHandler> {
             Text description = Text.translatable(sc.getSoulType().getTranslationKey() + ".description");
 
             int left = this.x + 31;
-            int top = this.y + 18;
+            int top = this.y + 19;
             int right = this.x + 145;
             int bottom = this.y + 124;
 
