@@ -46,9 +46,17 @@
     "itemgroup.hdemise.hdemise_group": "Hollowing Demise",
 
 
+    "tag.item.hdemise.yellow_augment": "General Augment",
+    "tag.item.hdemise.green_augment": "Magic Augment",
+    "tag.item.hdemise.red_augment": "Special Augment",
+
+
     "container.hdemise.infusion": "Infusion",
     "container.hdemise.infusion.top_up": "Full Restore",
     "container.hdemise.infusion.top_up_cooldown": "Recharging: %sm %ss",
+    "container.hdemise.infusion.info_page": "Soul Info",
+    "container.hdemise.infusion.repair_page": "Repair & Extra",
+    "container.hdemise.infusion.main_page": "Back",
 
 
     "effect.hdemise.rage": "Rage",

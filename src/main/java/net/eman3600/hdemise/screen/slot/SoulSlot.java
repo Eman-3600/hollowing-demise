@@ -40,6 +40,6 @@ public class SoulSlot extends DynamicSlot {
 
 
         handler.reloadSlots();
-        handler.playSound(SoundEvents.ENTITY_ZOMBIE_VILLAGER_CURE, 1, .8f, 1.2f);
+        handler.playSound(stack.isEmpty() ? SoundEvents.ENTITY_ITEM_FRAME_REMOVE_ITEM : SoundEvents.ENTITY_ITEM_FRAME_ADD_ITEM, 1, .8f, 1.2f);
     }
 }

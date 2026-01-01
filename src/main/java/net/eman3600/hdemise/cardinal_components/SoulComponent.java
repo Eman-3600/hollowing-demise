@@ -64,7 +64,7 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
     public static final int LUNGE_COOLDOWN_TICKS = 15;
     public static final int INTENDED_LUNGE_DURATION = 12;
     public static final double LUNGE_SPEED = 1.15;
-    public static final int TOP_UP_COOLDOWN = 6000;
+    public static final int TOP_UP_COOLDOWN = 10800;
 
     @Environment(EnvType.CLIENT)
     public static final int SUN_TICKS = 15;

@@ -1,6 +1,5 @@
 package net.eman3600.hdemise.screen;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import net.eman3600.hdemise.HDemise;
 import net.eman3600.hdemise.cardinal_components.SoulComponent;
 import net.eman3600.hdemise.screen.InfusionScreenHandler.Page;
@@ -12,18 +11,13 @@ import net.minecraft.client.gl.RenderPipelines;
 import net.minecraft.client.gui.Click;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.cursor.StandardCursors;
-import net.minecraft.client.gui.hud.InGameHud;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
-import net.minecraft.client.gui.widget.ButtonWidget;
-import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.sound.PositionedSoundInstance;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
 import net.minecraft.util.Colors;
 import net.minecraft.util.Identifier;
-
-import java.util.List;
 
 import static net.eman3600.hdemise.HDemise.MODID;
 
@@ -38,6 +32,9 @@ public class InfusionScreen extends HandledScreen<InfusionScreenHandler> {
     private static final Identifier DEFAULT_HARDCORE_HEART_TYPE = Identifier.ofVanilla("textures/gui/sprites/hud/heart/hardcore_full.png");
 
     private final Button topUpButton;
+    private final Button infoPageButton;
+    private final Button repairPageButton;
+    private final Button mainPageButton;
 
     public InfusionScreen(InfusionScreenHandler handler, PlayerInventory inventory, Text title) {
         super(handler, inventory, title);
@@ -47,6 +44,9 @@ public class InfusionScreen extends HandledScreen<InfusionScreenHandler> {
         this.playerInventoryTitleY = 129;
 
         this.topUpButton = new Button(0, 158, 124, 176, 18, 11, 11);
+        this.infoPageButton = new Button(1, 158, 113, 176, 40, 11, 11);
+        this.repairPageButton = new Button(2, 158, 102, 176, 62, 11, 11);
+        this.mainPageButton = new Button(3, 158, 113, 176, 40, 11, 11);
     }
 
     @Override
@@ -63,14 +63,33 @@ public class InfusionScreen extends HandledScreen<InfusionScreenHandler> {
                 Identifier soulTexture = Identifier.of(soulType.getId().getNamespace(), "textures/gui/container/soul/" + soulType.getId().getPath() + ".png");
 
                 context.drawTexture(RenderPipelines.GUI_TEXTURED, soulTexture, x + 4, y + 4, 0f, 0f, 168, 133, 168, 133);
+
+                infoPageButton.draw(context, MAIN_TEXTURE, mouseX, mouseY);
+                repairPageButton.draw(context, MAIN_TEXTURE, mouseX, mouseY);
+
+                if (infoPageButton.isSelected(mouseX, mouseY) || repairPageButton.isSelected(mouseX, mouseY)) {
+                    context.setCursor(StandardCursors.POINTING_HAND);
+                }
             }
             case Page.INFO -> {
 
                 context.drawTexture(RenderPipelines.GUI_TEXTURED, INFO_TEXTURE, x, y, 0.0F, 0.0F, this.backgroundWidth, this.backgroundHeight, 256, 256);
+
+                mainPageButton.draw(context, INFO_TEXTURE, mouseX, mouseY);
+
+                if (mainPageButton.isSelected(mouseX, mouseY)) {
+                    context.setCursor(StandardCursors.POINTING_HAND);
+                }
             }
             case REPAIR -> {
 
                 context.drawTexture(RenderPipelines.GUI_TEXTURED, REPAIR_TEXTURE, x, y, 0.0F, 0.0F, this.backgroundWidth, this.backgroundHeight, 256, 256);
+
+                mainPageButton.draw(context, REPAIR_TEXTURE, mouseX, mouseY);
+
+                if (mainPageButton.isSelected(mouseX, mouseY)) {
+                    context.setCursor(StandardCursors.POINTING_HAND);
+                }
             }
         }
 
@@ -109,6 +128,15 @@ public class InfusionScreen extends HandledScreen<InfusionScreenHandler> {
                     Text.translatable("container.hdemise.infusion.top_up_cooldown", (sc.getTopUpCooldown()/1200), (sc.getTopUpCooldown()/20 % 60)).withColor(Colors.GRAY),
                     mouseX, mouseY);
         }
+        if (this.handler.getPage() == Page.MAIN) {
+            if (infoPageButton.isSelected(mouseX, mouseY)) {
+                context.drawTooltip(Text.translatable("container.hdemise.infusion.info_page"), mouseX, mouseY);
+            } else if (repairPageButton.isSelected(mouseX, mouseY)) {
+                context.drawTooltip(Text.translatable("container.hdemise.infusion.repair_page"), mouseX, mouseY);
+            }
+        } else if (mainPageButton.isSelected(mouseX, mouseY)) {
+            context.drawTooltip(Text.translatable("container.hdemise.infusion.main_page"), mouseX, mouseY);
+        }
 
         this.drawMouseoverTooltip(context, mouseX, mouseY);
     }
@@ -116,10 +144,32 @@ public class InfusionScreen extends HandledScreen<InfusionScreenHandler> {
     @Override
     public boolean mouseClicked(Click click, boolean doubled) {
         HDemise.LOGGER.info("Mouse click at {}, {}", click.x(), click.y());
-        if (topUpButton.isSelected((int) click.x(), (int) click.y()) && this.handler.onButtonClick(client.player, 0)) {
+        if (topUpButton.isSelected((int) click.x(), (int) click.y()) && this.handler.onButtonClick(client.player, topUpButton.index)) {
             MinecraftClient.getInstance().getSoundManager().play(PositionedSoundInstance.master(SoundEvents.UI_BUTTON_CLICK, 1.0f));
-            this.client.interactionManager.clickButton(this.handler.syncId, 0);
+            this.client.interactionManager.clickButton(this.handler.syncId, topUpButton.index);
             return true;
+        }
+
+        switch (this.handler.getPage()) {
+            case MAIN -> {
+                if (infoPageButton.isSelected((int) click.x(), (int) click.y()) && this.handler.onButtonClick(client.player, infoPageButton.index)) {
+                    MinecraftClient.getInstance().getSoundManager().play(PositionedSoundInstance.master(SoundEvents.UI_BUTTON_CLICK, 1.0f));
+                    this.client.interactionManager.clickButton(this.handler.syncId, infoPageButton.index);
+                    return true;
+                }
+                if (repairPageButton.isSelected((int) click.x(), (int) click.y()) && this.handler.onButtonClick(client.player, repairPageButton.index)) {
+                    MinecraftClient.getInstance().getSoundManager().play(PositionedSoundInstance.master(SoundEvents.UI_BUTTON_CLICK, 1.0f));
+                    this.client.interactionManager.clickButton(this.handler.syncId, repairPageButton.index);
+                    return true;
+                }
+            }
+            case INFO, REPAIR -> {
+                if (mainPageButton.isSelected((int) click.x(), (int) click.y()) && this.handler.onButtonClick(client.player, mainPageButton.index)) {
+                    MinecraftClient.getInstance().getSoundManager().play(PositionedSoundInstance.master(SoundEvents.UI_BUTTON_CLICK, 1.0f));
+                    this.client.interactionManager.clickButton(this.handler.syncId, mainPageButton.index);
+                    return true;
+                }
+            }
         }
 
         return super.mouseClicked(click, doubled);

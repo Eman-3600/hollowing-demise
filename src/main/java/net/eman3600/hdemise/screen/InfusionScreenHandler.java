@@ -161,6 +161,27 @@ public class InfusionScreenHandler extends ScreenHandler {
                     return true;
                 }
             }
+            case 1 -> {
+                if (page == Page.MAIN) {
+                    setPage(Page.INFO);
+                    reloadSlots();
+                    return true;
+                }
+            }
+            case 2 -> {
+                if (page == Page.MAIN) {
+                    setPage(Page.REPAIR);
+                    reloadSlots();
+                    return true;
+                }
+            }
+            case 3 -> {
+                if (page != Page.MAIN) {
+                    setPage(Page.MAIN);
+                    reloadSlots();
+                    return true;
+                }
+            }
         }
 
         return super.onButtonClick(player, id);
