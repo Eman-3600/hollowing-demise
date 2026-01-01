@@ -40,6 +40,7 @@ public class InfusionScreen extends HandledScreen<InfusionScreenHandler> {
     private final Button infoPageButton;
     private final Button repairPageButton;
     private final Button mainPageButton;
+    private final Button xpButton;
 
     public InfusionScreen(InfusionScreenHandler handler, PlayerInventory inventory, Text title) {
         super(handler, inventory, title);
@@ -52,6 +53,7 @@ public class InfusionScreen extends HandledScreen<InfusionScreenHandler> {
         this.infoPageButton = new Button(1, 158, 113, 176, 40, 11, 11);
         this.repairPageButton = new Button(2, 158, 102, 176, 62, 11, 11);
         this.mainPageButton = new Button(3, 158, 113, 176, 40, 11, 11);
+        this.xpButton = new Button(4, 7, 114, 176, 62, 18, 11);
     }
 
     @Override
@@ -94,6 +96,13 @@ public class InfusionScreen extends HandledScreen<InfusionScreenHandler> {
 
                 if (mainPageButton.isSelected(mouseX, mouseY)) {
                     context.setCursor(StandardCursors.POINTING_HAND);
+                }
+
+                if (handler.canExtractExperience()) {
+                    xpButton.draw(context, REPAIR_TEXTURE, mouseX, mouseY);
+                    if (xpButton.isSelected(mouseX, mouseY)) {
+                        context.setCursor(StandardCursors.POINTING_HAND);
+                    }
                 }
             }
         }
@@ -167,6 +176,10 @@ public class InfusionScreen extends HandledScreen<InfusionScreenHandler> {
             for (int k = 0; k < list.size(); k++) {
                 context.drawText(textRenderer, list.get(k), i, j + k * 10, Colors.WHITE, true);
             }
+        } else if (this.handler.getPage() == Page.REPAIR) {
+            if (xpButton.isSelected(mouseX, mouseY)) {
+                context.drawTooltip(Text.translatable("container.hdemise.infusion.extract_xp").withColor(this.handler.canExtractExperience() ? Colors.WHITE : Colors.GRAY), mouseX, mouseY);
+            }
         }
 
         this.drawMouseoverTooltip(context, mouseX, mouseY);
@@ -201,6 +214,12 @@ public class InfusionScreen extends HandledScreen<InfusionScreenHandler> {
                     return true;
                 }
             }
+        }
+
+        if (handler.getPage() == Page.REPAIR && xpButton.isSelected((int) click.x(), (int) click.y()) && this.handler.onButtonClick(client.player, xpButton.index)) {
+            MinecraftClient.getInstance().getSoundManager().play(PositionedSoundInstance.master(SoundEvents.UI_BUTTON_CLICK, 1.0f));
+            this.client.interactionManager.clickButton(this.handler.syncId, xpButton.index);
+            return true;
         }
 
         return super.mouseClicked(click, doubled);

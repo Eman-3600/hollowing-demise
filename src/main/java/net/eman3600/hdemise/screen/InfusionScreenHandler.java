@@ -3,21 +3,25 @@ package net.eman3600.hdemise.screen;
 import net.eman3600.hdemise.block.entity.InfusionTableBlockEntity;
 import net.eman3600.hdemise.cardinal_components.SoulComponent;
 import net.eman3600.hdemise.init.basics.ModBlocks;
+import net.eman3600.hdemise.init.basics.ModItems;
 import net.eman3600.hdemise.init.event.ModScreenHandlerTypes;
+import net.eman3600.hdemise.item.XPCoreItem;
+import net.eman3600.hdemise.mixin_interfaces.ServerPlayerEntityAccess;
 import net.eman3600.hdemise.screen.slot.AugmentSlot;
 import net.eman3600.hdemise.screen.slot.DynamicSlot;
 import net.eman3600.hdemise.screen.slot.SoulSlot;
+import net.eman3600.hdemise.screen.slot.XPCoreSlot;
 import net.eman3600.hdemise.soul_type.SoulType;
 import net.eman3600.hdemise.soul_type.SoulTypeRegistry;
-import net.eman3600.hdemise.util.inventory.AugmentSpace;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.inventory.Inventory;
+import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.screen.Property;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.ScreenHandlerContext;
-import net.minecraft.screen.slot.Slot;
+import net.minecraft.screen.StonecutterScreenHandler;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
@@ -31,11 +35,21 @@ public class InfusionScreenHandler extends ScreenHandler {
     private final SoulSlot soulSlot;
     private final SoulSlot infoSoulSlot;
     private final Property pageProperty;
+    private final XPCoreSlot coreSlot;
 
     private final PlayerEntity player;
 
     private final List<DynamicSlot> dynamicSlots;
     private final Map<SoulType, List<AugmentSlot>> typeAugments;
+
+    public final Inventory repairInventory = new SimpleInventory(5) {
+        @Override
+        public void markDirty() {
+            super.markDirty();
+            InfusionScreenHandler.this.onContentChanged(this);
+            //InfusionScreenHandler.this.contentsChangedListener.run();
+        }
+    };
 
 
     public InfusionScreenHandler(int syncId, PlayerInventory playerInventory) {
@@ -91,6 +105,10 @@ public class InfusionScreenHandler extends ScreenHandler {
             typeAugments.put(type, List.copyOf(augmentSlots));
         }
 
+        this.coreSlot = new XPCoreSlot(repairInventory, 0, 8, 95, false);
+        this.addSlot(coreSlot);
+        dynamicSlots.add(coreSlot);
+
         this.dynamicSlots = List.copyOf(dynamicSlots);
     }
 
@@ -114,11 +132,17 @@ public class InfusionScreenHandler extends ScreenHandler {
 
     public void setPage(Page page) {
         this.page = page;
+        this.repairInventory.removeStack(4);
+        this.context.run((world, pos) -> this.dropInventory(player, this.repairInventory));
         this.syncState();
     }
 
     public void playSound(SoundEvent sound, float volume, float pitchMin, float pitchMax) {
         context.run((world, blockPos) -> world.playSound(null, blockPos, sound, SoundCategory.BLOCKS, volume, pitchMin + (pitchMax - pitchMin) * world.getRandom().nextFloat()));
+    }
+
+    public boolean canExtractExperience() {
+        return repairInventory.getStack(0).isEmpty() && (player.experienceLevel > 0 || player.experienceProgress > 0);
     }
 
     public void reloadSlots() {
@@ -135,6 +159,9 @@ public class InfusionScreenHandler extends ScreenHandler {
             }
             case INFO -> {
                 infoSoulSlot.enable();
+            }
+            case REPAIR -> {
+                coreSlot.enable();
             }
         }
     }
@@ -182,9 +209,27 @@ public class InfusionScreenHandler extends ScreenHandler {
                     return true;
                 }
             }
+            case 4 -> {
+                if (canExtractExperience()) {
+                    ItemStack stack = ModItems.EXPERIENCE_CORE.extractPlayerExperience(player);
+                    repairInventory.setStack(0, stack);
+                    if (player instanceof ServerPlayerEntityAccess access) {
+                        access.hdemise$markXPDirty();
+                        playSound(SoundEvents.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 1, 1.1f);
+                    }
+                    return true;
+                }
+            }
         }
 
         return super.onButtonClick(player, id);
+    }
+
+    @Override
+    public void onClosed(PlayerEntity player) {
+        super.onClosed(player);
+        this.repairInventory.removeStack(4);
+        this.context.run((world, pos) -> this.dropInventory(player, this.repairInventory));
     }
 
     public enum Page {
