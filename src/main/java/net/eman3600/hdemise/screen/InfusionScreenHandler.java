@@ -214,6 +214,7 @@ public class InfusionScreenHandler extends ScreenHandler {
                     ItemStack stack = ModItems.EXPERIENCE_CORE.extractPlayerExperience(player);
                     repairInventory.setStack(0, stack);
                     if (player instanceof ServerPlayerEntityAccess access) {
+                        SoulComponent.of(player).validateSoulStack();
                         access.hdemise$markXPDirty();
                         playSound(SoundEvents.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 1, 1.1f);
                     }
