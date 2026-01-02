@@ -94,6 +94,8 @@ public abstract class InGameHudMixin {
                     k += this.random.nextInt(3) - 1;
                 } else if (((sc.getSoulVessels() <= 3f && !sc.usesHunger()) || sc.isGhost()) && this.ticks % (int)(sc.getSoulVessels() * (sc.isGhost() ? 6 : 12) + 2) == 0) {
                     k += this.random.nextInt(3) - 1;
+                } else if (sc.getWarning() >= SoulComponent.WARNING_TICKS - 1) {
+                    k += this.random.nextInt(3) - 1;
                 }
 
                 context.drawTexture(RenderPipelines.GUI_TEXTURED, HUD_ICONS, l, k, u, v, 9, 9, 256, 256);

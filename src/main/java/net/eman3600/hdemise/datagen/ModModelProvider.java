@@ -30,12 +30,17 @@ public class ModModelProvider extends FabricModelProvider {
         itemModelGenerator.register(ModItems.ALMARITE, Models.GENERATED);
         itemModelGenerator.register(ModItems.FORM_SWITCHER, Models.GENERATED);
         itemModelGenerator.register(ModItems.SIMPLE_CURE, Models.GENERATED);
-        itemModelGenerator.register(ModItems.DEMON_SCROLL, Models.GENERATED);
         itemModelGenerator.register(ModItems.EXPERIENCE_CORE, Models.GENERATED);
         itemModelGenerator.register(ModItems.AMETHYST_APPLE, Models.GENERATED);
+        itemModelGenerator.register(ModItems.CROSS, Models.GENERATED);
+
         itemModelGenerator.register(ModItems.FEATHER_TOKEN, Models.GENERATED);
         itemModelGenerator.register(ModItems.ECTOPLASMIC_BONE, Models.GENERATED);
         itemModelGenerator.register(ModItems.GOLEM_STRENGTH_BELT, Models.GENERATED);
+        itemModelGenerator.register(ModItems.DEMON_SCROLL, Models.GENERATED);
+
+        itemModelGenerator.register(ModItems.WIND_STAFF, Models.GENERATED);
+
         itemModelGenerator.register(ModItems.PURE_SOUL, Models.GENERATED);
         itemModelGenerator.register(ModItems.CRYSTAL_SOUL, Models.GENERATED);
         itemModelGenerator.register(ModItems.CRYSTAL_SOUL_FRACTURED, Models.GENERATED);

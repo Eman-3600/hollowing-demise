@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "cross",
+  "key": {
+    "#": "minecraft:gold_ingot",
+    "X": "minecraft:diamond"
+  },
+  "pattern": [
+    " # ",
+    "#X#",
+    " # "
+  ],
+  "result": {
+    "count": 1,
+    "id": "hdemise:cross"
+  }
+}

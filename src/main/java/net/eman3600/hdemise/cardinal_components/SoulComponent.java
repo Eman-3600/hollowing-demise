@@ -3,6 +3,7 @@ package net.eman3600.hdemise.cardinal_components;
 import net.eman3600.hdemise.init.custom.ModSoulTypes;
 import net.eman3600.hdemise.init.entity.ModAttributes;
 import net.eman3600.hdemise.init.cca.ModEntityComponents;
+import net.eman3600.hdemise.init.entity.ModStatusEffects;
 import net.eman3600.hdemise.item.SoulItem;
 import net.eman3600.hdemise.item.XPCoreItem;
 import net.eman3600.hdemise.networking.s2c.SoulEventPayload;
@@ -260,7 +261,7 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
     }
 
     public boolean canVanish() {
-        return (soul > 0 || player.isCreative() || !usesSoul()) && getSoulType().canVanish() && !focusing && !curing;
+        return (soul > 0 || player.isCreative() || !usesSoul()) && getSoulType().canVanish() && !player.hasStatusEffect(ModStatusEffects.BLOCKED) && !focusing && !curing;
     }
 
     public boolean canCure() {

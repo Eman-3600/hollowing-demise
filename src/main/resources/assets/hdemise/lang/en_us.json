@@ -1,20 +1,25 @@
 {
     "item.hdemise.almarite": "Almarite Shard",
     "item.hdemise.simple_cure": "Totem of Restoration",
-    "item.hdemise.simple_cure.tooltip": "§7Restores hollows to life",
+    "item.hdemise.simple_cure.tooltip": "Restores hollows to life",
     "item.hdemise.amethyst_apple": "Amethyst Apple",
-    "item.hdemise.amethyst_apple.tooltip": "§7Restores hollows to life?",
+    "item.hdemise.amethyst_apple.tooltip": "Restores hollows to life?",
     "item.hdemise.demon_scroll": "Infernal Scroll",
-    "item.hdemise.demon_scroll.tooltip": "§7Transforms the user into a hollow",
-    "item.hdemise.demon_scroll.warning": "§7Extracts all levels",
+    "item.hdemise.demon_scroll.tooltip": "Transforms the user into a hollow",
+    "item.hdemise.demon_scroll.warning": "Extracts all levels",
     "item.hdemise.form_switcher": "Mortality Adjuster",
     "item.hdemise.experience_core": "Orb of Knowledge",
     "item.hdemise.experience_core.tooltip.level": "Level: %s",
     "item.hdemise.experience_core.tooltip.points": "Extra Points: %s",
+    "item.hdemise.cross": "Cross",
+    "item.hdemise.cross.tooltip": "Holy light reveals spirits.",
 
     "item.hdemise.feather_token": "Feather Token",
     "item.hdemise.ectoplasmic_bone": "Ectoplasmic Bone",
     "item.hdemise.golem_strength_belt": "Belt of Golem Strength",
+    
+    "item.hdemise.wind_staff": "Windstorm Staff",
+    "item.hdemise.wind_staff.tooltip": "Shoots wind charges.",
 
     "item.hdemise.pure_soul": "Pure Soul",
     "item.hdemise.crystal_soul": "Crystal Soul",
@@ -30,6 +35,7 @@
     "tooltip.hdemise.soul.first": "Use at an Infusion Table",
     "tooltip.hdemise.soul.level": "Level: %s",
     "tooltip.hdemise.soul.extra": "Extra Points: %s",
+    "tooltip.hdemise.soul_cost": "Soul Cost: %s",
 
 
     "block.hdemise.almarite_block": "Block of Almarite",

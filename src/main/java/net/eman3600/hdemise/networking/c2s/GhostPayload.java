@@ -39,6 +39,8 @@ public record GhostPayload(boolean beginning) implements CustomPayload {
             if (payload.beginning) {
                 if (!sc.isVanishing() && (sc.canVanish() || sc.isGhost())) {
                     sc.setVanishing(true);
+                } else if (sc.getSoulType().canVanish() && context.player().hasStatusEffect(ModStatusEffects.BLOCKED) && !sc.isVanishing()) {
+                    sc.warnSoul();
                 }
 
                 if (sc.getSoulType() == ModSoulTypes.CONSTRUCT) {

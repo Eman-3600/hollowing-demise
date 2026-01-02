@@ -2,6 +2,7 @@ package net.eman3600.hdemise.init.basics;
 
 import net.eman3600.hdemise.init.custom.ModSoulTypes;
 import net.eman3600.hdemise.item.*;
+import net.eman3600.hdemise.item.soul_using.WindStaffItem;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.FoodComponents;
@@ -24,12 +25,16 @@ public class ModItems {
     public static final Item ALMARITE = register("almarite", XPItem::new, new Item.Settings());
     public static final Item FORM_SWITCHER = register("form_switcher", FormSwitcherItem::new, new Item.Settings().rarity(Rarity.EPIC).maxCount(1));
     public static final Item SIMPLE_CURE = register("simple_cure", ConsumableCureItem::new, new Item.Settings().rarity(Rarity.UNCOMMON).maxCount(1));
-    public static final Item DEMON_SCROLL = register("demon_scroll", ConsumableDemonItem::new, new Item.Settings().rarity(Rarity.UNCOMMON).maxCount(1));
     public static final Item AMETHYST_APPLE = register("amethyst_apple", AmethystAppleItem::new, new Item.Settings().rarity(Rarity.UNCOMMON).food(FoodComponents.APPLE));
+    public static final Item CROSS = register("cross", CrossItem::new, new Item.Settings().rarity(Rarity.UNCOMMON).maxCount(1).maxDamage(64));
     public static final XPCoreItem EXPERIENCE_CORE = (XPCoreItem) register("experience_core", XPCoreItem::new, new Item.Settings().rarity(Rarity.RARE).maxCount(1).component(DataComponentTypes.ENCHANTMENT_GLINT_OVERRIDE, true));
+
     public static final Item FEATHER_TOKEN = register("feather_token", Item::new, new Item.Settings());
     public static final Item ECTOPLASMIC_BONE = register("ectoplasmic_bone", Item::new, new Item.Settings());
     public static final Item GOLEM_STRENGTH_BELT = register("golem_strength_belt", Item::new, new Item.Settings());
+    public static final Item DEMON_SCROLL = register("demon_scroll", ConsumableDemonItem::new, new Item.Settings().rarity(Rarity.UNCOMMON).maxCount(1));
+
+    public static final Item WIND_STAFF = register("wind_staff", WindStaffItem::new, new Item.Settings().rarity(Rarity.UNCOMMON).maxCount(1).maxDamage(1200));
 
     public static final Item PURE_SOUL = register("pure_soul", (settings) -> new SoulItem(settings, ModSoulTypes.MORTAL), SoulItem.getDefaultSettings());
     public static final Item CRYSTAL_SOUL_FRACTURED = register("crystal_soul_fractured", Item::new, SoulItem.getDefaultSettings());
@@ -69,6 +74,8 @@ public class ModItems {
         });
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.COMBAT).register((group) -> {
             group.add(ModItems.ALMARITE);
+            group.add(ModItems.CROSS);
+            group.add(ModItems.WIND_STAFF);
         });
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.TOOLS).register((group) -> {
             group.add(ModItems.ALMARITE);
@@ -76,6 +83,7 @@ public class ModItems {
             group.add(ModItems.DEMON_SCROLL);
             group.add(ModItems.AMETHYST_APPLE);
             group.add(ModItems.EXPERIENCE_CORE);
+            group.add(ModItems.WIND_STAFF);
         });
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.FOOD_AND_DRINK).register((group) -> {
             group.add(ModItems.AMETHYST_APPLE);

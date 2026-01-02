@@ -22,6 +22,7 @@ public class ModStatusEffects {
             .addAttributeModifier(EntityAttributes.ATTACK_KNOCKBACK, Identifier.of(MODID, "effect.rage"), -.5, EntityAttributeModifier.Operation.ADD_MULTIPLIED_TOTAL));
 
     public static final RegistryEntry<StatusEffect> CHAINED = register("chained", new ModStatusEffect(StatusEffectCategory.HARMFUL, 0x495065));
+    public static final RegistryEntry<StatusEffect> BLOCKED = register("blocked", new ModStatusEffect(StatusEffectCategory.HARMFUL, 0x962300));
 
 
     private static RegistryEntry<StatusEffect> register(String id, StatusEffect statusEffect) {

@@ -11,6 +11,7 @@ import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
+import net.minecraft.util.Colors;
 import net.minecraft.util.Hand;
 import net.minecraft.world.World;
 
@@ -49,7 +50,7 @@ public class ConsumableDemonItem extends Item {
 
     @Override
     public void appendTooltip(ItemStack stack, TooltipContext context, TooltipDisplayComponent displayComponent, Consumer<Text> textConsumer, TooltipType type) {
-        textConsumer.accept(Text.translatable(getTranslationKey() + ".tooltip"));
-        textConsumer.accept(Text.translatable(getTranslationKey() + ".warning"));
+        textConsumer.accept(Text.translatable(getTranslationKey() + ".tooltip").withColor(Colors.LIGHT_GRAY));
+        textConsumer.accept(Text.translatable(getTranslationKey() + ".warning").withColor(Colors.LIGHT_GRAY));
     }
 }
