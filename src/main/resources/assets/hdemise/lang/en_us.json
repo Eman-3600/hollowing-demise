@@ -10,6 +10,8 @@
     "item.hdemise.experience_core.tooltip.points": "Extra Points: %s",
     "item.hdemise.cross": "Cross",
     "item.hdemise.cross.tooltip": "Holy light reveals spirits",
+    "item.hdemise.soulroot_bulb": "Soulroot Bulb",
+    "item.hdemise.soulroot_bulb.tooltip": "Contains Essence",
 
     "item.hdemise.feather_token": "Feather Token",
     "item.hdemise.golem_strength_belt": "Belt of Golem Strength",

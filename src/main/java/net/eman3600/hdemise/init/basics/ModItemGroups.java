@@ -18,30 +18,30 @@ public class ModItemGroups {
         .icon(() -> new ItemStack(ModItems.PURE_SOUL))
         .displayName(Text.translatable("itemgroup.hdemise.hdemise_group"))
         .entries((displayContext, entries) -> {
-            entries.add(ModBlocks.ALMARITE_ORE);
-            entries.add(ModBlocks.DEEPSLATE_ALMARITE_ORE);
-            entries.add(ModBlocks.ALMARITE_BLOCK);
-            entries.add(ModItems.ALMARITE);
-            entries.add(ModItems.SIMPLE_CURE);
-            entries.add(ModItems.DEMON_SCROLL);
-            entries.add(ModItems.AMETHYST_APPLE);
-            entries.add(ModItems.CROSS);
-            entries.add(ModItems.EXPERIENCE_CORE);
-            entries.add(ModBlocks.INFUSION_TABLE);
-            entries.add(ModItems.PURE_SOUL);
-            entries.add(ModItems.CRYSTAL_SOUL);
-            entries.add(ModItems.CRYSTAL_SOUL_FRACTURED);
-            entries.add(ModItems.CONSTRUCT_SOUL);
-            entries.add(ModItems.CONSTRUCT_SOUL_FRACTURED);
-            entries.add(ModItems.PHANTOM_SOUL);
-            entries.add(ModItems.PHANTOM_SOUL_FRACTURED);
-            entries.add(ModItems.REVENANT_SOUL);
-            entries.add(ModItems.REVENANT_SOUL_FRACTURED);
-            entries.add(ModItems.FEATHER_TOKEN);
-            entries.add(ModItems.ECTOPLASMIC_BONE);
-            entries.add(ModItems.GOLEM_STRENGTH_BELT);
-            entries.add(ModItems.WIND_STAFF);
-            entries.add(ModItems.FORM_SWITCHER);
+                entries.add(ModBlocks.ALMARITE_ORE);
+                entries.add(ModBlocks.DEEPSLATE_ALMARITE_ORE);
+                entries.add(ModBlocks.ALMARITE_BLOCK);
+                entries.add(ModItems.ALMARITE);
+                entries.add(ModItems.SIMPLE_CURE);
+                entries.add(ModItems.AMETHYST_APPLE);
+                entries.add(ModItems.CROSS);
+                entries.add(ModItems.EXPERIENCE_CORE);
+                entries.add(ModBlocks.INFUSION_TABLE);
+                entries.add(ModItems.PURE_SOUL);
+                entries.add(ModItems.CRYSTAL_SOUL);
+                entries.add(ModItems.CRYSTAL_SOUL_FRACTURED);
+                entries.add(ModItems.CONSTRUCT_SOUL);
+                entries.add(ModItems.CONSTRUCT_SOUL_FRACTURED);
+                entries.add(ModItems.PHANTOM_SOUL);
+                entries.add(ModItems.PHANTOM_SOUL_FRACTURED);
+                entries.add(ModItems.REVENANT_SOUL);
+                entries.add(ModItems.REVENANT_SOUL_FRACTURED);
+                entries.add(ModItems.FEATHER_TOKEN);
+                entries.add(ModItems.ECTOPLASMIC_BONE);
+                entries.add(ModItems.GOLEM_STRENGTH_BELT);
+                entries.add(ModItems.DEMON_SCROLL);
+                entries.add(ModItems.WIND_STAFF);
+                entries.add(ModItems.FORM_SWITCHER);
         }).build());
     
     public static void registerItemGroups() {

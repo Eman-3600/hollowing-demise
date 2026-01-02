@@ -234,7 +234,7 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
             resetSoul();
         }
 
-        setSoul(getMaxSoul()/2);
+        setSoul(getMaxSoul() - (SOUL_PER_VESSEL * 2));
         validateSoulStack();
 
     }

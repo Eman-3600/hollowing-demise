@@ -4,6 +4,8 @@ import net.eman3600.hdemise.cardinal_components.SoulComponent;
 import net.eman3600.hdemise.init.entity.ModStatusEffects;
 import net.minecraft.component.type.TooltipDisplayComponent;
 import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.effect.StatusEffects;
+import net.minecraft.entity.mob.VexEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -23,7 +25,8 @@ public class CrossItem extends Item {
 
     private static final int COOLDOWN = 200;
     private static final int BLOCK_DURATION = 120;
-    private static final double RANGE = 4;
+    private static final int GLOW_DURATION = 300;
+    private static final double RANGE = 6;
 
     public CrossItem(Settings settings) {
         super(settings);
@@ -39,11 +42,15 @@ public class CrossItem extends Item {
 
                 if (sc.getSoulType().canVanish()) {
                     player.addStatusEffect(new StatusEffectInstance(ModStatusEffects.BLOCKED, BLOCK_DURATION), user);
+                    player.addStatusEffect(new StatusEffectInstance(StatusEffects.GLOWING, GLOW_DURATION), user);
 
                     if (sc.isGhost()) {
                         sc.setGhost(false);
                     }
                 }
+            }
+            for (VexEntity vex : world.getEntitiesByClass(VexEntity.class, box, e -> true)) {
+                vex.addStatusEffect(new StatusEffectInstance(StatusEffects.GLOWING, GLOW_DURATION), user);
             }
 
             ItemStack stack = user.getStackInHand(hand);

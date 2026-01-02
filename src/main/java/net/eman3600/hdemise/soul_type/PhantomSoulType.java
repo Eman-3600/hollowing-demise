@@ -74,6 +74,14 @@ public class PhantomSoulType extends SoulType {
 
             hpInstance.addTemporaryModifier(new EntityAttributeModifier(ATTRIBUTE_ID, -6, EntityAttributeModifier.Operation.ADD_VALUE));
         }
+
+
+        RegistryEntry<EntityAttribute> maxSoul = ModAttributes.MAX_SOUL;
+        EntityAttributeInstance maxSoulInstance = container.getCustomInstance(maxSoul);
+        if (maxSoulInstance != null) {
+
+            maxSoulInstance.addTemporaryModifier(new EntityAttributeModifier(ATTRIBUTE_ID, -2, EntityAttributeModifier.Operation.ADD_VALUE));
+        }
     }
 
     @Override
@@ -84,6 +92,14 @@ public class PhantomSoulType extends SoulType {
         if (hpInstance != null) {
 
             hpInstance.removeModifier(ATTRIBUTE_ID);
+        }
+
+        RegistryEntry<EntityAttribute> maxSoul = ModAttributes.MAX_SOUL;
+        EntityAttributeInstance maxSoulInstance = container.getCustomInstance(maxSoul);
+
+        if (maxSoulInstance != null) {
+
+            maxSoulInstance.removeModifier(ATTRIBUTE_ID);
         }
     }
 

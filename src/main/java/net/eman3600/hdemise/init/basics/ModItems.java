@@ -1,5 +1,6 @@
 package net.eman3600.hdemise.init.basics;
 
+import net.eman3600.hdemise.cardinal_components.SoulComponent;
 import net.eman3600.hdemise.init.custom.ModSoulTypes;
 import net.eman3600.hdemise.init.entity.ModAttributes;
 import net.eman3600.hdemise.item.*;
@@ -9,9 +10,8 @@ import net.eman3600.hdemise.item.augment.AugmentItem;
 import net.eman3600.hdemise.item.soul_using.WindStaffItem;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.FoodComponent;
 import net.minecraft.component.type.FoodComponents;
-import net.minecraft.entity.attribute.EntityAttribute;
-import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.attribute.EntityAttributeModifier.Operation;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.item.Item;
@@ -22,7 +22,6 @@ import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Rarity;
-import org.w3c.dom.Attr;
 
 import java.util.function.Function;
 
@@ -31,12 +30,17 @@ import static net.eman3600.hdemise.HDemise.MODID;
 
 public class ModItems {
 
+    public static final FoodComponent SOUL_BERRY_FOOD = new FoodComponent.Builder().nutrition(2).saturationModifier(.75F).build();
+
+
+
     public static final Item ALMARITE = register("almarite", XPItem::new, new Item.Settings());
     public static final Item FORM_SWITCHER = register("form_switcher", FormSwitcherItem::new, new Item.Settings().rarity(Rarity.EPIC).maxCount(1));
     public static final Item SIMPLE_CURE = register("simple_cure", ConsumableCureItem::new, new Item.Settings().rarity(Rarity.UNCOMMON).maxCount(1));
     public static final Item AMETHYST_APPLE = register("amethyst_apple", AmethystAppleItem::new, new Item.Settings().rarity(Rarity.UNCOMMON).food(FoodComponents.APPLE));
     public static final Item CROSS = register("cross", CrossItem::new, new Item.Settings().rarity(Rarity.UNCOMMON).maxCount(1).maxDamage(64));
     public static final XPCoreItem EXPERIENCE_CORE = (XPCoreItem) register("experience_core", XPCoreItem::new, new Item.Settings().rarity(Rarity.RARE).maxCount(1).component(DataComponentTypes.ENCHANTMENT_GLINT_OVERRIDE, true));
+    public static final Item SOULROOT_BULB = register("soulroot_bulb", (settings) -> new EssenceFoodItem(settings, SoulComponent.SOUL_PER_VESSEL * 3 / 2), new Item.Settings().food(SOUL_BERRY_FOOD));
 
     public static final Item FEATHER_TOKEN = register("feather_token", (settings -> new AttributeAugmentItem(
             settings,
@@ -99,12 +103,12 @@ public class ModItems {
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.TOOLS).register((group) -> {
             group.add(ModItems.ALMARITE);
             group.add(ModItems.SIMPLE_CURE);
-            group.add(ModItems.DEMON_SCROLL);
             group.add(ModItems.AMETHYST_APPLE);
             group.add(ModItems.EXPERIENCE_CORE);
             group.add(ModItems.WIND_STAFF);
         });
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.FOOD_AND_DRINK).register((group) -> {
+            group.add(ModItems.SOULROOT_BULB);
             group.add(ModItems.AMETHYST_APPLE);
         });
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.OPERATOR).register((group) -> {
