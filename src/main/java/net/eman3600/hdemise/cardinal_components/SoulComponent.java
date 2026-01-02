@@ -31,6 +31,7 @@ import net.minecraft.storage.ReadView;
 import net.minecraft.storage.WriteView;
 import net.minecraft.text.Text;
 import net.minecraft.util.ItemScatterer;
+import net.minecraft.util.StringIdentifiable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.MathHelper;
@@ -916,6 +917,8 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
         writeView.putInt("hollow_soul", hollowSoul);
         writeView.putBoolean("hollow_topped", hollowTopped);
         writeView.putInt("top_up_cooldown", topUpCooldown);
+
+        WriteView.ListAppender<String> appender = writeView.getListAppender("modifiers", StringIdentifiable.BasicCodec.STRING);
 
         inventory.writeData(writeView);
     }

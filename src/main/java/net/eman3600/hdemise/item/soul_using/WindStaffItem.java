@@ -1,18 +1,24 @@
 package net.eman3600.hdemise.item.soul_using;
 
+import net.minecraft.component.type.TooltipDisplayComponent;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.entity.projectile.WindChargeEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.WindChargeItem;
+import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.stat.Stats;
+import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
+import net.minecraft.util.Colors;
 import net.minecraft.util.Hand;
 import net.minecraft.world.World;
+
+import java.util.function.Consumer;
 
 public class WindStaffItem extends WindChargeItem implements SoulCostItem {
     public WindStaffItem(Item.Settings settings) {
@@ -50,6 +56,9 @@ public class WindStaffItem extends WindChargeItem implements SoulCostItem {
             user.incrementStat(Stats.USED.getOrCreateStat(this));
             spendSoul(user, stack);
             stack.damage(1, user, hand.getEquipmentSlot());
+            if (!user.isCreative()) {
+                user.getItemCooldownManager().set(stack, 10);
+            }
             return ActionResult.SUCCESS;
         }
 
@@ -59,6 +68,14 @@ public class WindStaffItem extends WindChargeItem implements SoulCostItem {
 
     @Override
     public int getBaseSoulCost() {
-        return 20;
+        return 40;
+    }
+
+    @Override
+    public void appendTooltip(ItemStack stack, TooltipContext context, TooltipDisplayComponent displayComponent, Consumer<Text> textConsumer, TooltipType type) {
+        super.appendTooltip(stack, context, displayComponent, textConsumer, type);
+
+        textConsumer.accept(Text.translatable(getTranslationKey() + ".tooltip").withColor(Colors.LIGHT_GRAY));
+        textConsumer.accept(getTooltipSoul(stack));
     }
 }

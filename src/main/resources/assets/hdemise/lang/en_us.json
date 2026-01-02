@@ -12,14 +12,14 @@
     "item.hdemise.experience_core.tooltip.level": "Level: %s",
     "item.hdemise.experience_core.tooltip.points": "Extra Points: %s",
     "item.hdemise.cross": "Cross",
-    "item.hdemise.cross.tooltip": "Holy light reveals spirits.",
+    "item.hdemise.cross.tooltip": "Holy light reveals spirits",
 
     "item.hdemise.feather_token": "Feather Token",
     "item.hdemise.ectoplasmic_bone": "Ectoplasmic Bone",
     "item.hdemise.golem_strength_belt": "Belt of Golem Strength",
     
     "item.hdemise.wind_staff": "Windstorm Staff",
-    "item.hdemise.wind_staff.tooltip": "Shoots wind charges.",
+    "item.hdemise.wind_staff.tooltip": "Shoots wind charges",
 
     "item.hdemise.pure_soul": "Pure Soul",
     "item.hdemise.crystal_soul": "Crystal Soul",
@@ -35,7 +35,11 @@
     "tooltip.hdemise.soul.first": "Use at an Infusion Table",
     "tooltip.hdemise.soul.level": "Level: %s",
     "tooltip.hdemise.soul.extra": "Extra Points: %s",
-    "tooltip.hdemise.soul_cost": "Soul Cost: %s",
+    "tooltip.hdemise.soul_cost.tiny": "Costs a tiny amount of essence",
+    "tooltip.hdemise.soul_cost.small": "Costs a small amount of essence",
+    "tooltip.hdemise.soul_cost.one": "Costs a notch of essence",
+    "tooltip.hdemise.soul_cost.medium": "Costs a moderate amount of essence",
+    "tooltip.hdemise.soul_cost.large": "Costs a lot of essence",
 
 
     "block.hdemise.almarite_block": "Block of Almarite",
