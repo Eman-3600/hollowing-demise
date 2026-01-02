@@ -22,6 +22,7 @@ public class ModItemGroups {
                 entries.add(ModBlocks.DEEPSLATE_ALMARITE_ORE);
                 entries.add(ModBlocks.ALMARITE_BLOCK);
                 entries.add(ModItems.ALMARITE);
+                entries.add(ModItems.SOUL_BASE);
                 entries.add(ModItems.SIMPLE_CURE);
                 entries.add(ModItems.AMETHYST_APPLE);
                 entries.add(ModItems.CROSS);

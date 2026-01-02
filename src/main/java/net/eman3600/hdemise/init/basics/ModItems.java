@@ -16,6 +16,7 @@ import net.minecraft.entity.attribute.EntityAttributeModifier.Operation;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroups;
+import net.minecraft.item.Items;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
@@ -41,6 +42,7 @@ public class ModItems {
     public static final Item CROSS = register("cross", CrossItem::new, new Item.Settings().rarity(Rarity.UNCOMMON).maxCount(1).maxDamage(64));
     public static final XPCoreItem EXPERIENCE_CORE = (XPCoreItem) register("experience_core", XPCoreItem::new, new Item.Settings().rarity(Rarity.RARE).maxCount(1).component(DataComponentTypes.ENCHANTMENT_GLINT_OVERRIDE, true));
     public static final Item SOULROOT_BULB = register("soulroot_bulb", (settings) -> new EssenceFoodItem(settings, SoulComponent.SOUL_PER_VESSEL * 3 / 2), new Item.Settings().food(SOUL_BERRY_FOOD));
+    public static final Item SOUL_BASE = register("soul_base", Item::new, new Item.Settings());
 
     public static final Item FEATHER_TOKEN = register("feather_token", (settings -> new AttributeAugmentItem(
             settings,
@@ -57,7 +59,7 @@ public class ModItems {
             new AugmentAttribute(EntityAttributes.MAX_HEALTH, -6d, Operation.ADD_VALUE)
     )), new Item.Settings());
 
-    public static final Item WIND_STAFF = register("wind_staff", WindStaffItem::new, new Item.Settings().rarity(Rarity.UNCOMMON).maxCount(1).maxDamage(1250));
+    public static final Item WIND_STAFF = register("wind_staff", WindStaffItem::new, new Item.Settings().rarity(Rarity.UNCOMMON).maxCount(1).maxDamage(1250).repairable(Items.WIND_CHARGE));
 
     public static final Item PURE_SOUL = register("pure_soul", (settings) -> new SoulItem(settings, ModSoulTypes.MORTAL), SoulItem.getDefaultSettings());
     public static final Item CRYSTAL_SOUL_FRACTURED = register("crystal_soul_fractured", Item::new, SoulItem.getDefaultSettings());
@@ -94,6 +96,7 @@ public class ModItems {
 
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.INGREDIENTS).register((group) -> {
             group.add(ModItems.ALMARITE);
+            group.add(ModItems.SOUL_BASE);
         });
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.COMBAT).register((group) -> {
             group.add(ModItems.ALMARITE);

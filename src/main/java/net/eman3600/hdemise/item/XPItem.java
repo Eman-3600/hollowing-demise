@@ -13,6 +13,7 @@ import net.minecraft.world.World;
 public class XPItem extends Item {
 
     private static final int XP_AMOUNT = 20;
+    private static final int COOLDOWN = 60;
 
 
     public XPItem(Settings settings) {
@@ -26,6 +27,11 @@ public class XPItem extends Item {
             user.addExperience(XP_AMOUNT);
 
             ItemStack stack = user.getStackInHand(hand);
+
+            if (!user.isCreative()) {
+                user.getItemCooldownManager().set(stack, COOLDOWN);
+            }
+
             stack.decrementUnlessCreative(1, user);
         } else {
             world.playSound(user, user.getX(), user.getY(), user.getZ(), SoundEvents.ENTITY_EXPERIENCE_ORB_PICKUP, SoundCategory.PLAYERS, .8f, .8f + .4f * world.getRandom().nextFloat());

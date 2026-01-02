@@ -25,6 +25,7 @@ import java.util.function.Consumer;
 public class EssenceFoodItem extends Item {
 
     private final int essenceAmount;
+    private static final int COOLDOWN = 100;
 
 
     public EssenceFoodItem(Settings settings, int essenceAmount) {
@@ -53,6 +54,9 @@ public class EssenceFoodItem extends Item {
 
         if (user instanceof ServerPlayerEntity player) {
             SoulComponent.of(player).addSoul(this.essenceAmount);
+            if (!player.isCreative()) {
+                player.getItemCooldownManager().set(stack, COOLDOWN);
+            }
         }
 
         world.playSound(user, user.getX(), user.getY(), user.getZ(), SoundEvents.BLOCK_AMETHYST_BLOCK_FALL, SoundCategory.PLAYERS, 1.2f, .9f + .35f * world.getRandom().nextFloat());
