@@ -1,5 +1,8 @@
 package net.eman3600.hdemise.util.inventory;
 
+import net.eman3600.hdemise.HDemise;
+import net.eman3600.hdemise.cardinal_components.SoulComponent;
+import net.eman3600.hdemise.item.augment.AugmentItem;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventories;
 import net.minecraft.inventory.Inventory;
@@ -17,9 +20,11 @@ import java.util.Iterator;
 public class SoulInventory implements Inventory {
 
     private final DefaultedList<ItemStack> stacks;
+    private final SoulComponent sc;
 
-    public SoulInventory() {
+    public SoulInventory(SoulComponent sc) {
         stacks = DefaultedList.ofSize(12, ItemStack.EMPTY);
+        this.sc = sc;
     }
 
 
@@ -54,7 +59,6 @@ public class SoulInventory implements Inventory {
 
     @Override
     public ItemStack removeStack(int slot, int amount) {
-
         return Inventories.splitStack(this.stacks, slot, amount);
     }
 
@@ -67,6 +71,7 @@ public class SoulInventory implements Inventory {
     @Override
     public void markDirty() {
         //handler.getContentsChangedListener().run();
+        sc.markDirty();
     }
 
     @Override
@@ -83,6 +88,9 @@ public class SoulInventory implements Inventory {
         for (int i = 1; i < stacks.size(); i++) {
             if (stacks.get(i).isEmpty()) continue;
             ItemStack stack = stacks.get(i);
+            if (stack.getItem() instanceof AugmentItem item) {
+                item.onRemove(player, stack);
+            }
             if (!player.giveItemStack(stack)) {
                 ItemScatterer.spawn(player.getEntityWorld(), player.getX(), player.getY(), player.getZ(), stack);
             }
@@ -91,6 +99,14 @@ public class SoulInventory implements Inventory {
     }
 
     public void scatterAll(PlayerEntity player) {
+        for (int i = 1; i < stacks.size(); i++) {
+            if (stacks.get(i).isEmpty()) continue;
+            ItemStack stack = stacks.get(i);
+            if (stack.getItem() instanceof AugmentItem item) {
+                item.onRemove(player, stack);
+            }
+        }
+
         ItemScatterer.spawn(player.getEntityWorld(), player, this);
         clear();
     }

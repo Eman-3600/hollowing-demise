@@ -1,6 +1,8 @@
 package net.eman3600.hdemise.mixin;
 
+import com.llamalad7.mixinextras.sugar.Local;
 import net.eman3600.hdemise.cardinal_components.SoulComponent;
+import net.eman3600.hdemise.init.basics.ModTags;
 import net.eman3600.hdemise.init.custom.ModSoulTypes;
 import net.eman3600.hdemise.init.entity.ModAttributes;
 import net.eman3600.hdemise.init.entity.ModStatusEffects;
@@ -29,6 +31,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 @Mixin(PlayerEntity.class)
 public abstract class PlayerEntityMixin extends PlayerLikeEntity {
@@ -175,5 +178,13 @@ public abstract class PlayerEntityMixin extends PlayerLikeEntity {
         SoulComponent sc = SoulComponent.of(this);
 
         sc.getInventory().scatterAll((PlayerEntity)(Object)this);
+        sc.markDirty();
+    }
+
+    @Inject(method = "onTargetDamaged", at = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;postHit(Lnet/minecraft/entity/LivingEntity;Lnet/minecraft/entity/LivingEntity;)Z"))
+    private void hdemise$onTargetDamaged(Entity target, ItemStack stack, DamageSource damageSource, boolean runEnchantmentEffects, CallbackInfo ci, @Local(ordinal = 1) Entity entity) {
+        if (entity instanceof LivingEntity && SoulComponent.of(this).hasAugment(ModTags.Items.XP_ABSORBENT)) {
+            this.addExperience(1);
+        }
     }
 }

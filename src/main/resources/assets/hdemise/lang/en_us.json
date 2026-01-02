@@ -4,9 +4,6 @@
     "item.hdemise.simple_cure.tooltip": "Restores hollows to life",
     "item.hdemise.amethyst_apple": "Amethyst Apple",
     "item.hdemise.amethyst_apple.tooltip": "Restores hollows to life?",
-    "item.hdemise.demon_scroll": "Infernal Scroll",
-    "item.hdemise.demon_scroll.tooltip": "Transforms the user into a hollow",
-    "item.hdemise.demon_scroll.warning": "Extracts all levels",
     "item.hdemise.form_switcher": "Mortality Adjuster",
     "item.hdemise.experience_core": "Orb of Knowledge",
     "item.hdemise.experience_core.tooltip.level": "Level: %s",
@@ -15,8 +12,9 @@
     "item.hdemise.cross.tooltip": "Holy light reveals spirits",
 
     "item.hdemise.feather_token": "Feather Token",
-    "item.hdemise.ectoplasmic_bone": "Ectoplasmic Bone",
     "item.hdemise.golem_strength_belt": "Belt of Golem Strength",
+    "item.hdemise.demon_scroll": "Blood Pact",
+    "item.hdemise.ectoplasmic_bone": "Ectoplasmic Bone",
     
     "item.hdemise.wind_staff": "Windstorm Staff",
     "item.hdemise.wind_staff.tooltip": "Shoots wind charges",
@@ -40,6 +38,7 @@
     "tooltip.hdemise.soul_cost.one": "Costs a notch of essence",
     "tooltip.hdemise.soul_cost.medium": "Costs a moderate amount of essence",
     "tooltip.hdemise.soul_cost.large": "Costs a lot of essence",
+    "tooltip.hdemise.augment_attributes": "When Applied:",
 
 
     "block.hdemise.almarite_block": "Block of Almarite",
@@ -59,6 +58,10 @@
     "tag.item.hdemise.yellow_augment": "General Augment",
     "tag.item.hdemise.green_augment": "Magic Augment",
     "tag.item.hdemise.red_augment": "Special Augment",
+
+    "tag.item.hdemise.xp_absorbent": "Absorbs entity experience",
+
+    "tag.item.hdemise.reaper": "Experience Reaper",
 
 
     "container.hdemise.infusion": "Infusion",

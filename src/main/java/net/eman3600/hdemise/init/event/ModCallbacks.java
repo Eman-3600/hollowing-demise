@@ -1,8 +1,13 @@
 package net.eman3600.hdemise.init.event;
 
 import net.eman3600.hdemise.cardinal_components.SoulComponent;
+import net.eman3600.hdemise.init.basics.ModItems;
+import net.eman3600.hdemise.item.augment.AugmentItem;
 import net.fabricmc.fabric.api.entity.event.v1.ServerPlayerEvents;
+import net.fabricmc.fabric.api.event.player.AttackEntityCallback;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.util.ActionResult;
 
 import static net.eman3600.hdemise.HDemise.LOGGER;
 import static net.eman3600.hdemise.HDemise.MODID;
@@ -22,6 +27,12 @@ public class ModCallbacks {
                 sc.reloadAttributes();
                 sc.updateAbilities(true);
             }
+
+            sc.forEachAugment((stack, player) -> {
+                if (stack.getItem() instanceof AugmentItem item) {
+                    item.onRespawn(newPlayer, stack, alive);
+                }
+            });
         });
 
         ServerPlayConnectionEvents.INIT.register((handler, server) -> {

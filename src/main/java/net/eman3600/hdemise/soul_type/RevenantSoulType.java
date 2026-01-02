@@ -85,7 +85,7 @@ public class RevenantSoulType extends SoulType {
         EntityAttributeInstance hpInstance = container.getCustomInstance(hp);
         if (hpInstance != null) {
 
-            hpInstance.addTemporaryModifier(new EntityAttributeModifier(ATTRIBUTE_ID, -.1, EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE));
+            hpInstance.addTemporaryModifier(new EntityAttributeModifier(ATTRIBUTE_ID, -2, EntityAttributeModifier.Operation.ADD_VALUE));
         }
 
 

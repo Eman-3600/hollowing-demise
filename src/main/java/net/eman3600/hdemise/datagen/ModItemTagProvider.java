@@ -29,5 +29,10 @@ public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
 
         valueLookupBuilder(ModTags.Items.RED_AUGMENT)
                 .add(ModItems.ECTOPLASMIC_BONE);
+
+
+
+        valueLookupBuilder(ModTags.Items.XP_ABSORBENT)
+                .add(ModItems.ECTOPLASMIC_BONE);
     }
 }

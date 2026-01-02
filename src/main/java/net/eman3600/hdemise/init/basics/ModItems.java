@@ -1,11 +1,19 @@
 package net.eman3600.hdemise.init.basics;
 
 import net.eman3600.hdemise.init.custom.ModSoulTypes;
+import net.eman3600.hdemise.init.entity.ModAttributes;
 import net.eman3600.hdemise.item.*;
+import net.eman3600.hdemise.item.augment.AttributeAugmentItem;
+import net.eman3600.hdemise.item.augment.AttributeAugmentItem.AugmentAttribute;
+import net.eman3600.hdemise.item.augment.AugmentItem;
 import net.eman3600.hdemise.item.soul_using.WindStaffItem;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.FoodComponents;
+import net.minecraft.entity.attribute.EntityAttribute;
+import net.minecraft.entity.attribute.EntityAttributeModifier;
+import net.minecraft.entity.attribute.EntityAttributeModifier.Operation;
+import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroups;
 import net.minecraft.registry.Registries;
@@ -14,6 +22,7 @@ import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Rarity;
+import org.w3c.dom.Attr;
 
 import java.util.function.Function;
 
@@ -29,18 +38,28 @@ public class ModItems {
     public static final Item CROSS = register("cross", CrossItem::new, new Item.Settings().rarity(Rarity.UNCOMMON).maxCount(1).maxDamage(64));
     public static final XPCoreItem EXPERIENCE_CORE = (XPCoreItem) register("experience_core", XPCoreItem::new, new Item.Settings().rarity(Rarity.RARE).maxCount(1).component(DataComponentTypes.ENCHANTMENT_GLINT_OVERRIDE, true));
 
-    public static final Item FEATHER_TOKEN = register("feather_token", Item::new, new Item.Settings());
-    public static final Item ECTOPLASMIC_BONE = register("ectoplasmic_bone", Item::new, new Item.Settings());
-    public static final Item GOLEM_STRENGTH_BELT = register("golem_strength_belt", Item::new, new Item.Settings());
-    public static final Item DEMON_SCROLL = register("demon_scroll", ConsumableDemonItem::new, new Item.Settings().rarity(Rarity.UNCOMMON).maxCount(1));
+    public static final Item FEATHER_TOKEN = register("feather_token", (settings -> new AttributeAugmentItem(
+            settings,
+            new AugmentAttribute(EntityAttributes.MOVEMENT_SPEED, .15, Operation.ADD_MULTIPLIED_BASE)
+    )), new Item.Settings());
+    public static final Item ECTOPLASMIC_BONE = register("ectoplasmic_bone", AugmentItem::new, new Item.Settings());
+    public static final Item GOLEM_STRENGTH_BELT = register("golem_strength_belt", (settings -> new AttributeAugmentItem(
+            settings,
+            new AugmentAttribute(EntityAttributes.ATTACK_DAMAGE, 2, Operation.ADD_VALUE)
+    )), new Item.Settings());
+    public static final Item DEMON_SCROLL = register("demon_scroll", (settings -> new AttributeAugmentItem(
+            settings,
+            new AugmentAttribute(ModAttributes.MAX_SOUL, 5d, Operation.ADD_VALUE),
+            new AugmentAttribute(EntityAttributes.MAX_HEALTH, -6d, Operation.ADD_VALUE)
+    )), new Item.Settings());
 
-    public static final Item WIND_STAFF = register("wind_staff", WindStaffItem::new, new Item.Settings().rarity(Rarity.UNCOMMON).maxCount(1).maxDamage(1200));
+    public static final Item WIND_STAFF = register("wind_staff", WindStaffItem::new, new Item.Settings().rarity(Rarity.UNCOMMON).maxCount(1).maxDamage(1250));
 
     public static final Item PURE_SOUL = register("pure_soul", (settings) -> new SoulItem(settings, ModSoulTypes.MORTAL), SoulItem.getDefaultSettings());
     public static final Item CRYSTAL_SOUL_FRACTURED = register("crystal_soul_fractured", Item::new, SoulItem.getDefaultSettings());
     public static final Item CRYSTAL_SOUL = register("crystal_soul", (settings) -> new BreakableSoulItem(settings, ModSoulTypes.CRYSTAL, CRYSTAL_SOUL_FRACTURED), SoulItem.getDefaultSettings());
-    public static final Item CONSTRUCT_SOUL_FRACTURED = register("construct_soul_fractured", Item::new, SoulItem.getDefaultSettings());
-    public static final Item CONSTRUCT_SOUL = register("construct_soul", (settings) -> new BreakableSoulItem(settings, ModSoulTypes.CONSTRUCT, CONSTRUCT_SOUL_FRACTURED), SoulItem.getDefaultSettings());
+    public static final Item CONSTRUCT_SOUL_FRACTURED = register("construct_soul_fractured", Item::new, SoulItem.getDefaultSettings().fireproof());
+    public static final Item CONSTRUCT_SOUL = register("construct_soul", (settings) -> new BreakableSoulItem(settings, ModSoulTypes.CONSTRUCT, CONSTRUCT_SOUL_FRACTURED), SoulItem.getDefaultSettings().fireproof());
     public static final Item PHANTOM_SOUL_FRACTURED = register("phantom_soul_fractured", Item::new, SoulItem.getDefaultSettings());
     public static final Item PHANTOM_SOUL = register("phantom_soul", (settings) -> new BreakableSoulItem(settings, ModSoulTypes.PHANTOM, PHANTOM_SOUL_FRACTURED), SoulItem.getDefaultSettings());
     public static final Item REVENANT_SOUL_FRACTURED = register("revenant_soul_fractured", Item::new, SoulItem.getDefaultSettings());

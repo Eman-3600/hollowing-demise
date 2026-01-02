@@ -187,7 +187,6 @@ public class InfusionScreen extends HandledScreen<InfusionScreenHandler> {
 
     @Override
     public boolean mouseClicked(Click click, boolean doubled) {
-        HDemise.LOGGER.info("Mouse click at {}, {}", click.x(), click.y());
         if (topUpButton.isSelected((int) click.x(), (int) click.y()) && this.handler.onButtonClick(client.player, topUpButton.index)) {
             MinecraftClient.getInstance().getSoundManager().play(PositionedSoundInstance.master(SoundEvents.UI_BUTTON_CLICK, 1.0f));
             this.client.interactionManager.clickButton(this.handler.syncId, topUpButton.index);

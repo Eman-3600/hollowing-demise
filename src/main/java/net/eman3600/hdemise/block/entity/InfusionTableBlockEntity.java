@@ -2,6 +2,7 @@ package net.eman3600.hdemise.block.entity;
 
 import net.eman3600.hdemise.cardinal_components.SoulComponent;
 import net.eman3600.hdemise.init.entity.ModBlockEntities;
+import net.eman3600.hdemise.item.augment.AugmentItem;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.EnchantingTableBlock;

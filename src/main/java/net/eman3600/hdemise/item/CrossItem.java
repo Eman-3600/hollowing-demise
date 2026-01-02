@@ -8,6 +8,8 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.tooltip.TooltipType;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Colors;
@@ -50,6 +52,8 @@ public class CrossItem extends Item {
                 user.getItemCooldownManager().set(stack, COOLDOWN);
             }
         }
+
+        world.playSound(user, user.getX(), user.getY(), user.getZ(), SoundEvents.BLOCK_AMETHYST_BLOCK_RESONATE, SoundCategory.PLAYERS, 2f, .5f);
 
         return ActionResult.SUCCESS;
     }

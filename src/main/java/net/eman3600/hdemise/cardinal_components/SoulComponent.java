@@ -6,6 +6,7 @@ import net.eman3600.hdemise.init.cca.ModEntityComponents;
 import net.eman3600.hdemise.init.entity.ModStatusEffects;
 import net.eman3600.hdemise.item.SoulItem;
 import net.eman3600.hdemise.item.XPCoreItem;
+import net.eman3600.hdemise.item.augment.AugmentItem;
 import net.eman3600.hdemise.networking.s2c.SoulEventPayload;
 import net.eman3600.hdemise.soul_type.SoulType;
 import net.eman3600.hdemise.util.RayHelper;
@@ -15,14 +16,21 @@ import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.attribute.EntityAttribute;
+import net.minecraft.entity.attribute.EntityAttributeInstance;
+import net.minecraft.entity.attribute.EntityAttributeModifier;
+import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.HungerManager;
 import net.minecraft.entity.player.PlayerAbilities;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.packet.s2c.play.EntityVelocityUpdateS2CPacket;
 import net.minecraft.particle.ParticleTypes;
+import net.minecraft.registry.entry.RegistryEntry;
+import net.minecraft.registry.tag.TagKey;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
@@ -30,6 +38,7 @@ import net.minecraft.sound.SoundEvents;
 import net.minecraft.storage.ReadView;
 import net.minecraft.storage.WriteView;
 import net.minecraft.text.Text;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.ItemScatterer;
 import net.minecraft.util.StringIdentifiable;
 import net.minecraft.util.math.BlockPos;
@@ -40,6 +49,12 @@ import net.minecraft.util.math.random.Random;
 import org.ladysnake.cca.api.v3.component.sync.AutoSyncedComponent;
 import org.ladysnake.cca.api.v3.component.tick.ClientTickingComponent;
 import org.ladysnake.cca.api.v3.component.tick.ServerTickingComponent;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.function.BiConsumer;
 
 public class SoulComponent implements AutoSyncedComponent, ServerTickingComponent, ClientTickingComponent {
 
@@ -66,7 +81,7 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
     public static final int LUNGE_COOLDOWN_TICKS = 12;
     public static final double LUNGE_SPEED = .75;
     public static final double LUNGE_HEIGHT = .5;
-    public static final int TOP_UP_COOLDOWN = 10800;
+    public static final int TOP_UP_COOLDOWN = 7800;
 
     @Environment(EnvType.CLIENT)
     public static final int SUN_TICKS = 15;
@@ -113,7 +128,7 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
     public SoulComponent(PlayerEntity player) {
         this.player = player;
         this.soulType = ModSoulTypes.MORTAL;
-        inventory = new SoulInventory();
+        inventory = new SoulInventory(this);
     }
 
     public SoulInventory getInventory() {
@@ -140,6 +155,11 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
         manager.setFoodLevel(20);
         manager.setSaturationLevel(20f);
         setSoul(getMaxSoul());
+        forEachAugment((stack, p) -> {
+            if (stack.getItem() instanceof AugmentItem item) {
+                item.onTopUp(p, stack);
+            }
+        });
     }
 
     public void setHollowTopped(boolean topped) {
@@ -488,6 +508,8 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
         this.jetting = false;
         this.jetEnabled = false;
 
+        player.clearStatusEffects();
+
         setFocusing(false);
         setGhost(hasSolarSickness(true) && soulType.canVanish());
 
@@ -511,6 +533,36 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
     public void reloadAttributes() {
         this.soulType.removeAttributes(this.player);
         this.soulType.applyAttributes(this.player);
+
+        forEachAugment((stack, player) -> {
+            if (stack.getItem() instanceof AugmentItem item) {
+                item.onReload(player, stack);
+            }
+        });
+    }
+
+    public boolean hasAugment(Item item) {
+        for (int i = 1; i < inventory.size(); i++) {
+            if (inventory.getStack(i).isOf(item)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean hasAugment(TagKey<Item> tag) {
+        for (int i = 1; i < inventory.size(); i++) {
+            if (inventory.getStack(i).isIn(tag)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void forEachAugment(BiConsumer<ItemStack, PlayerEntity> function) {
+        for (int i = 1; i < inventory.size(); i++) {
+            function.accept(inventory.getStack(i), player);
+        }
     }
 
 
@@ -917,8 +969,6 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
         writeView.putInt("hollow_soul", hollowSoul);
         writeView.putBoolean("hollow_topped", hollowTopped);
         writeView.putInt("top_up_cooldown", topUpCooldown);
-
-        WriteView.ListAppender<String> appender = writeView.getListAppender("modifiers", StringIdentifiable.BasicCodec.STRING);
 
         inventory.writeData(writeView);
     }

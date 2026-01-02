@@ -63,7 +63,7 @@ public class HollowSoulType extends SoulType {
         EntityAttributeInstance hpInstance = container.getCustomInstance(hp);
         if (hpInstance != null) {
 
-            hpInstance.addTemporaryModifier(new EntityAttributeModifier(ATTRIBUTE_ID, -.4, EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE));
+            hpInstance.addTemporaryModifier(new EntityAttributeModifier(ATTRIBUTE_ID, -8, EntityAttributeModifier.Operation.ADD_VALUE));
         }
 
 
