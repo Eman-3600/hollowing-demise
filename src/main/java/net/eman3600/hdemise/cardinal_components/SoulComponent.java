@@ -792,6 +792,10 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
         }
 
         if (isJetting()) {
+            player.onLanding();
+            player.currentExplosionImpactPos = player.getEntityPos().add(0, -4, 0);
+            player.setIgnoreFallDamageFromCurrentExplosion(true);
+
             if (!player.isCreative() && (!player.isSneaking() || player.isInSwimmingPose() || player.isGliding() || player.getRandom().nextInt(8) == 0)) {
                 addSoul(player.isInSwimmingPose() || player.isGliding() ? -2 : -1);
             }
