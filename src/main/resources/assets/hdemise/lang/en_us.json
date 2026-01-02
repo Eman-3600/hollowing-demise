@@ -103,9 +103,10 @@
     "soul_type.hdemise.phantom.description": "A soul, only barely. Retains the Hollow's abilities and weaknesses but is less frail and can gather experience.",
     
     "soul_type.hdemise.construct": "Constructed",
-    "soul_type.hdemise.construct.description": "Soul of a solar-powered automaton. Equipped with a jetpack. Gain essence over time, but focus with less potency.",
+    "soul_type.hdemise.construct.description": "Soul of a solar-powered automaton. Equipped with a fragile jetpack. Gain essence over time, but focus with less potency.",
     "soul_type.hdemise.construct.enable_jet": "Enabled Jetpack",
     "soul_type.hdemise.construct.disable_jet": "Disabled Jetpack",
+    "soul_type.hdemise.construct.jam_jet": "JET & LANDING FAILURE",
 
     "soul_type.hdemise.revenant": "Revenant",
     "soul_type.hdemise.revenant.description": "Soul of an undead beast. Heals from eating food. Focus essence to enter a rage and lunge at foes.",

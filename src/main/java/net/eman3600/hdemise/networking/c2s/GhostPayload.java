@@ -44,7 +44,11 @@ public record GhostPayload(boolean beginning) implements CustomPayload {
                 }
 
                 if (sc.getSoulType() == ModSoulTypes.CONSTRUCT) {
-                    sc.enableJet(!sc.isJetEnabled());
+                    if (sc.isJetJammed()) {
+                        sc.warnSoul();
+                    } else {
+                        sc.enableJet(!sc.isJetEnabled());
+                    }
                 }
 
                 if (sc.getSoulType() == ModSoulTypes.REVENANT && context.player().hasStatusEffect(ModStatusEffects.RAGE) && sc.isLungeAvailable()) {

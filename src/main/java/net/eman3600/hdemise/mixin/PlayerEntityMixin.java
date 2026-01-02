@@ -90,7 +90,7 @@ public abstract class PlayerEntityMixin extends PlayerLikeEntity {
     private void hdemise$isInvulnerableTo(ServerWorld world, DamageSource source, CallbackInfoReturnable<Boolean> cir) {
         SoulComponent sc = SoulComponent.of(this);
 
-        if (((sc.getSoulType().canVanish() || sc.getSoulType() == ModSoulTypes.CONSTRUCT) && source.isIn(DamageTypeTags.IS_FALL))
+        if (((sc.getSoulType().canVanish() || (sc.getSoulType() == ModSoulTypes.CONSTRUCT && !sc.isJetJammed())) && source.isIn(DamageTypeTags.IS_FALL))
                 || (sc.isDrowningImmune()) && source.isIn(DamageTypeTags.IS_DROWNING)
                 || (sc.isGhost() && !source.isIn(DamageTypeTags.BYPASSES_INVULNERABILITY))) {
 
@@ -111,6 +111,9 @@ public abstract class PlayerEntityMixin extends PlayerLikeEntity {
         }
         if (sc.isCuring()) {
             sc.interruptCure();
+        }
+        if (sc.isJetEnabled() && !isOnGround()) {
+            sc.jamJet();
         }
 
 

@@ -38,6 +38,7 @@ import net.minecraft.sound.SoundEvents;
 import net.minecraft.storage.ReadView;
 import net.minecraft.storage.WriteView;
 import net.minecraft.text.Text;
+import net.minecraft.util.Colors;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.ItemScatterer;
 import net.minecraft.util.StringIdentifiable;
@@ -109,6 +110,7 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
     private int warningTicks = 0;
     private boolean jetEnabled = false;
     private boolean jetting = false;
+    private boolean jetJammed = false;
     private boolean lunging = false;
     private int lungeCooldown = 0;
     private double lungeGravity = 0d;
@@ -388,6 +390,20 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
         player.sendMessage(Text.translatable(jetEnabled ? "soul_type.hdemise.construct.enable_jet" : "soul_type.hdemise.construct.disable_jet"), true);
     }
 
+    public void jamJet() {
+        this.jetJammed = true;
+        this.jetEnabled = false;
+        this.jetting = false;
+
+        warnSoul();
+
+        markDirty();
+    }
+
+    public boolean isJetJammed() {
+        return jetJammed;
+    }
+
     public boolean isJetEnabled() {
         return this.jetEnabled;
     }
@@ -507,6 +523,7 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
         this.solarSoulTime = 0f;
         this.jetting = false;
         this.jetEnabled = false;
+        this.jetJammed = false;
 
         player.clearStatusEffects();
 
@@ -790,6 +807,14 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
             player.fallDistance = 0;
         }
 
+        if (jetJammed && player.isOnGround()) {
+            jetJammed = false;
+            if (soulType == ModSoulTypes.CONSTRUCT && player.isAlive()) {
+                this.jetEnabled = true;
+            }
+            markDirty();
+        }
+
         if (lunging && player.isOnGround()) {
             lunging = false;
             markDirty();
@@ -932,6 +957,7 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
         solarSoulTime = readView.getFloat("solar_soul_time", 0f);
         jetting = readView.getBoolean("jetting", false);
         jetEnabled = readView.getBoolean("jet_enabled", false);
+        jetJammed = readView.getBoolean("jet_jammed", false);
         lunging = readView.getBoolean("lunging", false);
         lungeCooldown = readView.getInt("lunge_cooldown", 0);
         lungeGravity = readView.getDouble("lunge_gravity", 0.08d);
@@ -961,6 +987,7 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
         writeView.putFloat("solar_soul_time", solarSoulTime);
         writeView.putBoolean("jetting", jetting);
         writeView.putBoolean("jet_enabled", jetEnabled);
+        writeView.putBoolean("jet_jammed", jetJammed);
         writeView.putBoolean("lunging", lunging);
         writeView.putInt("lunge_cooldown", lungeCooldown);
         writeView.putDouble("lunge_gravity", lungeGravity);

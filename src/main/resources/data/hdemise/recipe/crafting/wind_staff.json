@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "cross",
+  "key": {
+    "#": "minecraft:breeze_rod",
+    "X": "minecraft:lapis_lazuli",
+    "A": "hdemise:almarite"
+  },
+  "pattern": [
+    " AX",
+    " #A",
+    "#  "
+  ],
+  "result": {
+    "count": 1,
+    "id": "hdemise:wind_staff"
+  }
+}
