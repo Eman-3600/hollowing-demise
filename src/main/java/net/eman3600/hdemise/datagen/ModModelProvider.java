@@ -41,7 +41,7 @@ public class ModModelProvider extends FabricModelProvider {
         itemModelGenerator.register(ModItems.GOLEM_STRENGTH_BELT, Models.GENERATED);
         itemModelGenerator.register(ModItems.DEMON_SCROLL, Models.GENERATED);
 
-        itemModelGenerator.register(ModItems.WIND_STAFF, Models.GENERATED);
+        itemModelGenerator.register(ModItems.WIND_STAFF, Models.HANDHELD);
 
         itemModelGenerator.register(ModItems.PURE_SOUL, Models.GENERATED);
         itemModelGenerator.register(ModItems.CRYSTAL_SOUL, Models.GENERATED);
