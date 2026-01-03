@@ -60,6 +60,10 @@ public class ModItems {
             new AugmentAttribute(ModAttributes.MAX_SOUL, 5d, Operation.ADD_VALUE),
             new AugmentAttribute(EntityAttributes.MAX_HEALTH, -6d, Operation.ADD_VALUE)
     )), new Item.Settings());
+    public static final Item CRYSTAL_BALL = register("crystal_ball", (settings -> new AttributeAugmentItem(
+            settings,
+            new AugmentAttribute(ModAttributes.FOCUS_POWER, 2d, Operation.ADD_VALUE)
+    )), new Item.Settings());
 
     public static final Item WIND_STAFF = register("wind_staff", WindStaffItem::new, new Item.Settings().rarity(Rarity.UNCOMMON).maxCount(1).maxDamage(1250).repairable(Items.WIND_CHARGE));
 

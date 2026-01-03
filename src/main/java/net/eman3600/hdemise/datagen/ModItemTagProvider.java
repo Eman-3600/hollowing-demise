@@ -25,7 +25,8 @@ public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
                 .add(ModItems.GOLEM_STRENGTH_BELT);
 
         valueLookupBuilder(ModTags.Items.GREEN_AUGMENT)
-                .add(ModItems.DEMON_SCROLL);
+                .add(ModItems.DEMON_SCROLL)
+                .add(ModItems.CRYSTAL_BALL);
 
         valueLookupBuilder(ModTags.Items.RED_AUGMENT)
                 .add(ModItems.ECTOPLASMIC_BONE);

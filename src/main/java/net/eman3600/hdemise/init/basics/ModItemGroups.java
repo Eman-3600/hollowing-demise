@@ -43,6 +43,7 @@ public class ModItemGroups {
                 entries.add(ModItems.ECTOPLASMIC_BONE);
                 entries.add(ModItems.GOLEM_STRENGTH_BELT);
                 entries.add(ModItems.DEMON_SCROLL);
+                entries.add(ModItems.CRYSTAL_BALL);
                 entries.add(ModItems.WIND_STAFF);
                 entries.add(ModItems.FORM_SWITCHER);
         }).build());
