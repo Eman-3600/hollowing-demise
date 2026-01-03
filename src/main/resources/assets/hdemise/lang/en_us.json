@@ -13,6 +13,7 @@
     "item.hdemise.soulroot_bulb": "Soulroot Bulb",
     "item.hdemise.soulroot_bulb.tooltip": "Contains Essence",
     "item.hdemise.soul_base": "Soul Base",
+    "item.hdemise.soulroot_seeds": "Soulroot Seeds",
 
     "item.hdemise.feather_token": "Feather Token",
     "item.hdemise.golem_strength_belt": "Belt of Golem Strength",
@@ -53,6 +54,7 @@
     "block.hdemise.infusion_table": "Infusion Table",
     "block.hdemise.infusion_table.not_enough_shelves": "Requires Bookshelves: %s/%s",
     "item.hdemise.infusion_table": "Infusion Table",
+    "block.hdemise.soulroot": "Soulroot",
 
 
     "itemgroup.hdemise.hdemise_group": "Hollowing Demise",

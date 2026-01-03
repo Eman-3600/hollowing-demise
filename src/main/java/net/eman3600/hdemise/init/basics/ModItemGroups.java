@@ -23,6 +23,8 @@ public class ModItemGroups {
                 entries.add(ModBlocks.ALMARITE_BLOCK);
                 entries.add(ModItems.ALMARITE);
                 entries.add(ModItems.SOUL_BASE);
+                entries.add(ModItems.SOULROOT_BULB);
+                entries.add(ModItems.SOULROOT_SEEDS);
                 entries.add(ModItems.SIMPLE_CURE);
                 entries.add(ModItems.AMETHYST_APPLE);
                 entries.add(ModItems.CROSS);

@@ -15,6 +15,7 @@ import net.eman3600.hdemise.integration.command.ModCommands;
 import net.eman3600.hdemise.world.gen.ModWorldGeneration;
 import net.fabricmc.api.ModInitializer;
 
+import net.fabricmc.fabric.api.registry.CompostingChanceRegistry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -41,5 +42,8 @@ public class HDemise implements ModInitializer {
 
 		ModCommands.registerAll();
 		ModScreenHandlerTypes.registerAll();
+
+		CompostingChanceRegistry.INSTANCE.add(ModItems.SOULROOT_BULB, 0.4f);
+		CompostingChanceRegistry.INSTANCE.add(ModItems.SOULROOT_SEEDS, 0.2f);
 	}
 }

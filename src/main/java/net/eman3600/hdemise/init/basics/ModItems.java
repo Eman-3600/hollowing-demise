@@ -14,6 +14,7 @@ import net.minecraft.component.type.FoodComponent;
 import net.minecraft.component.type.FoodComponents;
 import net.minecraft.entity.attribute.EntityAttributeModifier.Operation;
 import net.minecraft.entity.attribute.EntityAttributes;
+import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroups;
 import net.minecraft.item.Items;
@@ -43,6 +44,7 @@ public class ModItems {
     public static final XPCoreItem EXPERIENCE_CORE = (XPCoreItem) register("experience_core", XPCoreItem::new, new Item.Settings().rarity(Rarity.RARE).maxCount(1).component(DataComponentTypes.ENCHANTMENT_GLINT_OVERRIDE, true));
     public static final Item SOULROOT_BULB = register("soulroot_bulb", (settings) -> new EssenceFoodItem(settings, SoulComponent.SOUL_PER_VESSEL * 3 / 2), new Item.Settings().food(SOUL_BERRY_FOOD));
     public static final Item SOUL_BASE = register("soul_base", Item::new, new Item.Settings());
+    public static final Item SOULROOT_SEEDS = register("soulroot_seeds", settings -> new BlockItem(ModBlocks.SOULROOT, settings), new Item.Settings());
 
     public static final Item FEATHER_TOKEN = register("feather_token", (settings -> new AttributeAugmentItem(
             settings,

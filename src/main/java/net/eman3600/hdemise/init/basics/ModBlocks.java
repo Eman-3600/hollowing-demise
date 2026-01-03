@@ -1,6 +1,7 @@
 package net.eman3600.hdemise.init.basics;
 
 import net.eman3600.hdemise.block.InfusionTableBlock;
+import net.eman3600.hdemise.block.SoulrootBlock;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.item.ItemGroups;
@@ -45,6 +46,13 @@ public class ModBlocks {
         .requiresTool()
         .luminance(state -> 10), true);
 
+    public static final Block SOULROOT = register("soulroot", SoulrootBlock::new,
+        AbstractBlock.Settings.create()
+        .ticksRandomly()
+        .breakInstantly()
+        .noCollision()
+        .sounds(BlockSoundGroup.CROP), false);
+
     /**
      * Registers a block under a given ID string.
      * @param name the block's internal name
@@ -63,14 +71,17 @@ public class ModBlocks {
         // Register the block.
         Registry.register(Registries.BLOCK, blockKey, block);
 
-        // Create the block item key.
-        RegistryKey<Item> blockItemKey = RegistryKey.of(RegistryKeys.ITEM, Identifier.of(MODID, name));
+        if (shouldRegisterItem) {
 
-        // Create the block item instance.
-        BlockItem blockItem = new BlockItem(block, new Item.Settings().registryKey(blockItemKey));
+            // Create the block item key.
+            RegistryKey<Item> blockItemKey = RegistryKey.of(RegistryKeys.ITEM, Identifier.of(MODID, name));
 
-        // Register the block item.
-        Registry.register(Registries.ITEM, blockItemKey, blockItem);
+            // Create the block item instance.
+            BlockItem blockItem = new BlockItem(block, new Item.Settings().registryKey(blockItemKey));
+
+            // Register the block item.
+            Registry.register(Registries.ITEM, blockItemKey, blockItem);
+        }
 
         return block;
     }

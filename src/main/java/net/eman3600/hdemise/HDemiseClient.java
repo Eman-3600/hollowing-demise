@@ -2,14 +2,18 @@ package net.eman3600.hdemise;
 
 import net.eman3600.hdemise.block.entity.renderer.InfusionTableBlockEntityRenderer;
 import net.eman3600.hdemise.event.KeyInputHandler;
+import net.eman3600.hdemise.init.basics.ModBlocks;
 import net.eman3600.hdemise.init.entity.ModBlockEntities;
 import net.eman3600.hdemise.init.entity.ModEntityModelLayers;
 import net.eman3600.hdemise.init.event.ModMessages;
 import net.eman3600.hdemise.init.event.ModScreenHandlerTypes;
 import net.eman3600.hdemise.screen.InfusionScreen;
 import net.fabricmc.api.ClientModInitializer;
+import net.fabricmc.fabric.api.client.rendering.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.mixin.client.rendering.BlockEntityRenderersMixin;
 import net.minecraft.client.gui.screen.ingame.HandledScreens;
+import net.minecraft.client.render.BlockRenderLayer;
+import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactories;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
 
@@ -26,6 +30,7 @@ public class HDemiseClient implements ClientModInitializer {
 
         HandledScreens.register(ModScreenHandlerTypes.INFUSION, InfusionScreen::new);
 
+        BlockRenderLayerMap.putBlock(ModBlocks.SOULROOT, BlockRenderLayer.CUTOUT);
 
         BlockEntityRendererFactories.register(ModBlockEntities.INFUSION_TABLE_BLOCK_ENTITY, InfusionTableBlockEntityRenderer::new);
     }

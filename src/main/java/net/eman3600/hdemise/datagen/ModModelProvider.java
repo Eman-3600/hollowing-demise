@@ -1,5 +1,6 @@
 package net.eman3600.hdemise.datagen;
 
+import net.eman3600.hdemise.block.SoulrootBlock;
 import net.eman3600.hdemise.init.basics.ModBlocks;
 import net.eman3600.hdemise.init.basics.ModItems;
 import net.fabricmc.api.EnvType;
@@ -23,6 +24,8 @@ public class ModModelProvider extends FabricModelProvider {
         blockStateModelGenerator.registerSimpleCubeAll(ModBlocks.ALMARITE_ORE);
         blockStateModelGenerator.registerSimpleCubeAll(ModBlocks.DEEPSLATE_ALMARITE_ORE);
         blockStateModelGenerator.registerSimpleState(ModBlocks.INFUSION_TABLE);
+
+        blockStateModelGenerator.registerCrop(ModBlocks.SOULROOT, SoulrootBlock.AGE, 0, 1, 2, 3);
     }
 
     @Override
