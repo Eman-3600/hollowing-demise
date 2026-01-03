@@ -47,7 +47,7 @@ public class SoulrootBlock extends CropBlock {
 
     @Override
     protected int getGrowthAmount(World world) {
-        return super.getGrowthAmount(world) / 3;
+        return super.getGrowthAmount(world) / 2;
     }
 
     @Override
@@ -77,8 +77,10 @@ public class SoulrootBlock extends CropBlock {
 
     @Override
     protected void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
-        if (random.nextInt(3) != 0) {
-            super.randomTick(state, world, pos, random);
+        int i = state.get(AGE);
+        if (i < MAX_AGE && random.nextInt(7) == 0) {
+            state = state.with(AGE, i + 1);
+            world.setBlockState(pos, state, Block.NOTIFY_LISTENERS);
         }
     }
 
