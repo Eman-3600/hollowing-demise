@@ -46,11 +46,13 @@ public class ModItems {
     public static final Item SOUL_BASE = register("soul_base", Item::new, new Item.Settings());
     public static final Item SOULROOT_SEEDS = register("soulroot_seeds", settings -> new BlockItem(ModBlocks.SOULROOT, settings), new Item.Settings());
 
+
     public static final Item FEATHER_TOKEN = register("feather_token", (settings -> new AttributeAugmentItem(
             settings,
+            1,
             new AugmentAttribute(EntityAttributes.MOVEMENT_SPEED, .15, Operation.ADD_MULTIPLIED_BASE)
     )), new Item.Settings());
-    public static final Item ECTOPLASMIC_BONE = register("ectoplasmic_bone", AugmentItem::new, new Item.Settings());
+    public static final Item ECTOPLASMIC_BONE = register("ectoplasmic_bone", settings -> new AugmentItem(settings, 1), new Item.Settings());
     public static final Item GOLEM_STRENGTH_BELT = register("golem_strength_belt", (settings -> new AttributeAugmentItem(
             settings,
             new AugmentAttribute(EntityAttributes.ATTACK_DAMAGE, 2, Operation.ADD_VALUE)
@@ -65,7 +67,9 @@ public class ModItems {
             new AugmentAttribute(ModAttributes.FOCUS_POWER, 2d, Operation.ADD_VALUE)
     )), new Item.Settings());
 
+
     public static final Item WIND_STAFF = register("wind_staff", WindStaffItem::new, new Item.Settings().rarity(Rarity.UNCOMMON).maxCount(1).maxDamage(1250).repairable(Items.WIND_CHARGE));
+
 
     public static final Item PURE_SOUL = register("pure_soul", (settings) -> new SoulItem(settings, ModSoulTypes.MORTAL), SoulItem.getDefaultSettings());
     public static final Item CRYSTAL_SOUL_FRACTURED = register("crystal_soul_fractured", Item::new, SoulItem.getDefaultSettings());

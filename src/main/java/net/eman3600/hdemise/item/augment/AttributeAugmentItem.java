@@ -23,14 +23,21 @@ import java.util.function.Consumer;
 public class AttributeAugmentItem extends AugmentItem {
     private final List<AugmentAttribute> modifiers;
 
-    public AttributeAugmentItem(Settings settings, List<AugmentAttribute> modifiers) {
-        super(settings);
+    public AttributeAugmentItem(Settings settings, int tooltipLines, List<AugmentAttribute> modifiers) {
+        super(settings, tooltipLines);
         this.modifiers = modifiers;
+    }
+
+    public AttributeAugmentItem(Settings settings, List<AugmentAttribute> modifiers) {
+        this(settings, 0, modifiers);
+    }
+
+    public AttributeAugmentItem(Settings settings, int tooltipLines, AugmentAttribute... attributes) {
+        this(settings, tooltipLines, List.of(attributes));
     }
 
     public AttributeAugmentItem(Settings settings, AugmentAttribute... attributes) {
         this(settings, List.of(attributes));
-
     }
 
     @Override

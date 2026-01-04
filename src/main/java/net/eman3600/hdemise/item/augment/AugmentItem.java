@@ -18,9 +18,15 @@ import java.util.function.Consumer;
 public class AugmentItem extends Item {
 
     public static final Map<TagKey<Item>, Text> textMap = new HashMap<>();
+    private final int tooltipLines;
 
     public AugmentItem(Settings settings) {
+        this(settings, 0);
+    }
+
+    public AugmentItem(Settings settings, int tooltipLines) {
         super(settings.maxCount(1));
+        this.tooltipLines = tooltipLines;
     }
 
     public void onEquip(PlayerEntity player, ItemStack stack) {
@@ -40,6 +46,14 @@ public class AugmentItem extends Item {
         for (TagKey<Item> tag : textMap.keySet()) {
             if (stack.isIn(tag)) {
                 textConsumer.accept(textMap.get(tag));
+            }
+        }
+
+        if (tooltipLines == 1) {
+            textConsumer.accept(Text.translatable(getTranslationKey() + ".tooltip").withColor(Colors.LIGHT_GRAY));
+        } else {
+            for (int i = 0; i < tooltipLines; i++) {
+                textConsumer.accept(Text.translatable(getTranslationKey() + ".tooltip." + i).withColor(Colors.LIGHT_GRAY));
             }
         }
     }

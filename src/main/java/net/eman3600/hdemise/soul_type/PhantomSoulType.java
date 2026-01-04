@@ -5,6 +5,9 @@ import net.eman3600.hdemise.init.basics.ModTags;
 import net.eman3600.hdemise.init.entity.ModAttributes;
 import net.eman3600.hdemise.util.inventory.AugmentSpace;
 import net.minecraft.entity.attribute.*;
+import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.effect.StatusEffects;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.util.Identifier;
@@ -63,6 +66,12 @@ public class PhantomSoulType extends SoulType {
         return augments;
     }
 
+
+    @Override
+    public boolean onFocus(PlayerEntity player, float focusAmount) {
+        player.addStatusEffect(new StatusEffectInstance(StatusEffects.INVISIBILITY, 200, 0, true, true));
+        return super.onFocus(player, focusAmount);
+    }
 
     @Override
     public void applyAttributes(AttributeContainer container) {

@@ -16,9 +16,11 @@
     "item.hdemise.soulroot_seeds": "Soulroot Seeds",
 
     "item.hdemise.feather_token": "Feather Token",
+    "item.hdemise.feather_token.tooltip": "Improves aerial mobility",
     "item.hdemise.golem_strength_belt": "Belt of Golem Strength",
     "item.hdemise.demon_scroll": "Blood Pact",
     "item.hdemise.ectoplasmic_bone": "Ectoplasmic Bone",
+    "item.hdemise.ectoplasmic_bone.tooltip": "Melee attacks give experience",
     "item.hdemise.crystal_ball": "Crystal Ball",
 
     "item.hdemise.wind_staff": "Windstorm Staff",
@@ -106,7 +108,7 @@
     "soul_type.hdemise.crystal.description": "An enchanted soul fueled by essence with high magic potential. Focus increases mining speed.",
 
     "soul_type.hdemise.phantom": "Phantom",
-    "soul_type.hdemise.phantom.description": "A soul, only barely. Retains the Hollow's abilities and weaknesses but is less frail and can gather experience.",
+    "soul_type.hdemise.phantom.description": "A soul, only barely. Retains the Hollow's abilities and weaknesses but is less frail and can gather experience. Focus grants brief invisibility.",
     
     "soul_type.hdemise.construct": "Constructed",
     "soul_type.hdemise.construct.description": "Soul of a solar-powered automaton. Equipped with a fragile jetpack. Gain essence over time, but focus with less potency.",
