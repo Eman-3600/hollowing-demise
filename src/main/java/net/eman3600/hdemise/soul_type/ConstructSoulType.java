@@ -107,6 +107,22 @@ public class ConstructSoulType extends SoulType {
 
             focusPowerInstance.addTemporaryModifier(new EntityAttributeModifier(ATTRIBUTE_ID, -2, EntityAttributeModifier.Operation.ADD_VALUE));
         }
+
+
+        RegistryEntry<EntityAttribute> fallDamage = EntityAttributes.FALL_DAMAGE_MULTIPLIER;
+        EntityAttributeInstance fallDamageInstance = container.getCustomInstance(fallDamage);
+        if (fallDamageInstance != null) {
+
+            fallDamageInstance.addTemporaryModifier(new EntityAttributeModifier(ATTRIBUTE_ID, -.5, EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE));
+        }
+
+
+        RegistryEntry<EntityAttribute> fallDistance = EntityAttributes.SAFE_FALL_DISTANCE;
+        EntityAttributeInstance fallDistanceInstance = container.getCustomInstance(fallDistance);
+        if (fallDistanceInstance != null) {
+
+            fallDistanceInstance.addTemporaryModifier(new EntityAttributeModifier(ATTRIBUTE_ID, 4, EntityAttributeModifier.Operation.ADD_VALUE));
+        }
     }
 
     @Override
@@ -133,6 +149,20 @@ public class ConstructSoulType extends SoulType {
         if (focusPowerInstance != null) {
 
             focusPowerInstance.removeModifier(ATTRIBUTE_ID);
+        }
+
+        RegistryEntry<EntityAttribute> fallDamage = EntityAttributes.FALL_DAMAGE_MULTIPLIER;
+        EntityAttributeInstance fallDamageInstance = container.getCustomInstance(fallDamage);
+        if (fallDamageInstance != null) {
+
+            fallDamageInstance.removeModifier(ATTRIBUTE_ID);
+        }
+
+        RegistryEntry<EntityAttribute> fallDistance = EntityAttributes.SAFE_FALL_DISTANCE;
+        EntityAttributeInstance fallDistanceInstance = container.getCustomInstance(fallDistance);
+        if (fallDistanceInstance != null) {
+
+            fallDistanceInstance.removeModifier(ATTRIBUTE_ID);
         }
     }
 
