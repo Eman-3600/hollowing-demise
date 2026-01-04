@@ -750,7 +750,7 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
             }
         }
 
-        player.getEntityWorld().playSound(player, player.getX(), player.getY(), player.getZ(), SoundEvents.ENTITY_BLAZE_SHOOT, SoundCategory.PLAYERS, .5f, .5f);
+        player.getEntityWorld().playSound(player, player.getX(), player.getY(), player.getZ(), SoundEvents.ENTITY_BLAZE_SHOOT, SoundCategory.PLAYERS, .2f, .5f);
     }
 
     @Override

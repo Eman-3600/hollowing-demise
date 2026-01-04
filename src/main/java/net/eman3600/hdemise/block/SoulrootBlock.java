@@ -78,10 +78,14 @@ public class SoulrootBlock extends CropBlock {
     @Override
     protected void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
         int i = state.get(AGE);
-        if (i < MAX_AGE && random.nextInt(7) == 0) {
+        if (i < MAX_AGE && random.nextInt(getGrowthRateDenominator(world.getBlockState(pos.down()))) == 0) {
             state = state.with(AGE, i + 1);
             world.setBlockState(pos, state, Block.NOTIFY_LISTENERS);
         }
+    }
+
+    protected static int getGrowthRateDenominator(BlockState state) {
+        return state.isOf(Blocks.SOUL_SAND) ? 6 : 8;
     }
 
     @Override
