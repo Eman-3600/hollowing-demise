@@ -45,6 +45,8 @@ public class ModModelProvider extends FabricModelProvider {
         itemModelGenerator.register(ModItems.DEMON_SCROLL, Models.GENERATED);
         itemModelGenerator.register(ModItems.CRYSTAL_BALL, Models.GENERATED);
 
+        itemModelGenerator.register(ModItems.ALMARITE_SCYTHE, Models.HANDHELD);
+
         itemModelGenerator.register(ModItems.WIND_STAFF, Models.HANDHELD);
 
         itemModelGenerator.register(ModItems.PURE_SOUL, Models.GENERATED);

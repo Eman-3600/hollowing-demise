@@ -8,6 +8,7 @@ import net.eman3600.hdemise.item.augment.AttributeAugmentItem;
 import net.eman3600.hdemise.item.augment.AttributeAugmentItem.AugmentAttribute;
 import net.eman3600.hdemise.item.augment.AugmentItem;
 import net.eman3600.hdemise.item.soul_using.WindStaffItem;
+import net.eman3600.hdemise.util.ModToolMaterials;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.FoodComponent;
@@ -68,6 +69,9 @@ public class ModItems {
     )), new Item.Settings());
 
 
+    public static final Item ALMARITE_SCYTHE = register("almarite_scythe", Item::new, new Item.Settings().sword(ModToolMaterials.ALMARITE, 3.0F, -3F));
+
+
     public static final Item WIND_STAFF = register("wind_staff", WindStaffItem::new, new Item.Settings().rarity(Rarity.UNCOMMON).maxCount(1).maxDamage(1250).repairable(Items.WIND_CHARGE));
 
 
@@ -111,6 +115,7 @@ public class ModItems {
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.COMBAT).register((group) -> {
             group.add(ModItems.ALMARITE);
             group.add(ModItems.CROSS);
+            group.add(ModItems.ALMARITE_SCYTHE);
             group.add(ModItems.WIND_STAFF);
         });
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.TOOLS).register((group) -> {

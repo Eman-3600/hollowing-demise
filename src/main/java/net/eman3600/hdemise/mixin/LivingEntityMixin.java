@@ -1,6 +1,7 @@
 package net.eman3600.hdemise.mixin;
 
 import net.eman3600.hdemise.cardinal_components.SoulComponent;
+import net.eman3600.hdemise.init.basics.ModTags;
 import net.eman3600.hdemise.init.custom.ModSoulTypes;
 import net.eman3600.hdemise.mixin_interfaces.LivingEntityAccess;
 import net.minecraft.entity.Attackable;
@@ -10,6 +11,8 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.server.world.ServerWorld;
+import net.minecraft.util.Hand;
 import net.minecraft.world.World;
 import net.minecraft.world.waypoint.ServerWaypoint;
 import org.spongepowered.asm.mixin.Mixin;
@@ -114,6 +117,17 @@ public abstract class LivingEntityMixin extends Entity implements Attackable, Se
 
             if (sc.isUndead()) {
                 cir.setReturnValue(true);
+            }
+        }
+    }
+
+    @Inject(method = "getExperienceToDrop(Lnet/minecraft/server/world/ServerWorld;Lnet/minecraft/entity/Entity;)I", at = @At("RETURN"), cancellable = true)
+    private void hdemise$getExperienceToDrop(ServerWorld world, Entity attacker, CallbackInfoReturnable<Integer> cir) {
+        if (attacker instanceof PlayerEntity player) {
+            int xp = cir.getReturnValueI();
+
+            if (player.getStackInHand(Hand.MAIN_HAND).isIn(ModTags.Items.REAPER)) {
+                cir.setReturnValue(xp * 2);
             }
         }
     }

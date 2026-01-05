@@ -23,6 +23,8 @@
     "item.hdemise.ectoplasmic_bone.tooltip": "Melee attacks give experience",
     "item.hdemise.crystal_ball": "Crystal Ball",
 
+    "item.hdemise.almarite_scythe": "Almarite Scythe",
+    "item.hdemise.almarite_scythe.tooltip": "Yields increased XP from slain foes",
     "item.hdemise.wind_staff": "Windstorm Staff",
     "item.hdemise.wind_staff.tooltip": "Shoots wind charges",
 

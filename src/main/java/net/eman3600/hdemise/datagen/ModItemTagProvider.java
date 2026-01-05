@@ -20,6 +20,14 @@ public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
         valueLookupBuilder(ItemTags.BEACON_PAYMENT_ITEMS)
                 .add(ModItems.ALMARITE);
 
+        valueLookupBuilder(ItemTags.SWORDS)
+                .add(ModItems.ALMARITE_SCYTHE);
+
+
+        valueLookupBuilder(ModTags.Items.ALMARITE_REPAIR)
+                .add(ModItems.ALMARITE)
+                .add(ModItems.SOULROOT_BULB);
+
         valueLookupBuilder(ModTags.Items.YELLOW_AUGMENT)
                 .add(ModItems.FEATHER_TOKEN)
                 .add(ModItems.GOLEM_STRENGTH_BELT);
@@ -35,5 +43,10 @@ public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
 
         valueLookupBuilder(ModTags.Items.XP_ABSORBENT)
                 .add(ModItems.ECTOPLASMIC_BONE);
+
+
+
+        valueLookupBuilder(ModTags.Items.REAPER)
+                .add(ModItems.ALMARITE_SCYTHE);
     }
 }
