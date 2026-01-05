@@ -37,7 +37,10 @@ public class SoulCommand {
                                 .executes(SoulCommand::setSoulType))))
             .then(CommandManager.literal("extract")
                 .then(CommandManager.argument("target", EntityArgumentType.player())
-                        .executes(SoulCommand::extractSoul)));
+                        .executes(SoulCommand::extractSoul)))
+            .then(CommandManager.literal("replenish")
+                    .then(CommandManager.argument("target", EntityArgumentType.player())
+                            .executes(SoulCommand::replenishSoul)));
 
 
         dispatcher.register(
@@ -63,6 +66,18 @@ public class SoulCommand {
         context.getSource().sendError(Text.translatable("commands.hdemise.soul.extract_hollow", player.getName()));
 
         return 0;
+    }
+
+    private static int replenishSoul(CommandContext<ServerCommandSource> context) throws CommandSyntaxException {
+        PlayerEntity player = EntityArgumentType.getPlayer(context, "target");
+        SoulComponent sc = SoulComponent.of(player);
+
+        sc.topUp();
+        sc.setHollowTopped(!sc.isSoulless());
+        sc.validateSoulStack();
+
+        context.getSource().sendFeedback(() -> Text.translatable("commands.hdemise.soul.replenish", player.getName()), true);
+        return 1;
     }
 
     private static int setSoulType(CommandContext<ServerCommandSource> context) throws CommandSyntaxException {

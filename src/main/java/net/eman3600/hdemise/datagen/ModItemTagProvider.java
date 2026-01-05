@@ -32,7 +32,8 @@ public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
 
         valueLookupBuilder(ModTags.Items.GREEN_AUGMENT)
                 .add(ModItems.DEMON_SCROLL)
-                .add(ModItems.CRYSTAL_BALL);
+                .add(ModItems.CRYSTAL_BALL)
+                .add(ModItems.RADIANT_JEWEL);
 
         valueLookupBuilder(ModTags.Items.RED_AUGMENT)
                 .add(ModItems.ECTOPLASMIC_BONE);

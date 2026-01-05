@@ -5,10 +5,11 @@ import net.eman3600.hdemise.init.custom.ModSoulTypes;
 import net.eman3600.hdemise.init.entity.ModAttributes;
 import net.eman3600.hdemise.item.*;
 import net.eman3600.hdemise.item.augment.AttributeAugmentItem;
-import net.eman3600.hdemise.item.augment.AttributeAugmentItem.AugmentAttribute;
 import net.eman3600.hdemise.item.augment.AugmentItem;
+import net.eman3600.hdemise.item.augment.NightVisionAugmentItem;
 import net.eman3600.hdemise.item.soul_using.WindStaffItem;
 import net.eman3600.hdemise.util.ModToolMaterials;
+import net.eman3600.hdemise.util.SoulAttribute;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.FoodComponent;
@@ -51,31 +52,32 @@ public class ModItems {
     public static final Item FEATHER_TOKEN = register("feather_token", (settings -> new AttributeAugmentItem(
             settings,
             2,
-            new AugmentAttribute(EntityAttributes.MOVEMENT_SPEED, .15, Operation.ADD_MULTIPLIED_BASE)
+            new SoulAttribute(EntityAttributes.MOVEMENT_SPEED, .15, Operation.ADD_MULTIPLIED_BASE)
     )), new Item.Settings());
     public static final Item GOLEM_STRENGTH_BELT = register("golem_strength_belt", (settings -> new AttributeAugmentItem(
             settings,
-            new AugmentAttribute(EntityAttributes.ATTACK_DAMAGE, 2, Operation.ADD_VALUE)
+            new SoulAttribute(EntityAttributes.ATTACK_DAMAGE, 2, Operation.ADD_VALUE)
     )), new Item.Settings());
     public static final Item BOTTLED_TEAR = register("bottled_tear", (settings -> new AttributeAugmentItem(
             settings,
-            new AugmentAttribute(EntityAttributes.MAX_HEALTH, 4d, Operation.ADD_VALUE)
+            new SoulAttribute(EntityAttributes.MAX_HEALTH, 4d, Operation.ADD_VALUE)
     )), new Item.Settings());
     public static final Item CARVED_OBSIDIAN = register("carved_obsidian", (settings -> new AttributeAugmentItem(
             settings,
-            new AugmentAttribute(EntityAttributes.ARMOR, 4d, Operation.ADD_VALUE),
-            new AugmentAttribute(EntityAttributes.ARMOR_TOUGHNESS, 4d, Operation.ADD_VALUE),
-            new AugmentAttribute(EntityAttributes.KNOCKBACK_RESISTANCE, .2d, Operation.ADD_VALUE)
+            new SoulAttribute(EntityAttributes.ARMOR, 4d, Operation.ADD_VALUE),
+            new SoulAttribute(EntityAttributes.ARMOR_TOUGHNESS, 4d, Operation.ADD_VALUE),
+            new SoulAttribute(EntityAttributes.KNOCKBACK_RESISTANCE, .2d, Operation.ADD_VALUE)
     )), new Item.Settings());
     public static final Item DEMON_SCROLL = register("demon_scroll", (settings -> new AttributeAugmentItem(
             settings,
-            new AugmentAttribute(ModAttributes.MAX_SOUL, 5d, Operation.ADD_VALUE),
-            new AugmentAttribute(EntityAttributes.MAX_HEALTH, -6d, Operation.ADD_VALUE)
+            new SoulAttribute(ModAttributes.MAX_SOUL, 5d, Operation.ADD_VALUE),
+            new SoulAttribute(EntityAttributes.MAX_HEALTH, -6d, Operation.ADD_VALUE)
     )), new Item.Settings());
     public static final Item CRYSTAL_BALL = register("crystal_ball", (settings -> new AttributeAugmentItem(
             settings,
-            new AugmentAttribute(ModAttributes.FOCUS_POWER, 2d, Operation.ADD_VALUE)
+            new SoulAttribute(ModAttributes.FOCUS_POWER, 2d, Operation.ADD_VALUE)
     )), new Item.Settings());
+    public static final Item RADIANT_JEWEL = register("radiant_jewel", (settings -> new NightVisionAugmentItem(settings, 1)), new Item.Settings());
     public static final Item ECTOPLASMIC_BONE = register("ectoplasmic_bone", settings -> new AugmentItem(settings, 1), new Item.Settings());
 
 

@@ -24,6 +24,8 @@
     "item.hdemise.carved_obsidian": "Carved Obsidian",
     "item.hdemise.crystal_ball": "Crystal Ball",
     "item.hdemise.demon_scroll": "Blood Pact",
+    "item.hdemise.radiant_jewel": "Radiant Jewel",
+    "item.hdemise.radiant_jewel.tooltip": "Focus grants night vision",
     "item.hdemise.ectoplasmic_bone": "Ectoplasmic Bone",
     "item.hdemise.ectoplasmic_bone.tooltip": "Melee attacks give experience",
 
@@ -129,5 +131,6 @@
     "commands.hdemise.soul.set_success": "Set soul type of %s targets to %s",
     "commands.hdemise.soul.set_none": "Could not set soul type to %s. Targets had it already",
     "commands.hdemise.soul.extract_success": "Extracted a copy of %s's soul",
-    "commands.hdemise.soul.extract_hollow": "Could not extract %s's soul because they had none"
+    "commands.hdemise.soul.extract_hollow": "Could not extract %s's soul because they had none",
+    "commands.hdemise.soul.replenish": "Replenished stats of %s"
 }

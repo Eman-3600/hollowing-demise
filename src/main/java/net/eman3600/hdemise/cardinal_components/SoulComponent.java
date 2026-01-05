@@ -7,6 +7,7 @@ import net.eman3600.hdemise.init.entity.ModStatusEffects;
 import net.eman3600.hdemise.item.SoulItem;
 import net.eman3600.hdemise.item.XPCoreItem;
 import net.eman3600.hdemise.item.augment.AugmentItem;
+import net.eman3600.hdemise.item.augment.FocusAugment;
 import net.eman3600.hdemise.networking.s2c.SoulEventPayload;
 import net.eman3600.hdemise.soul_type.SoulType;
 import net.eman3600.hdemise.util.RayHelper;
@@ -852,6 +853,11 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
 
             if (focusTime >= soulType.getFocusTicks()) {
                 boolean continueFocusing = this.soulType.onFocus(player, (float)player.getAttributeValue(ModAttributes.FOCUS_POWER));
+                forEachAugment((stack, player) -> {
+                    if (stack.getItem() instanceof FocusAugment augment) {
+                        augment.onFocus(player, stack, (float)player.getAttributeValue(ModAttributes.FOCUS_POWER));
+                    }
+                });
                 sendSoulEvent(SoulEventPayload.SoulEventType.FOCUS);
                 setFocusing(canFocus() && continueFocusing);
             } else if (soul <= 0 || !player.isOnGround()) {
