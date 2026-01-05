@@ -24,14 +24,11 @@ public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
                 .add(ModItems.ALMARITE_SCYTHE);
 
 
-        valueLookupBuilder(ModTags.Items.ALMARITE_REPAIR)
-                .add(ModItems.ALMARITE)
-                .add(ModItems.SOULROOT_BULB);
-
         valueLookupBuilder(ModTags.Items.YELLOW_AUGMENT)
                 .add(ModItems.FEATHER_TOKEN)
                 .add(ModItems.GOLEM_STRENGTH_BELT)
-                .add(ModItems.BOTTLED_TEAR);
+                .add(ModItems.BOTTLED_TEAR)
+                .add(ModItems.CARVED_OBSIDIAN);
 
         valueLookupBuilder(ModTags.Items.GREEN_AUGMENT)
                 .add(ModItems.DEMON_SCROLL)
@@ -49,5 +46,9 @@ public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
 
         valueLookupBuilder(ModTags.Items.REAPER)
                 .add(ModItems.ALMARITE_SCYTHE);
+
+        valueLookupBuilder(ModTags.Items.ALMARITE_REPAIR)
+                .add(ModItems.ALMARITE)
+                .add(ModItems.SOULROOT_BULB);
     }
 }

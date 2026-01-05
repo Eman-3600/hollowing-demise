@@ -53,10 +53,19 @@ public class ModItems {
             1,
             new AugmentAttribute(EntityAttributes.MOVEMENT_SPEED, .15, Operation.ADD_MULTIPLIED_BASE)
     )), new Item.Settings());
-    public static final Item ECTOPLASMIC_BONE = register("ectoplasmic_bone", settings -> new AugmentItem(settings, 1), new Item.Settings());
     public static final Item GOLEM_STRENGTH_BELT = register("golem_strength_belt", (settings -> new AttributeAugmentItem(
             settings,
             new AugmentAttribute(EntityAttributes.ATTACK_DAMAGE, 2, Operation.ADD_VALUE)
+    )), new Item.Settings());
+    public static final Item BOTTLED_TEAR = register("bottled_tear", (settings -> new AttributeAugmentItem(
+            settings,
+            new AugmentAttribute(EntityAttributes.MAX_HEALTH, 4d, Operation.ADD_VALUE)
+    )), new Item.Settings());
+    public static final Item CARVED_OBSIDIAN = register("carved_obsidian", (settings -> new AttributeAugmentItem(
+            settings,
+            new AugmentAttribute(EntityAttributes.ARMOR, 4d, Operation.ADD_VALUE),
+            new AugmentAttribute(EntityAttributes.ARMOR_TOUGHNESS, 4d, Operation.ADD_VALUE),
+            new AugmentAttribute(EntityAttributes.KNOCKBACK_RESISTANCE, .2d, Operation.ADD_VALUE)
     )), new Item.Settings());
     public static final Item DEMON_SCROLL = register("demon_scroll", (settings -> new AttributeAugmentItem(
             settings,
@@ -67,10 +76,7 @@ public class ModItems {
             settings,
             new AugmentAttribute(ModAttributes.FOCUS_POWER, 2d, Operation.ADD_VALUE)
     )), new Item.Settings());
-    public static final Item BOTTLED_TEAR = register("bottled_tear", (settings -> new AttributeAugmentItem(
-            settings,
-            new AugmentAttribute(EntityAttributes.MAX_HEALTH, 4d, Operation.ADD_VALUE)
-    )), new Item.Settings());
+    public static final Item ECTOPLASMIC_BONE = register("ectoplasmic_bone", settings -> new AugmentItem(settings, 1), new Item.Settings());
 
 
     public static final Item ALMARITE_SCYTHE = register("almarite_scythe", Item::new, new Item.Settings().sword(ModToolMaterials.ALMARITE, 3.0F, -3F)
