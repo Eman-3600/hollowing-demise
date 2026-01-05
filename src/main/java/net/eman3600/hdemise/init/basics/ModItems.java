@@ -67,6 +67,10 @@ public class ModItems {
             settings,
             new AugmentAttribute(ModAttributes.FOCUS_POWER, 2d, Operation.ADD_VALUE)
     )), new Item.Settings());
+    public static final Item BOTTLED_TEAR = register("bottled_tear", (settings -> new AttributeAugmentItem(
+            settings,
+            new AugmentAttribute(EntityAttributes.MAX_HEALTH, 4d, Operation.ADD_VALUE)
+    )), new Item.Settings());
 
 
     public static final Item ALMARITE_SCYTHE = register("almarite_scythe", Item::new, new Item.Settings().sword(ModToolMaterials.ALMARITE, 3.0F, -3F)

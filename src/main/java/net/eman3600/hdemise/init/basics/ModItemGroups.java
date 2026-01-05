@@ -44,6 +44,7 @@ public class ModItemGroups {
                 entries.add(ModItems.GOLEM_STRENGTH_BELT);
                 entries.add(ModItems.DEMON_SCROLL);
                 entries.add(ModItems.CRYSTAL_BALL);
+                entries.add(ModItems.BOTTLED_TEAR);
                 entries.add(ModItems.ALMARITE_SCYTHE);
                 entries.add(ModItems.WIND_STAFF);
                 entries.add(ModItems.FORM_SWITCHER);
