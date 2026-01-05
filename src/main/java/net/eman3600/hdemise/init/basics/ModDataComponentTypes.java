@@ -1,12 +1,15 @@
 package net.eman3600.hdemise.init.basics;
 
+import com.mojang.serialization.Codec;
 import net.eman3600.hdemise.HDemise;
 import net.eman3600.hdemise.data_component.XPStorageComponent;
 import net.minecraft.component.ComponentType;
 import net.minecraft.component.type.NbtComponent;
+import net.minecraft.network.codec.PacketCodecs;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.dynamic.Codecs;
 
 import java.util.function.UnaryOperator;
 
@@ -19,6 +22,9 @@ public class ModDataComponentTypes {
     );
 
     public static final ComponentType<NbtComponent> SOUL = register("soul", builder -> builder.codec(NbtComponent.CODEC));
+
+    public static final ComponentType<Integer> TOOLTIP_LINES = register(
+            "tooltip_lines", builder -> builder.codec(Codecs.rangedInt(0, 20)).packetCodec(PacketCodecs.VAR_INT));
 
 
     private static <T>ComponentType<T> register(String name, UnaryOperator<ComponentType.Builder<T>> builderOperator) {
