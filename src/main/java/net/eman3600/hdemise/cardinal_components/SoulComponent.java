@@ -1,5 +1,7 @@
 package net.eman3600.hdemise.cardinal_components;
 
+import net.eman3600.hdemise.init.basics.ModItems;
+import net.eman3600.hdemise.init.basics.ModTags;
 import net.eman3600.hdemise.init.custom.ModSoulTypes;
 import net.eman3600.hdemise.init.entity.ModAttributes;
 import net.eman3600.hdemise.init.cca.ModEntityComponents;
@@ -8,6 +10,7 @@ import net.eman3600.hdemise.item.SoulItem;
 import net.eman3600.hdemise.item.XPCoreItem;
 import net.eman3600.hdemise.item.augment.AugmentItem;
 import net.eman3600.hdemise.item.augment.FocusAugment;
+import net.eman3600.hdemise.item.augment.TopUpAugment;
 import net.eman3600.hdemise.networking.s2c.SoulEventPayload;
 import net.eman3600.hdemise.soul_type.SoulType;
 import net.eman3600.hdemise.util.RayHelper;
@@ -17,10 +20,6 @@ import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.attribute.EntityAttribute;
-import net.minecraft.entity.attribute.EntityAttributeInstance;
-import net.minecraft.entity.attribute.EntityAttributeModifier;
-import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.HungerManager;
@@ -30,7 +29,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.packet.s2c.play.EntityVelocityUpdateS2CPacket;
 import net.minecraft.particle.ParticleTypes;
-import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.registry.tag.TagKey;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
@@ -39,10 +37,7 @@ import net.minecraft.sound.SoundEvents;
 import net.minecraft.storage.ReadView;
 import net.minecraft.storage.WriteView;
 import net.minecraft.text.Text;
-import net.minecraft.util.Colors;
-import net.minecraft.util.Identifier;
 import net.minecraft.util.ItemScatterer;
-import net.minecraft.util.StringIdentifiable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.MathHelper;
@@ -52,10 +47,6 @@ import org.ladysnake.cca.api.v3.component.sync.AutoSyncedComponent;
 import org.ladysnake.cca.api.v3.component.tick.ClientTickingComponent;
 import org.ladysnake.cca.api.v3.component.tick.ServerTickingComponent;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 import java.util.function.BiConsumer;
 
 public class SoulComponent implements AutoSyncedComponent, ServerTickingComponent, ClientTickingComponent {
@@ -159,8 +150,8 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
         manager.setSaturationLevel(20f);
         setSoul(getMaxSoul());
         forEachAugment((stack, p) -> {
-            if (stack.getItem() instanceof AugmentItem item) {
-                item.onTopUp(p, stack);
+            if (stack.getItem() instanceof TopUpAugment augment) {
+                augment.onTopUp(p, stack);
             }
         });
     }
@@ -418,7 +409,8 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
     }
 
     public void lunge() {
-        Vec3d vel = RayHelper.rayZVector(player.getYaw(), 0).multiply(LUNGE_SPEED).add(0, LUNGE_HEIGHT, 0);
+        Vec3d former = player.getVelocity().getHorizontal();
+        Vec3d vel = RayHelper.rayZVector(player.getYaw(), 0).multiply(Math.max(LUNGE_SPEED, former.length())).add(0, LUNGE_HEIGHT, 0);
 
         player.setVelocity(vel);
         player.velocityDirty = true;
@@ -665,6 +657,20 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
             cureRenderTicks--;
         }
 
+        if (player.isSprinting() && player.isOnGround() && player.hasStatusEffect(ModStatusEffects.LIGHTFOOT)) {
+            Random random = player.getRandom();
+            Box box = player.getBoundingBox().expand(.1);
+            for (int i = 0; i < 2; i++) {
+                player.getEntityWorld().addParticleClient(ParticleTypes.END_ROD.getType(),
+                        box.minX + random.nextFloat() * (box.maxX - box.minX),
+                        player.getY() + random.nextFloat() * .1,
+                        box.minZ + random.nextFloat() * (box.maxZ - box.minZ),
+                        0,
+                        random.nextFloat() * .05,
+                        0);
+            }
+        }
+
         if (isJetting()) {
 
 
@@ -781,6 +787,18 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
             markDirty();
         }
 
+        // GOLDEN FOOT FUNCTIONALITY
+        if (player.isSprinting() && !player.isSwimming() && hasAugment(ModItems.GOLDEN_FOOT) && (player.isOnGround() || hasAugment(ModTags.Items.AERIAL_IMPROVEMENT))) {
+            StatusEffectInstance instance = player.getStatusEffect(ModStatusEffects.LIGHTFOOT);
+
+            if ((instance == null || instance.getDuration() < 10) && getSoul() > 0) {
+                addSoul(-1);
+                player.addStatusEffect(new StatusEffectInstance(ModStatusEffects.LIGHTFOOT, 22, 0, true, false));
+            }
+        } else if (player.hasStatusEffect(ModStatusEffects.LIGHTFOOT) && !player.isSprinting()) {
+            player.removeStatusEffect(ModStatusEffects.LIGHTFOOT);
+        }
+
         if (this.soulType == ModSoulTypes.CONSTRUCT && getSoul() < getMaxSoul()) {
             solarSoulTime += player.getEntityWorld().isDay() && player.getEntityWorld().isSkyVisibleAllowingSea(BlockPos.ofFloored(player.getX(), player.getEyeY(), player.getZ())) ? SUN_MULTIPLIER : 1;
 
@@ -790,6 +808,10 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
             }
 
             markDirty();
+        }
+
+        if (getSoul() < SOUL_PER_VESSEL && hasAugment(ModItems.ESSENCE_CORE) && !isFocusing() && !isJetting() && !isGhost() && player.getRandom().nextInt(10) < 4) {
+            addSoul(1);
         }
 
         if (isJetting()) {

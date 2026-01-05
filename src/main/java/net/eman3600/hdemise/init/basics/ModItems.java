@@ -78,6 +78,8 @@ public class ModItems {
             new SoulAttribute(ModAttributes.FOCUS_POWER, 2d, Operation.ADD_VALUE)
     )), new Item.Settings());
     public static final Item RADIANT_JEWEL = register("radiant_jewel", (settings -> new NightVisionAugmentItem(settings, 1)), new Item.Settings());
+    public static final Item ESSENCE_CORE = register("essence_core", settings -> new AugmentItem(settings, 2), new Item.Settings());
+    public static final Item GOLDEN_FOOT = register("golden_foot", settings -> new AugmentItem(settings, 2), new Item.Settings());
     public static final Item ECTOPLASMIC_BONE = register("ectoplasmic_bone", settings -> new AugmentItem(settings, 1), new Item.Settings());
 
 

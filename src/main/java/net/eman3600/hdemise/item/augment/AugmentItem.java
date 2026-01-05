@@ -38,7 +38,6 @@ public class AugmentItem extends Item {
         player.clearStatusEffects();
     }
     public void onReload(PlayerEntity player, ItemStack stack) {}
-    public void onTopUp(PlayerEntity player, ItemStack stack) {}
 
     @Override
     public void appendTooltip(ItemStack stack, TooltipContext context, TooltipDisplayComponent displayComponent, Consumer<Text> textConsumer, TooltipType type) {

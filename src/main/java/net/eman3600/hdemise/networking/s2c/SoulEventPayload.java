@@ -1,6 +1,9 @@
 package net.eman3600.hdemise.networking.s2c;
 
 import io.netty.buffer.ByteBuf;
+import net.eman3600.hdemise.cardinal_components.SoulComponent;
+import net.eman3600.hdemise.init.entity.ModAttributes;
+import net.eman3600.hdemise.item.augment.FocusAugment;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
@@ -66,6 +69,12 @@ public record SoulEventPayload(double x, double y, double z, float variance, Sou
                         (random.nextFloat() - .5f) * speed,
                         (random.nextFloat() - .5f) * speed);
             }
+
+            SoulComponent.of(player).forEachAugment((stack, p) -> {
+                if (stack.getItem() instanceof FocusAugment augment) {
+                    augment.displayFocus(player, pos);
+                }
+            });
         }),
         VANISH((player, pos, variance) -> {
             player.getEntityWorld().playSoundClient(pos.x, pos.y, pos.z, SoundEvents.BLOCK_BEACON_POWER_SELECT, SoundCategory.PLAYERS, 1f, .95f + (variance * .3f), true);

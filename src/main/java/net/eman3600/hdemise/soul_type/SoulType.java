@@ -1,10 +1,12 @@
 package net.eman3600.hdemise.soul_type;
 
 import net.eman3600.hdemise.init.custom.ModSoulTypes;
+import net.eman3600.hdemise.util.SoulAttribute;
 import net.eman3600.hdemise.util.inventory.AugmentSpace;
 import net.minecraft.entity.attribute.AttributeContainer;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
 import org.jspecify.annotations.Nullable;
@@ -15,10 +17,12 @@ public abstract class SoulType {
 
     private final MeterType meterType;
     private final Identifier id;
+    private final List<SoulAttribute> modifiers;
 
-    protected SoulType(MeterType meterType, Identifier id) {
+    protected SoulType(MeterType meterType, Identifier id, SoulAttribute... attributes) {
         this.meterType = meterType;
         this.id = id;
+        this.modifiers = List.of(attributes);
     }
 
     public static SoulType ofID(Identifier id) {
@@ -84,14 +88,15 @@ public abstract class SoulType {
     public abstract List<AugmentSpace> getAugments();
 
     public final void applyAttributes(PlayerEntity player) {
-        applyAttributes(player.getAttributes());
+        for (SoulAttribute attribute : modifiers) {
+            attribute.apply(player, id.withSuffixedPath("_soul"));
+        }
     }
     public final void removeAttributes(PlayerEntity player) {
-        removeAttributes(player.getAttributes());
+        for (SoulAttribute attribute : modifiers) {
+            attribute.remove(player, id.withSuffixedPath("_soul"));
+        }
     }
-
-    public void applyAttributes(AttributeContainer container) {}
-    public void removeAttributes(AttributeContainer container) {}
 
     /**
      * Triggers when the player finishes focusing.
@@ -112,6 +117,10 @@ public abstract class SoulType {
 
     public ItemStack getDefaultSoulStack() {
         return ItemStack.EMPTY;
+    }
+
+    public List<SoulAttribute> getAttributes() {
+        return this.modifiers;
     }
 
 

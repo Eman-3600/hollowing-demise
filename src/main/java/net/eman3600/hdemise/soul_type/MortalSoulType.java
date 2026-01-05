@@ -2,7 +2,10 @@ package net.eman3600.hdemise.soul_type;
 
 import net.eman3600.hdemise.init.basics.ModItems;
 import net.eman3600.hdemise.init.basics.ModTags;
+import net.eman3600.hdemise.util.SoulAttribute;
 import net.eman3600.hdemise.util.inventory.AugmentSpace;
+import net.minecraft.entity.attribute.EntityAttributeModifier;
+import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
 
@@ -22,7 +25,9 @@ public class MortalSoulType extends SoulType {
 
 
     public MortalSoulType(Identifier id) {
-        super(MeterType.HUNGER, id);
+        super(MeterType.HUNGER, id,
+                new SoulAttribute(EntityAttributes.MAX_HEALTH, 0, EntityAttributeModifier.Operation.ADD_VALUE)
+        );
     }
 
     @Override

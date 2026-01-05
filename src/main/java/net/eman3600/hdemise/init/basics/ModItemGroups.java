@@ -45,6 +45,8 @@ public class ModItemGroups {
             entries.add(ModItems.CRYSTAL_BALL);
             entries.add(ModItems.DEMON_SCROLL);
             entries.add(ModItems.RADIANT_JEWEL);
+            entries.add(ModItems.ESSENCE_CORE);
+            entries.add(ModItems.GOLDEN_FOOT);
             entries.add(ModItems.ECTOPLASMIC_BONE);
             entries.add(ModItems.ALMARITE_SCYTHE);
             entries.add(ModItems.WIND_STAFF);

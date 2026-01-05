@@ -3,13 +3,12 @@ package net.eman3600.hdemise.soul_type;
 import net.eman3600.hdemise.init.basics.ModItems;
 import net.eman3600.hdemise.init.basics.ModTags;
 import net.eman3600.hdemise.init.entity.ModAttributes;
+import net.eman3600.hdemise.util.SoulAttribute;
 import net.eman3600.hdemise.util.inventory.AugmentSpace;
 import net.minecraft.entity.attribute.*;
-import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.effect.StatusEffects;
+import net.minecraft.entity.attribute.EntityAttributeModifier.Operation;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.util.Identifier;
 import org.jspecify.annotations.Nullable;
 
@@ -26,14 +25,18 @@ public class ConstructSoulType extends SoulType {
             new AugmentSpace(75, 81, ModTags.Items.RED_AUGMENT)
     );
 
-    public static final Identifier ATTRIBUTE_ID = Identifier.of(MODID, "construct_soul");
-
     public static final Identifier HEART_TYPE = Identifier.of(MODID,"textures/gui/hud/heart/construct.png");
     public static final Identifier HEART_CONTAINER_TYPE = Identifier.of(MODID,"textures/gui/hud/heart/construct_container.png");
 
 
     public ConstructSoulType(Identifier id) {
-        super(MeterType.SOUL, id);
+        super(MeterType.SOUL, id,
+                new SoulAttribute(EntityAttributes.MAX_HEALTH, 0, Operation.ADD_VALUE),
+                new SoulAttribute(ModAttributes.MAX_SOUL, -5, Operation.ADD_VALUE),
+                new SoulAttribute(ModAttributes.FOCUS_POWER, -2, Operation.ADD_VALUE),
+                new SoulAttribute(EntityAttributes.SAFE_FALL_DISTANCE, 4, Operation.ADD_VALUE),
+                new SoulAttribute(EntityAttributes.FALL_DAMAGE_MULTIPLIER, -.5, Operation.ADD_MULTIPLIED_BASE)
+        );
     }
 
     @Override
@@ -80,90 +83,6 @@ public class ConstructSoulType extends SoulType {
     public boolean onFocus(PlayerEntity player, float focusAmount) {
 
         return super.onFocus(player, focusAmount/2);
-    }
-
-    @Override
-    public void applyAttributes(AttributeContainer container) {
-
-        RegistryEntry<EntityAttribute> maxSoul = ModAttributes.MAX_SOUL;
-        EntityAttributeInstance maxSoulInstance = container.getCustomInstance(maxSoul);
-        if (maxSoulInstance != null) {
-
-            maxSoulInstance.addTemporaryModifier(new EntityAttributeModifier(ATTRIBUTE_ID, -5, EntityAttributeModifier.Operation.ADD_VALUE));
-        }
-
-
-        RegistryEntry<EntityAttribute> toughness = EntityAttributes.ARMOR_TOUGHNESS;
-        EntityAttributeInstance toughnessInstance = container.getCustomInstance(toughness);
-        if (toughnessInstance != null) {
-
-            toughnessInstance.addTemporaryModifier(new EntityAttributeModifier(ATTRIBUTE_ID, 8, EntityAttributeModifier.Operation.ADD_VALUE));
-        }
-
-
-        RegistryEntry<EntityAttribute> focusPower = ModAttributes.FOCUS_POWER;
-        EntityAttributeInstance focusPowerInstance = container.getCustomInstance(focusPower);
-        if (focusPowerInstance != null) {
-
-            focusPowerInstance.addTemporaryModifier(new EntityAttributeModifier(ATTRIBUTE_ID, -2, EntityAttributeModifier.Operation.ADD_VALUE));
-        }
-
-
-        RegistryEntry<EntityAttribute> fallDamage = EntityAttributes.FALL_DAMAGE_MULTIPLIER;
-        EntityAttributeInstance fallDamageInstance = container.getCustomInstance(fallDamage);
-        if (fallDamageInstance != null) {
-
-            fallDamageInstance.addTemporaryModifier(new EntityAttributeModifier(ATTRIBUTE_ID, -.5, EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE));
-        }
-
-
-        RegistryEntry<EntityAttribute> fallDistance = EntityAttributes.SAFE_FALL_DISTANCE;
-        EntityAttributeInstance fallDistanceInstance = container.getCustomInstance(fallDistance);
-        if (fallDistanceInstance != null) {
-
-            fallDistanceInstance.addTemporaryModifier(new EntityAttributeModifier(ATTRIBUTE_ID, 4, EntityAttributeModifier.Operation.ADD_VALUE));
-        }
-    }
-
-    @Override
-    public void removeAttributes(AttributeContainer container) {
-        RegistryEntry<EntityAttribute> maxSoul = ModAttributes.MAX_SOUL;
-        EntityAttributeInstance maxSoulInstance = container.getCustomInstance(maxSoul);
-
-        if (maxSoulInstance != null) {
-
-            maxSoulInstance.removeModifier(ATTRIBUTE_ID);
-        }
-
-
-        RegistryEntry<EntityAttribute> toughness = EntityAttributes.ARMOR_TOUGHNESS;
-        EntityAttributeInstance toughnessInstance = container.getCustomInstance(toughness);
-        if (toughnessInstance != null) {
-
-            toughnessInstance.removeModifier(ATTRIBUTE_ID);
-        }
-
-
-        RegistryEntry<EntityAttribute> focusPower = ModAttributes.FOCUS_POWER;
-        EntityAttributeInstance focusPowerInstance = container.getCustomInstance(focusPower);
-        if (focusPowerInstance != null) {
-
-            focusPowerInstance.removeModifier(ATTRIBUTE_ID);
-        }
-
-        RegistryEntry<EntityAttribute> fallDamage = EntityAttributes.FALL_DAMAGE_MULTIPLIER;
-        EntityAttributeInstance fallDamageInstance = container.getCustomInstance(fallDamage);
-        if (fallDamageInstance != null) {
-
-            fallDamageInstance.removeModifier(ATTRIBUTE_ID);
-        }
-
-        RegistryEntry<EntityAttribute> fallDistance = EntityAttributes.SAFE_FALL_DISTANCE;
-        EntityAttributeInstance fallDistanceInstance = container.getCustomInstance(fallDistance);
-        if (fallDistanceInstance != null) {
-
-            fallDistanceInstance.removeModifier(ATTRIBUTE_ID);
-        }
     }
 
     @Override

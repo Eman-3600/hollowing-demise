@@ -26,6 +26,12 @@
     "item.hdemise.demon_scroll": "Blood Pact",
     "item.hdemise.radiant_jewel": "Radiant Jewel",
     "item.hdemise.radiant_jewel.tooltip": "Focus grants night vision",
+    "item.hdemise.golden_foot": "Golden Foot",
+    "item.hdemise.golden_foot.tooltip.0": "Increases sprinting speed",
+    "item.hdemise.golden_foot.tooltip.1": "at a small essence cost",
+    "item.hdemise.essence_core": "Experiential Core",
+    "item.hdemise.essence_core.tooltip.0": "Passively restores essence when",
+    "item.hdemise.essence_core.tooltip.1": "less than one vessel remains",
     "item.hdemise.ectoplasmic_bone": "Ectoplasmic Bone",
     "item.hdemise.ectoplasmic_bone.tooltip": "Melee attacks give experience",
 
@@ -54,6 +60,7 @@
     "tooltip.hdemise.soul_cost.one": "Costs a notch of essence",
     "tooltip.hdemise.soul_cost.medium": "Costs a moderate amount of essence",
     "tooltip.hdemise.soul_cost.large": "Costs a lot of essence",
+    "tooltip.hdemise.soul_attributes": "When Applied:",
     "tooltip.hdemise.augment_attributes": "When Applied:",
 
 
@@ -87,6 +94,8 @@
 
 
     "effect.hdemise.rage": "Rage",
+    "effect.hdemise.lightfoot": "Lightfooted",
+    "effect.hdemise.blocked": "Blocked",
     "effect.hdemise.chained": "Chained Soul",
 
 
