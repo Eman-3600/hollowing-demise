@@ -882,6 +882,7 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
             if (cureTime <= 0) {
                 setCuring(false, 0);
                 setSoulType(ModSoulTypes.MORTAL);
+                player.getHungerManager().setSaturationLevel(15f);
                 validateSoulStack();
                 player.clearStatusEffects();
                 player.addStatusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 140, 0));

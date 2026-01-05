@@ -77,7 +77,7 @@ public class ModBlocks {
             RegistryKey<Item> blockItemKey = RegistryKey.of(RegistryKeys.ITEM, Identifier.of(MODID, name));
 
             // Create the block item instance.
-            BlockItem blockItem = new BlockItem(block, new Item.Settings().registryKey(blockItemKey));
+            BlockItem blockItem = new BlockItem(block, new Item.Settings().registryKey(blockItemKey).useBlockPrefixedTranslationKey());
 
             // Register the block item.
             Registry.register(Registries.ITEM, blockItemKey, blockItem);

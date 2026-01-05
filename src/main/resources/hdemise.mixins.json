@@ -8,7 +8,9 @@
     "EntityMixin",
     "HungerManagerMixin",
     "LivingEntityMixin",
+    "LootTableMixin",
     "PlayerEntityMixin",
+    "ReloadableRegistriesMixin",
     "server.ServerPlayerEntityMixin",
     "server.ServerPlayerInteractionManagerMixin",
     "server.ServerWorldMixin"

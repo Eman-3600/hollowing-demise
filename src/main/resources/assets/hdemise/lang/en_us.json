@@ -49,14 +49,10 @@
 
 
     "block.hdemise.almarite_block": "Block of Almarite",
-    "item.hdemise.almarite_block": "Block of Almarite",
     "block.hdemise.almarite_ore": "Almarite Ore",
-    "item.hdemise.almarite_ore": "Almarite Ore",
     "block.hdemise.deepslate_almarite_ore": "Deepslate Almarite Ore",
-    "item.hdemise.deepslate_almarite_ore": "Deepslate Almarite Ore",
     "block.hdemise.infusion_table": "Infusion Table",
     "block.hdemise.infusion_table.not_enough_shelves": "Requires Bookshelves: %s/%s",
-    "item.hdemise.infusion_table": "Infusion Table",
     "block.hdemise.soulroot": "Soulroot",
 
 
