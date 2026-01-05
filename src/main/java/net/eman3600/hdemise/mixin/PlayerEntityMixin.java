@@ -14,6 +14,7 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.PlayerLikeEntity;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
+import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerAbilities;
 import net.minecraft.entity.player.PlayerEntity;
@@ -188,6 +189,17 @@ public abstract class PlayerEntityMixin extends PlayerLikeEntity {
     private void hdemise$onTargetDamaged(Entity target, ItemStack stack, DamageSource damageSource, boolean runEnchantmentEffects, CallbackInfo ci, @Local(ordinal = 1) Entity entity) {
         if (entity instanceof LivingEntity && SoulComponent.of(this).hasAugment(ModTags.Items.XP_ABSORBENT)) {
             this.addExperience(1);
+        }
+    }
+
+    @Inject(method = "getOffGroundSpeed", at = @At("RETURN"), cancellable = true)
+    private void hdemise$getOffGroundSpeed$end(CallbackInfoReturnable<Float> cir) {
+        if (((Object)this) instanceof PlayerEntity player) {
+            SoulComponent sc = SoulComponent.of(player);
+
+            if (sc.hasAugment(ModTags.Items.AERIAL_IMPROVEMENT) && !player.getAbilities().flying) {
+                cir.setReturnValue(cir.getReturnValueF() * (float) (getAttributeValue(EntityAttributes.MOVEMENT_SPEED) / getAttributeBaseValue(EntityAttributes.MOVEMENT_SPEED)));
+            }
         }
     }
 }

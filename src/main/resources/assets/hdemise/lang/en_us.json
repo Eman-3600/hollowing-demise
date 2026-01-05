@@ -17,7 +17,8 @@
     "item.hdemise.soulroot_seeds.tooltip": "Plant in sculk or soul sand",
 
     "item.hdemise.feather_token": "Feather Token",
-    "item.hdemise.feather_token.tooltip": "Improves aerial mobility",
+    "item.hdemise.feather_token.tooltip.0": "Applies all speed bonuses",
+    "item.hdemise.feather_token.tooltip.1": " to air speed",
     "item.hdemise.golem_strength_belt": "Belt of Golem Strength",
     "item.hdemise.bottled_tear": "Bottled Tear",
     "item.hdemise.carved_obsidian": "Carved Obsidian",

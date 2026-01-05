@@ -8,6 +8,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.registry.tag.TagKey;
+import net.minecraft.screen.ScreenTexts;
 import net.minecraft.text.Text;
 import net.minecraft.util.Colors;
 
@@ -49,11 +50,14 @@ public class AugmentItem extends Item {
             }
         }
 
-        if (tooltipLines == 1) {
-            textConsumer.accept(Text.translatable(getTranslationKey() + ".tooltip").withColor(Colors.LIGHT_GRAY));
-        } else {
-            for (int i = 0; i < tooltipLines; i++) {
-                textConsumer.accept(Text.translatable(getTranslationKey() + ".tooltip." + i).withColor(Colors.LIGHT_GRAY));
+        if (tooltipLines > 0) {
+            textConsumer.accept(ScreenTexts.EMPTY);
+            if (tooltipLines == 1) {
+                textConsumer.accept(Text.translatable(getTranslationKey() + ".tooltip").withColor(Colors.LIGHT_GRAY));
+            } else {
+                for (int i = 0; i < tooltipLines; i++) {
+                    textConsumer.accept(Text.translatable(getTranslationKey() + ".tooltip." + i).withColor(Colors.LIGHT_GRAY));
+                }
             }
         }
     }

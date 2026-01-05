@@ -39,6 +39,9 @@ public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
 
 
 
+        valueLookupBuilder(ModTags.Items.AERIAL_IMPROVEMENT)
+                .add(ModItems.FEATHER_TOKEN);
+
         valueLookupBuilder(ModTags.Items.XP_ABSORBENT)
                 .add(ModItems.ECTOPLASMIC_BONE);
 
