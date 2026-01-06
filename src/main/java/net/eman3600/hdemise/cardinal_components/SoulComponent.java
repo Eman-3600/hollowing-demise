@@ -1,5 +1,8 @@
 package net.eman3600.hdemise.cardinal_components;
 
+import net.eman3600.hdemise.event.callback.RegenCallback;
+import net.eman3600.hdemise.event.callback.SoulInUseCallback;
+import net.eman3600.hdemise.event.callback.SoulRegenCallback;
 import net.eman3600.hdemise.init.basics.ModItems;
 import net.eman3600.hdemise.init.basics.ModTags;
 import net.eman3600.hdemise.init.custom.ModSoulTypes;
@@ -66,9 +69,7 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
     public static final int VANISH_RATE = 2;
     public static final int WARNING_TICKS = 4;
     public static final int CURE_TICKS = 60;
-    public static final float REGEN_REQUIREMENT = 100f;
-    public static final int SOLAR_SOUL_TICKS = 10;
-    public static final int SUN_MULTIPLIER = 4;
+    public static final float REGEN_REQUIREMENT = 20f;
     public static final double JET_SPEED_CAP = .8;
     public static final double JET_ACCELERATION = 0.16;
     public static final int LUNGE_COOLDOWN_TICKS = 12;
@@ -113,7 +114,7 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
     private int topUpCooldown =0;
 
     private float regenTime = 0f;
-    private float solarSoulTime = 0f;
+    private float soulRegenTime = 0f;
 
     private final PlayerEntity player;
 
@@ -240,7 +241,7 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
     }
 
     public boolean usesHunger() {
-        return this.soulType.usesHunger();
+        return this.soulType.usesHunger() && !hasAugment(ModItems.FORBIDDEN_FRUIT);
     }
 
     public boolean hasExperience() {
@@ -264,7 +265,11 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
     }
 
     public float getRegenRate() {
-        return (float) player.getAttributeValue(ModAttributes.REGEN);
+        return player instanceof ServerPlayerEntity p ? RegenCallback.EVENT.invoker().getRegenRate(p, this) : 0;
+    }
+
+    public float getSoulRegenRate() {
+        return player instanceof ServerPlayerEntity p ? SoulRegenCallback.EVENT.invoker().getRegenRate(p, this) : 0;
     }
 
     public int getFocusRequirement() {
@@ -297,7 +302,7 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
 
     public void setSoul(int soul) {
         if (soul < this.soul) {
-            this.solarSoulTime = 0;
+            this.soulRegenTime = 0;
         }
         this.soul = MathHelper.clamp(soul, 0, getMaxSoul());
         markDirty();
@@ -504,6 +509,10 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
         }
     }
 
+    public boolean isUsingSoul() {
+        return SoulInUseCallback.EVENT.invoker().isUsingSoul(player, this);
+    }
+
     public void resetSoul() {
 
         setSoul(getSoul());
@@ -513,7 +522,7 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
         this.curing = false;
         this.cureTime = 0;
         this.regenTime = 0f;
-        this.solarSoulTime = 0f;
+        this.soulRegenTime = 0f;
         this.jetting = false;
         this.jetEnabled = false;
         this.jetJammed = false;
@@ -763,6 +772,8 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
     @Override
     public void serverTick() {
 
+        HungerManager hm = player.getHungerManager();
+
         if (shouldFreeze()) {
             player.fallDistance = 0;
         }
@@ -799,21 +810,22 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
             player.removeStatusEffect(ModStatusEffects.LIGHTFOOT);
         }
 
-        if (this.soulType == ModSoulTypes.CONSTRUCT && getSoul() < getMaxSoul()) {
-            solarSoulTime += player.getEntityWorld().isDay() && player.getEntityWorld().isSkyVisibleAllowingSea(BlockPos.ofFloored(player.getX(), player.getEyeY(), player.getZ())) ? SUN_MULTIPLIER : 1;
+        float soulRegenRate = getSoulRegenRate();
+        if (soulRegenRate > 0 && !isUsingSoul() && getSoul() < getMaxSoul()) {
+            soulRegenTime += soulRegenRate;
 
-            if (solarSoulTime >= SOLAR_SOUL_TICKS) {
-                solarSoulTime -= SOLAR_SOUL_TICKS;
+            if (soulRegenTime >= REGEN_REQUIREMENT) {
+                soulRegenTime -= REGEN_REQUIREMENT;
                 addSoul(1);
             }
 
             markDirty();
+        } else if (soulRegenTime > 0) {
+            soulRegenTime = 0;
+            markDirty();
         }
 
-        if (getSoul() < SOUL_PER_VESSEL && hasAugment(ModItems.ESSENCE_CORE) && !isFocusing() && !isJetting() && !isGhost() && player.getRandom().nextInt(10) < 4) {
-            addSoul(1);
-        }
-
+        // JET FUNCTIONALITY
         if (isJetting()) {
             player.onLanding();
             player.setIgnoreFallDamageFromCurrentExplosion(true);
@@ -821,7 +833,7 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
             if (!player.isCreative() && (!player.isSneaking() || player.isInSwimmingPose() || player.isGliding() || player.getRandom().nextInt(8) == 0)) {
                 addSoul(player.isInSwimmingPose() || player.isGliding() ? -2 : -1);
             }
-            solarSoulTime = 0;
+            soulRegenTime = 0;
             markDirty();
 
             moveWithJet(false);
@@ -859,10 +871,9 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
 
         if (!usesHunger()) {
 
-            HungerManager manager = player.getHungerManager();
-            if (manager.getFoodLevel() < 20 || manager.getSaturationLevel() > 0) {
-                manager.setSaturationLevel(0f);
-                manager.setFoodLevel(20);
+            if (hm.getFoodLevel() < 20 || hm.getSaturationLevel() > 0) {
+                hm.setSaturationLevel(0f);
+                hm.setFoodLevel(20);
             }
         }
 
@@ -986,7 +997,7 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
         warningTicks = readView.getInt("warning", 0);
         soulType = SoulType.ofSerializable(readView.getString("soul_type", "hdemise:mortal"));
         regenTime = readView.getFloat("regen_time", 0f);
-        solarSoulTime = readView.getFloat("solar_soul_time", 0f);
+        soulRegenTime = readView.getFloat("soul_regen_time", 0f);
         jetting = readView.getBoolean("jetting", false);
         jetEnabled = readView.getBoolean("jet_enabled", false);
         jetJammed = readView.getBoolean("jet_jammed", false);
@@ -1016,7 +1027,7 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
         writeView.putInt("warning", warningTicks);
         writeView.putString("soul_type", soulType.getSerializable());
         writeView.putFloat("regen_time", regenTime);
-        writeView.putFloat("solar_soul_time", solarSoulTime);
+        writeView.putFloat("soul_regen_time", soulRegenTime);
         writeView.putBoolean("jetting", jetting);
         writeView.putBoolean("jet_enabled", jetEnabled);
         writeView.putBoolean("jet_jammed", jetJammed);

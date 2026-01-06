@@ -1,13 +1,21 @@
 package net.eman3600.hdemise.init.event;
 
+import net.eman3600.hdemise.HDemise;
 import net.eman3600.hdemise.cardinal_components.SoulComponent;
+import net.eman3600.hdemise.event.callback.RegenCallback;
+import net.eman3600.hdemise.event.callback.SoulInUseCallback;
+import net.eman3600.hdemise.event.callback.SoulRegenCallback;
 import net.eman3600.hdemise.init.basics.ModItems;
+import net.eman3600.hdemise.init.basics.ModTags;
+import net.eman3600.hdemise.init.custom.ModSoulTypes;
 import net.eman3600.hdemise.item.augment.AugmentItem;
+import net.eman3600.hdemise.soul_type.SoulType;
 import net.fabricmc.fabric.api.entity.event.v1.ServerPlayerEvents;
 import net.fabricmc.fabric.api.event.player.AttackEntityCallback;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.ActionResult;
+import net.minecraft.util.math.BlockPos;
 
 import static net.eman3600.hdemise.HDemise.LOGGER;
 import static net.eman3600.hdemise.HDemise.MODID;
@@ -43,5 +51,28 @@ public class ModCallbacks {
             sc.setJetting(false);
             sc.updateAbilities(true);
         });
+
+
+
+
+        // Basic Soul in Use
+        SoulInUseCallback.EVENT.register((player, sc) -> sc.isFocusing() || sc.isGhost() || sc.isJetting() || sc.isVanishing());
+
+        // Golden Foot Drain
+        SoulInUseCallback.EVENT.register((player, sc) -> player.isSprinting() && !player.isSwimming() && sc.hasAugment(ModItems.GOLDEN_FOOT) && (player.isOnGround() || sc.hasAugment(ModTags.Items.AERIAL_IMPROVEMENT)));
+
+
+
+
+        // Construct Regen
+        SoulRegenCallback.EVENT.register((player, sc) -> sc.getSoulType() == ModSoulTypes.CONSTRUCT ?
+                player.getEntityWorld().isDay() && player.getEntityWorld().isSkyVisibleAllowingSea(BlockPos.ofFloored(player.getX(), player.getEyeY(), player.getZ())) ?
+                        8f : 2f : 0);
+
+        // Essence Core Regen
+        SoulRegenCallback.EVENT.register((player, sc) -> sc.hasAugment(ModItems.ESSENCE_CORE) && sc.getSoul() < SoulComponent.SOUL_PER_VESSEL ? 10f : 0f);
+
+        // Forbidden Fruit Regen
+        RegenCallback.EVENT.register((player, sc) -> sc.hasAugment(ModItems.FORBIDDEN_FRUIT) ? .16f : 0);
     }
 }

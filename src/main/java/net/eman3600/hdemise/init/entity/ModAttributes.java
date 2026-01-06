@@ -16,9 +16,6 @@ public class ModAttributes {
     public static final RegistryEntry<EntityAttribute> MAX_SOUL = register(
             "max_soul", new ClampedEntityAttribute("attribute.hdemise.name.max_soul", 0.0, 0.0, 30.0).setTracked(true)
     );
-    public static final RegistryEntry<EntityAttribute> REGEN = register(
-            "regen", new ClampedEntityAttribute("attribute.hdemise.name.regen", 0.0, 0.0, 100.0).setTracked(true)
-    );
     public static final RegistryEntry<EntityAttribute> FOCUS_POWER = register(
             "focus_power", new ClampedEntityAttribute("attribute.hdemise.name.focus_power", 6.0, 0.0, 100.0).setTracked(true)
     );

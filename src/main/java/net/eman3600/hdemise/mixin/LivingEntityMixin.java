@@ -1,6 +1,7 @@
 package net.eman3600.hdemise.mixin;
 
 import net.eman3600.hdemise.cardinal_components.SoulComponent;
+import net.eman3600.hdemise.init.basics.ModItems;
 import net.eman3600.hdemise.init.basics.ModTags;
 import net.eman3600.hdemise.init.custom.ModSoulTypes;
 import net.eman3600.hdemise.mixin_interfaces.LivingEntityAccess;
@@ -18,7 +19,9 @@ import net.minecraft.world.waypoint.ServerWaypoint;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Constant;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.ModifyConstant;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
@@ -35,8 +38,9 @@ public abstract class LivingEntityMixin extends Entity implements Attackable, Se
         if (((Object)this) instanceof PlayerEntity player) {
             SoulComponent sc = SoulComponent.of(player);
 
-            if (((sc.isUndead() || sc.getSoulType() == ModSoulTypes.CONSTRUCT) && effect.equals(StatusEffects.POISON))
-                    || (!sc.usesHunger() && effect.equals(StatusEffects.HUNGER))) {
+            if (effect.equals(StatusEffects.POISON) && (sc.isUndead() || sc.getSoulType() == ModSoulTypes.CONSTRUCT || sc.hasAugment(ModItems.AGELESS_WATCH))
+                    || effect.equals(StatusEffects.HUNGER) && (!sc.usesHunger() || sc.hasAugment(ModItems.AGELESS_WATCH))
+                    || (effect.equals(StatusEffects.WITHER) || effect.equals(StatusEffects.WEAKNESS)) && sc.hasAugment(ModItems.AGELESS_WATCH)) {
                 cir.setReturnValue(false);
             }
         }

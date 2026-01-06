@@ -28,7 +28,10 @@ public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
                 .add(ModItems.FEATHER_TOKEN)
                 .add(ModItems.GOLEM_STRENGTH_BELT)
                 .add(ModItems.BOTTLED_TEAR)
-                .add(ModItems.CARVED_OBSIDIAN);
+                .add(ModItems.CARVED_OBSIDIAN)
+                .add(ModItems.STICKY_HAND)
+                .add(ModItems.STARDUST)
+                .add(ModItems.WHETSTONE);
 
         valueLookupBuilder(ModTags.Items.GREEN_AUGMENT)
                 .add(ModItems.DEMON_SCROLL)
@@ -38,12 +41,20 @@ public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
                 .add(ModItems.GOLDEN_FOOT);
 
         valueLookupBuilder(ModTags.Items.RED_AUGMENT)
-                .add(ModItems.ECTOPLASMIC_BONE);
+                .add(ModItems.ECTOPLASMIC_BONE)
+                .add(ModItems.DRAGON_WING)
+                .add(ModItems.GOLDEN_FLOWER)
+                .add(ModItems.AGELESS_WATCH)
+                .add(ModItems.METRONOME)
+                .add(ModItems.FORBIDDEN_FRUIT);
 
 
 
         valueLookupBuilder(ModTags.Items.AERIAL_IMPROVEMENT)
                 .add(ModItems.FEATHER_TOKEN);
+
+        valueLookupBuilder(ModTags.Items.NEGATES_FALL)
+                .add(ModItems.DRAGON_WING);
 
         valueLookupBuilder(ModTags.Items.XP_ABSORBENT)
                 .add(ModItems.ECTOPLASMIC_BONE);

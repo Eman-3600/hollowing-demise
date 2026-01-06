@@ -42,6 +42,8 @@ public class AugmentSlot extends DynamicSlot {
             item.onEquip(player, stack);
         }
 
+        SoulComponent.of(player).markDirty();
+
 
         handler.playSound(stack.isEmpty() ? SoundEvents.ENTITY_ITEM_FRAME_REMOVE_ITEM : SoundEvents.ENTITY_ITEM_FRAME_ADD_ITEM, 1, .8f, 1.2f);
     }

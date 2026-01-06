@@ -22,6 +22,9 @@
     "item.hdemise.golem_strength_belt": "Belt of Golem Strength",
     "item.hdemise.bottled_tear": "Bottled Tear",
     "item.hdemise.carved_obsidian": "Carved Obsidian",
+    "item.hdemise.sticky_hand": "Sticky Hand",
+    "item.hdemise.stardust": "Stardust",
+    "item.hdemise.whetstone": "Whetstone",
     "item.hdemise.crystal_ball": "Crystal Ball",
     "item.hdemise.demon_scroll": "Blood Pact",
     "item.hdemise.radiant_jewel": "Radiant Jewel",
@@ -34,6 +37,18 @@
     "item.hdemise.essence_core.tooltip.1": "less than one vessel remains",
     "item.hdemise.ectoplasmic_bone": "Ectoplasmic Bone",
     "item.hdemise.ectoplasmic_bone.tooltip": "Melee attacks give experience",
+    "item.hdemise.dragon_wing": "Dragon Wing",
+    "item.hdemise.dragon_wing.tooltip": "Negates fall and kinetic damage",
+    "item.hdemise.golden_flower": "Gilded Sunflower",
+    "item.hdemise.golden_flower.tooltip": "Full Restore grants absorption",
+    "item.hdemise.ageless_watch": "Ageless Watch",
+    "item.hdemise.ageless_watch.tooltip": "Negates many negative status effects",
+    "item.hdemise.metronome": "Metronome",
+    "item.hdemise.metronome.tooltip.0": "Attacking at the end of cooldown",
+    "item.hdemise.metronome.tooltip.1": "inflicts a critical hit",
+    "item.hdemise.forbidden_fruit": "Forbidden Fruit",
+    "item.hdemise.forbidden_fruit.tooltip.0": "Slowly restores health",
+    "item.hdemise.forbidden_fruit.tooltip.1": "Removes hunger",
 
     "item.hdemise.almarite_scythe": "Almarite Scythe",
     "item.hdemise.almarite_scythe.tooltip.0": "Slain foes yield",
@@ -78,8 +93,12 @@
     "tag.item.hdemise.yellow_augment": "General Augment",
     "tag.item.hdemise.green_augment": "Magic Augment",
     "tag.item.hdemise.red_augment": "Special Augment",
+    
+    "tag.item.hdemise.almarite_repair": "Repairs Almarite Equipment",
 
-    "tag.item.hdemise.xp_absorbent": "Absorbs entity experience",
+    "tag.item.hdemise.xp_absorbent": "Absorbs Entity Experience",
+    "tag.item.hdemise.aerial_improvement": "Improves Aerial Mobility",
+    "tag.item.hdemise.negates_fall": "Negates Fall Damage",
 
     "tag.item.hdemise.reaper": "Experience Reaper",
 

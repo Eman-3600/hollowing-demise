@@ -22,7 +22,7 @@ public class ModStatusEffects {
             .addAttributeModifier(EntityAttributes.ATTACK_KNOCKBACK, Identifier.of(MODID, "effect.rage"), -.5, EntityAttributeModifier.Operation.ADD_MULTIPLIED_TOTAL));
 
     public static final RegistryEntry<StatusEffect> LIGHTFOOT = register("lightfoot", new ModStatusEffect(StatusEffectCategory.BENEFICIAL, 0xfdf55f)
-            .addAttributeModifier(EntityAttributes.MOVEMENT_SPEED, Identifier.of(MODID, "effect.lightfoot"), .3, EntityAttributeModifier.Operation.ADD_MULTIPLIED_TOTAL));
+            .addAttributeModifier(EntityAttributes.MOVEMENT_SPEED, Identifier.of(MODID, "effect.lightfoot"), .3, EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE));
 
     public static final RegistryEntry<StatusEffect> CHAINED = register("chained", new ModStatusEffect(StatusEffectCategory.HARMFUL, 0x495065));
     public static final RegistryEntry<StatusEffect> BLOCKED = register("blocked", new ModStatusEffect(StatusEffectCategory.HARMFUL, 0x962300));

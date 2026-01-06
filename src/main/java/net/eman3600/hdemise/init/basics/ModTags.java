@@ -27,6 +27,7 @@ public class ModTags {
         public static final TagKey<Item> ALMARITE_REPAIR = createTag("almarite_repair");
 
         public static final TagKey<Item> AERIAL_IMPROVEMENT = createTag("aerial_improvement");
+        public static final TagKey<Item> NEGATES_FALL = createTag("negates_fall");
         public static final TagKey<Item> XP_ABSORBENT = createTag("xp_absorbent");
 
         public static final TagKey<Item> REAPER = createTag("reaper");

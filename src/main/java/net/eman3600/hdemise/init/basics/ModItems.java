@@ -4,6 +4,7 @@ import net.eman3600.hdemise.cardinal_components.SoulComponent;
 import net.eman3600.hdemise.init.custom.ModSoulTypes;
 import net.eman3600.hdemise.init.entity.ModAttributes;
 import net.eman3600.hdemise.item.*;
+import net.eman3600.hdemise.item.augment.AbsorptionAugmentItem;
 import net.eman3600.hdemise.item.augment.AttributeAugmentItem;
 import net.eman3600.hdemise.item.augment.AugmentItem;
 import net.eman3600.hdemise.item.augment.NightVisionAugmentItem;
@@ -68,6 +69,18 @@ public class ModItems {
             new SoulAttribute(EntityAttributes.ARMOR_TOUGHNESS, 4d, Operation.ADD_VALUE),
             new SoulAttribute(EntityAttributes.KNOCKBACK_RESISTANCE, .2d, Operation.ADD_VALUE)
     )), new Item.Settings());
+    public static final Item STICKY_HAND = register("sticky_hand", (settings -> new AttributeAugmentItem(
+            settings,
+            new SoulAttribute(EntityAttributes.BLOCK_INTERACTION_RANGE, 1.5d, Operation.ADD_VALUE)
+    )), new Item.Settings());
+    public static final Item STARDUST = register("stardust", (settings -> new AttributeAugmentItem(
+            settings,
+            new SoulAttribute(EntityAttributes.MINING_EFFICIENCY, 0.25d, Operation.ADD_MULTIPLIED_BASE)
+    )), new Item.Settings());
+    public static final Item WHETSTONE = register("whetstone", (settings -> new AttributeAugmentItem(
+            settings,
+            new SoulAttribute(EntityAttributes.ATTACK_SPEED, 0.15d, Operation.ADD_MULTIPLIED_BASE)
+    )), new Item.Settings());
     public static final Item DEMON_SCROLL = register("demon_scroll", (settings -> new AttributeAugmentItem(
             settings,
             new SoulAttribute(ModAttributes.MAX_SOUL, 5d, Operation.ADD_VALUE),
@@ -81,6 +94,15 @@ public class ModItems {
     public static final Item ESSENCE_CORE = register("essence_core", settings -> new AugmentItem(settings, 2), new Item.Settings());
     public static final Item GOLDEN_FOOT = register("golden_foot", settings -> new AugmentItem(settings, 2), new Item.Settings());
     public static final Item ECTOPLASMIC_BONE = register("ectoplasmic_bone", settings -> new AugmentItem(settings, 1), new Item.Settings());
+    public static final Item DRAGON_WING = register("dragon_wing", settings -> new AugmentItem(settings, 1), new Item.Settings());
+    public static final Item GOLDEN_FLOWER = register("golden_flower", settings -> new AbsorptionAugmentItem(settings, 1), new Item.Settings());
+    public static final Item AGELESS_WATCH = register("ageless_watch", settings -> new AugmentItem(settings, 1), new Item.Settings());
+    public static final Item METRONOME = register("metronome", settings -> new AugmentItem(settings, 2), new Item.Settings());
+    public static final Item FORBIDDEN_FRUIT = register("forbidden_fruit", settings -> new AttributeAugmentItem(
+            settings,
+            2,
+            new SoulAttribute(ModAttributes.FOCUS_POWER, -2, Operation.ADD_VALUE)
+    ), new Item.Settings());
 
 
     public static final Item ALMARITE_SCYTHE = register("almarite_scythe", Item::new, new Item.Settings().sword(ModToolMaterials.ALMARITE, 3.0F, -3F)

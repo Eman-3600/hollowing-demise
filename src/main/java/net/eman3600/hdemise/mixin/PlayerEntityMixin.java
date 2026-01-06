@@ -2,6 +2,7 @@ package net.eman3600.hdemise.mixin;
 
 import com.llamalad7.mixinextras.sugar.Local;
 import net.eman3600.hdemise.cardinal_components.SoulComponent;
+import net.eman3600.hdemise.init.basics.ModItems;
 import net.eman3600.hdemise.init.basics.ModTags;
 import net.eman3600.hdemise.init.custom.ModSoulTypes;
 import net.eman3600.hdemise.init.entity.ModAttributes;
@@ -16,6 +17,7 @@ import net.minecraft.entity.PlayerLikeEntity;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.damage.DamageTypes;
 import net.minecraft.entity.player.PlayerAbilities;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -91,9 +93,10 @@ public abstract class PlayerEntityMixin extends PlayerLikeEntity {
     private void hdemise$isInvulnerableTo(ServerWorld world, DamageSource source, CallbackInfoReturnable<Boolean> cir) {
         SoulComponent sc = SoulComponent.of(this);
 
-        if (((sc.getSoulType().canVanish()) && source.isIn(DamageTypeTags.IS_FALL))
-                || (sc.isDrowningImmune()) && source.isIn(DamageTypeTags.IS_DROWNING)
-                || (sc.isGhost() && !source.isIn(DamageTypeTags.BYPASSES_INVULNERABILITY))) {
+        if (source.isIn(DamageTypeTags.IS_FALL) && (sc.getSoulType().canVanish() || sc.hasAugment(ModTags.Items.NEGATES_FALL))
+                || source.isOf(DamageTypes.FLY_INTO_WALL) && sc.hasAugment(ModItems.DRAGON_WING)
+                || sc.isDrowningImmune() && source.isIn(DamageTypeTags.IS_DROWNING)
+                || sc.isGhost() && !source.isIn(DamageTypeTags.BYPASSES_INVULNERABILITY)) {
 
             cir.setReturnValue(true);
         }
@@ -159,7 +162,6 @@ public abstract class PlayerEntityMixin extends PlayerLikeEntity {
     private static void injectAttributes(CallbackInfoReturnable<DefaultAttributeContainer.Builder> info) {
         info.setReturnValue((info.getReturnValue())
                 .add(ModAttributes.MAX_SOUL, 10d)
-                .add(ModAttributes.REGEN, 0d)
                 .add(ModAttributes.FOCUS_POWER, 6d));
     }
 

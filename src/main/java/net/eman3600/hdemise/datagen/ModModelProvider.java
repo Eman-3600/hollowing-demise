@@ -43,12 +43,20 @@ public class ModModelProvider extends FabricModelProvider {
         itemModelGenerator.register(ModItems.GOLEM_STRENGTH_BELT, Models.GENERATED);
         itemModelGenerator.register(ModItems.BOTTLED_TEAR, Models.GENERATED);
         itemModelGenerator.register(ModItems.CARVED_OBSIDIAN, Models.GENERATED);
+        itemModelGenerator.register(ModItems.STICKY_HAND, Models.GENERATED);
+        itemModelGenerator.register(ModItems.STARDUST, Models.GENERATED);
+        itemModelGenerator.register(ModItems.WHETSTONE, Models.GENERATED);
         itemModelGenerator.register(ModItems.DEMON_SCROLL, Models.GENERATED);
         itemModelGenerator.register(ModItems.CRYSTAL_BALL, Models.GENERATED);
         itemModelGenerator.register(ModItems.RADIANT_JEWEL, Models.GENERATED);
         itemModelGenerator.register(ModItems.ESSENCE_CORE, Models.GENERATED);
         itemModelGenerator.register(ModItems.GOLDEN_FOOT, Models.GENERATED);
         itemModelGenerator.register(ModItems.ECTOPLASMIC_BONE, Models.GENERATED);
+        itemModelGenerator.register(ModItems.DRAGON_WING, Models.GENERATED);
+        itemModelGenerator.register(ModItems.GOLDEN_FLOWER, Models.GENERATED);
+        itemModelGenerator.register(ModItems.AGELESS_WATCH, Models.GENERATED);
+        itemModelGenerator.register(ModItems.METRONOME, Models.GENERATED);
+        itemModelGenerator.register(ModItems.FORBIDDEN_FRUIT, Models.GENERATED);
 
         itemModelGenerator.register(ModItems.ALMARITE_SCYTHE, Models.HANDHELD);
 

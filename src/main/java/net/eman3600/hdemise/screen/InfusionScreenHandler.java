@@ -230,6 +230,7 @@ public class InfusionScreenHandler extends ScreenHandler {
     public void onClosed(PlayerEntity player) {
         super.onClosed(player);
         this.repairInventory.removeStack(4);
+        SoulComponent.of(player).markDirty();
         this.context.run((world, pos) -> this.dropInventory(player, this.repairInventory));
     }
 
