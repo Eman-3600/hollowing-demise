@@ -23,6 +23,7 @@ public class ModItemGroups {
             entries.add(ModBlocks.ALMARITE_BLOCK);
             entries.add(ModItems.ALMARITE);
             entries.add(ModItems.ALMARITE_SCYTHE);
+                entries.add(ModItems.ALMARITE_PIX);
             entries.add(ModItems.SOUL_BASE);
             entries.add(ModItems.SOULROOT_BULB);
             entries.add(ModItems.SOULROOT_SEEDS);
@@ -52,6 +53,7 @@ public class ModItemGroups {
             entries.add(ModItems.RADIANT_JEWEL);
             entries.add(ModItems.ESSENCE_CORE);
             entries.add(ModItems.GOLDEN_FOOT);
+                entries.add(ModItems.MORTICIAN_CHARM);
             entries.add(ModItems.ECTOPLASMIC_BONE);
             entries.add(ModItems.DRAGON_WING);
             entries.add(ModItems.GOLDEN_FLOWER);

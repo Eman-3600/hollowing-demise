@@ -131,7 +131,7 @@ public class SoulItem extends Item {
         super.appendTooltip(stack, context, displayComponent, textConsumer, type);
 
         NbtComponent component = stack.get(ModDataComponentTypes.SOUL);
-        if (component != null) {
+        if (component != null && soulType.hasExperience()) {
             NbtCompound nbt = component.copyNbt();
 
             textConsumer.accept(Text.translatable("tooltip.hdemise.soul.level", nbt.getInt("level", 0)).withColor(Colors.GRAY));

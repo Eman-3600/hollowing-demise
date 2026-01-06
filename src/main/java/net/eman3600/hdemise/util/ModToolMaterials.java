@@ -5,5 +5,5 @@ import net.minecraft.item.ToolMaterial;
 import net.minecraft.registry.tag.BlockTags;
 
 public interface ModToolMaterials {
-    ToolMaterial ALMARITE = new ToolMaterial(BlockTags.INCORRECT_FOR_NETHERITE_TOOL, 1050, 10f, 3, 15, ModTags.Items.ALMARITE_REPAIR);
+    ToolMaterial ALMARITE = new ToolMaterial(BlockTags.INCORRECT_FOR_NETHERITE_TOOL, 1050, 8f, 3, 15, ModTags.Items.ALMARITE_REPAIR);
 }

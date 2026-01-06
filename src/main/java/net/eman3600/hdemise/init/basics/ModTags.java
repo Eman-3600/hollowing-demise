@@ -11,7 +11,7 @@ import net.minecraft.util.Identifier;
 public class ModTags {
     public static class Blocks {
 
-        public static final TagKey<Block> IMPASSABLE = createTag("impassable");
+        public static final TagKey<Block> PIX_MINEABLE = createTag("pix_mineable");
 
         private static TagKey<Block> createTag(String name) {
             return TagKey.of(RegistryKeys.BLOCK, Identifier.of(MODID, name));
@@ -25,6 +25,7 @@ public class ModTags {
         public static final TagKey<Item> RED_AUGMENT = createTag("red_augment");
 
         public static final TagKey<Item> ALMARITE_REPAIR = createTag("almarite_repair");
+        public static final TagKey<Item> UNREMOVEABLE_SOUL = createTag("unremovable_soul");
 
         public static final TagKey<Item> AERIAL_IMPROVEMENT = createTag("aerial_improvement");
         public static final TagKey<Item> NEGATES_FALL = createTag("negates_fall");

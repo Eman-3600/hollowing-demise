@@ -7,6 +7,7 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.exceptions.DynamicCommandExceptionType;
 import net.eman3600.hdemise.cardinal_components.SoulComponent;
 import net.eman3600.hdemise.item.XPCoreItem;
+import net.eman3600.hdemise.mixin_interfaces.PlayerEntityAccess;
 import net.eman3600.hdemise.soul_type.SoulType;
 import net.eman3600.hdemise.soul_type.SoulTypeRegistry;
 import net.minecraft.command.CommandRegistryAccess;
@@ -39,8 +40,15 @@ public class SoulCommand {
                 .then(CommandManager.argument("target", EntityArgumentType.player())
                         .executes(SoulCommand::extractSoul)))
             .then(CommandManager.literal("replenish")
+                    .executes(context -> replenishSoul(
+                            context.getSource(),
+                            context.getSource().getPlayerOrThrow()
+                    ))
                     .then(CommandManager.argument("target", EntityArgumentType.player())
-                            .executes(SoulCommand::replenishSoul)));
+                            .executes(context -> replenishSoul(
+                                    context.getSource(),
+                                    EntityArgumentType.getPlayer(context, "target")
+                            ))));
 
 
         dispatcher.register(
@@ -68,15 +76,14 @@ public class SoulCommand {
         return 0;
     }
 
-    private static int replenishSoul(CommandContext<ServerCommandSource> context) throws CommandSyntaxException {
-        PlayerEntity player = EntityArgumentType.getPlayer(context, "target");
+    private static int replenishSoul(ServerCommandSource source, PlayerEntity player) throws CommandSyntaxException {
         SoulComponent sc = SoulComponent.of(player);
 
         sc.topUp();
         sc.setHollowTopped(!sc.isSoulless());
         sc.validateSoulStack();
 
-        context.getSource().sendFeedback(() -> Text.translatable("commands.hdemise.soul.replenish", player.getName()), true);
+        source.sendFeedback(() -> Text.translatable("commands.hdemise.soul.replenish", player.getName()), true);
         return 1;
     }
 

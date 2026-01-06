@@ -23,6 +23,12 @@ public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
         valueLookupBuilder(ItemTags.SWORDS)
                 .add(ModItems.ALMARITE_SCYTHE);
 
+        valueLookupBuilder(ItemTags.PICKAXES)
+                .add(ModItems.ALMARITE_PIX);
+
+        valueLookupBuilder(ItemTags.AXES)
+                .add(ModItems.ALMARITE_PIX);
+
 
         valueLookupBuilder(ModTags.Items.YELLOW_AUGMENT)
                 .add(ModItems.FEATHER_TOKEN)
@@ -38,7 +44,8 @@ public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
                 .add(ModItems.CRYSTAL_BALL)
                 .add(ModItems.RADIANT_JEWEL)
                 .add(ModItems.ESSENCE_CORE)
-                .add(ModItems.GOLDEN_FOOT);
+                .add(ModItems.GOLDEN_FOOT)
+                .add(ModItems.MORTICIAN_CHARM);
 
         valueLookupBuilder(ModTags.Items.RED_AUGMENT)
                 .add(ModItems.ECTOPLASMIC_BONE)

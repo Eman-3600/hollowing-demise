@@ -51,6 +51,7 @@ public class ModModelProvider extends FabricModelProvider {
         itemModelGenerator.register(ModItems.RADIANT_JEWEL, Models.GENERATED);
         itemModelGenerator.register(ModItems.ESSENCE_CORE, Models.GENERATED);
         itemModelGenerator.register(ModItems.GOLDEN_FOOT, Models.GENERATED);
+        itemModelGenerator.register(ModItems.MORTICIAN_CHARM, Models.GENERATED);
         itemModelGenerator.register(ModItems.ECTOPLASMIC_BONE, Models.GENERATED);
         itemModelGenerator.register(ModItems.DRAGON_WING, Models.GENERATED);
         itemModelGenerator.register(ModItems.GOLDEN_FLOWER, Models.GENERATED);
@@ -59,6 +60,7 @@ public class ModModelProvider extends FabricModelProvider {
         itemModelGenerator.register(ModItems.FORBIDDEN_FRUIT, Models.GENERATED);
 
         itemModelGenerator.register(ModItems.ALMARITE_SCYTHE, Models.HANDHELD);
+        itemModelGenerator.register(ModItems.ALMARITE_PIX, Models.HANDHELD);
 
         itemModelGenerator.register(ModItems.WIND_STAFF, Models.HANDHELD);
 

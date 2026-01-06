@@ -93,11 +93,15 @@ public class ModItems {
     public static final Item RADIANT_JEWEL = register("radiant_jewel", (settings -> new NightVisionAugmentItem(settings, 1)), new Item.Settings());
     public static final Item ESSENCE_CORE = register("essence_core", settings -> new AugmentItem(settings, 2), new Item.Settings());
     public static final Item GOLDEN_FOOT = register("golden_foot", settings -> new AugmentItem(settings, 2), new Item.Settings());
+    public static final Item MORTICIAN_CHARM = register("mortician_charm", (settings -> new AttributeAugmentItem(
+            settings,
+            new SoulAttribute(ModAttributes.MAX_SOUL, 2d, Operation.ADD_VALUE)
+    )), new Item.Settings());
     public static final Item ECTOPLASMIC_BONE = register("ectoplasmic_bone", settings -> new AugmentItem(settings, 1), new Item.Settings());
     public static final Item DRAGON_WING = register("dragon_wing", settings -> new AugmentItem(settings, 1), new Item.Settings());
     public static final Item GOLDEN_FLOWER = register("golden_flower", settings -> new AbsorptionAugmentItem(settings, 1), new Item.Settings());
     public static final Item AGELESS_WATCH = register("ageless_watch", settings -> new AugmentItem(settings, 1), new Item.Settings());
-    public static final Item METRONOME = register("metronome", settings -> new AugmentItem(settings, 2), new Item.Settings());
+    public static final Item METRONOME = register("metronome", settings -> new AugmentItem(settings, 1), new Item.Settings());
     public static final Item FORBIDDEN_FRUIT = register("forbidden_fruit", settings -> new AttributeAugmentItem(
             settings,
             2,
@@ -105,8 +109,10 @@ public class ModItems {
     ), new Item.Settings());
 
 
-    public static final Item ALMARITE_SCYTHE = register("almarite_scythe", Item::new, new Item.Settings().sword(ModToolMaterials.ALMARITE, 3.0F, -3F)
+    public static final Item ALMARITE_SCYTHE = register("almarite_scythe", Item::new, new Item.Settings().sword(ModToolMaterials.ALMARITE, 3.5F, -3F)
             .component(ModDataComponentTypes.TOOLTIP_LINES, 2));
+
+    public static final Item ALMARITE_PIX = register("almarite_pix", settings -> new PixItem(ModToolMaterials.ALMARITE, 4, -2.8f, settings), new Item.Settings().component(ModDataComponentTypes.TOOLTIP_LINES, 1));
 
 
     public static final Item WIND_STAFF = register("wind_staff", WindStaffItem::new, new Item.Settings().rarity(Rarity.UNCOMMON).maxCount(1).maxDamage(1250).repairable(Items.WIND_CHARGE));
@@ -151,12 +157,14 @@ public class ModItems {
         });
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.COMBAT).register((group) -> {
             group.add(ModItems.ALMARITE);
-            group.add(ModItems.CROSS);
             group.add(ModItems.ALMARITE_SCYTHE);
+            group.add(ModItems.ALMARITE_PIX);
+            group.add(ModItems.CROSS);
             group.add(ModItems.WIND_STAFF);
         });
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.TOOLS).register((group) -> {
             group.add(ModItems.ALMARITE);
+            group.add(ModItems.ALMARITE_PIX);
             group.add(ModItems.SIMPLE_CURE);
             group.add(ModItems.AMETHYST_APPLE);
             group.add(ModItems.EXPERIENCE_CORE);
