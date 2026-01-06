@@ -1,17 +1,23 @@
 package net.eman3600.hdemise.mixin.client;
 
 import net.eman3600.hdemise.cardinal_components.SoulComponent;
+import net.eman3600.hdemise.init.basics.ModItems;
 import net.eman3600.hdemise.init.custom.ModSoulTypes;
 import net.eman3600.hdemise.init.entity.ModAttributes;
 import net.eman3600.hdemise.init.entity.ModStatusEffects;
+import net.eman3600.hdemise.mixin_interfaces.PlayerEntityAccess;
 import net.eman3600.hdemise.soul_type.RevenantSoulType;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gl.RenderPipelines;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.hud.InGameHud;
+import net.minecraft.client.gui.hud.debug.DebugHudEntries;
+import net.minecraft.client.option.AttackIndicator;
 import net.minecraft.client.render.RenderTickCounter;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.ColorHelper;
@@ -37,8 +43,13 @@ public abstract class InGameHudMixin {
 
     @Shadow @Final private Random random;
     @Shadow private int ticks;
+    @Shadow @Final private MinecraftClient client;
+    @Shadow @Final private static Identifier CROSSHAIR_ATTACK_INDICATOR_PROGRESS_TEXTURE;
+    @Shadow @Final private static Identifier CROSSHAIR_ATTACK_INDICATOR_BACKGROUND_TEXTURE;
     @Unique
     private static final Identifier HUD_ICONS = Identifier.of(MODID, "textures/gui/hud/icons.png");
+    @Unique
+    private static final Identifier CROSSHAIR_METRONOME = Identifier.of(MODID, "textures/gui/hud/crosshair_metronome.png");
     @Unique
     private static final Identifier GHOST_VIGNETTE_TEXTURE = Identifier.of(MODID, "textures/misc/ghost_vignette.png");
     @Unique
@@ -174,6 +185,24 @@ public abstract class InGameHudMixin {
         SoulComponent sc = SoulComponent.of(getCameraPlayer());
         if (sc != null && sc.shouldHideInteraction()) {
             ci.cancel();
+        }
+    }
+
+    @Inject(method = "renderCrosshair", at = @At("TAIL"))
+    private void hdemise$renderCrosshair$metronome(DrawContext context, RenderTickCounter tickCounter, CallbackInfo ci) {
+        PlayerEntity player = this.client.player;
+        SoulComponent sc = SoulComponent.of(player);
+        if (sc != null && !player.isSpectator() && !this.client.debugHudEntryList.isEntryVisible(DebugHudEntries.THREE_DIMENSIONAL_CROSSHAIR) && player instanceof PlayerEntityAccess access && sc.hasAugment(ModItems.METRONOME) && PlayerEntityAccess.isInMetronomeWindow(access.hdemise$getTicksSinceLastAttack(), player.getAttackCooldownProgressPerTick(), false)) {
+            int j = context.getScaledWindowHeight() / 2 - 7 + 16;
+            int k = context.getScaledWindowWidth() / 2 - 8;
+
+            if (!(this.client.player.getAttackCooldownProgressPerTick() > 5.0F && this.client.options.getAttackIndicator().getValue() == AttackIndicator.CROSSHAIR && this.client.targetedEntity instanceof LivingEntity && this.client.targetedEntity.isAlive())) {
+                context.drawGuiTexture(RenderPipelines.CROSSHAIR, CROSSHAIR_ATTACK_INDICATOR_BACKGROUND_TEXTURE, k, j, 16, 4);
+                context.drawGuiTexture(RenderPipelines.CROSSHAIR, CROSSHAIR_ATTACK_INDICATOR_PROGRESS_TEXTURE, 16, 4, 0, 0, k, j, 16, 4);
+            }
+
+            context.drawTexture(RenderPipelines.CROSSHAIR, CROSSHAIR_METRONOME, k, j, 0, 0, 16, 16, 16, 16);
+
         }
     }
 

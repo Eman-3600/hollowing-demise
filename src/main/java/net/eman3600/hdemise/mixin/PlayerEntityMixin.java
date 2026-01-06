@@ -4,12 +4,10 @@ import com.llamalad7.mixinextras.sugar.Local;
 import net.eman3600.hdemise.cardinal_components.SoulComponent;
 import net.eman3600.hdemise.init.basics.ModItems;
 import net.eman3600.hdemise.init.basics.ModTags;
-import net.eman3600.hdemise.init.custom.ModSoulTypes;
 import net.eman3600.hdemise.init.entity.ModAttributes;
 import net.eman3600.hdemise.init.entity.ModStatusEffects;
-import net.eman3600.hdemise.item.SoulItem;
+import net.eman3600.hdemise.mixin_interfaces.PlayerEntityAccess;
 import net.eman3600.hdemise.mob_effects.ModStatusEffect;
-import net.eman3600.hdemise.soul_type.MortalSoulType;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -30,14 +28,14 @@ import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 @Mixin(PlayerEntity.class)
-public abstract class PlayerEntityMixin extends PlayerLikeEntity {
+public abstract class PlayerEntityMixin extends PlayerLikeEntity implements PlayerEntityAccess {
     @Shadow public abstract PlayerAbilities getAbilities();
 
     @Shadow @Final private PlayerAbilities abilities;
@@ -45,6 +43,10 @@ public abstract class PlayerEntityMixin extends PlayerLikeEntity {
     @Shadow public abstract boolean isCreative();
 
     @Shadow public abstract void addExperience(int experience);
+
+    @Shadow public abstract float getAttackCooldownProgressPerTick();
+
+    @Unique private boolean metronomeCritical = false;
 
     protected PlayerEntityMixin(EntityType<? extends LivingEntity> entityType, World world) {
         super(entityType, world);
@@ -98,6 +100,20 @@ public abstract class PlayerEntityMixin extends PlayerLikeEntity {
                 || sc.isDrowningImmune() && source.isIn(DamageTypeTags.IS_DROWNING)
                 || sc.isGhost() && !source.isIn(DamageTypeTags.BYPASSES_INVULNERABILITY)) {
 
+            cir.setReturnValue(true);
+        }
+    }
+
+    @Inject(method = "attack", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/player/PlayerEntity;getAttackCooldownDamageModifier()F"))
+    private void hdemise$attack$metronome(Entity target, CallbackInfo ci) {
+        SoulComponent sc = SoulComponent.of(this);
+
+        this.metronomeCritical = PlayerEntityAccess.isInMetronomeWindow(this.ticksSinceLastAttack, this.getAttackCooldownProgressPerTick(), true) && sc.hasAugment(ModItems.METRONOME);
+    }
+
+    @Inject(method = "isCriticalHit", at = @At("HEAD"), cancellable = true)
+    private void hdemise$isCriticalHit(Entity target, CallbackInfoReturnable<Boolean> cir) {
+        if (this.metronomeCritical && target.isLiving()) {
             cir.setReturnValue(true);
         }
     }
@@ -203,5 +219,11 @@ public abstract class PlayerEntityMixin extends PlayerLikeEntity {
                 cir.setReturnValue(cir.getReturnValueF() * (float) (getAttributeValue(EntityAttributes.MOVEMENT_SPEED) / getAttributeBaseValue(EntityAttributes.MOVEMENT_SPEED)));
             }
         }
+    }
+
+
+    @Override
+    public int hdemise$getTicksSinceLastAttack() {
+        return this.ticksSinceLastAttack;
     }
 }
