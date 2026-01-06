@@ -73,10 +73,7 @@ public class ModItems {
             settings,
             new SoulAttribute(EntityAttributes.BLOCK_INTERACTION_RANGE, 1.5d, Operation.ADD_VALUE)
     )), new Item.Settings());
-    public static final Item STARDUST = register("stardust", (settings -> new AttributeAugmentItem(
-            settings,
-            new SoulAttribute(EntityAttributes.MINING_EFFICIENCY, 0.25d, Operation.ADD_MULTIPLIED_BASE)
-    )), new Item.Settings());
+    public static final Item STARDUST = register("stardust", (settings -> new AugmentItem(settings, 1)), new Item.Settings());
     public static final Item WHETSTONE = register("whetstone", (settings -> new AttributeAugmentItem(
             settings,
             new SoulAttribute(EntityAttributes.ATTACK_SPEED, 0.15d, Operation.ADD_MULTIPLIED_BASE)

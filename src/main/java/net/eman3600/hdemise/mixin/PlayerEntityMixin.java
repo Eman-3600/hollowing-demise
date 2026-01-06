@@ -8,6 +8,7 @@ import net.eman3600.hdemise.init.entity.ModAttributes;
 import net.eman3600.hdemise.init.entity.ModStatusEffects;
 import net.eman3600.hdemise.mixin_interfaces.PlayerEntityAccess;
 import net.eman3600.hdemise.mob_effects.ModStatusEffect;
+import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -217,6 +218,17 @@ public abstract class PlayerEntityMixin extends PlayerLikeEntity implements Play
 
             if (sc.hasAugment(ModTags.Items.AERIAL_IMPROVEMENT) && !player.getAbilities().flying) {
                 cir.setReturnValue(cir.getReturnValueF() * (float) (getAttributeValue(EntityAttributes.MOVEMENT_SPEED) / getAttributeBaseValue(EntityAttributes.MOVEMENT_SPEED)));
+            }
+        }
+    }
+
+    @Inject(method = "getBlockBreakingSpeed", at = @At("RETURN"), cancellable = true)
+    private void hdemise$getBlockBreakingSpeed(BlockState block, CallbackInfoReturnable<Float> cir) {
+        if (((Object)this) instanceof PlayerEntity player) {
+            SoulComponent sc = SoulComponent.of(player);
+
+            if (sc.hasAugment(ModItems.STARDUST)) {
+                cir.setReturnValue(cir.getReturnValueF() * 1.25f);
             }
         }
     }
