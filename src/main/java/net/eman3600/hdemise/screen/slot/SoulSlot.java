@@ -1,6 +1,7 @@
 package net.eman3600.hdemise.screen.slot;
 
 import net.eman3600.hdemise.cardinal_components.SoulComponent;
+import net.eman3600.hdemise.init.basics.ModTags;
 import net.eman3600.hdemise.item.SoulItem;
 import net.eman3600.hdemise.screen.InfusionScreenHandler;
 import net.minecraft.entity.player.PlayerEntity;
@@ -24,6 +25,11 @@ public class SoulSlot extends DynamicSlot {
     @Override
     public boolean canInsert(ItemStack stack) {
         return stack.getItem() instanceof SoulItem && super.canInsert(stack);
+    }
+
+    @Override
+    public boolean canTakeItems(PlayerEntity playerEntity) {
+        return super.canTakeItems(playerEntity) && !getStack().isIn(ModTags.Items.UNREMOVEABLE_SOUL);
     }
 
     //    @Override

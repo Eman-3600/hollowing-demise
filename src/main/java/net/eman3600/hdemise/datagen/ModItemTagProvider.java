@@ -74,5 +74,8 @@ public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
         valueLookupBuilder(ModTags.Items.ALMARITE_REPAIR)
                 .add(ModItems.ALMARITE)
                 .add(ModItems.SOULROOT_BULB);
+
+        valueLookupBuilder(ModTags.Items.UNREMOVEABLE_SOUL)
+                .add(ModItems.ANTISOUL);
     }
 }

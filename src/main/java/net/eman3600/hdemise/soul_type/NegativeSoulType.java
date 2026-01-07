@@ -1,10 +1,12 @@
 package net.eman3600.hdemise.soul_type;
 
+import net.eman3600.hdemise.init.basics.ModItems;
 import net.eman3600.hdemise.init.entity.ModAttributes;
 import net.eman3600.hdemise.util.SoulAttribute;
 import net.eman3600.hdemise.util.inventory.AugmentSpace;
 import net.minecraft.entity.attribute.*;
 import net.minecraft.entity.attribute.EntityAttributeModifier.Operation;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
 import org.jspecify.annotations.Nullable;
 
@@ -23,7 +25,7 @@ public class NegativeSoulType extends SoulType {
     public NegativeSoulType(Identifier id) {
         super(MeterType.SOUL, id,
                 new SoulAttribute(EntityAttributes.MAX_HEALTH, -10, Operation.ADD_VALUE),
-                new SoulAttribute(ModAttributes.MAX_SOUL, -8, Operation.ADD_VALUE),
+                new SoulAttribute(ModAttributes.MAX_SOUL, -7, Operation.ADD_VALUE),
                 new SoulAttribute(ModAttributes.FOCUS_POWER, -2, Operation.ADD_VALUE)
         );
     }
@@ -61,5 +63,10 @@ public class NegativeSoulType extends SoulType {
     @Override
     public boolean hasExperience() {
         return false;
+    }
+
+    @Override
+    public ItemStack getDefaultSoulStack() {
+        return ModItems.ANTISOUL.getDefaultStack();
     }
 }

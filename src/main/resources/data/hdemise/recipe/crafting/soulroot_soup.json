@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "minecraft:bowl",
+    "hdemise:soulroot_bulb",
+    "hdemise:soulroot_bulb",
+    "hdemise:soulroot_bulb",
+    "hdemise:soulroot_bulb",
+    "hdemise:soulroot_bulb",
+    "hdemise:soulroot_bulb",
+    "minecraft:gold_nugget"
+  ],
+  "result": {
+    "count": 1,
+    "id": "hdemise:soulroot_soup"
+  }
+}

@@ -28,6 +28,7 @@ public class ModItemGroups {
             entries.add(ModItems.SOULROOT_BULB);
             entries.add(ModItems.SOULROOT_SEEDS);
             entries.add(ModItems.SIMPLE_CURE);
+                entries.add(ModItems.SOULROOT_SOUP);
             entries.add(ModItems.AMETHYST_APPLE);
             entries.add(ModItems.CROSS);
             entries.add(ModItems.EXPERIENCE_CORE);
@@ -41,6 +42,7 @@ public class ModItemGroups {
             entries.add(ModItems.PHANTOM_SOUL_FRACTURED);
             entries.add(ModItems.REVENANT_SOUL);
             entries.add(ModItems.REVENANT_SOUL_FRACTURED);
+                entries.add(ModItems.ANTISOUL);
             entries.add(ModItems.FEATHER_TOKEN);
             entries.add(ModItems.GOLEM_STRENGTH_BELT);
             entries.add(ModItems.BOTTLED_TEAR);

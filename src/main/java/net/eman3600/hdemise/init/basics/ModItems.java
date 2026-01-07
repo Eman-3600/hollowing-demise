@@ -48,6 +48,7 @@ public class ModItems {
     public static final Item SOULROOT_BULB = register("soulroot_bulb", (settings) -> new EssenceFoodItem(settings, SoulComponent.SOUL_PER_VESSEL * 3 / 2), new Item.Settings().food(SOUL_BERRY_FOOD));
     public static final Item SOUL_BASE = register("soul_base", Item::new, new Item.Settings());
     public static final Item SOULROOT_SEEDS = register("soulroot_seeds", settings -> new BlockItem(ModBlocks.SOULROOT, settings), new Item.Settings().component(ModDataComponentTypes.TOOLTIP_LINES, 1));
+    public static final Item SOULROOT_SOUP = register("soulroot_soup", EdibleCureItem::new, new Item.Settings().rarity(Rarity.UNCOMMON).food(FoodComponents.BEETROOT_SOUP).useRemainder(Items.BOWL));
 
 
     public static final Item FEATHER_TOKEN = register("feather_token", (settings -> new AttributeAugmentItem(
@@ -124,6 +125,7 @@ public class ModItems {
     public static final Item PHANTOM_SOUL = register("phantom_soul", (settings) -> new BreakableSoulItem(settings, ModSoulTypes.PHANTOM, PHANTOM_SOUL_FRACTURED), SoulItem.getDefaultSettings());
     public static final Item REVENANT_SOUL_FRACTURED = register("revenant_soul_fractured", Item::new, SoulItem.getDefaultSettings());
     public static final Item REVENANT_SOUL = register("revenant_soul", (settings) -> new BreakableSoulItem(settings, ModSoulTypes.REVENANT, REVENANT_SOUL_FRACTURED), SoulItem.getDefaultSettings());
+    public static final Item ANTISOUL = register("antisoul", (settings) -> new SoulItem(settings, ModSoulTypes.NEGATIVE), SoulItem.getDefaultSettings().rarity(Rarity.EPIC));
 
     /**
      * Registers an item under a given ID string.
@@ -162,13 +164,11 @@ public class ModItems {
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.TOOLS).register((group) -> {
             group.add(ModItems.ALMARITE);
             group.add(ModItems.ALMARITE_PIX);
-            group.add(ModItems.SIMPLE_CURE);
-            group.add(ModItems.AMETHYST_APPLE);
-            group.add(ModItems.EXPERIENCE_CORE);
             group.add(ModItems.WIND_STAFF);
         });
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.FOOD_AND_DRINK).register((group) -> {
             group.add(ModItems.SOULROOT_BULB);
+            group.add(ModItems.SOULROOT_SOUP);
             group.add(ModItems.AMETHYST_APPLE);
         });
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.OPERATOR).register((group) -> {

@@ -285,7 +285,7 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
     }
 
     public boolean canCure() {
-        return isSoulless() && !focusing && !vanishing;
+        return (isSoulless() || soulType == ModSoulTypes.NEGATIVE) && !focusing && !vanishing;
     }
 
     public float getSoulVessels() {
@@ -922,7 +922,7 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
                 setCuring(false, 0);
                 setSoulType(ModSoulTypes.MORTAL);
                 player.getHungerManager().setSaturationLevel(15f);
-                validateSoulStack();
+                replaceSoulStack();
                 player.clearStatusEffects();
                 player.addStatusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 140, 0));
                 sendSoulEvent(SoulEventPayload.SoulEventType.REVIVE);

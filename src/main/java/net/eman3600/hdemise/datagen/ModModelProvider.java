@@ -37,6 +37,7 @@ public class ModModelProvider extends FabricModelProvider {
         itemModelGenerator.register(ModItems.AMETHYST_APPLE, Models.GENERATED);
         itemModelGenerator.register(ModItems.CROSS, Models.GENERATED);
         itemModelGenerator.register(ModItems.SOULROOT_BULB, Models.GENERATED);
+        itemModelGenerator.register(ModItems.SOULROOT_SOUP, Models.GENERATED);
         itemModelGenerator.register(ModItems.SOUL_BASE, Models.GENERATED);
 
         itemModelGenerator.register(ModItems.FEATHER_TOKEN, Models.GENERATED);
@@ -73,5 +74,6 @@ public class ModModelProvider extends FabricModelProvider {
         itemModelGenerator.register(ModItems.PHANTOM_SOUL_FRACTURED, Models.GENERATED);
         itemModelGenerator.register(ModItems.REVENANT_SOUL, Models.GENERATED);
         itemModelGenerator.register(ModItems.REVENANT_SOUL_FRACTURED, Models.GENERATED);
+        itemModelGenerator.register(ModItems.ANTISOUL, Models.GENERATED);
     }
 }
