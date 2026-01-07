@@ -3,6 +3,7 @@ package net.eman3600.hdemise.init.basics;
 import net.eman3600.hdemise.cardinal_components.SoulComponent;
 import net.eman3600.hdemise.init.custom.ModSoulTypes;
 import net.eman3600.hdemise.init.entity.ModAttributes;
+import net.eman3600.hdemise.init.entity.ModStatusEffects;
 import net.eman3600.hdemise.item.*;
 import net.eman3600.hdemise.item.augment.AbsorptionAugmentItem;
 import net.eman3600.hdemise.item.augment.AttributeAugmentItem;
@@ -13,14 +14,19 @@ import net.eman3600.hdemise.util.ModToolMaterials;
 import net.eman3600.hdemise.util.SoulAttribute;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.ConsumableComponent;
+import net.minecraft.component.type.ConsumableComponents;
 import net.minecraft.component.type.FoodComponent;
 import net.minecraft.component.type.FoodComponents;
 import net.minecraft.entity.attribute.EntityAttributeModifier.Operation;
 import net.minecraft.entity.attribute.EntityAttributes;
+import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroups;
 import net.minecraft.item.Items;
+import net.minecraft.item.consume.ApplyEffectsConsumeEffect;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
@@ -28,6 +34,7 @@ import net.minecraft.registry.RegistryKeys;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Rarity;
 
+import java.util.List;
 import java.util.function.Function;
 
 import static net.eman3600.hdemise.HDemise.LOGGER;
@@ -37,6 +44,12 @@ public class ModItems {
 
     public static final FoodComponent SOUL_BERRY_FOOD = new FoodComponent.Builder().nutrition(2).saturationModifier(.75F).build();
     public static final FoodComponent SOUL_SOUP_FOOD = new FoodComponent.Builder().nutrition(12).saturationModifier(.75F).build();
+
+    public static final ConsumableComponent SOUL_SOUP_CONSUMABLE = ConsumableComponents.food().consumeEffect(
+            new ApplyEffectsConsumeEffect(
+                    List.of(new StatusEffectInstance(ModStatusEffects.SOUL_REGEN, 1200, 0))
+            )
+    ).build();
 
 
 
@@ -49,7 +62,7 @@ public class ModItems {
     public static final Item SOULROOT_BULB = register("soulroot_bulb", (settings) -> new EssenceFoodItem(settings, SoulComponent.SOUL_PER_VESSEL * 3 / 2), new Item.Settings().food(SOUL_BERRY_FOOD));
     public static final Item SOUL_BASE = register("soul_base", Item::new, new Item.Settings());
     public static final Item SOULROOT_SEEDS = register("soulroot_seeds", settings -> new BlockItem(ModBlocks.SOULROOT, settings), new Item.Settings().component(ModDataComponentTypes.TOOLTIP_LINES, 1));
-    public static final Item SOULROOT_SOUP = register("soulroot_soup", (settings) -> new EssenceFoodItem(settings, SoulComponent.SOUL_PER_VESSEL * 5), new Item.Settings().food(SOUL_SOUP_FOOD).maxCount(1).useRemainder(Items.BOWL));
+    public static final Item SOULROOT_SOUP = register("soulroot_soup", (settings) -> new EssenceFoodItem(settings, SoulComponent.SOUL_PER_VESSEL), new Item.Settings().food(SOUL_SOUP_FOOD, SOUL_SOUP_CONSUMABLE).maxCount(1).useRemainder(Items.BOWL));
     public static final Item ECTOPLASM = register("ectoplasm", Item::new, new Item.Settings());
     public static final Item ECTOPLASM_REMEDY = register("ectoplasm_remedy", EdibleCureItem::new, new Item.Settings().rarity(Rarity.UNCOMMON).food(FoodComponents.BEETROOT_SOUP).maxCount(1).useRemainder(Items.BOWL));
 

@@ -8,6 +8,7 @@ import net.eman3600.hdemise.event.callback.SoulRegenCallback;
 import net.eman3600.hdemise.init.basics.ModItems;
 import net.eman3600.hdemise.init.basics.ModTags;
 import net.eman3600.hdemise.init.custom.ModSoulTypes;
+import net.eman3600.hdemise.init.entity.ModStatusEffects;
 import net.eman3600.hdemise.item.augment.AugmentItem;
 import net.eman3600.hdemise.soul_type.SoulType;
 import net.fabricmc.fabric.api.entity.event.v1.ServerPlayerEvents;
@@ -71,6 +72,9 @@ public class ModCallbacks {
 
         // Essence Core Regen
         SoulRegenCallback.EVENT.register((player, sc) -> sc.hasAugment(ModItems.ESSENCE_CORE) && sc.getSoul() < SoulComponent.SOUL_PER_VESSEL ? 10f : 0f);
+
+        // Status Effect Soul Regen
+        SoulRegenCallback.EVENT.register((player, sc) -> player.hasStatusEffect(ModStatusEffects.SOUL_REGEN) ? (player.getStatusEffect(ModStatusEffects.SOUL_REGEN).getAmplifier() + 1) * 5f : 0f);
 
         // Forbidden Fruit Regen
         RegenCallback.EVENT.register((player, sc) -> sc.hasAugment(ModItems.FORBIDDEN_FRUIT) ? .16f : 0);

@@ -7,6 +7,10 @@ import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
 import net.minecraft.data.recipe.RecipeExporter;
 import net.minecraft.data.recipe.RecipeGenerator;
 import net.minecraft.item.ItemConvertible;
+import net.minecraft.recipe.BlastingRecipe;
+import net.minecraft.recipe.CampfireCookingRecipe;
+import net.minecraft.recipe.RecipeSerializer;
+import net.minecraft.recipe.SmokingRecipe;
 import net.minecraft.recipe.book.RecipeCategory;
 import net.minecraft.registry.RegistryWrapper;
 import org.jetbrains.annotations.NotNull;
@@ -32,10 +36,16 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                 offerBlasting(ALMARITE_SMELTABLES, RecipeCategory.MISC, ModItems.ALMARITE, 1f, 100, "almarite");
 
                 offerSmelting(List.of(ModItems.SOULROOT_BULB), RecipeCategory.MISC, ModItems.ECTOPLASM, 3f, 200, "ectoplasm");
+                offerSmoking(List.of(ModItems.SOULROOT_BULB), RecipeCategory.MISC, ModItems.ECTOPLASM, 3f, 100, "ectoplasm");
 
                 offerReversibleCompactingRecipes(RecipeCategory.MISC, ModItems.ALMARITE, RecipeCategory.BUILDING_BLOCKS, ModBlocks.ALMARITE_BLOCK);
 
 
+            }
+
+            public void offerSmoking(List<ItemConvertible> inputs, RecipeCategory category, ItemConvertible output, float experience, int cookingTime, String group) {
+                offerMultipleOptions(RecipeSerializer.SMOKING, SmokingRecipe::new, inputs, category, output, experience, cookingTime, group, "_from_smoking");
+                offerMultipleOptions(RecipeSerializer.CAMPFIRE_COOKING, CampfireCookingRecipe::new, inputs, category, output, experience, cookingTime * 6, group, "_from_campfire_cooking");
             }
         };
     }
