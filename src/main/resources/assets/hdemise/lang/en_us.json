@@ -130,6 +130,17 @@
     "effect.hdemise.soul_regen": "Reclamation",
 
 
+    "item.minecraft.potion.effect.soul_regen": "Potion of Reclamation",
+    "item.minecraft.splash_potion.effect.soul_regen": "Splash Potion of Reclamation",
+    "item.minecraft.lingering_potion.effect.soul_regen": "Lingering Potion of Reclamation",
+    "item.minecraft.tipped_arrow.effect.soul_regen": "Arrow of Reclamation",
+
+    "item.minecraft.potion.effect.chained": "Potion of Soul Binding",
+    "item.minecraft.splash_potion.effect.chained": "Splash Potion of Soul Binding",
+    "item.minecraft.lingering_potion.effect.chained": "Lingering Potion of Soul Binding",
+    "item.minecraft.tipped_arrow.effect.chained": "Arrow of Soul Binding",
+
+
     "attribute.hdemise.name.max_soul": "Max Essence",
     "attribute.hdemise.name.regen": "Healing Factor",
     "attribute.hdemise.name.focus_power": "Focus Power",
