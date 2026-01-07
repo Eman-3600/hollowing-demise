@@ -39,6 +39,8 @@ public class ModModelProvider extends FabricModelProvider {
         itemModelGenerator.register(ModItems.SOULROOT_BULB, Models.GENERATED);
         itemModelGenerator.register(ModItems.SOULROOT_SOUP, Models.GENERATED);
         itemModelGenerator.register(ModItems.SOUL_BASE, Models.GENERATED);
+        itemModelGenerator.register(ModItems.ECTOPLASM, Models.GENERATED);
+        itemModelGenerator.register(ModItems.ECTOPLASM_REMEDY, Models.GENERATED);
 
         itemModelGenerator.register(ModItems.FEATHER_TOKEN, Models.GENERATED);
         itemModelGenerator.register(ModItems.GOLEM_STRENGTH_BELT, Models.GENERATED);

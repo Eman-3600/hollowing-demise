@@ -40,7 +40,7 @@ public class EdibleCureItem extends Item {
     public ActionResult use(World world, PlayerEntity user, Hand hand) {
         SoulComponent sc = SoulComponent.of(user);
 
-        if (sc.isSoulless() || sc.getSoulType() == ModSoulTypes.NEGATIVE) {
+        if (sc.canCure()) {
             user.setCurrentHand(hand);
             return ActionResult.CONSUME;
         }

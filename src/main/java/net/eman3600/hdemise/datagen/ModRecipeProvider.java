@@ -28,9 +28,14 @@ public class ModRecipeProvider extends FabricRecipeProvider {
 
                 List<ItemConvertible> ALMARITE_SMELTABLES = List.of(ModBlocks.ALMARITE_ORE, ModBlocks.DEEPSLATE_ALMARITE_ORE);
 
-                offerSmelting(ALMARITE_SMELTABLES, RecipeCategory.TOOLS, ModItems.ALMARITE, 1f, 200, "almarite");
-                offerBlasting(ALMARITE_SMELTABLES, RecipeCategory.TOOLS, ModItems.ALMARITE, 1f, 100, "almarite");
-                offerReversibleCompactingRecipes(RecipeCategory.TOOLS, ModItems.ALMARITE, RecipeCategory.BUILDING_BLOCKS, ModBlocks.ALMARITE_BLOCK);
+                offerSmelting(ALMARITE_SMELTABLES, RecipeCategory.MISC, ModItems.ALMARITE, 1f, 200, "almarite");
+                offerBlasting(ALMARITE_SMELTABLES, RecipeCategory.MISC, ModItems.ALMARITE, 1f, 100, "almarite");
+
+                offerSmelting(List.of(ModItems.SOULROOT_BULB), RecipeCategory.MISC, ModItems.ECTOPLASM, 3f, 200, "ectoplasm");
+
+                offerReversibleCompactingRecipes(RecipeCategory.MISC, ModItems.ALMARITE, RecipeCategory.BUILDING_BLOCKS, ModBlocks.ALMARITE_BLOCK);
+
+
             }
         };
     }

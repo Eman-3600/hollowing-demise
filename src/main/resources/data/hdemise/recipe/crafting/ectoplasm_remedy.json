@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "minecraft:bowl",
+    "hdemise:ectoplasm",
+    "hdemise:ectoplasm",
+    "hdemise:ectoplasm",
+    "hdemise:ectoplasm",
+    "hdemise:ectoplasm",
+    "hdemise:ectoplasm",
+    "minecraft:gold_nugget"
+  ],
+  "result": {
+    "count": 1,
+    "id": "hdemise:ectoplasm_remedy"
+  }
+}

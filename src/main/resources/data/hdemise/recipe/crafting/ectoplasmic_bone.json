@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "ectoplasmic_bone",
+  "key": {
+    "#": "minecraft:bone",
+    "X": "hdemise:ectoplasm"
+  },
+  "pattern": [
+    "XXX",
+    "X#X",
+    "XXX"
+  ],
+  "result": {
+    "count": 1,
+    "id": "hdemise:ectoplasmic_bone"
+  }
+}

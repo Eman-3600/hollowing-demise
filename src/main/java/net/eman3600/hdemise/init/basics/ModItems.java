@@ -36,6 +36,7 @@ import static net.eman3600.hdemise.HDemise.MODID;
 public class ModItems {
 
     public static final FoodComponent SOUL_BERRY_FOOD = new FoodComponent.Builder().nutrition(2).saturationModifier(.75F).build();
+    public static final FoodComponent SOUL_SOUP_FOOD = new FoodComponent.Builder().nutrition(12).saturationModifier(.75F).build();
 
 
 
@@ -48,7 +49,9 @@ public class ModItems {
     public static final Item SOULROOT_BULB = register("soulroot_bulb", (settings) -> new EssenceFoodItem(settings, SoulComponent.SOUL_PER_VESSEL * 3 / 2), new Item.Settings().food(SOUL_BERRY_FOOD));
     public static final Item SOUL_BASE = register("soul_base", Item::new, new Item.Settings());
     public static final Item SOULROOT_SEEDS = register("soulroot_seeds", settings -> new BlockItem(ModBlocks.SOULROOT, settings), new Item.Settings().component(ModDataComponentTypes.TOOLTIP_LINES, 1));
-    public static final Item SOULROOT_SOUP = register("soulroot_soup", EdibleCureItem::new, new Item.Settings().rarity(Rarity.UNCOMMON).food(FoodComponents.BEETROOT_SOUP).useRemainder(Items.BOWL));
+    public static final Item SOULROOT_SOUP = register("soulroot_soup", (settings) -> new EssenceFoodItem(settings, SoulComponent.SOUL_PER_VESSEL * 5), new Item.Settings().food(SOUL_SOUP_FOOD).maxCount(1).useRemainder(Items.BOWL));
+    public static final Item ECTOPLASM = register("ectoplasm", Item::new, new Item.Settings());
+    public static final Item ECTOPLASM_REMEDY = register("ectoplasm_remedy", EdibleCureItem::new, new Item.Settings().rarity(Rarity.UNCOMMON).food(FoodComponents.BEETROOT_SOUP).maxCount(1).useRemainder(Items.BOWL));
 
 
     public static final Item FEATHER_TOKEN = register("feather_token", (settings -> new AttributeAugmentItem(
@@ -152,6 +155,7 @@ public class ModItems {
 
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.INGREDIENTS).register((group) -> {
             group.add(ModItems.ALMARITE);
+            group.add(ModItems.ECTOPLASM);
             group.add(ModItems.SOUL_BASE);
         });
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.COMBAT).register((group) -> {
@@ -169,6 +173,7 @@ public class ModItems {
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.FOOD_AND_DRINK).register((group) -> {
             group.add(ModItems.SOULROOT_BULB);
             group.add(ModItems.SOULROOT_SOUP);
+            group.add(ModItems.ECTOPLASM_REMEDY);
             group.add(ModItems.AMETHYST_APPLE);
         });
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.OPERATOR).register((group) -> {

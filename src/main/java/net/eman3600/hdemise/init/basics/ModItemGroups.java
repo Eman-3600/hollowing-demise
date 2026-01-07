@@ -26,9 +26,11 @@ public class ModItemGroups {
                 entries.add(ModItems.ALMARITE_PIX);
             entries.add(ModItems.SOUL_BASE);
             entries.add(ModItems.SOULROOT_BULB);
-            entries.add(ModItems.SOULROOT_SEEDS);
-            entries.add(ModItems.SIMPLE_CURE);
-                entries.add(ModItems.SOULROOT_SOUP);
+                entries.add(ModItems.SOULROOT_SEEDS);
+            entries.add(ModItems.SOULROOT_SOUP);
+                entries.add(ModItems.ECTOPLASM);
+                entries.add(ModItems.SIMPLE_CURE);
+                entries.add(ModItems.ECTOPLASM_REMEDY);
             entries.add(ModItems.AMETHYST_APPLE);
             entries.add(ModItems.CROSS);
             entries.add(ModItems.EXPERIENCE_CORE);

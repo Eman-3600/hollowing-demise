@@ -90,6 +90,7 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
     private int soul = 0;
     private int soulDecay = 0;
     private boolean isDirty = false;
+    private boolean voidCursed = false;
 
     private SoulType soulType;
 
@@ -174,6 +175,14 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
         return hollowSoul;
     }
 
+    public void setVoidCursed(boolean voidCursed) {
+        this.voidCursed = voidCursed;
+    }
+
+    public boolean isVoidCursed() {
+        return voidCursed;
+    }
+
     public void saveHollowStats() {
         this.hollowHp = player.getHealth();
         this.hollowSoul = getSoul();
@@ -218,7 +227,17 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
         setHollowTopped(true);
         this.topUpCooldown = 0;
 
-        if (this.soulType != ModSoulTypes.HOLLOW && this.soulType != ModSoulTypes.NEGATIVE) {
+        if (voidCursed) {
+            voidCursed = false;
+
+            XPCoreItem.extractToWorld(player);
+            this.setSoulType(ModSoulTypes.NEGATIVE);
+            if (inventory.getStack(0).getItem() instanceof SoulItem) {
+                SoulItem.resetStats(inventory.getStack(0));
+            } else {
+                replaceSoulStack();
+            }
+        } else if (this.soulType != ModSoulTypes.HOLLOW && this.soulType != ModSoulTypes.NEGATIVE) {
             SoulItem.resetStats(inventory.getStack(0));
             XPCoreItem.extractToWorld(player);
             this.setSoulType(ModSoulTypes.HOLLOW);
@@ -988,6 +1007,8 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
         ghostMode = readView.getBoolean("ghost_mode", false);
         soul = readView.getInt("soul", 0);
         soulDecay = readView.getInt("soul_decay", SOUL_DECAY_TICKS);
+        voidCursed = readView.getBoolean("void_cursed", false);
+
         focusing = readView.getBoolean("focusing", false);
         focusTime = readView.getInt("focus_time", 0);
         vanishing = readView.getBoolean("vanishing", false);
@@ -1018,6 +1039,7 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
         writeView.putBoolean("ghost_mode", ghostMode);
         writeView.putInt("soul", soul);
         writeView.putInt("soul_decay", soulDecay);
+        writeView.putBoolean("void_cursed", voidCursed);
         writeView.putBoolean("focusing", focusing);
         writeView.putInt("focus_time", focusTime);
         writeView.putBoolean("vanishing", vanishing);
