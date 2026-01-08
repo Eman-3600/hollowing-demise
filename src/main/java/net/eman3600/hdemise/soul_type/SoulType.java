@@ -1,5 +1,6 @@
 package net.eman3600.hdemise.soul_type;
 
+import net.eman3600.hdemise.cardinal_components.SoulComponent;
 import net.eman3600.hdemise.init.custom.ModSoulTypes;
 import net.eman3600.hdemise.util.SoulAttribute;
 import net.eman3600.hdemise.util.inventory.AugmentSpace;
@@ -108,7 +109,7 @@ public abstract class SoulType {
         player.heal(focusAmount);
         player.setHealth(MathHelper.ceil(player.getHealth()));
 
-        return player.getHealth() < player.getMaxHealth();
+        return player.getHealth() < SoulComponent.of(player).getMaxHealthWithAffliction();
     }
 
     public String getTranslationKey() {

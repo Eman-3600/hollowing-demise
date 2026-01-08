@@ -17,6 +17,7 @@ import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Colors;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.Hand;
 import net.minecraft.world.World;
 
@@ -25,12 +26,14 @@ import java.util.function.Consumer;
 public class EssenceFoodItem extends Item {
 
     private final int essenceAmount;
+    private final int corruptionAmount;
     private static final int COOLDOWN = 100;
 
 
-    public EssenceFoodItem(Settings settings, int essenceAmount) {
+    public EssenceFoodItem(Settings settings, int essenceAmount, int corruptionAmount) {
         super(settings);
         this.essenceAmount = essenceAmount;
+        this.corruptionAmount = corruptionAmount;
     }
 
     @Override
@@ -53,9 +56,11 @@ public class EssenceFoodItem extends Item {
     public ItemStack finishUsing(ItemStack stack, World world, LivingEntity user) {
 
         if (user instanceof ServerPlayerEntity player) {
-            SoulComponent.of(player).addSoul(this.essenceAmount);
+            SoulComponent sc = SoulComponent.of(player);
+            sc.addSoul(this.essenceAmount);
             if (!player.isCreative()) {
-                player.getItemCooldownManager().set(stack, COOLDOWN);
+                sc.addCorruption(this.corruptionAmount);
+                // player.getItemCooldownManager().set(stack, COOLDOWN);
             }
         }
 
@@ -68,5 +73,6 @@ public class EssenceFoodItem extends Item {
     @Override
     public void appendTooltip(ItemStack stack, TooltipContext context, TooltipDisplayComponent displayComponent, Consumer<Text> textConsumer, TooltipType type) {
         textConsumer.accept(Text.translatable(getTranslationKey() + ".tooltip").withColor(Colors.LIGHT_GRAY));
+        textConsumer.accept(Text.translatable(getTranslationKey() + ".warning").formatted(Formatting.DARK_RED));
     }
 }

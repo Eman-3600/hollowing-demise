@@ -58,7 +58,9 @@ public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
 
 
         valueLookupBuilder(ModTags.Items.AERIAL_IMPROVEMENT)
-                .add(ModItems.FEATHER_TOKEN);
+                .add(ModItems.FEATHER_TOKEN)
+                .add(ModItems.GOLDEN_FOOT)
+                .add(ModItems.DRAGON_WING);
 
         valueLookupBuilder(ModTags.Items.NEGATES_FALL)
                 .add(ModItems.DRAGON_WING);

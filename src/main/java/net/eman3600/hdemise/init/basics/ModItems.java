@@ -42,7 +42,7 @@ import static net.eman3600.hdemise.HDemise.MODID;
 
 public class ModItems {
 
-    public static final FoodComponent SOUL_BERRY_FOOD = new FoodComponent.Builder().nutrition(2).saturationModifier(.75F).build();
+    public static final FoodComponent SOUL_BERRY_FOOD = new FoodComponent.Builder().nutrition(4).saturationModifier(.75F).build();
     public static final FoodComponent SOUL_SOUP_FOOD = new FoodComponent.Builder().nutrition(12).saturationModifier(.75F).build();
 
     public static final ConsumableComponent SOUL_SOUP_CONSUMABLE = ConsumableComponents.food().consumeEffect(
@@ -59,10 +59,10 @@ public class ModItems {
     public static final Item AMETHYST_APPLE = register("amethyst_apple", AmethystAppleItem::new, new Item.Settings().rarity(Rarity.UNCOMMON).food(FoodComponents.APPLE));
     public static final Item CROSS = register("cross", CrossItem::new, new Item.Settings().rarity(Rarity.UNCOMMON).maxCount(1).maxDamage(64));
     public static final XPCoreItem EXPERIENCE_CORE = (XPCoreItem) register("experience_core", XPCoreItem::new, new Item.Settings().rarity(Rarity.RARE).maxCount(1).component(DataComponentTypes.ENCHANTMENT_GLINT_OVERRIDE, true));
-    public static final Item SOULROOT_BULB = register("soulroot_bulb", (settings) -> new EssenceFoodItem(settings, SoulComponent.SOUL_PER_VESSEL * 3 / 2), new Item.Settings().food(SOUL_BERRY_FOOD));
+    public static final Item SOULROOT_BULB = register("soulroot_bulb", (settings) -> new EssenceFoodItem(settings, SoulComponent.SOUL_PER_VESSEL * 3 / 2, 9), new Item.Settings().food(SOUL_BERRY_FOOD));
     public static final Item SOUL_BASE = register("soul_base", Item::new, new Item.Settings());
     public static final Item SOULROOT_SEEDS = register("soulroot_seeds", settings -> new BlockItem(ModBlocks.SOULROOT, settings), new Item.Settings().component(ModDataComponentTypes.TOOLTIP_LINES, 1));
-    public static final Item SOULROOT_SOUP = register("soulroot_soup", (settings) -> new EssenceFoodItem(settings, SoulComponent.SOUL_PER_VESSEL), new Item.Settings().food(SOUL_SOUP_FOOD, SOUL_SOUP_CONSUMABLE).maxCount(1).useRemainder(Items.BOWL));
+    public static final Item SOULROOT_SOUP = register("soulroot_soup", (settings) -> new EssenceFoodItem(settings, SoulComponent.SOUL_PER_VESSEL * 9, 54), new Item.Settings().food(SOUL_SOUP_FOOD).maxCount(1).useRemainder(Items.BOWL));
     public static final Item ECTOPLASM = register("ectoplasm", Item::new, new Item.Settings());
     public static final Item ECTOPLASM_REMEDY = register("ectoplasm_remedy", EdibleCureItem::new, new Item.Settings().rarity(Rarity.UNCOMMON).food(FoodComponents.BEETROOT_SOUP).maxCount(1).useRemainder(Items.BOWL));
 

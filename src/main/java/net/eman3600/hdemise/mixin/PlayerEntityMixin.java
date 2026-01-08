@@ -78,7 +78,7 @@ public abstract class PlayerEntityMixin extends PlayerLikeEntity implements Play
     private void hdemise$canFoodHeal(CallbackInfoReturnable<Boolean> cir) {
         SoulComponent sc = SoulComponent.of(this);
 
-        if (!sc.usesHunger()) {
+        if (!sc.usesHunger() || getHealth() >= sc.getMaxHealthWithAffliction()) {
             cir.setReturnValue(false);
         }
     }

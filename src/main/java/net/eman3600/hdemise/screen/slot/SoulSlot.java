@@ -29,7 +29,7 @@ public class SoulSlot extends DynamicSlot {
 
     @Override
     public boolean canTakeItems(PlayerEntity playerEntity) {
-        return super.canTakeItems(playerEntity) && !getStack().isIn(ModTags.Items.UNREMOVEABLE_SOUL);
+        return super.canTakeItems(playerEntity) && !getStack().isIn(ModTags.Items.UNREMOVEABLE_SOUL) && !SoulComponent.of(playerEntity).isCorrupting();
     }
 
     //    @Override

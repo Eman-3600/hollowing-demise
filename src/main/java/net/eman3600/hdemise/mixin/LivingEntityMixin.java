@@ -18,10 +18,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.waypoint.ServerWaypoint;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Constant;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.ModifyConstant;
+import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
@@ -44,6 +41,20 @@ public abstract class LivingEntityMixin extends Entity implements Attackable, Se
                 cir.setReturnValue(false);
             }
         }
+    }
+
+    @ModifyArg(method = "setHealth", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/data/DataTracker;set(Lnet/minecraft/entity/data/TrackedData;Ljava/lang/Object;)V"), index = 1)
+    private <T> T hdemise$setHealth$health(T value) {
+
+        if (((Object)this) instanceof PlayerEntity player) {
+            SoulComponent sc = SoulComponent.of(player);
+
+            if (value instanceof Float f && sc.getAffliction() > 0) {
+                return (T)(Object)Math.min(f, sc.getMaxHealthWithAffliction());
+            }
+        }
+
+        return value;
     }
 
     @Inject(method = "tickMovement", at = @At("HEAD"))

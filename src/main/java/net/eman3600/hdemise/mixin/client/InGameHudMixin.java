@@ -1,5 +1,6 @@
 package net.eman3600.hdemise.mixin.client;
 
+import com.llamalad7.mixinextras.sugar.Local;
 import net.eman3600.hdemise.cardinal_components.SoulComponent;
 import net.eman3600.hdemise.init.basics.ModItems;
 import net.eman3600.hdemise.init.custom.ModSoulTypes;
@@ -32,6 +33,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 import static net.eman3600.hdemise.HDemise.MODID;
 
@@ -56,6 +58,18 @@ public abstract class InGameHudMixin {
     private static final Identifier SOLAR_VIGNETTE_TEXTURE = Identifier.of(MODID, "textures/misc/solar_vignette.png");
     @Unique
     private static final Identifier CURE_VIGNETTE_TEXTURE = Identifier.of(MODID, "textures/misc/cure_vignette.png");
+
+    @Unique
+    private static final Identifier CORRUPTION_HEART_TYPE = Identifier.of(MODID,"textures/gui/hud/heart/corruption.png");
+    @Unique
+    private static final Identifier CORRUPTION_OUTLINE = Identifier.of(MODID,"textures/gui/hud/heart/corruption_outline.png");
+    @Unique
+    private static final Identifier AFFLICTION_HEART_TYPE = Identifier.of(MODID,"textures/gui/hud/heart/affliction.png");
+
+    @Unique
+    private int currentHeart;
+    @Unique
+    private boolean goldHeart;
 
 
 
@@ -230,6 +244,12 @@ public abstract class InGameHudMixin {
         }
     }
 
+    @Inject(method = "renderHealthBar", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/hud/InGameHud;drawHeart(Lnet/minecraft/client/gui/DrawContext;Lnet/minecraft/client/gui/hud/InGameHud$HeartType;IIZZZ)V", ordinal = 0))
+    private void hdemise$renderHealthBar(DrawContext context, PlayerEntity player, int x, int y, int lines, int regeneratingHeartIndex, float maxHealth, int lastHealth, int health, int absorption, boolean blinking, CallbackInfo ci, @Local(ordinal = 10) int l) {
+        this.currentHeart = l;
+        this.goldHeart = l >= Math.ceil(maxHealth/2);
+    }
+
     @Inject(method = "drawHeart", at = @At("HEAD"), cancellable = true)
     private void hdemise$drawHeart(DrawContext context, InGameHud.HeartType type, int x, int y, boolean hardcore, boolean blinking, boolean half, CallbackInfo ci) {
         SoulComponent sc = SoulComponent.of(getCameraPlayer());
@@ -239,6 +259,13 @@ public abstract class InGameHudMixin {
         if (sc.isGhost()) {
             ci.cancel();
         } else {
+
+            int corruption = sc.isCorrupting() ? 9 : Math.min(9, sc.getCorruption() - (this.currentHeart * SoulComponent.CORRUPTION_PER_HEART));
+
+            if (sc.isCorrupting() && type != InGameHud.HeartType.CONTAINER && !this.goldHeart) {
+                heartTexture = CORRUPTION_HEART_TYPE;
+            }
+
             if (heartTexture != null && type == InGameHud.HeartType.NORMAL) {
                 if (sc.getSoulType() == ModSoulTypes.REVENANT && getCameraPlayer().hasStatusEffect(ModStatusEffects.RAGE)) {
                     heartTexture = RevenantSoulType.RAGE_HEART_TYPE;
@@ -246,24 +273,73 @@ public abstract class InGameHudMixin {
 
                 hdemise$drawCustomHeart(context, heartTexture, x, y, hardcore, blinking, half, false);
                 ci.cancel();
+
+                hdemise$drawAfflictionHeart(context, x, y, sc.getAffliction(), hardcore, blinking);
             }
 
             if (heartContainerTexture != null && type == InGameHud.HeartType.CONTAINER) {
-                if (sc.getSoulType() == ModSoulTypes.REVENANT && getCameraPlayer().hasStatusEffect(ModStatusEffects.RAGE)) {
-                    blinking = ticks/2 % 2 == 0;
+                if ((sc.getSoulType() == ModSoulTypes.REVENANT && getCameraPlayer().hasStatusEffect(ModStatusEffects.RAGE)) || sc.isCorrupting()) {
+                    blinking = ticks / 2 % 2 == 0;
                 }
 
                 hdemise$drawCustomHeart(context, heartContainerTexture, x, y, false, blinking, false, true);
+                if (corruption > 0) {
+                    int u = blinking ? 9 : 0;
+
+                    context.drawTexture(RenderPipelines.GUI_TEXTURED, CORRUPTION_OUTLINE, x, y, u, 0, corruption, 9, 18, 9);
+                }
+
                 ci.cancel();
+
+                hdemise$drawAfflictionHeart(context, x, y, sc.getAffliction(), hardcore, blinking);
             }
         }
     }
+
+    @Inject(method = "drawHeart", at = @At("TAIL"))
+    private void hdemise$drawHeart$end(DrawContext context, InGameHud.HeartType type, int x, int y, boolean hardcore, boolean blinking, boolean half, CallbackInfo ci) {
+        SoulComponent sc = SoulComponent.of(getCameraPlayer());
+        if (sc == null) return;
+
+        int corruption = sc.isCorrupting() ? 9 : Math.min(9, sc.getCorruption() - (this.currentHeart * SoulComponent.CORRUPTION_PER_HEART));
+
+        if (corruption > 0 && !sc.isGhost()) {
+            boolean b = blinking;
+            if (sc.isCorrupting()) {
+                b = ticks / 2 % 2 == 0;
+            }
+            int u = b ? 9 : 0;
+
+            context.drawTexture(RenderPipelines.GUI_TEXTURED, CORRUPTION_OUTLINE, x, y, u, 0, corruption, 9, 18, 9);
+        }
+
+        hdemise$drawAfflictionHeart(context, x, y, sc.getAffliction(), hardcore, blinking);
+    }
+
+
+
 
     @Unique
     private void hdemise$drawCustomHeart(DrawContext context, Identifier texture, int x, int y, boolean hardcore, boolean blinking, boolean half, boolean container) {
         int u = (hardcore ? 36 : 0) + (half ? 18 : 0) + (blinking ? 9 : 0);
 
         context.drawTexture(RenderPipelines.GUI_TEXTURED, texture, x, y, u, 0, 9, 9, container ? 18 : 72, 9);
+    }
+
+    @Unique
+    private void hdemise$drawAfflictionHeart(DrawContext context, int x, int y, int affliction, boolean hardcore, boolean blinking) {
+        int heart = this.currentHeart;
+        int trueHp = (int)Math.ceil(SoulComponent.of(getCameraPlayer()).getMaxHealthWithAffliction());
+
+        int overreach = (heart + 1) * 2 - trueHp;
+
+        if (overreach >= 1 && affliction > 0 && !this.goldHeart) {
+            boolean half = overreach == 1;
+
+            int u = (hardcore ? 36 : 0) + (half ? 18 : 0) + (blinking ? 9 : 0);
+
+            context.drawTexture(RenderPipelines.GUI_TEXTURED, AFFLICTION_HEART_TYPE, x, y, u, 0, 9, 9, 72, 9);
+        }
     }
 
     @Inject(method = "renderArmor", at = @At("HEAD"), cancellable = true)
