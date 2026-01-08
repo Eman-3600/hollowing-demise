@@ -18,6 +18,8 @@ public abstract class EnchantmentHelperMixin {
 
         if (sc != null && sc.isAfflicted()) {
             cir.setReturnValue(cir.getReturnValueF()/4);
+        } else if (sc != null && sc.getCorruption() > 0) {
+            cir.setReturnValue(cir.getReturnValueF() * (1 - .5f * sc.getCorruption() / sc.getMaxCorruption()));
         }
     }
 }

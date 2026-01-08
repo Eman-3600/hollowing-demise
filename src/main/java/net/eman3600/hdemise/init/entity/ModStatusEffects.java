@@ -25,7 +25,7 @@ public class ModStatusEffects {
             .addAttributeModifier(EntityAttributes.MOVEMENT_SPEED, Identifier.of(MODID, "effect.lightfoot"), .3, EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE));
 
     public static final RegistryEntry<StatusEffect> DEMON_STRENGTH = register("demon_strength", new ModStatusEffect(StatusEffectCategory.BENEFICIAL, 0xd25e7f)
-            .addAttributeModifier(EntityAttributes.ATTACK_DAMAGE, Identifier.of(MODID, "effect.demon_strength"), .15, EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE));
+            .addAttributeModifier(EntityAttributes.ATTACK_DAMAGE, Identifier.of(MODID, "effect.demon_strength"), .1, EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE));
 
     public static final RegistryEntry<StatusEffect> CHAINED = register("chained", new ModStatusEffect(StatusEffectCategory.HARMFUL, 0x495065));
     public static final RegistryEntry<StatusEffect> BLOCKED = register("blocked", new ModStatusEffect(StatusEffectCategory.HARMFUL, 0x962300));

@@ -86,5 +86,12 @@ public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
 
         valueLookupBuilder(ModTags.Items.UNREMOVEABLE_SOUL)
                 .add(ModItems.ANTISOUL);
+
+        valueLookupBuilder(ModTags.Items.REPAIRABLE_SOULS)
+                .add(ModItems.PHANTOM_SOUL)
+                .add(ModItems.CRYSTAL_SOUL)
+                .add(ModItems.MAGE_SOUL)
+                .add(ModItems.CONSTRUCT_SOUL)
+                .add(ModItems.REVENANT_SOUL);
     }
 }
