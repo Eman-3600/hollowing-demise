@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    {
+      "id": "hdemise:mortician_poi",
+      "required": false
+    }
+  ]
+}
