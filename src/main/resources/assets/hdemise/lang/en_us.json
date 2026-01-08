@@ -103,6 +103,7 @@
     "block.hdemise.infusion_table.not_enough_shelves": "Requires Bookshelves: %s/%s",
     "block.hdemise.soulroot": "Soulroot",
 
+    "entity.minecraft.villager.hdemise.mortician": "Mortician",
 
     "itemgroup.hdemise.hdemise_group": "Hollowing Demise",
 
