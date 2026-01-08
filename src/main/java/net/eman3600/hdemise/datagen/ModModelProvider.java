@@ -70,6 +70,8 @@ public class ModModelProvider extends FabricModelProvider {
         itemModelGenerator.register(ModItems.PURE_SOUL, Models.GENERATED);
         itemModelGenerator.register(ModItems.CRYSTAL_SOUL, Models.GENERATED);
         itemModelGenerator.register(ModItems.CRYSTAL_SOUL_FRACTURED, Models.GENERATED);
+        itemModelGenerator.register(ModItems.MAGE_SOUL, Models.GENERATED);
+        itemModelGenerator.register(ModItems.MAGE_SOUL_FRACTURED, Models.GENERATED);
         itemModelGenerator.register(ModItems.CONSTRUCT_SOUL, Models.GENERATED);
         itemModelGenerator.register(ModItems.CONSTRUCT_SOUL_FRACTURED, Models.GENERATED);
         itemModelGenerator.register(ModItems.PHANTOM_SOUL, Models.GENERATED);

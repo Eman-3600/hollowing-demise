@@ -68,7 +68,7 @@ public class SoulItem extends Item {
             nbt.putFloat("saturation", player.getHungerManager().getSaturationLevel());
             nbt.putInt("soul", sc.getSoul());
             nbt.putInt("corruption", sc.getCorruption());
-            nbt.putInt("affliction", sc.getAffliction());
+            nbt.putBoolean("afflicted", sc.isAfflicted());
             nbt.putInt("level", player.experienceLevel);
             nbt.putFloat("experience_progress", player.experienceProgress);
             nbt.putInt("display_points", (int)(player.experienceProgress * player.getNextLevelExperience()));
@@ -110,7 +110,7 @@ public class SoulItem extends Item {
         } else {
             NbtCompound nbt = component.copyNbt();
 
-            sc.setAffliction(nbt.getInt("affliction", 0));
+            sc.setAfflicted(nbt.getBoolean("afflicted", false));
             player.setHealth(nbt.getFloat("hp", player.getHealth()));
             manager.setFoodLevel(nbt.getInt("food", manager.getFoodLevel()));
             manager.setSaturationLevel(nbt.getFloat("saturation", manager.getSaturationLevel()));

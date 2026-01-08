@@ -85,7 +85,7 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
     public static final double LUNGE_HEIGHT = .5;
     public static final int TOP_UP_COOLDOWN = 7800;
     public static final int CORRUPTION_DECAY_TICKS = 150;
-    public static final int AFFLICTION_DECAY_TICKS = 1200;
+    public static final int AFFLICTION_DECAY_TICKS = 50;
 
     public static final Identifier HARDCORE = Identifier.of(MODID, "hardcore");
 
@@ -103,9 +103,7 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
     private int soulDecay = 0;
     private int corruption = 0;
     private int corruptionDecay = 0;
-    private int corruptionOnset = 0;
-    private int affliction = 0;
-    private int afflictionDecay = 0;
+    private boolean afflicted = false;
     private int hardcoreDeaths = 0;
     private boolean isDirty = false;
     private boolean voidCursed = false;
@@ -130,7 +128,7 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
     private float hollowHp = 0;
     private int hollowSoul = 0;
     private int hollowCorruption = 0;
-    private int hollowAffliction = 0;
+    private boolean hollowAfflicted = false;
     private boolean hollowTopped = true;
     private int topUpCooldown =0;
 
@@ -166,12 +164,11 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
     }
 
     public void topUp() {
-        this.affliction = 0;
         player.setHealth(player.getMaxHealth());
         HungerManager manager = player.getHungerManager();
         manager.setFoodLevel(20);
         manager.setSaturationLevel(20f);
-        this.corruptionOnset = 0;
+        this.afflicted = false;
         this.corruption = 0;
         setSoul(getMaxSoul());
         forEachAugment((stack, p) -> {
@@ -210,7 +207,7 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
         this.hollowHp = player.getHealth();
         this.hollowSoul = getSoul();
         this.hollowCorruption = getCorruption();
-        this.hollowAffliction = getAffliction();
+        this.hollowAfflicted = isAfflicted();
         this.hollowTopped = false;
         markDirty();
     }
@@ -219,7 +216,7 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
         player.setHealth(this.hollowHp);
         setSoul(this.hollowSoul);
         setCorruption(this.hollowCorruption);
-        setAffliction(this.hollowAffliction);
+        setAfflicted(this.hollowAfflicted);
     }
 
     public void replaceSoulStack() {
@@ -233,6 +230,7 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
     }
 
     public void setSoulType(SoulType soulType) {
+        this.corruptionDecay = 0;
         this.soulType.removeAttributes(this.player);
         if (!this.soulType.usesHunger() && soulType.usesHunger()) {
             HungerManager manager = player.getHungerManager();
@@ -254,8 +252,7 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
         setHollowTopped(true);
         this.topUpCooldown = 0;
 
-        this.corruptionOnset = 0;
-        this.affliction = 0;
+        this.afflicted = false;
         this.corruption = 0;
 
         player.setHealth(player.getMaxHealth());
@@ -365,7 +362,7 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
     }
 
     public void setCorruption(int corruption) {
-        this.corruption = this.corruptionOnset > 0 ? getMaxCorruption() : MathHelper.clamp(corruption, 0, getMaxCorruption());
+        this.corruption = MathHelper.clamp(corruption, 0, getMaxCorruption());
         markDirty();
     }
 
@@ -374,23 +371,15 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
     }
 
     public int getMaxCorruption() {
-        return (int)Math.ceil(player.getMaxHealth() / 2) * CORRUPTION_PER_HEART;
+        return (int)Math.ceil(player.getMaxHealth() / 2) * CORRUPTION_PER_HEART + 1;
     }
 
-    public boolean isCorrupting() {
-        return corruptionOnset > 0;
+    public void setAfflicted(boolean afflicted) {
+        this.afflicted = afflicted;
     }
 
-    public void setAffliction(int affliction) {
-        this.affliction = affliction;
-    }
-
-    public int getAffliction() {
-        return affliction;
-    }
-
-    public float getMaxHealthWithAffliction() {
-        return Math.max(1, player.getMaxHealth() - affliction);
+    public boolean isAfflicted() {
+        return afflicted;
     }
 
     public void warnSoul() {
@@ -972,63 +961,29 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
         }
 
         // CORRUPTION MECHANICS
-        if (corruption >= getMaxCorruption() && !isCorrupting() && affliction < player.getMaxHealth()/2) {
-            corruptionOnset = 20;
+        if (corruption >= getMaxCorruption() && !isAfflicted()) {
+            corruptionDecay = -60;
+            setAfflicted(true);
 
             player.getEntityWorld().playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.EVENT_MOB_EFFECT_RAID_OMEN, SoundCategory.PLAYERS);
-
-            markDirty();
-        } else if (corruption > 0 && !isCorrupting() && !player.hasStatusEffect(ModStatusEffects.SOUL_REGEN)) {
+        } else if (afflicted || corruption > 0 && !player.hasStatusEffect(ModStatusEffects.SOUL_REGEN)) {
             corruptionDecay++;
 
-            if (corruptionDecay >= CORRUPTION_DECAY_TICKS) {
-                corruptionDecay -= CORRUPTION_DECAY_TICKS;
+            if (corruptionDecay >= CORRUPTION_DECAY_TICKS && !afflicted || corruptionDecay >= AFFLICTION_DECAY_TICKS && afflicted) {
+                corruptionDecay -= afflicted ? AFFLICTION_DECAY_TICKS : CORRUPTION_DECAY_TICKS;
                 corruption--;
+
+                if (corruption <= 0 && afflicted) {
+                    setAfflicted(false);
+
+                    player.getEntityWorld().playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.EVENT_MOB_EFFECT_BAD_OMEN, SoundCategory.PLAYERS);
+                }
             }
 
             markDirty();
         } else if (corruptionDecay > 0) {
             corruptionDecay = 0;
             markDirty();
-        }
-
-        if (corruptionOnset > 0) {
-            corruptionOnset--;
-
-            if (corruptionOnset <= 0) {
-                affliction++;
-
-                player.getEntityWorld().playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.ITEM_OMINOUS_BOTTLE_DISPOSE.value(), SoundCategory.PLAYERS, 1, player.getRandom().nextFloat() * .3f + .9f);
-
-                if (affliction < player.getMaxHealth()/2) {
-                    corruptionOnset = 10;
-                }
-            }
-            if (corruptionOnset == 0) {
-                setCorruption(0);
-
-                player.getEntityWorld().playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.EVENT_MOB_EFFECT_BAD_OMEN, SoundCategory.PLAYERS);
-            }
-
-            markDirty();
-        }
-
-        if (affliction > 0) {
-            afflictionDecay++;
-
-            if (afflictionDecay >= AFFLICTION_DECAY_TICKS) {
-                afflictionDecay -= AFFLICTION_DECAY_TICKS;
-                affliction--;
-            }
-
-            float trueMaxHp = getMaxHealthWithAffliction();
-            if (player.getHealth() > trueMaxHp) {
-                player.setHealth(trueMaxHp);
-            }
-
-            markDirty();
-        } else if (afflictionDecay > 0) {
-            afflictionDecay = 0;
         }
 
         // FOCUS FUNCTIONALITY
@@ -1145,9 +1100,7 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
         soulDecay = readView.getInt("soul_decay", SOUL_DECAY_TICKS);
         corruption = readView.getInt("corruption", 0);
         corruptionDecay = readView.getInt("corruption_decay", 0);
-        corruptionOnset = readView.getInt("corruption_onset", 0);
-        affliction = readView.getInt("affliction", 0);
-        afflictionDecay = readView.getInt("affliction_decay", 0);
+        afflicted = readView.getBoolean("afflicted", false);
         hardcoreDeaths = readView.getInt("hardcore_deaths", 0);
         voidCursed = readView.getBoolean("void_cursed", false);
 
@@ -1171,7 +1124,7 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
         hollowHp = readView.getFloat("hollow_hp", 12);
         hollowSoul = readView.getInt("hollow_soul", 640);
         hollowCorruption = readView.getInt("hollow_corruption", 0);
-        hollowAffliction = readView.getInt("hollow_affliction", 0);
+        hollowAfflicted = readView.getBoolean("hollow_afflicted", false);
         hollowTopped = readView.getBoolean("hollow_topped", true);
         topUpCooldown = readView.getInt("top_up_cooldown", 0);
 
@@ -1185,9 +1138,7 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
         writeView.putInt("soul_decay", soulDecay);
         writeView.putInt("corruption", corruption);
         writeView.putInt("corruption_decay", corruptionDecay);
-        writeView.putInt("corruption_onset", corruptionOnset);
-        writeView.putInt("affliction", affliction);
-        writeView.putInt("affliction_decay", afflictionDecay);
+        writeView.putBoolean("afflicted", afflicted);
         writeView.putInt("hardcore_deaths", hardcoreDeaths);
         writeView.putBoolean("void_cursed", voidCursed);
         writeView.putBoolean("focusing", focusing);
@@ -1210,7 +1161,7 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
         writeView.putFloat("hollow_hp", hollowHp);
         writeView.putInt("hollow_soul", hollowSoul);
         writeView.putInt("hollow_corruption", hollowCorruption);
-        writeView.putInt("hollow_affliction", hollowAffliction);
+        writeView.putBoolean("hollow_afflicted", hollowAfflicted);
         writeView.putBoolean("hollow_topped", hollowTopped);
         writeView.putInt("top_up_cooldown", topUpCooldown);
 

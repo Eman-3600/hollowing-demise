@@ -27,6 +27,7 @@ public class ModStatusEffects {
     public static final RegistryEntry<StatusEffect> CHAINED = register("chained", new ModStatusEffect(StatusEffectCategory.HARMFUL, 0x495065));
     public static final RegistryEntry<StatusEffect> BLOCKED = register("blocked", new ModStatusEffect(StatusEffectCategory.HARMFUL, 0x962300));
     public static final RegistryEntry<StatusEffect> SOUL_REGEN = register("soul_regen", new ModStatusEffect(StatusEffectCategory.BENEFICIAL, 0x4b7d7d));
+    public static final RegistryEntry<StatusEffect> SHIELD = register("shield", new ModStatusEffect(StatusEffectCategory.BENEFICIAL, 0x5d9dfd));
 
 
     private static RegistryEntry<StatusEffect> register(String id, StatusEffect statusEffect) {

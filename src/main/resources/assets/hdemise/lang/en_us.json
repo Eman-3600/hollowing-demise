@@ -71,6 +71,8 @@
     "item.hdemise.pure_soul": "Pure Soul",
     "item.hdemise.crystal_soul": "Crystal Soul",
     "item.hdemise.crystal_soul_fractured": "Fractured Crystal Soul",
+    "item.hdemise.mage_soul": "Empowered Soul",
+    "item.hdemise.mage_soul_fractured": "Fractured Empowered Soul",
     "item.hdemise.phantom_soul": "Phantom Soul",
     "item.hdemise.phantom_soul_fractured": "Fractured Phantom Soul",
     "item.hdemise.revenant_soul": "Revenant's Soul",
@@ -130,6 +132,7 @@
     "effect.hdemise.blocked": "Blocked",
     "effect.hdemise.chained": "Chained Soul",
     "effect.hdemise.soul_regen": "Reclamation",
+    "effect.hdemise.shield": "Shielded",
 
 
     "item.minecraft.potion.effect.soul_regen": "Potion of Reclamation",
@@ -164,6 +167,9 @@
 
     "soul_type.hdemise.crystal": "Crystal",
     "soul_type.hdemise.crystal.description": "An enchanted soul fueled by essence with high magic potential. Focus increases mining speed.",
+
+    "soul_type.hdemise.mage": "Empowered",
+    "soul_type.hdemise.mage.description": "A soul empowered by raw magic. Heals from eating food. Focus essence to shield against damage.",
 
     "soul_type.hdemise.phantom": "Phantom",
     "soul_type.hdemise.phantom.description": "A soul, only barely. Retains the Hollow's abilities and weaknesses but is less frail and can gather experience. Focus grants brief invisibility.",

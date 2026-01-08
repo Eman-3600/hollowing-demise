@@ -38,6 +38,8 @@ public class ModItemGroups {
             entries.add(ModItems.PURE_SOUL);
             entries.add(ModItems.CRYSTAL_SOUL);
             entries.add(ModItems.CRYSTAL_SOUL_FRACTURED);
+            entries.add(ModItems.MAGE_SOUL);
+            entries.add(ModItems.MAGE_SOUL_FRACTURED);
             entries.add(ModItems.CONSTRUCT_SOUL);
             entries.add(ModItems.CONSTRUCT_SOUL_FRACTURED);
             entries.add(ModItems.PHANTOM_SOUL);

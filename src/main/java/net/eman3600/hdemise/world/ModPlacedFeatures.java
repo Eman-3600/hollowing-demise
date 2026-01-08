@@ -25,7 +25,7 @@ public class ModPlacedFeatures {
         var configuredFeatures = context.getRegistryLookup(RegistryKeys.CONFIGURED_FEATURE);
 
         register(context, ALMARITE_ORE_KEY, configuredFeatures.getOrThrow(ModConfiguredFeatures.ALMARITE_ORE_KEY),
-            ModOrePlacement.modifiersWithCount(12,
+            ModOrePlacement.modifiersWithCount(15,
                 HeightRangePlacementModifier.trapezoid(YOffset.fixed(-80), YOffset.fixed(8)))
             );
     }

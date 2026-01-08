@@ -83,7 +83,6 @@ public class RevenantSoulType extends SoulType {
 
     @Override
     public boolean onFocus(PlayerEntity player, float focusAmount) {
-        //player.addStatusEffect(new StatusEffectInstance(StatusEffects.RESISTANCE, 30 * (int)(focusAmount), 0, true, true));
         player.addStatusEffect(new StatusEffectInstance(ModStatusEffects.RAGE, 30 * (int)(focusAmount), 0, true, true));
 
         return false;

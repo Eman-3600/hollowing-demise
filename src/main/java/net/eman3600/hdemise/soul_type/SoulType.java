@@ -109,7 +109,7 @@ public abstract class SoulType {
         player.heal(focusAmount);
         player.setHealth(MathHelper.ceil(player.getHealth()));
 
-        return player.getHealth() < SoulComponent.of(player).getMaxHealthWithAffliction();
+        return player.getHealth() < player.getMaxHealth();
     }
 
     public String getTranslationKey() {

@@ -4,6 +4,7 @@ import com.llamalad7.mixinextras.sugar.Local;
 import net.eman3600.hdemise.cardinal_components.SoulComponent;
 import net.eman3600.hdemise.init.basics.ModItems;
 import net.eman3600.hdemise.init.basics.ModTags;
+import net.eman3600.hdemise.init.custom.ModSoulTypes;
 import net.eman3600.hdemise.init.entity.ModAttributes;
 import net.eman3600.hdemise.init.entity.ModStatusEffects;
 import net.eman3600.hdemise.mixin_interfaces.PlayerEntityAccess;
@@ -32,6 +33,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
@@ -78,9 +80,25 @@ public abstract class PlayerEntityMixin extends PlayerLikeEntity implements Play
     private void hdemise$canFoodHeal(CallbackInfoReturnable<Boolean> cir) {
         SoulComponent sc = SoulComponent.of(this);
 
-        if (!sc.usesHunger() || getHealth() >= sc.getMaxHealthWithAffliction()) {
+        if (!sc.usesHunger()) {
             cir.setReturnValue(false);
         }
+    }
+
+    @ModifyArg(method = "damage", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/PlayerLikeEntity;damage(Lnet/minecraft/server/world/ServerWorld;Lnet/minecraft/entity/damage/DamageSource;F)Z"), index = 2)
+    private float hdemise$damage$amount(ServerWorld world, DamageSource source, float amount) {
+
+        SoulComponent sc = SoulComponent.of(this);
+        if (sc.isAfflicted()) {
+            amount *= 3;
+        }
+        if (hasStatusEffect(ModStatusEffects.SHIELD)
+                && !source.isIn(DamageTypeTags.BYPASSES_INVULNERABILITY)
+                && !source.isIn(DamageTypeTags.BYPASSES_RESISTANCE)) {
+            amount *= .75f;
+        }
+
+        return amount;
     }
 
     @Inject(method = "canSprintOrFly", at = @At("RETURN"), cancellable = true)
@@ -191,7 +209,8 @@ public abstract class PlayerEntityMixin extends PlayerLikeEntity implements Play
 
     @Inject(method = "shouldRenderName", at = @At("HEAD"), cancellable = true)
     private void hdemise$shouldRenderName(CallbackInfoReturnable<Boolean> cir) {
-        if (SoulComponent.of(this).isGhost()) {
+        SoulComponent sc = SoulComponent.of(this);
+        if (sc.isGhost() || sc.getSoulType() == ModSoulTypes.PHANTOM) {
             cir.setReturnValue(false);
         }
     }

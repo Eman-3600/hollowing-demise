@@ -135,6 +135,8 @@ public class ModItems {
     public static final Item PURE_SOUL = register("pure_soul", (settings) -> new SoulItem(settings, ModSoulTypes.MORTAL), SoulItem.getDefaultSettings());
     public static final Item CRYSTAL_SOUL_FRACTURED = register("crystal_soul_fractured", Item::new, SoulItem.getDefaultSettings());
     public static final Item CRYSTAL_SOUL = register("crystal_soul", (settings) -> new BreakableSoulItem(settings, ModSoulTypes.CRYSTAL, CRYSTAL_SOUL_FRACTURED), SoulItem.getDefaultSettings());
+    public static final Item MAGE_SOUL_FRACTURED = register("mage_soul_fractured", Item::new, SoulItem.getDefaultSettings());
+    public static final Item MAGE_SOUL = register("mage_soul", (settings) -> new BreakableSoulItem(settings, ModSoulTypes.MAGE, MAGE_SOUL_FRACTURED), SoulItem.getDefaultSettings());
     public static final Item CONSTRUCT_SOUL_FRACTURED = register("construct_soul_fractured", Item::new, SoulItem.getDefaultSettings().fireproof());
     public static final Item CONSTRUCT_SOUL = register("construct_soul", (settings) -> new BreakableSoulItem(settings, ModSoulTypes.CONSTRUCT, CONSTRUCT_SOUL_FRACTURED), SoulItem.getDefaultSettings().fireproof());
     public static final Item PHANTOM_SOUL_FRACTURED = register("phantom_soul_fractured", Item::new, SoulItem.getDefaultSettings());
