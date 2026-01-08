@@ -9,6 +9,7 @@ import net.eman3600.hdemise.init.event.ModCallbacks;
 import net.eman3600.hdemise.init.event.ModMessages;
 import net.eman3600.hdemise.init.event.ModScreenHandlerTypes;
 import net.eman3600.hdemise.integration.command.ModCommands;
+import net.eman3600.hdemise.villager.ModTradeOffers;
 import net.eman3600.hdemise.villager.ModVillagers;
 import net.eman3600.hdemise.world.gen.ModWorldGeneration;
 import net.fabricmc.api.ModInitializer;
@@ -43,6 +44,7 @@ public class HDemise implements ModInitializer {
 		ModWorldGeneration.generateWorldGen();
 
 		ModVillagers.registerVillagers();
+		ModTradeOffers.registerTradeOffers();
 
 		ModCommands.registerAll();
 		ModScreenHandlerTypes.registerAll();
