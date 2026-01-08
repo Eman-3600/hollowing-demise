@@ -61,6 +61,7 @@ public class ModModelProvider extends FabricModelProvider {
         itemModelGenerator.register(ModItems.AGELESS_WATCH, Models.GENERATED);
         itemModelGenerator.register(ModItems.METRONOME, Models.GENERATED);
         itemModelGenerator.register(ModItems.FORBIDDEN_FRUIT, Models.GENERATED);
+        itemModelGenerator.register(ModItems.PRIDE_PENDANT, Models.GENERATED);
 
         itemModelGenerator.register(ModItems.ALMARITE_SCYTHE, Models.HANDHELD);
         itemModelGenerator.register(ModItems.ALMARITE_PIX, Models.HANDHELD);

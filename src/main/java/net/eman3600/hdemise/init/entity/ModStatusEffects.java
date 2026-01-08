@@ -24,6 +24,9 @@ public class ModStatusEffects {
     public static final RegistryEntry<StatusEffect> LIGHTFOOT = register("lightfoot", new ModStatusEffect(StatusEffectCategory.BENEFICIAL, 0xfdf55f)
             .addAttributeModifier(EntityAttributes.MOVEMENT_SPEED, Identifier.of(MODID, "effect.lightfoot"), .3, EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE));
 
+    public static final RegistryEntry<StatusEffect> DEMON_STRENGTH = register("demon_strength", new ModStatusEffect(StatusEffectCategory.BENEFICIAL, 0xd25e7f)
+            .addAttributeModifier(EntityAttributes.ATTACK_DAMAGE, Identifier.of(MODID, "effect.demon_strength"), .15, EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE));
+
     public static final RegistryEntry<StatusEffect> CHAINED = register("chained", new ModStatusEffect(StatusEffectCategory.HARMFUL, 0x495065));
     public static final RegistryEntry<StatusEffect> BLOCKED = register("blocked", new ModStatusEffect(StatusEffectCategory.HARMFUL, 0x962300));
     public static final RegistryEntry<StatusEffect> SOUL_REGEN = register("soul_regen", new ModStatusEffect(StatusEffectCategory.BENEFICIAL, 0x4b7d7d));

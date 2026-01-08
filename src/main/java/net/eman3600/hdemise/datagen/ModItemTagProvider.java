@@ -53,7 +53,8 @@ public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
                 .add(ModItems.GOLDEN_FLOWER)
                 .add(ModItems.AGELESS_WATCH)
                 .add(ModItems.METRONOME)
-                .add(ModItems.FORBIDDEN_FRUIT);
+                .add(ModItems.FORBIDDEN_FRUIT)
+                .add(ModItems.PRIDE_PENDANT);
 
 
 

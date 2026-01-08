@@ -986,6 +986,19 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
             markDirty();
         }
 
+        // PRIDEFUL PENDANT FUNCTIONALITY
+        if ((afflicted || corruption >= getMaxCorruption()/4) && hasAugment(ModItems.PRIDE_PENDANT)) {
+            StatusEffectInstance instance = player.getStatusEffect(ModStatusEffects.DEMON_STRENGTH);
+            int amplifier = afflicted ? 4 : corruption * 4 / getMaxCorruption() - 1;
+
+            if ((instance == null || instance.getAmplifier() != amplifier)) {
+                player.removeStatusEffect(ModStatusEffects.DEMON_STRENGTH);
+                player.addStatusEffect(new StatusEffectInstance(ModStatusEffects.DEMON_STRENGTH, -1, amplifier, true, true));
+            }
+        } else if (player.hasStatusEffect(ModStatusEffects.DEMON_STRENGTH)) {
+            player.removeStatusEffect(ModStatusEffects.DEMON_STRENGTH);
+        }
+
         // FOCUS FUNCTIONALITY
         if (focusing) {
             focusTime++;

@@ -66,6 +66,7 @@ public class ModItemGroups {
             entries.add(ModItems.AGELESS_WATCH);
             entries.add(ModItems.METRONOME);
             entries.add(ModItems.FORBIDDEN_FRUIT);
+            entries.add(ModItems.PRIDE_PENDANT);
             entries.add(ModItems.WIND_STAFF);
             entries.add(ModItems.FORM_SWITCHER);
         }).build());

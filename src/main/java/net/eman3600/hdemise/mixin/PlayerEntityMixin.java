@@ -94,7 +94,7 @@ public abstract class PlayerEntityMixin extends PlayerLikeEntity implements Play
         } else if (sc.getCorruption() > 0
                 && !source.isIn(DamageTypeTags.BYPASSES_INVULNERABILITY)
                 && !source.isIn(DamageTypeTags.BYPASSES_RESISTANCE)) {
-            amount *= 1 + .5f * ((float) sc.getCorruption()/sc.getMaxCorruption());
+            amount *= 1 + .8f * ((float) sc.getCorruption()/sc.getMaxCorruption());
         }
         if (hasStatusEffect(ModStatusEffects.SHIELD)
                 && !source.isIn(DamageTypeTags.BYPASSES_INVULNERABILITY)

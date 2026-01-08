@@ -11,6 +11,7 @@ import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.component.type.AttributeModifiersComponent;
 import net.minecraft.component.type.NbtComponent;
 import net.minecraft.component.type.TooltipDisplayComponent;
+import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.attribute.EntityAttribute;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.attribute.EntityAttributes;
@@ -128,6 +129,15 @@ public class SoulItem extends Item {
     public static void resetStats(ItemStack stack) {
         if (stack.isEmpty()) return;
         stack.remove(ModDataComponentTypes.SOUL);
+    }
+
+    @Override
+    public void onItemEntityDestroyed(ItemEntity entity) {
+        super.onItemEntityDestroyed(entity);
+
+        if (!entity.getEntityWorld().isClient()) {
+            entity.getEntityWorld().playSound(null, entity.getX(), entity.getY(), entity.getZ(), SoundEvents.ENTITY_GHAST_HURT, SoundCategory.MASTER, 1, .5f);
+        }
     }
 
     @Override

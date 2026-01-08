@@ -121,6 +121,7 @@ public class ModItems {
             2,
             new SoulAttribute(ModAttributes.FOCUS_POWER, -2, Operation.ADD_VALUE)
     ), new Item.Settings());
+    public static final Item PRIDE_PENDANT = register("pride_pendant", settings -> new AugmentItem(settings, 1), new Item.Settings());
 
 
     public static final Item ALMARITE_SCYTHE = register("almarite_scythe", Item::new, new Item.Settings().sword(ModToolMaterials.ALMARITE, 3.5F, -3F)

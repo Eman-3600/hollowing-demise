@@ -12,13 +12,13 @@
     "item.hdemise.cross.tooltip": "Holy light reveals spirits",
     "item.hdemise.soulroot_bulb": "Soulroot Bulb",
     "item.hdemise.soulroot_bulb.tooltip": "Restores essence",
-    "item.hdemise.soulroot_bulb.warning": "Reduces protection",
+    "item.hdemise.soulroot_bulb.warning": "Reduces defense",
     "item.hdemise.soul_base": "Soul Base",
     "item.hdemise.soulroot_seeds": "Soulroot Seeds",
     "item.hdemise.soulroot_seeds.tooltip": "Plant in sculk or soul sand",
     "item.hdemise.soulroot_soup": "Soulroot Soup",
     "item.hdemise.soulroot_soup.tooltip": "Restores a lot of essence",
-    "item.hdemise.soulroot_soup.warning": "May be overwhelming",
+    "item.hdemise.soulroot_soup.warning": "Drink at your own risk",
     "item.hdemise.ectoplasm": "Ectoplasm",
     "item.hdemise.ectoplasm_remedy": "Soul Remedy",
     "item.hdemise.ectoplasm_remedy.tooltip": "Restores hollows to life",
@@ -57,6 +57,8 @@
     "item.hdemise.forbidden_fruit": "Forbidden Fruit",
     "item.hdemise.forbidden_fruit.tooltip.0": "Slowly restores health",
     "item.hdemise.forbidden_fruit.tooltip.1": "Removes hunger",
+    "item.hdemise.pride_pendant": "Prideful Pendant",
+    "item.hdemise.pride_pendant.tooltip": "Soulroot corruption increases strength",
 
     "item.hdemise.almarite_scythe": "Almarite Scythe",
     "item.hdemise.almarite_scythe.tooltip.0": "Slain foes yield",
@@ -133,6 +135,7 @@
     "effect.hdemise.chained": "Chained Soul",
     "effect.hdemise.soul_regen": "Reclamation",
     "effect.hdemise.shield": "Shielded",
+    "effect.hdemise.demon_strength": "Demon Strength",
 
 
     "item.minecraft.potion.effect.soul_regen": "Potion of Reclamation",
