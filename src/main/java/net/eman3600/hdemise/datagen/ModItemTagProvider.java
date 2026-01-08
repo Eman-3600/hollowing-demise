@@ -57,6 +57,12 @@ public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
                 .add(ModItems.PRIDE_PENDANT);
 
 
+        valueLookupBuilder(ModTags.Items.MORTICIAN_AUGMENT_TRADE)
+                .add(ModItems.FEATHER_TOKEN)
+                .add(ModItems.GOLEM_STRENGTH_BELT)
+                .add(ModItems.CARVED_OBSIDIAN)
+                .add(ModItems.WHETSTONE);
+
 
         valueLookupBuilder(ModTags.Items.AERIAL_IMPROVEMENT)
                 .add(ModItems.FEATHER_TOKEN)

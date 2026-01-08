@@ -1,15 +1,22 @@
 package net.eman3600.hdemise.villager;
 
 import net.eman3600.hdemise.init.basics.ModItems;
+import net.eman3600.hdemise.init.basics.ModTags;
 import net.fabricmc.fabric.api.object.builder.v1.trade.TradeOfferHelper;
+import net.minecraft.entity.Entity;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
+import net.minecraft.registry.entry.RegistryEntry;
+import net.minecraft.registry.tag.TagKey;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Identifier;
-import net.minecraft.village.TradeOffer;
-import net.minecraft.village.TradedItem;
-import net.minecraft.village.VillagerProfession;
+import net.minecraft.util.math.random.Random;
+import net.minecraft.village.*;
+import org.jspecify.annotations.Nullable;
+
 import java.util.Optional;
 
 import static net.eman3600.hdemise.HDemise.LOGGER;
@@ -35,9 +42,7 @@ public class ModTradeOffers {
                     new TradedItem(Items.BONE, 20),
                     new ItemStack(Items.EMERALD, 1), 4, 2, 0.04f));
 
-            factories.add((world, entity, random) -> new TradeOffer(
-                    new TradedItem(Items.EMERALD, 24),
-                    new ItemStack(ModItems.FEATHER_TOKEN, 1), 4, 2, 0.04f));
+            factories.add(createMorticianTradeFactory(24, 4, 2, 0.04f));
         });
         TradeOfferHelper.registerVillagerOffers(MORTICIAN, 2, factories -> {
             factories.add((world, entity, random) -> new TradeOffer(
@@ -85,6 +90,40 @@ public class ModTradeOffers {
                     Optional.of(new TradedItem(ModItems.PURE_SOUL)),
                     new ItemStack(ModItems.PHANTOM_SOUL), 4, 2, 0.04f));
         });
+    }
+
+    private static TradeOffers.Factory createMorticianTradeFactory(int price, int maxUses, int merchantExperience, float priceMultiplier) {
+        return new AugmentItemFactory(merchantExperience, price, maxUses, priceMultiplier, ModTags.Items.MORTICIAN_AUGMENT_TRADE);
+    }
+
+    public static class AugmentItemFactory implements TradeOffers.Factory {
+        private final int experience;
+        private final int price;
+        private final int maxUses;
+        private final float priceMultiplier;
+        private final TagKey<Item> possibleAugments;
+
+        public AugmentItemFactory(int experience, int price, int maxUses, float priceMultiplier, TagKey<Item> possibleAugments) {
+            this.experience = experience;
+            this.price = price;
+            this.maxUses = maxUses;
+            this.priceMultiplier = priceMultiplier;
+            this.possibleAugments = possibleAugments;
+        }
+
+        @Override
+        public @Nullable TradeOffer create(ServerWorld world, Entity entity, Random random) {
+            Optional<RegistryEntry<Item>> optional = world.getRegistryManager()
+                    .getOrThrow(RegistryKeys.ITEM)
+                    .getRandomEntry(this.possibleAugments, random);
+            ItemStack itemStack = null;
+            if (optional.isPresent()) {
+                RegistryEntry<Item> registryEntry = optional.get();
+                Item item = registryEntry.value();
+                itemStack = new ItemStack(item);
+            }
+            return new TradeOffer(new TradedItem(Items.EMERALD, this.price), itemStack, this.maxUses, this.experience, this.priceMultiplier);
+        }
     }
 
     private static RegistryKey<VillagerProfession> getKey(String name) {
