@@ -179,6 +179,27 @@ public class InfusionScreenHandler extends ScreenHandler {
                 s.onTakeItem(player, transferStack);
 
                 stack = stackCopy;
+            } else {
+                for (int i = soulSlot.id; i < slots.size(); i++) {
+                    Slot target = getSlot(i);
+
+                    if (target.canInsert(transferStack) && target.isEnabled()) {
+                        ItemStack targetOriginal = target.getStack().copy();
+
+                        if (!insertItem(transferStack, i, i + 1, false)) {
+                            continue;
+                        }
+
+                        target.setStack(target.getStack(), targetOriginal);
+
+                        s.setStack(transferStack, stackCopy);
+                        s.onQuickTransfer(transferStack, stackCopy);
+                        s.onTakeItem(player, transferStack);
+
+                        stack = stackCopy;
+                        break;
+                    }
+                }
             }
         }
 
