@@ -33,6 +33,7 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
+import net.minecraft.world.WorldEvents;
 import org.jspecify.annotations.Nullable;
 
 import java.util.*;
@@ -259,6 +260,8 @@ public class InfusionScreenHandler extends ScreenHandler {
                 repairInventory.setStack(3, repairStack);
             }
         }
+
+        context.run((world, pos) -> world.syncWorldEvent(WorldEvents.SMITHING_TABLE_USED, pos, 0));
     }
 
     private List<ItemStack> getInputStacks() {
