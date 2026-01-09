@@ -1,12 +1,20 @@
 package net.eman3600.hdemise.recipe;
 
+import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.eman3600.hdemise.init.basics.ModItems;
+import net.eman3600.hdemise.init.basics.ModRecipes;
 import net.eman3600.hdemise.util.IngredientWithCount;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.network.RegistryByteBuf;
+import net.minecraft.network.codec.PacketCodec;
+import net.minecraft.network.codec.PacketCodecs;
 import net.minecraft.recipe.*;
+import net.minecraft.recipe.book.RecipeBookCategories;
 import net.minecraft.recipe.book.RecipeBookCategory;
 import net.minecraft.registry.RegistryWrapper;
+import net.minecraft.util.StringIdentifiable;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.world.World;
 
@@ -46,7 +54,27 @@ public final class InfusionRecipe implements Recipe<InfusionRecipeInput> {
 
     @Override
     public boolean matches(InfusionRecipeInput input, World world) {
-        return false;
+
+        boolean bl = baseItem().test(input.base()) && ingredient.test(input.ingredient1());
+        if (!repair) {
+            return bl;
+        } else {
+            for (IngredientWithCount i : repairIngredients) {
+                if (i.test(input.ingredient2())) {
+                    return bl;
+                }
+            }
+            return false;
+        }
+    }
+
+    public void consumeRepairStack(ItemStack stack) {
+        for (IngredientWithCount ingredient : repairIngredients) {
+            if (ingredient.test(stack)) {
+                ingredient.consume(stack);
+                break;
+            }
+        }
     }
 
     @Override
@@ -56,12 +84,12 @@ public final class InfusionRecipe implements Recipe<InfusionRecipeInput> {
 
     @Override
     public RecipeSerializer<? extends Recipe<InfusionRecipeInput>> getSerializer() {
-        return null;
+        return ModRecipes.INFUSION_SERIALIZER;
     }
 
     @Override
     public RecipeType<? extends Recipe<InfusionRecipeInput>> getType() {
-        return null;
+        return ModRecipes.INFUSION_TYPE;
     }
 
     @Override
@@ -71,7 +99,7 @@ public final class InfusionRecipe implements Recipe<InfusionRecipeInput> {
 
     @Override
     public RecipeBookCategory getRecipeBookCategory() {
-        return null;
+        return RecipeBookCategories.CAMPFIRE;
     }
 
     public Ingredient baseItem() {
@@ -121,4 +149,26 @@ public final class InfusionRecipe implements Recipe<InfusionRecipeInput> {
                 "output=" + output + ']';
     }
 
+
+    public static class Serializer implements RecipeSerializer<InfusionRecipe> {
+        public static final MapCodec<InfusionRecipe> CODEC = RecordCodecBuilder.mapCodec(inst -> inst.group(
+                Ingredient.CODEC.fieldOf("base").forGetter(InfusionRecipe::baseItem),
+                IngredientWithCount.CODEC.fieldOf("ingredient").forGetter(InfusionRecipe::ingredient),
+                StringIdentifiable.BasicCodec.BOOL.fieldOf("repair").forGetter(InfusionRecipe::repair),
+                StringIdentifiable.BasicCodec.BOOL.fieldOf("keep_base").forGetter(InfusionRecipe::keepBase),
+                ItemStack.CODEC.fieldOf("result").forGetter(InfusionRecipe::output)
+        ).apply(inst, InfusionRecipe::new));
+
+        public static final PacketCodec<RegistryByteBuf, InfusionRecipe> PACKET_CODEC = PacketCodecs.registryCodec(CODEC.codec());
+
+        @Override
+        public MapCodec<InfusionRecipe> codec() {
+            return CODEC;
+        }
+
+        @Override
+        public PacketCodec<RegistryByteBuf, InfusionRecipe> packetCodec() {
+            return PACKET_CODEC;
+        }
+    }
 }

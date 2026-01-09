@@ -1,30 +1,39 @@
 package net.eman3600.hdemise.screen;
 
+import net.eman3600.hdemise.HDemise;
 import net.eman3600.hdemise.block.entity.InfusionTableBlockEntity;
 import net.eman3600.hdemise.cardinal_components.SoulComponent;
 import net.eman3600.hdemise.init.basics.ModBlocks;
 import net.eman3600.hdemise.init.basics.ModItems;
+import net.eman3600.hdemise.init.basics.ModRecipes;
 import net.eman3600.hdemise.init.event.ModScreenHandlerTypes;
 import net.eman3600.hdemise.item.XPCoreItem;
 import net.eman3600.hdemise.mixin_interfaces.ServerPlayerEntityAccess;
+import net.eman3600.hdemise.recipe.InfusionRecipe;
+import net.eman3600.hdemise.recipe.InfusionRecipeInput;
 import net.eman3600.hdemise.screen.slot.AugmentSlot;
 import net.eman3600.hdemise.screen.slot.DynamicSlot;
 import net.eman3600.hdemise.screen.slot.SoulSlot;
 import net.eman3600.hdemise.screen.slot.XPCoreSlot;
 import net.eman3600.hdemise.soul_type.SoulType;
 import net.eman3600.hdemise.soul_type.SoulTypeRegistry;
+import net.eman3600.hdemise.util.IngredientWithCount;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.inventory.CraftingResultInventory;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.screen.Property;
-import net.minecraft.screen.ScreenHandler;
-import net.minecraft.screen.ScreenHandlerContext;
-import net.minecraft.screen.StonecutterScreenHandler;
+import net.minecraft.recipe.Recipe;
+import net.minecraft.recipe.RecipeEntry;
+import net.minecraft.recipe.RecipeType;
+import net.minecraft.recipe.SmithingRecipe;
+import net.minecraft.screen.*;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
+import org.jspecify.annotations.Nullable;
 
 import java.util.*;
 
@@ -37,17 +46,26 @@ public class InfusionScreenHandler extends ScreenHandler {
     private final Property pageProperty;
     private final XPCoreSlot coreSlot;
 
+    @Nullable
+    private InfusionRecipe lastRecipe;
     private final PlayerEntity player;
 
     private final List<DynamicSlot> dynamicSlots;
     private final Map<SoulType, List<AugmentSlot>> typeAugments;
+    private final List<DynamicSlot> repairSlots;
 
-    public final Inventory repairInventory = new SimpleInventory(5) {
+    public final Inventory repairInventory = new SimpleInventory(4) {
         @Override
         public void markDirty() {
             super.markDirty();
             InfusionScreenHandler.this.onContentChanged(this);
-            //InfusionScreenHandler.this.contentsChangedListener.run();
+        }
+    };
+    public final CraftingResultInventory output = new CraftingResultInventory() {
+        @Override
+        public void markDirty() {
+            super.markDirty();
+            InfusionScreenHandler.this.onContentChanged(this);
         }
     };
 
@@ -109,6 +127,30 @@ public class InfusionScreenHandler extends ScreenHandler {
         this.addSlot(coreSlot);
         dynamicSlots.add(coreSlot);
 
+        this.repairSlots = List.of(
+                new DynamicSlot(repairInventory, 1, 17, 64, false),
+                new DynamicSlot(repairInventory, 2, 66, 64, false),
+                new DynamicSlot(repairInventory, 3, 84, 64, false),
+                new DynamicSlot(output, 0, 144, 64, false) {
+                    @Override
+                    public boolean canInsert(ItemStack stack) {
+                        return false;
+                    }
+
+                    @Override
+                    public void onTakeItem(PlayerEntity player, ItemStack stack) {
+                        InfusionScreenHandler.this.onRepair(player, stack);
+
+                        super.onTakeItem(player, stack);
+
+                    }
+                }
+        );
+        for (DynamicSlot s : repairSlots) {
+            this.addSlot(s);
+            dynamicSlots.add(s);
+        }
+
         this.dynamicSlots = List.copyOf(dynamicSlots);
     }
 
@@ -132,7 +174,7 @@ public class InfusionScreenHandler extends ScreenHandler {
 
     public void setPage(Page page) {
         this.page = page;
-        this.repairInventory.removeStack(4);
+        this.output.clear();
         this.context.run((world, pos) -> this.dropInventory(player, this.repairInventory));
         this.syncState();
     }
@@ -162,8 +204,65 @@ public class InfusionScreenHandler extends ScreenHandler {
             }
             case REPAIR -> {
                 coreSlot.enable();
+                DynamicSlot.enableAll(repairSlots);
             }
         }
+    }
+
+    public InfusionRecipeInput createRecipeInput() {
+        return new InfusionRecipeInput(repairInventory.getStack(1), repairInventory.getStack(2), repairInventory.getStack(3));
+    }
+
+    @Override
+    public void onContentChanged(Inventory inventory) {
+        super.onContentChanged(inventory);
+
+        if (inventory == repairInventory) {
+            InfusionRecipeInput input = createRecipeInput();
+
+            Optional<RecipeEntry<InfusionRecipe>> optional;
+            if (this.player.getEntityWorld() instanceof ServerWorld serverWorld) {
+                optional = serverWorld.getRecipeManager().getFirstMatch(ModRecipes.INFUSION_TYPE, input, serverWorld);
+            } else {
+                optional = Optional.empty();
+            }
+
+            optional.ifPresentOrElse(recipe -> {
+
+                this.output.setLastRecipe(recipe);
+                this.output.setStack(0, recipe.value().craft(input, player.getEntityWorld().getRegistryManager()));
+                this.lastRecipe = recipe.value();
+            }, () -> {
+                this.output.setLastRecipe(null);
+                this.output.setStack(0, ItemStack.EMPTY);
+            });
+        }
+    }
+
+    public void onRepair(PlayerEntity player, ItemStack stack) {
+        stack.onCraftByPlayer(player, stack.getCount());
+        this.output.unlockLastRecipe(player, this.getInputStacks());
+        if (this.lastRecipe != null) {
+            if (!lastRecipe.keepBase()) {
+                ItemStack s = repairInventory.getStack(1);
+                s.decrement(1);
+                repairInventory.setStack(1, s);
+            }
+
+            ItemStack ingredient1 = repairInventory.getStack(2);
+            lastRecipe.ingredient().consume(ingredient1);
+            repairInventory.setStack(2, ingredient1);
+
+            if (lastRecipe.repair()) {
+                ItemStack repairStack = repairInventory.getStack(3);
+                lastRecipe.consumeRepairStack(repairStack);
+                repairInventory.setStack(3, repairStack);
+            }
+        }
+    }
+
+    private List<ItemStack> getInputStacks() {
+        return List.of(repairInventory.getStack(1),repairInventory.getStack(2),repairInventory.getStack(3));
     }
 
     @Override
@@ -229,7 +328,7 @@ public class InfusionScreenHandler extends ScreenHandler {
     @Override
     public void onClosed(PlayerEntity player) {
         super.onClosed(player);
-        this.repairInventory.removeStack(4);
+        this.output.clear();
         SoulComponent.of(player).markDirty();
         this.context.run((world, pos) -> this.dropInventory(player, this.repairInventory));
     }

@@ -1,9 +1,6 @@
 {
   "type": "hdemise:infusion",
-  "base": {
-    "count": 1,
-    "id": "hdemise:construct_soul_fractured"
-  },
+  "base": "hdemise:construct_soul_fractured",
   "ingredient": {
     "count": 1,
     "id": "minecraft:netherite_scrap"

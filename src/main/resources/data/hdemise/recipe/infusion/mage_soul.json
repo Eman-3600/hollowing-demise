@@ -1,9 +1,6 @@
 {
   "type": "hdemise:infusion",
-  "base": {
-    "count": 1,
-    "id": "hdemise:mage_soul_fractured"
-  },
+  "base": "hdemise:mage_soul_fractured",
   "ingredient": {
     "count": 1,
     "id": "minecraft:diamond"

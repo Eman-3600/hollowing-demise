@@ -49,6 +49,8 @@ public class HDemise implements ModInitializer {
 		ModCommands.registerAll();
 		ModScreenHandlerTypes.registerAll();
 
+		ModRecipes.registerAll();
+
 		CompostingChanceRegistry.INSTANCE.add(ModItems.SOULROOT_BULB, 0.4f);
 		CompostingChanceRegistry.INSTANCE.add(ModItems.SOULROOT_SEEDS, 0.2f);
 

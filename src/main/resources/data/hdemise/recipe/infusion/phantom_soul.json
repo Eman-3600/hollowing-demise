@@ -1,9 +1,6 @@
 {
   "type": "hdemise:infusion",
-  "base": {
-    "count": 1,
-    "id": "hdemise:phantom_soul_fractured"
-  },
+  "base": "hdemise:phantom_soul_fractured",
   "ingredient": {
     "count": 4,
     "id": "minecraft:phantom_membrane"
