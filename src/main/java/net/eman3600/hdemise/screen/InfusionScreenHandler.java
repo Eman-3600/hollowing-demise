@@ -7,6 +7,7 @@ import net.eman3600.hdemise.init.basics.ModBlocks;
 import net.eman3600.hdemise.init.basics.ModItems;
 import net.eman3600.hdemise.init.basics.ModRecipes;
 import net.eman3600.hdemise.init.event.ModScreenHandlerTypes;
+import net.eman3600.hdemise.item.SoulItem;
 import net.eman3600.hdemise.item.XPCoreItem;
 import net.eman3600.hdemise.mixin_interfaces.ServerPlayerEntityAccess;
 import net.eman3600.hdemise.recipe.InfusionRecipe;
@@ -29,6 +30,7 @@ import net.minecraft.recipe.RecipeEntry;
 import net.minecraft.recipe.RecipeType;
 import net.minecraft.recipe.SmithingRecipe;
 import net.minecraft.screen.*;
+import net.minecraft.screen.slot.Slot;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
@@ -157,7 +159,29 @@ public class InfusionScreenHandler extends ScreenHandler {
 
     @Override
     public ItemStack quickMove(PlayerEntity player, int slot) {
-        return ItemStack.EMPTY;
+        ItemStack stack = ItemStack.EMPTY;
+
+        Slot s = getSlot(slot);
+
+        if (s.hasStack() && s.canTakeItems(player)) {
+
+            ItemStack transferStack = getSlot(slot).getStack();
+            ItemStack stackCopy = transferStack.copy();
+
+            if (slot >= soulSlot.id) {
+
+                if (!insertItem(transferStack, 0, soulSlot.id, true)) {
+                    return ItemStack.EMPTY;
+                }
+
+                s.setStack(transferStack, stackCopy);
+                s.onQuickTransfer(transferStack, stackCopy);
+
+                stack = stackCopy;
+            }
+        }
+
+        return stack;
     }
 
     @Override
