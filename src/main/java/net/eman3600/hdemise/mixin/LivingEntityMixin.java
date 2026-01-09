@@ -4,14 +4,17 @@ import net.eman3600.hdemise.cardinal_components.SoulComponent;
 import net.eman3600.hdemise.init.basics.ModItems;
 import net.eman3600.hdemise.init.basics.ModTags;
 import net.eman3600.hdemise.init.custom.ModSoulTypes;
+import net.eman3600.hdemise.init.entity.ModStatusEffects;
 import net.eman3600.hdemise.mixin_interfaces.LivingEntityAccess;
 import net.minecraft.entity.Attackable;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Hand;
 import net.minecraft.world.World;
@@ -25,6 +28,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityMixin extends Entity implements Attackable, ServerWaypoint, LivingEntityAccess {
     @Shadow protected boolean jumping;
+
+    @Shadow public abstract boolean hasStatusEffect(RegistryEntry<StatusEffect> effect);
 
     public LivingEntityMixin(EntityType<?> type, World world) {
         super(type, world);
@@ -130,6 +135,15 @@ public abstract class LivingEntityMixin extends Entity implements Attackable, Se
             if (player.getStackInHand(Hand.MAIN_HAND).isIn(ModTags.Items.REAPER)) {
                 cir.setReturnValue(xp * 2);
             }
+        }
+    }
+
+    @Inject(method = "updatePotionVisibility", at = @At("HEAD"))
+    private void hdemise$updatePotionVisibility(CallbackInfo ci) {
+        if (((Object)this) instanceof PlayerEntity player) {
+            SoulComponent sc = SoulComponent.of(player);
+
+            sc.setHasLightfoot(hasStatusEffect(ModStatusEffects.LIGHTFOOT));
         }
     }
 

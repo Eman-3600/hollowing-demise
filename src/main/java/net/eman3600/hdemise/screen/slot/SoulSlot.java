@@ -48,4 +48,11 @@ public class SoulSlot extends DynamicSlot {
         handler.reloadSlots();
         handler.playSound(stack.isEmpty() ? SoundEvents.ENTITY_ITEM_FRAME_REMOVE_ITEM : SoundEvents.ENTITY_ITEM_FRAME_ADD_ITEM, 1, .8f, 1.2f);
     }
+
+    @Override
+    public void markDirty() {
+        super.markDirty();
+
+        SoulComponent.of(player).markDirty();
+    }
 }

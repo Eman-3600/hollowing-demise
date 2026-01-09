@@ -130,7 +130,9 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
     private int hollowCorruption = 0;
     private boolean hollowAfflicted = false;
     private boolean hollowTopped = true;
-    private int topUpCooldown =0;
+    private int topUpCooldown = 0;
+
+    private boolean hasLightfoot = false;
 
     private float regenTime = 0f;
     private float soulRegenTime = 0f;
@@ -552,6 +554,11 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
         return (int)((float)(TOP_UP_COOLDOWN - this.topUpCooldown)/TOP_UP_COOLDOWN * 7);
     }
 
+    public void setHasLightfoot(boolean hasLightfoot) {
+        this.hasLightfoot = hasLightfoot;
+        markDirty();
+    }
+
     public boolean lockedMovement() {
         return this.focusing || this.vanishing || this.curing;
     }
@@ -749,7 +756,7 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
             cureRenderTicks--;
         }
 
-        if (player.isSprinting() && player.isOnGround() && player.hasStatusEffect(ModStatusEffects.LIGHTFOOT)) {
+        if (player.isSprinting() && player.isOnGround() && hasLightfoot) {
             Random random = player.getRandom();
             Box box = player.getBoundingBox().expand(.1);
             for (int i = 0; i < 2; i++) {
@@ -1141,6 +1148,8 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
         hollowTopped = readView.getBoolean("hollow_topped", true);
         topUpCooldown = readView.getInt("top_up_cooldown", 0);
 
+        hasLightfoot = readView.getBoolean("lightfoot", false);
+
         inventory.readData(readView);
     }
 
@@ -1177,6 +1186,8 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
         writeView.putBoolean("hollow_afflicted", hollowAfflicted);
         writeView.putBoolean("hollow_topped", hollowTopped);
         writeView.putInt("top_up_cooldown", topUpCooldown);
+
+        writeView.putBoolean("lightfoot", hasLightfoot);
 
         inventory.writeData(writeView);
     }

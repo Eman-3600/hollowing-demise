@@ -190,7 +190,7 @@ public class InfusionScreenHandler extends ScreenHandler {
                             continue;
                         }
 
-                        target.setStack(target.getStack(), targetOriginal);
+                        //target.setStack(target.getStack(), targetOriginal);
 
                         s.setStack(transferStack, stackCopy);
                         s.onQuickTransfer(transferStack, stackCopy);
