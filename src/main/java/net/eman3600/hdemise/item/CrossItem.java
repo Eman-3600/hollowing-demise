@@ -26,7 +26,7 @@ public class CrossItem extends Item {
     private static final int COOLDOWN = 200;
     private static final int BLOCK_DURATION = 120;
     private static final int GLOW_DURATION = 300;
-    private static final double RANGE = 6;
+    private static final double RANGE = 8;
 
     public CrossItem(Settings settings) {
         super(settings);
@@ -46,6 +46,9 @@ public class CrossItem extends Item {
 
                     if (sc.isGhost()) {
                         sc.setGhost(false);
+                    }
+                    if (sc.isVanishing()) {
+                        sc.interruptVanish();
                     }
                 }
             }

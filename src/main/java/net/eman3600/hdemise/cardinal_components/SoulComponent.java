@@ -71,7 +71,7 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
     public static final int BURN_SOUL_PER_TICK = 1;
     public static final int EXHAUSTION_THRESHOLD = 0;
     public static final int FOCUS_DELAY = 8;
-    public static final int VANISH_TICKS = 20;
+    public static final int VANISH_TICKS = 40;
     public static final int VANISH_DELAY = 5;
     public static final int REVEAL_TICKS = 8;
     public static final int VANISH_RATE = 2;

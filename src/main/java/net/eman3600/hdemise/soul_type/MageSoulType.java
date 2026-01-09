@@ -67,7 +67,12 @@ public class MageSoulType extends SoulType {
 
     @Override
     public int getFocusRate() {
-        return 8;
+        return 10;
+    }
+
+    @Override
+    public int getFocusTicks() {
+        return 16;
     }
 
     @Override

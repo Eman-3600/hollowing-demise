@@ -1,9 +1,8 @@
 {
   "type": "minecraft:crafting_shaped",
   "category": "misc",
-  "group": "amethyst_apple",
   "key": {
-    "#": "minecraft:apple",
+    "#": "hdemise:soul_base",
     "X": "minecraft:amethyst_shard",
     "B": "minecraft:amethyst_block"
   },
@@ -14,6 +13,6 @@
   ],
   "result": {
     "count": 1,
-    "id": "hdemise:amethyst_apple"
+    "id": "hdemise:crystal_soul"
   }
 }

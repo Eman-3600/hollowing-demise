@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "#": "hdemise:soul_base",
+    "X": "minecraft:diamond",
+    "B": "hdemise:ectoplasm"
+  },
+  "pattern": [
+    "XBX",
+    "B#B",
+    "XBX"
+  ],
+  "result": {
+    "count": 1,
+    "id": "hdemise:mage_soul"
+  }
+}

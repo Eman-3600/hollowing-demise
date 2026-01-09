@@ -1,0 +1,17 @@
+{
+  "type": "hdemise:infusion",
+  "base": {
+    "count": 1,
+    "id": "hdemise:crystal_soul_fractured"
+  },
+  "ingredient": {
+    "count": 4,
+    "id": "minecraft:amethyst_shard"
+  },
+  "repair": true,
+  "keep_base": false,
+  "result": {
+    "count": 1,
+    "id": "hdemise:crystal_soul"
+  }
+}

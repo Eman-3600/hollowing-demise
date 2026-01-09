@@ -94,7 +94,7 @@ public class ModTradeOffers {
         TradeOfferHelper.registerVillagerOffers(MORTICIAN, 5, factories -> {
             factories.add((world, entity, random) -> new TradeOffer(
                     new TradedItem(Items.SCULK_CATALYST),
-                    new ItemStack(Items.EMERALD, 1), 16, 4, 0.04f));
+                    new ItemStack(Items.EMERALD, 2), 16, 4, 0.04f));
             factories.add((world, entity, random) -> new TradeOffer(
                     new TradedItem(Items.EMERALD, 50),
                     Optional.of(new TradedItem(ModItems.SOUL_BASE)),
