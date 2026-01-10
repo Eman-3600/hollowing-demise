@@ -37,6 +37,7 @@ public abstract class ServerPlayerEntityMixin extends PlayerEntity implements Se
     @Inject(method = "onDeath", at = @At("HEAD"))
     private void hdemise$onDeath(DamageSource damageSource, CallbackInfo ci) {
         SoulComponent sc = SoulComponent.of(this);
+        sc.setOnDeathsDoor(false);
 
         if (damageSource.isOf(DamageTypes.OUT_OF_WORLD)) {
             sc.setVoidCursed(true);

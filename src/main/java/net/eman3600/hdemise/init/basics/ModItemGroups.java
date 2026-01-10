@@ -60,6 +60,7 @@ public class ModItemGroups {
             entries.add(ModItems.ESSENCE_CORE);
             entries.add(ModItems.GOLDEN_FOOT);
                 entries.add(ModItems.MORTICIAN_CHARM);
+            entries.add(ModItems.CURSED_SKULL);
             entries.add(ModItems.ECTOPLASMIC_BONE);
             entries.add(ModItems.DRAGON_WING);
             entries.add(ModItems.GOLDEN_FLOWER);
@@ -67,6 +68,7 @@ public class ModItemGroups {
             entries.add(ModItems.METRONOME);
             entries.add(ModItems.FORBIDDEN_FRUIT);
             entries.add(ModItems.PRIDE_PENDANT);
+            entries.add(ModItems.UNDYING_TALISMAN);
             entries.add(ModItems.WIND_STAFF);
             entries.add(ModItems.FORM_SWITCHER);
         }).build());

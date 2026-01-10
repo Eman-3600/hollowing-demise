@@ -5,10 +5,7 @@ import net.eman3600.hdemise.init.custom.ModSoulTypes;
 import net.eman3600.hdemise.init.entity.ModAttributes;
 import net.eman3600.hdemise.init.entity.ModStatusEffects;
 import net.eman3600.hdemise.item.*;
-import net.eman3600.hdemise.item.augment.AbsorptionAugmentItem;
-import net.eman3600.hdemise.item.augment.AttributeAugmentItem;
-import net.eman3600.hdemise.item.augment.AugmentItem;
-import net.eman3600.hdemise.item.augment.NightVisionAugmentItem;
+import net.eman3600.hdemise.item.augment.*;
 import net.eman3600.hdemise.item.soul_using.WindStaffItem;
 import net.eman3600.hdemise.util.ModToolMaterials;
 import net.eman3600.hdemise.util.SoulAttribute;
@@ -111,6 +108,7 @@ public class ModItems {
             settings,
             new SoulAttribute(ModAttributes.MAX_SOUL, 2d, Operation.ADD_VALUE)
     )), new Item.Settings());
+    public static final Item CURSED_SKULL = register("cursed_skull", settings -> new WitherFocusAugmentItem(settings, 1), new Item.Settings());
     public static final Item ECTOPLASMIC_BONE = register("ectoplasmic_bone", settings -> new AugmentItem(settings, 1), new Item.Settings());
     public static final Item DRAGON_WING = register("dragon_wing", settings -> new AugmentItem(settings, 1), new Item.Settings());
     public static final Item GOLDEN_FLOWER = register("golden_flower", settings -> new AbsorptionAugmentItem(settings, 1), new Item.Settings());
@@ -122,6 +120,7 @@ public class ModItems {
             new SoulAttribute(ModAttributes.FOCUS_POWER, -2, Operation.ADD_VALUE)
     ), new Item.Settings());
     public static final Item PRIDE_PENDANT = register("pride_pendant", settings -> new AugmentItem(settings, 1), new Item.Settings());
+    public static final Item UNDYING_TALISMAN = register("undying_talisman", settings -> new AugmentItem(settings, 2), new Item.Settings());
 
 
     public static final Item ALMARITE_SCYTHE = register("almarite_scythe", Item::new, new Item.Settings().sword(ModToolMaterials.ALMARITE, 3.5F, -3F)

@@ -44,6 +44,8 @@
     "item.hdemise.essence_core.tooltip.0": "Passively restores essence when",
     "item.hdemise.essence_core.tooltip.1": "less than one vessel remains",
     "item.hdemise.mortician_charm": "Mortician's Charm",
+    "item.hdemise.cursed_skull": "Cursed Skull",
+    "item.hdemise.cursed_skull.tooltip": "Focus withers nearby mobs",
     "item.hdemise.ectoplasmic_bone": "Ectoplasmic Bone",
     "item.hdemise.ectoplasmic_bone.tooltip": "Melee attacks give experience",
     "item.hdemise.dragon_wing": "Dragon Wing",
@@ -59,6 +61,9 @@
     "item.hdemise.forbidden_fruit.tooltip.1": "Removes hunger",
     "item.hdemise.pride_pendant": "Prideful Pendant",
     "item.hdemise.pride_pendant.tooltip": "Soulroot corruption increases strength",
+    "item.hdemise.undying_talisman": "Undying Talisman",
+    "item.hdemise.undying_talisman.tooltip.0": "Delays death by 4 seconds",
+    "item.hdemise.undying_talisman.tooltip.1": "Kill a mob in time to prevent death",
 
     "item.hdemise.almarite_scythe": "Almarite Scythe",
     "item.hdemise.almarite_scythe.tooltip.0": "Slain foes yield",
@@ -137,6 +142,7 @@
     "effect.hdemise.soul_regen": "Reclamation",
     "effect.hdemise.shield": "Shielded",
     "effect.hdemise.demon_strength": "Demon Strength",
+    "effect.hdemise.fleeting_vigor": "Undead Curse",
 
 
     "item.minecraft.potion.effect.soul_regen": "Potion of Reclamation",
@@ -195,5 +201,10 @@
     "commands.hdemise.soul.set_none": "Could not set soul type to %s. Targets had it already",
     "commands.hdemise.soul.extract_success": "Extracted a copy of %s's soul",
     "commands.hdemise.soul.extract_hollow": "Could not extract %s's soul because they had none",
-    "commands.hdemise.soul.replenish": "Replenished stats of %s"
+    "commands.hdemise.soul.replenish": "Replenished stats of %s",
+
+
+
+    "death.attack.hdemise.vigor_failed": "%s ran out of time",
+    "death.attack.hdemise.vigor_failed.player": "%s ran out of time whilst fighting %s"
 }

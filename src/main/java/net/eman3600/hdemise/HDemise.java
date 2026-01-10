@@ -4,6 +4,7 @@ import net.eman3600.hdemise.init.basics.*;
 import net.eman3600.hdemise.init.custom.ModSoulTypes;
 import net.eman3600.hdemise.init.entity.ModAttributes;
 import net.eman3600.hdemise.init.entity.ModBlockEntities;
+import net.eman3600.hdemise.init.entity.ModDamageTypes;
 import net.eman3600.hdemise.init.entity.ModStatusEffects;
 import net.eman3600.hdemise.init.event.ModCallbacks;
 import net.eman3600.hdemise.init.event.ModMessages;
@@ -42,6 +43,8 @@ public class HDemise implements ModInitializer {
 		ModMessages.registerPackets();
 		ModMessages.registerC2SReceivers();
 		ModWorldGeneration.generateWorldGen();
+
+		ModDamageTypes.registerAll();
 
 		ModVillagers.registerVillagers();
 		ModTradeOffers.registerTradeOffers();

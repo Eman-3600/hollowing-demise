@@ -133,6 +133,7 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
     private int topUpCooldown = 0;
 
     private boolean hasLightfoot = false;
+    private boolean onDeathsDoor = false;
 
     private float regenTime = 0f;
     private float soulRegenTime = 0f;
@@ -255,6 +256,8 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
         this.topUpCooldown = 0;
 
         this.afflicted = false;
+        this.onDeathsDoor = false;
+        this.hasLightfoot = false;
         this.corruption = 0;
 
         player.setHealth(player.getMaxHealth());
@@ -514,7 +517,7 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
     }
 
     public boolean isUndead() {
-        return this.soulType.isUndead();
+        return this.soulType.isUndead() || player.hasStatusEffect(ModStatusEffects.FLEETING_VIGOR);
     }
 
     public void setGhost(boolean ghost) {
@@ -556,6 +559,18 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
 
     public void setHasLightfoot(boolean hasLightfoot) {
         this.hasLightfoot = hasLightfoot;
+        markDirty();
+    }
+
+    public boolean isOnDeathsDoor() {
+        return onDeathsDoor;
+    }
+
+    public void setOnDeathsDoor(boolean onDeathsDoor) {
+        this.onDeathsDoor = onDeathsDoor;
+        if (onDeathsDoor) {
+            player.addStatusEffect(new StatusEffectInstance(ModStatusEffects.FLEETING_VIGOR, 80));
+        }
         markDirty();
     }
 
@@ -1149,6 +1164,7 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
         topUpCooldown = readView.getInt("top_up_cooldown", 0);
 
         hasLightfoot = readView.getBoolean("lightfoot", false);
+        onDeathsDoor = readView.getBoolean("deaths_door", false);
 
         inventory.readData(readView);
     }
@@ -1188,6 +1204,7 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
         writeView.putInt("top_up_cooldown", topUpCooldown);
 
         writeView.putBoolean("lightfoot", hasLightfoot);
+        writeView.putBoolean("deaths_door", onDeathsDoor);
 
         inventory.writeData(writeView);
     }

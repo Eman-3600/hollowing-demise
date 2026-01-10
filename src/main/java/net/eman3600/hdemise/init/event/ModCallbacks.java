@@ -11,10 +11,18 @@ import net.eman3600.hdemise.init.custom.ModSoulTypes;
 import net.eman3600.hdemise.init.entity.ModStatusEffects;
 import net.eman3600.hdemise.item.augment.AugmentItem;
 import net.eman3600.hdemise.soul_type.SoulType;
+import net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents;
 import net.fabricmc.fabric.api.entity.event.v1.ServerPlayerEvents;
 import net.fabricmc.fabric.api.event.player.AttackEntityCallback;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.effect.StatusEffects;
+import net.minecraft.entity.player.HungerManager;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.registry.tag.DamageTypeTags;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.math.BlockPos;
 
@@ -52,6 +60,23 @@ public class ModCallbacks {
             sc.setJetting(false);
             sc.updateAbilities(true);
         });
+
+        ServerLivingEntityEvents.ALLOW_DEATH.register(((entity, damageSource, damageAmount) -> {
+            if (entity instanceof PlayerEntity player && !damageSource.isIn(DamageTypeTags.BYPASSES_INVULNERABILITY)) {
+                SoulComponent sc = SoulComponent.of(player);
+
+                if (sc.hasAugment(ModItems.UNDYING_TALISMAN) && !sc.isOnDeathsDoor()) {
+                    sc.setOnDeathsDoor(true);
+                    player.setHealth(1f);
+                    player.addStatusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 80, 1));
+                    player.addStatusEffect(new StatusEffectInstance(StatusEffects.ABSORPTION, 80, 0));
+                    player.getEntityWorld().playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.ENTITY_WITHER_SPAWN, SoundCategory.PLAYERS);
+                    return false;
+                }
+            }
+
+            return true;
+        }));
 
 
 

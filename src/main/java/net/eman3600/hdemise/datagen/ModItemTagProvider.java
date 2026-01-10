@@ -45,7 +45,8 @@ public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
                 .add(ModItems.RADIANT_JEWEL)
                 .add(ModItems.ESSENCE_CORE)
                 .add(ModItems.GOLDEN_FOOT)
-                .add(ModItems.MORTICIAN_CHARM);
+                .add(ModItems.MORTICIAN_CHARM)
+                .add(ModItems.CURSED_SKULL);
 
         valueLookupBuilder(ModTags.Items.RED_AUGMENT)
                 .add(ModItems.ECTOPLASMIC_BONE)
@@ -54,7 +55,8 @@ public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
                 .add(ModItems.AGELESS_WATCH)
                 .add(ModItems.METRONOME)
                 .add(ModItems.FORBIDDEN_FRUIT)
-                .add(ModItems.PRIDE_PENDANT);
+                .add(ModItems.PRIDE_PENDANT)
+                .add(ModItems.UNDYING_TALISMAN);
 
 
         valueLookupBuilder(ModTags.Items.MORTICIAN_AUGMENT_TRADE)

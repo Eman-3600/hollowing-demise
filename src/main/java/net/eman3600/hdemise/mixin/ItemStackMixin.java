@@ -1,8 +1,10 @@
 package net.eman3600.hdemise.mixin;
 
 import net.eman3600.hdemise.init.basics.ModDataComponentTypes;
+import net.eman3600.hdemise.init.entity.ModDamageTypes;
 import net.minecraft.component.ComponentHolder;
 import net.minecraft.component.type.TooltipDisplayComponent;
+import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -15,6 +17,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.function.Consumer;
 
@@ -36,6 +39,13 @@ public abstract class ItemStackMixin implements ComponentHolder {
                     textConsumer.accept(Text.translatable(getItem().getTranslationKey() + ".tooltip." + i).withColor(Colors.LIGHT_GRAY));
                 }
             }
+        }
+    }
+
+    @Inject(method = "takesDamageFrom", at = @At("HEAD"), cancellable = true)
+    private void hdemise$takesDamageFrom(DamageSource source, CallbackInfoReturnable<Boolean> cir) {
+        if (source.isOf(ModDamageTypes.VIGOR_FAILED)) {
+            cir.setReturnValue(false);
         }
     }
 }

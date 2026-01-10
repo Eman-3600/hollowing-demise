@@ -31,6 +31,7 @@ public class ModStatusEffects {
     public static final RegistryEntry<StatusEffect> BLOCKED = register("blocked", new ModStatusEffect(StatusEffectCategory.HARMFUL, 0x962300));
     public static final RegistryEntry<StatusEffect> SOUL_REGEN = register("soul_regen", new ModStatusEffect(StatusEffectCategory.BENEFICIAL, 0x4b7d7d));
     public static final RegistryEntry<StatusEffect> SHIELD = register("shield", new ModStatusEffect(StatusEffectCategory.BENEFICIAL, 0x5d9dfd));
+    public static final RegistryEntry<StatusEffect> FLEETING_VIGOR = register("fleeting_vigor", new ModStatusEffect(StatusEffectCategory.BENEFICIAL, 0xffffff));
 
 
     private static RegistryEntry<StatusEffect> register(String id, StatusEffect statusEffect) {

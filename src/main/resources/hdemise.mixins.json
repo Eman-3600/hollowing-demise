@@ -5,6 +5,7 @@
   "mixins": [
     "AbstractBlockStateMixin",
     "ConditionMixin",
+    "DeathProtectionComponentMixin",
     "EnchantmentHelperMixin",
     "EntityMixin",
     "HungerManagerMixin",

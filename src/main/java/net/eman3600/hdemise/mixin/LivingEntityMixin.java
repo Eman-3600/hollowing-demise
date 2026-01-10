@@ -4,12 +4,14 @@ import net.eman3600.hdemise.cardinal_components.SoulComponent;
 import net.eman3600.hdemise.init.basics.ModItems;
 import net.eman3600.hdemise.init.basics.ModTags;
 import net.eman3600.hdemise.init.custom.ModSoulTypes;
+import net.eman3600.hdemise.init.entity.ModDamageTypes;
 import net.eman3600.hdemise.init.entity.ModStatusEffects;
 import net.eman3600.hdemise.mixin_interfaces.LivingEntityAccess;
 import net.minecraft.entity.Attackable;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
@@ -24,12 +26,20 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
+
+import java.util.Collection;
+import java.util.Iterator;
 
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityMixin extends Entity implements Attackable, ServerWaypoint, LivingEntityAccess {
     @Shadow protected boolean jumping;
 
     @Shadow public abstract boolean hasStatusEffect(RegistryEntry<StatusEffect> effect);
+
+    @Shadow public abstract boolean damage(ServerWorld world, DamageSource source, float amount);
+
+    @Shadow public abstract float getHealth();
 
     public LivingEntityMixin(EntityType<?> type, World world) {
         super(type, world);
@@ -144,6 +154,29 @@ public abstract class LivingEntityMixin extends Entity implements Attackable, Se
             SoulComponent sc = SoulComponent.of(player);
 
             sc.setHasLightfoot(hasStatusEffect(ModStatusEffects.LIGHTFOOT));
+        }
+    }
+
+    @Inject(method = "onStatusEffectsRemoved", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/effect/StatusEffect;onRemoved(Lnet/minecraft/entity/attribute/AttributeContainer;)V"),locals = LocalCapture.CAPTURE_FAILHARD)
+    private void hdemise$onStatusEffectsRemoved(Collection<StatusEffectInstance> effects, CallbackInfo ci, Iterator var2, StatusEffectInstance statusEffectInstance) {
+        if (((Object)this) instanceof PlayerEntity player) {
+            SoulComponent sc = SoulComponent.of(player);
+
+            if (statusEffectInstance.getEffectType() == ModStatusEffects.FLEETING_VIGOR && sc.isOnDeathsDoor() && getEntityWorld() instanceof ServerWorld world) {
+                damage(world, world.getDamageSources().create(ModDamageTypes.VIGOR_FAILED), 100000);
+            }
+        }
+    }
+
+    @Inject(method = "onKilledBy", at = @At("HEAD"))
+    private void hdemise$onKilledBy(LivingEntity adversary, CallbackInfo ci) {
+        if (this.getEntityWorld() instanceof ServerWorld && adversary instanceof PlayerEntity player) {
+            SoulComponent sc = SoulComponent.of(player);
+
+            if (sc.isOnDeathsDoor()) {
+                sc.setOnDeathsDoor(false);
+                player.removeStatusEffect(ModStatusEffects.FLEETING_VIGOR);
+            }
         }
     }
 
