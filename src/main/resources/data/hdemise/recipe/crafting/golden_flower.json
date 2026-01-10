@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "golden_flower",
+  "key": {
+    "#": "minecraft:sunflower",
+    "X": "minecraft:gold_ingot",
+    "A": "minecraft:gold_nugget",
+    "B": "minecraft:blaze_powder"
+  },
+  "pattern": [
+    "AXA",
+    "B#B",
+    "AXA"
+  ],
+  "result": {
+    "count": 1,
+    "id": "hdemise:golden_flower"
+  }
+}
