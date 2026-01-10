@@ -61,16 +61,19 @@ public class ModCallbacks {
             sc.updateAbilities(true);
         });
 
-        ServerLivingEntityEvents.ALLOW_DEATH.register(((entity, damageSource, damageAmount) -> {
-            if (entity instanceof PlayerEntity player && !damageSource.isIn(DamageTypeTags.BYPASSES_INVULNERABILITY)) {
+        ServerLivingEntityEvents.ALLOW_DEATH.register(((entity, source, damageAmount) -> {
+            if (entity instanceof PlayerEntity player && !source.isIn(DamageTypeTags.BYPASSES_INVULNERABILITY)) {
                 SoulComponent sc = SoulComponent.of(player);
 
-                if (sc.hasAugment(ModItems.UNDYING_TALISMAN) && !sc.isOnDeathsDoor()) {
-                    sc.setOnDeathsDoor(true);
+                if (sc.hasAugment(ModItems.UNDYING_TALISMAN) && !sc.isAfflicted()) {
                     player.setHealth(1f);
-                    player.addStatusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 80, 1));
-                    player.addStatusEffect(new StatusEffectInstance(StatusEffects.ABSORPTION, 80, 0));
-                    player.getEntityWorld().playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.ENTITY_WITHER_SPAWN, SoundCategory.PLAYERS);
+                    player.clearStatusEffects();
+                    player.addStatusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 80, 2));
+                    if (source.isIn(DamageTypeTags.IS_FIRE)) {
+                        player.addStatusEffect(new StatusEffectInstance(StatusEffects.FIRE_RESISTANCE, 200, 0));
+                    }
+                    player.addStatusEffect(new StatusEffectInstance(StatusEffects.ABSORPTION, 80, 3));
+                    sc.setCorruption(sc.getMaxCorruption());
                     return false;
                 }
             }

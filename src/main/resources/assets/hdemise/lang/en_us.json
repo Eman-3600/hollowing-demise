@@ -62,8 +62,8 @@
     "item.hdemise.pride_pendant": "Prideful Pendant",
     "item.hdemise.pride_pendant.tooltip": "Soulroot corruption increases strength",
     "item.hdemise.undying_talisman": "Undying Talisman",
-    "item.hdemise.undying_talisman.tooltip.0": "Delays death by 4 seconds",
-    "item.hdemise.undying_talisman.tooltip.1": "Kill a mob in time to prevent death",
+    "item.hdemise.undying_talisman.tooltip.0": "Protects against death if not corrupted",
+    "item.hdemise.undying_talisman.tooltip.1": "Causes corruption upon activation",
 
     "item.hdemise.almarite_scythe": "Almarite Scythe",
     "item.hdemise.almarite_scythe.tooltip.0": "Slain foes yield",
@@ -142,7 +142,7 @@
     "effect.hdemise.soul_regen": "Reclamation",
     "effect.hdemise.shield": "Shielded",
     "effect.hdemise.demon_strength": "Demon Strength",
-    "effect.hdemise.fleeting_vigor": "Undead Curse",
+    "effect.hdemise.fleeting_vigor": "Undying Recovery",
 
 
     "item.minecraft.potion.effect.soul_regen": "Potion of Reclamation",

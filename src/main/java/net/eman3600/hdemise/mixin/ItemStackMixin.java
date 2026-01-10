@@ -41,11 +41,4 @@ public abstract class ItemStackMixin implements ComponentHolder {
             }
         }
     }
-
-    @Inject(method = "takesDamageFrom", at = @At("HEAD"), cancellable = true)
-    private void hdemise$takesDamageFrom(DamageSource source, CallbackInfoReturnable<Boolean> cir) {
-        if (source.isOf(ModDamageTypes.VIGOR_FAILED)) {
-            cir.setReturnValue(false);
-        }
-    }
 }

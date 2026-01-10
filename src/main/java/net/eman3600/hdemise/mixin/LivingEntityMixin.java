@@ -17,6 +17,7 @@ import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.registry.entry.RegistryEntry;
+import net.minecraft.registry.tag.DamageTypeTags;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Hand;
 import net.minecraft.world.World;
@@ -154,29 +155,6 @@ public abstract class LivingEntityMixin extends Entity implements Attackable, Se
             SoulComponent sc = SoulComponent.of(player);
 
             sc.setHasLightfoot(hasStatusEffect(ModStatusEffects.LIGHTFOOT));
-        }
-    }
-
-    @Inject(method = "onStatusEffectsRemoved", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/effect/StatusEffect;onRemoved(Lnet/minecraft/entity/attribute/AttributeContainer;)V"),locals = LocalCapture.CAPTURE_FAILHARD)
-    private void hdemise$onStatusEffectsRemoved(Collection<StatusEffectInstance> effects, CallbackInfo ci, Iterator var2, StatusEffectInstance statusEffectInstance) {
-        if (((Object)this) instanceof PlayerEntity player) {
-            SoulComponent sc = SoulComponent.of(player);
-
-            if (statusEffectInstance.getEffectType() == ModStatusEffects.FLEETING_VIGOR && sc.isOnDeathsDoor() && getEntityWorld() instanceof ServerWorld world) {
-                damage(world, world.getDamageSources().create(ModDamageTypes.VIGOR_FAILED), 100000);
-            }
-        }
-    }
-
-    @Inject(method = "onKilledBy", at = @At("HEAD"))
-    private void hdemise$onKilledBy(LivingEntity adversary, CallbackInfo ci) {
-        if (this.getEntityWorld() instanceof ServerWorld && adversary instanceof PlayerEntity player) {
-            SoulComponent sc = SoulComponent.of(player);
-
-            if (sc.isOnDeathsDoor()) {
-                sc.setOnDeathsDoor(false);
-                player.removeStatusEffect(ModStatusEffects.FLEETING_VIGOR);
-            }
         }
     }
 
