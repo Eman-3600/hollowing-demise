@@ -99,7 +99,7 @@ public abstract class PlayerEntityMixin extends PlayerLikeEntity implements Play
         if (hasStatusEffect(ModStatusEffects.SHIELD)
                 && !source.isIn(DamageTypeTags.BYPASSES_INVULNERABILITY)
                 && !source.isIn(DamageTypeTags.BYPASSES_RESISTANCE)) {
-            amount *= source.getAttacker() != null && source.getAttacker().getEntityPos().squaredDistanceTo(getEntityPos()) > 25 ? .5f : .75f;
+            amount *= source.getAttacker() != null && source.getAttacker().getEntityPos().squaredDistanceTo(getEntityPos()) > 25 ? .5f : .7f;
         }
         if (sc.hasAugment(ModItems.CARVED_OBSIDIAN)) {
             amount *= .9f;
@@ -165,9 +165,6 @@ public abstract class PlayerEntityMixin extends PlayerLikeEntity implements Play
 
         if (hasStatusEffect(ModStatusEffects.RAGE)) {
             ModStatusEffect.reduceDuration(this, ModStatusEffects.RAGE, ModStatusEffect.RAGE_REDUCTION_ON_HIT);
-        }
-        if (hasStatusEffect(ModStatusEffects.SHIELD)) {
-            sc.addSoul(2 * SoulComponent.SOUL_PER_XP);
         }
     }
 

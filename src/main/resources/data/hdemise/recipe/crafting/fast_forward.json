@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "#": "hdemise:ectoplasm",
+    "X": "#c:music_discs",
+    "A": "minecraft:bone"
+  },
+  "pattern": [
+    "#XA",
+    "#XA",
+    "#XA"
+  ],
+  "result": {
+    "count": 1,
+    "id": "hdemise:fast_forward"
+  }
+}
