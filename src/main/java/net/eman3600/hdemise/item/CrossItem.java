@@ -10,6 +10,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.tooltip.TooltipType;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
@@ -54,6 +55,7 @@ public class CrossItem extends Item {
             }
             for (VexEntity vex : world.getEntitiesByClass(VexEntity.class, box, e -> true)) {
                 vex.addStatusEffect(new StatusEffectInstance(StatusEffects.GLOWING, GLOW_DURATION), user);
+                vex.damage((ServerWorld) world, world.getDamageSources().indirectMagic(user, user), 8);
             }
 
             ItemStack stack = user.getStackInHand(hand);

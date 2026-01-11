@@ -51,9 +51,20 @@ public abstract class LivingEntityMixin extends Entity implements Attackable, Se
         if (((Object)this) instanceof PlayerEntity player) {
             SoulComponent sc = SoulComponent.of(player);
 
-            if (effect.equals(StatusEffects.POISON) && (sc.isUndead() || sc.getSoulType() == ModSoulTypes.CONSTRUCT || sc.hasAugment(ModItems.AGELESS_WATCH))
-                    || effect.equals(StatusEffects.HUNGER) && (!sc.usesHunger() || sc.hasAugment(ModItems.AGELESS_WATCH))
-                    || (effect.equals(StatusEffects.WITHER) || effect.equals(StatusEffects.WEAKNESS)) && sc.hasAugment(ModItems.AGELESS_WATCH)) {
+            if (sc.hasAugment(ModItems.AGELESS_WATCH) && (
+                    effect.equals(StatusEffects.HUNGER)
+                    || effect.equals(StatusEffects.POISON)
+                    || effect.equals(StatusEffects.WITHER)
+                    || effect.equals(StatusEffects.WEAKNESS)
+                    || effect.equals(StatusEffects.SLOWNESS)
+                    || effect.equals(StatusEffects.MINING_FATIGUE)
+            )) {
+                cir.setReturnValue(false);
+                return;
+            }
+
+            if (effect.equals(StatusEffects.POISON) && (sc.isUndead() || sc.getSoulType() == ModSoulTypes.CONSTRUCT)
+                    || effect.equals(StatusEffects.HUNGER) && (!sc.usesHunger())) {
                 cir.setReturnValue(false);
             }
         }

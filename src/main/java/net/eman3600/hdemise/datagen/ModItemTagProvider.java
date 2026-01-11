@@ -37,7 +37,9 @@ public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
                 .add(ModItems.CARVED_OBSIDIAN)
                 .add(ModItems.STICKY_HAND)
                 .add(ModItems.STARDUST)
-                .add(ModItems.WHETSTONE);
+                .add(ModItems.WHETSTONE)
+                .add(ModItems.CRAB_CLAW)
+                .add(ModItems.FROG_BALLOON);
 
         valueLookupBuilder(ModTags.Items.GREEN_AUGMENT)
                 .add(ModItems.DEMON_SCROLL)
@@ -46,7 +48,8 @@ public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
                 .add(ModItems.ESSENCE_CORE)
                 .add(ModItems.GOLDEN_FOOT)
                 .add(ModItems.MORTICIAN_CHARM)
-                .add(ModItems.CURSED_SKULL);
+                .add(ModItems.CURSED_SKULL)
+                .add(ModItems.MAGIC_FAN);
 
         valueLookupBuilder(ModTags.Items.RED_AUGMENT)
                 .add(ModItems.ECTOPLASMIC_BONE)
@@ -63,7 +66,9 @@ public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
                 .add(ModItems.FEATHER_TOKEN)
                 .add(ModItems.GOLEM_STRENGTH_BELT)
                 .add(ModItems.CARVED_OBSIDIAN)
-                .add(ModItems.WHETSTONE);
+                .add(ModItems.WHETSTONE)
+                .add(ModItems.STICKY_HAND)
+                .add(ModItems.CRAB_CLAW);
 
 
         valueLookupBuilder(ModTags.Items.AERIAL_IMPROVEMENT)

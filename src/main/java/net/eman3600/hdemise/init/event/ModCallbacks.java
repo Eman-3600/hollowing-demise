@@ -15,16 +15,22 @@ import net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents;
 import net.fabricmc.fabric.api.entity.event.v1.ServerPlayerEvents;
 import net.fabricmc.fabric.api.event.player.AttackEntityCallback;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
+import net.minecraft.entity.EntityStatuses;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.HungerManager;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.projectile.AbstractWindChargeEntity;
+import net.minecraft.particle.ParticleTypes;
 import net.minecraft.registry.tag.DamageTypeTags;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.ActionResult;
+import net.minecraft.util.collection.Pool;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
+import net.minecraft.world.event.GameEvent;
 
 import static net.eman3600.hdemise.HDemise.LOGGER;
 import static net.eman3600.hdemise.HDemise.MODID;
@@ -66,14 +72,36 @@ public class ModCallbacks {
                 SoulComponent sc = SoulComponent.of(player);
 
                 if (sc.hasAugment(ModItems.UNDYING_TALISMAN) && !sc.isAfflicted()) {
-                    player.setHealth(1f);
+                    player.setHealth(Math.max(1f, player.getMaxHealth()/2));
                     player.clearStatusEffects();
-                    player.addStatusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 80, 2));
-                    if (source.isIn(DamageTypeTags.IS_FIRE)) {
-                        player.addStatusEffect(new StatusEffectInstance(StatusEffects.FIRE_RESISTANCE, 200, 0));
-                    }
-                    player.addStatusEffect(new StatusEffectInstance(StatusEffects.ABSORPTION, 80, 3));
+                    player.addStatusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 800, 1));
+                    player.addStatusEffect(new StatusEffectInstance(StatusEffects.FIRE_RESISTANCE, 400, 0));
+                    player.addStatusEffect(new StatusEffectInstance(StatusEffects.RESISTANCE, 80, 3));
+                    player.addStatusEffect(new StatusEffectInstance(StatusEffects.SPEED, 80, 1));
+                    player.addStatusEffect(new StatusEffectInstance(StatusEffects.ABSORPTION, 200, 3));
+                    player.getEntityWorld().playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.ITEM_TOTEM_USE, SoundCategory.PLAYERS);
                     sc.setCorruption(sc.getMaxCorruption());
+
+
+                    double d = entity.getX();
+                    double e = entity.getY() + entity.getHeight() / 2.0F;
+                    double f = entity.getZ();
+                    float g = 3.0F + entity.getRandom().nextFloat() * 2.0F;
+                    player.getEntityWorld().createExplosion(
+                            entity,
+                            null,
+                            AbstractWindChargeEntity.EXPLOSION_BEHAVIOR,
+                            d,
+                            e,
+                            f,
+                            g,
+                            false,
+                            World.ExplosionSourceType.TRIGGER,
+                            ParticleTypes.GUST_EMITTER_SMALL,
+                            ParticleTypes.GUST_EMITTER_LARGE,
+                            Pool.empty(),
+                            SoundEvents.ENTITY_BREEZE_WIND_BURST
+                    );
                     return false;
                 }
             }

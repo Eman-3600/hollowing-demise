@@ -17,6 +17,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.random.Random;
+import net.minecraft.world.World;
 import org.apache.commons.lang3.function.TriConsumer;
 
 import static net.eman3600.hdemise.HDemise.MODID;
@@ -69,12 +70,6 @@ public record SoulEventPayload(double x, double y, double z, float variance, Sou
                         (random.nextFloat() - .5f) * speed,
                         (random.nextFloat() - .5f) * speed);
             }
-
-            SoulComponent.of(player).forEachAugment((stack, p) -> {
-                if (stack.getItem() instanceof FocusAugment augment) {
-                    augment.displayFocus(player, pos);
-                }
-            });
         }),
         VANISH((player, pos, variance) -> {
             player.getEntityWorld().playSoundClient(pos.x, pos.y, pos.z, SoundEvents.BLOCK_BEACON_POWER_SELECT, SoundCategory.PLAYERS, 1f, .95f + (variance * .3f), true);
@@ -118,6 +113,36 @@ public record SoulEventPayload(double x, double y, double z, float variance, Sou
 
             for (int i = 0; i < 50; i++) {
                 player.getEntityWorld().addParticleClient(ParticleTypes.TOTEM_OF_UNDYING,
+                        pos.x,
+                        pos.y + .5,
+                        pos.z,
+                        (random.nextFloat() - .5f) * speed,
+                        (random.nextFloat() - .5f) * speed,
+                        (random.nextFloat() - .5f) * speed);
+            }
+        }),
+        WITHER((player, pos, variance) -> {
+            pos = pos.add(0, 1, 0);
+            Box box = Box.of(pos, 13, 5, 13);
+            World world = player.getEntityWorld();
+            Random random = player.getRandom();
+
+            for (int i = 0; i < 250; i++) {
+                world.addParticleClient(
+                        ParticleTypes.SQUID_INK,
+                        box.minX + (box.maxX - box.minX) * random.nextFloat(),
+                        box.minY + (box.maxY - box.minY) * random.nextFloat(),
+                        box.minZ + (box.maxZ - box.minZ) * random.nextFloat(),
+                        0,
+                        0,
+                        0
+                );
+            }
+
+            final double speed = .8d;
+
+            for (int i = 0; i < 100; i++) {
+                world.addParticleClient(ParticleTypes.SMOKE,
                         pos.x,
                         pos.y + .5,
                         pos.z,

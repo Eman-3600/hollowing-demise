@@ -1,5 +1,6 @@
 package net.eman3600.hdemise.item.augment;
 
+import net.eman3600.hdemise.networking.s2c.SoulEventPayload;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
@@ -32,33 +33,7 @@ public class WitherFocusAugmentItem extends AugmentItem implements FocusAugment 
     }
 
     @Override
-    public void displayFocus(PlayerEntity viewer, Vec3d pos) {
-        Box box = viewer.getBoundingBox().expand(6, 1, 6);
-        World world = viewer.getEntityWorld();
-        Random random = viewer.getRandom();
-
-        for (int i = 0; i < 250; i++) {
-            world.addParticleClient(
-                    ParticleTypes.SQUID_INK,
-                    box.minX + (box.maxX - box.minX) * random.nextFloat(),
-                    box.minY + (box.maxY - box.minY) * random.nextFloat(),
-                    box.minZ + (box.maxZ - box.minZ) * random.nextFloat(),
-                    0,
-                    0,
-                    0
-            );
-        }
-
-        final double speed = .8d;
-
-        for (int i = 0; i < 100; i++) {
-            world.addParticleClient(ParticleTypes.SMOKE,
-                    pos.x,
-                    pos.y + .5,
-                    pos.z,
-                    (random.nextFloat() - .5f) * speed,
-                    (random.nextFloat() - .5f) * speed,
-                    (random.nextFloat() - .5f) * speed);
-        }
+    public SoulEventPayload.SoulEventType displayEvent() {
+        return SoulEventPayload.SoulEventType.WITHER;
     }
 }

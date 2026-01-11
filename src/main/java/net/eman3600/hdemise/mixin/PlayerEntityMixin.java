@@ -101,6 +101,9 @@ public abstract class PlayerEntityMixin extends PlayerLikeEntity implements Play
                 && !source.isIn(DamageTypeTags.BYPASSES_RESISTANCE)) {
             amount *= source.getAttacker() != null && source.getAttacker().getEntityPos().squaredDistanceTo(getEntityPos()) > 25 ? .5f : .75f;
         }
+        if (sc.hasAugment(ModItems.CARVED_OBSIDIAN)) {
+            amount *= .9f;
+        }
 
         return amount;
     }
@@ -242,7 +245,7 @@ public abstract class PlayerEntityMixin extends PlayerLikeEntity implements Play
         if (((Object)this) instanceof PlayerEntity player) {
             SoulComponent sc = SoulComponent.of(player);
 
-            if (sc.hasAugment(ModTags.Items.AERIAL_IMPROVEMENT) && !player.getAbilities().flying) {
+            if (sc.applyAerialMovement() && !player.getAbilities().flying) {
                 cir.setReturnValue(cir.getReturnValueF() * (float) (getAttributeValue(EntityAttributes.MOVEMENT_SPEED) / getAttributeBaseValue(EntityAttributes.MOVEMENT_SPEED)));
             }
         }

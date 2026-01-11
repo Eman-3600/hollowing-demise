@@ -54,6 +54,8 @@ public class ModItemGroups {
             entries.add(ModItems.STICKY_HAND);
             entries.add(ModItems.STARDUST);
             entries.add(ModItems.WHETSTONE);
+            entries.add(ModItems.CRAB_CLAW);
+            entries.add(ModItems.FROG_BALLOON);
             entries.add(ModItems.CRYSTAL_BALL);
             entries.add(ModItems.DEMON_SCROLL);
             entries.add(ModItems.RADIANT_JEWEL);
@@ -61,6 +63,7 @@ public class ModItemGroups {
             entries.add(ModItems.GOLDEN_FOOT);
                 entries.add(ModItems.MORTICIAN_CHARM);
             entries.add(ModItems.CURSED_SKULL);
+            entries.add(ModItems.MAGIC_FAN);
             entries.add(ModItems.ECTOPLASMIC_BONE);
             entries.add(ModItems.DRAGON_WING);
             entries.add(ModItems.GOLDEN_FLOWER);

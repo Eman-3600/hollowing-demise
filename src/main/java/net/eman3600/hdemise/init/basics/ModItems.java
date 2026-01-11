@@ -66,7 +66,6 @@ public class ModItems {
 
     public static final Item FEATHER_TOKEN = register("feather_token", (settings -> new AttributeAugmentItem(
             settings,
-            2,
             new SoulAttribute(EntityAttributes.MOVEMENT_SPEED, .15, Operation.ADD_MULTIPLIED_BASE)
     )), new Item.Settings());
     public static final Item GOLEM_STRENGTH_BELT = register("golem_strength_belt", (settings -> new AttributeAugmentItem(
@@ -77,12 +76,7 @@ public class ModItems {
             settings,
             new SoulAttribute(EntityAttributes.MAX_HEALTH, 4d, Operation.ADD_VALUE)
     )), new Item.Settings());
-    public static final Item CARVED_OBSIDIAN = register("carved_obsidian", (settings -> new AttributeAugmentItem(
-            settings,
-            new SoulAttribute(EntityAttributes.ARMOR, 4d, Operation.ADD_VALUE),
-            new SoulAttribute(EntityAttributes.ARMOR_TOUGHNESS, 4d, Operation.ADD_VALUE),
-            new SoulAttribute(EntityAttributes.KNOCKBACK_RESISTANCE, .2d, Operation.ADD_VALUE)
-    )), new Item.Settings());
+    public static final Item CARVED_OBSIDIAN = register("carved_obsidian", (settings -> new AugmentItem(settings, 1)), new Item.Settings());
     public static final Item STICKY_HAND = register("sticky_hand", (settings -> new AttributeAugmentItem(
             settings,
             new SoulAttribute(EntityAttributes.BLOCK_INTERACTION_RANGE, 1.5d, Operation.ADD_VALUE)
@@ -91,6 +85,16 @@ public class ModItems {
     public static final Item WHETSTONE = register("whetstone", (settings -> new AttributeAugmentItem(
             settings,
             new SoulAttribute(EntityAttributes.ATTACK_SPEED, 0.15d, Operation.ADD_MULTIPLIED_BASE)
+    )), new Item.Settings());
+    public static final Item CRAB_CLAW = register("crab_claw", (settings -> new AttributeAugmentItem(
+            settings,
+            new SoulAttribute(EntityAttributes.ENTITY_INTERACTION_RANGE, 0.75d, Operation.ADD_VALUE)
+    )), new Item.Settings());
+    public static final Item FROG_BALLOON = register("frog_balloon", (settings -> new AttributeAugmentItem(
+            settings,
+            new SoulAttribute(EntityAttributes.JUMP_STRENGTH, 0.15d, Operation.ADD_VALUE),
+            new SoulAttribute(EntityAttributes.SAFE_FALL_DISTANCE, 1d, Operation.ADD_VALUE),
+            new SoulAttribute(EntityAttributes.STEP_HEIGHT, .6d, Operation.ADD_VALUE)
     )), new Item.Settings());
     public static final Item DEMON_SCROLL = register("demon_scroll", (settings -> new AttributeAugmentItem(
             settings,
@@ -109,6 +113,7 @@ public class ModItems {
             new SoulAttribute(ModAttributes.MAX_SOUL, 2d, Operation.ADD_VALUE)
     )), new Item.Settings());
     public static final Item CURSED_SKULL = register("cursed_skull", settings -> new WitherFocusAugmentItem(settings, 1), new Item.Settings());
+    public static final Item MAGIC_FAN = register("magic_fan", settings -> new WindBurstAugmentItem(settings, 1), new Item.Settings());
     public static final Item ECTOPLASMIC_BONE = register("ectoplasmic_bone", settings -> new AugmentItem(settings, 1), new Item.Settings());
     public static final Item DRAGON_WING = register("dragon_wing", settings -> new AugmentItem(settings, 1), new Item.Settings());
     public static final Item GOLDEN_FLOWER = register("golden_flower", settings -> new AbsorptionAugmentItem(settings, 1), new Item.Settings());

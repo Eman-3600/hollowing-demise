@@ -45,6 +45,7 @@ public class HDemise implements ModInitializer {
 		ModWorldGeneration.generateWorldGen();
 
 		ModDamageTypes.registerAll();
+		ModGameRules.registerGameRules();
 
 		ModVillagers.registerVillagers();
 		ModTradeOffers.registerTradeOffers();

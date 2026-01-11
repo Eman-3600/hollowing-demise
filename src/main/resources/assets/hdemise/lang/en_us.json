@@ -29,10 +29,13 @@
     "item.hdemise.golem_strength_belt": "Belt of Golem Strength",
     "item.hdemise.bottled_tear": "Bottled Tear",
     "item.hdemise.carved_obsidian": "Carved Obsidian",
+    "item.hdemise.carved_obsidian.tooltip": "Reduces incoming damage by 10%",
     "item.hdemise.sticky_hand": "Sticky Hand",
     "item.hdemise.stardust": "Stardust",
     "item.hdemise.stardust.tooltip": "Increases mining speed by 25%",
     "item.hdemise.whetstone": "Whetstone",
+    "item.hdemise.crab_claw": "Crab Claw",
+    "item.hdemise.frog_balloon": "Frog Balloon",
     "item.hdemise.crystal_ball": "Crystal Ball",
     "item.hdemise.demon_scroll": "Blood Pact",
     "item.hdemise.radiant_jewel": "Radiant Jewel",
@@ -46,6 +49,8 @@
     "item.hdemise.mortician_charm": "Mortician's Charm",
     "item.hdemise.cursed_skull": "Cursed Skull",
     "item.hdemise.cursed_skull.tooltip": "Focus withers nearby mobs",
+    "item.hdemise.magic_fan": "Magic Fan",
+    "item.hdemise.magic_fan.tooltip": "Produces warding winds while focusing",
     "item.hdemise.ectoplasmic_bone": "Ectoplasmic Bone",
     "item.hdemise.ectoplasmic_bone.tooltip": "Melee attacks give experience",
     "item.hdemise.dragon_wing": "Dragon Wing",
@@ -206,5 +211,12 @@
 
 
     "death.attack.hdemise.vigor_failed": "%s ran out of time",
-    "death.attack.hdemise.vigor_failed.player": "%s ran out of time whilst fighting %s"
+    "death.attack.hdemise.vigor_failed.player": "%s ran out of time whilst fighting %s",
+
+
+
+    "gamerule.hdemise.break_souls": "Break Souls",
+    "gamerule.hdemise.break_souls.description": "Allow souls to break on death",
+    "gamerule.hdemise.improve_air_speed": "Adjust Air Speed",
+    "gamerule.hdemise.improve_air_speed.description": "Applies movement speed effects to aerial speed; changes the feel of movement"
 }

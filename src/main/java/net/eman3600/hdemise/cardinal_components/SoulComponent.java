@@ -3,6 +3,7 @@ package net.eman3600.hdemise.cardinal_components;
 import net.eman3600.hdemise.event.callback.RegenCallback;
 import net.eman3600.hdemise.event.callback.SoulInUseCallback;
 import net.eman3600.hdemise.event.callback.SoulRegenCallback;
+import net.eman3600.hdemise.init.basics.ModGameRules;
 import net.eman3600.hdemise.init.basics.ModItems;
 import net.eman3600.hdemise.init.basics.ModTags;
 import net.eman3600.hdemise.init.custom.ModSoulTypes;
@@ -32,6 +33,7 @@ import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.HungerManager;
 import net.minecraft.entity.player.PlayerAbilities;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.projectile.AbstractWindChargeEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.packet.s2c.play.EntityVelocityUpdateS2CPacket;
@@ -46,11 +48,13 @@ import net.minecraft.storage.WriteView;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.ItemScatterer;
+import net.minecraft.util.collection.Pool;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.random.Random;
+import net.minecraft.world.World;
 import org.ladysnake.cca.api.v3.component.sync.AutoSyncedComponent;
 import org.ladysnake.cca.api.v3.component.tick.ClientTickingComponent;
 import org.ladysnake.cca.api.v3.component.tick.ServerTickingComponent;
@@ -133,6 +137,7 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
     private int topUpCooldown = 0;
 
     private boolean hasLightfoot = false;
+    private boolean aerialMovement = true;
 
     private float regenTime = 0f;
     private float soulRegenTime = 0f;
@@ -558,6 +563,10 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
     public void setHasLightfoot(boolean hasLightfoot) {
         this.hasLightfoot = hasLightfoot;
         markDirty();
+    }
+
+    public boolean applyAerialMovement() {
+        return aerialMovement;
     }
 
     public boolean lockedMovement() {
@@ -1007,9 +1016,31 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
             player.removeStatusEffect(ModStatusEffects.DEMON_STRENGTH);
         }
 
+
+
         // FOCUS FUNCTIONALITY
         if (focusing) {
             focusTime++;
+
+            // MAGIC FAN FUNCTIONALITY
+            if (focusTime % FOCUS_DELAY == 0 && hasAugment(ModItems.MAGIC_FAN)) {
+                player.getEntityWorld().createExplosion(
+                        player,
+                        null,
+                        AbstractWindChargeEntity.EXPLOSION_BEHAVIOR,
+                        player.getX(),
+                        player.getY() + player.getHeight() / 2.0F,
+                        player.getZ(),
+                        3F,
+                        false,
+                        World.ExplosionSourceType.TRIGGER,
+                        ParticleTypes.GUST_EMITTER_SMALL,
+                        ParticleTypes.GUST_EMITTER_LARGE,
+                        Pool.empty(),
+                        SoundEvents.ENTITY_WIND_CHARGE_WIND_BURST
+                );
+            }
+
 
             if (focusTime > 0 && !player.isCreative()) {
                 addSoul(-soulType.getFocusRate());
@@ -1020,6 +1051,10 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
                 forEachAugment((stack, player) -> {
                     if (stack.getItem() instanceof FocusAugment augment) {
                         augment.onFocus(player, stack, (float)player.getAttributeValue(ModAttributes.FOCUS_POWER));
+                        SoulEventPayload.SoulEventType event = augment.displayEvent();
+                        if (event != null) {
+                            sendSoulEvent(event);
+                        }
                     }
                 });
                 sendSoulEvent(SoulEventPayload.SoulEventType.FOCUS);
@@ -1096,6 +1131,11 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
             markDirty();
         }
 
+        if (((ServerWorld)player.getEntityWorld()).getGameRules().getValue(ModGameRules.IMPROVE_AIR_SPEED) != aerialMovement) {
+            aerialMovement = !aerialMovement;
+            markDirty();
+        }
+
         if (this.isDirty) {
             this.isDirty = false;
             ModEntityComponents.SOUL.sync(this.player);
@@ -1150,6 +1190,7 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
         topUpCooldown = readView.getInt("top_up_cooldown", 0);
 
         hasLightfoot = readView.getBoolean("lightfoot", false);
+        aerialMovement = readView.getBoolean("aerial_movement", true);
 
         inventory.readData(readView);
     }
@@ -1189,6 +1230,7 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
         writeView.putInt("top_up_cooldown", topUpCooldown);
 
         writeView.putBoolean("lightfoot", hasLightfoot);
+        writeView.putBoolean("aerial_movement", aerialMovement);
 
         inventory.writeData(writeView);
     }
