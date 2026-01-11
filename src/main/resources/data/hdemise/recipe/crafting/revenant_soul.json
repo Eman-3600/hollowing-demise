@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "#": "hdemise:soul_base",
+    "X": "minecraft:ominous_bottle",
+    "R": "minecraft:rotten_flesh",
+    "E": "minecraft:fermented_spider_eye",
+    "B": "minecraft:blaze_powder"
+  },
+  "pattern": [
+    "RER",
+    "B#B",
+    "RXR"
+  ],
+  "result": {
+    "count": 1,
+    "id": "hdemise:revenant_soul"
+  }
+}

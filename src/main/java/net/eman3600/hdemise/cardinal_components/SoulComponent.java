@@ -79,7 +79,7 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
     public static final int VANISH_TICKS = 40;
     public static final int VANISH_DELAY = 5;
     public static final int REVEAL_TICKS = 8;
-    public static final int VANISH_RATE = 2;
+    public static final int VANISH_RATE = 1;
     public static final int WARNING_TICKS = 4;
     public static final int CURE_TICKS = 60;
     public static final float REGEN_REQUIREMENT = 20f;
