@@ -116,7 +116,7 @@ public class ModCallbacks {
         SoulInUseCallback.EVENT.register((player, sc) -> sc.isFocusing() || sc.isGhost() || sc.isJetting() || sc.isVanishing());
 
         // Golden Foot Drain
-        SoulInUseCallback.EVENT.register((player, sc) -> player.isSprinting() && !player.isSwimming() && sc.hasAugment(ModItems.GOLDEN_FOOT) && (player.isOnGround() || sc.hasAugment(ModTags.Items.AERIAL_IMPROVEMENT)));
+        SoulInUseCallback.EVENT.register((player, sc) -> player.isSprinting() && !player.isSwimming() && sc.hasAugment(ModItems.GOLDEN_FOOT) && (player.isOnGround() || sc.applyAerialMovement()));
 
 
 

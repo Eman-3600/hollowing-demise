@@ -49,7 +49,8 @@ public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
                 .add(ModItems.GOLDEN_FOOT)
                 .add(ModItems.MORTICIAN_CHARM)
                 .add(ModItems.CURSED_SKULL)
-                .add(ModItems.MAGIC_FAN);
+                .add(ModItems.MAGIC_FAN)
+                .add(ModItems.FAST_FORWARD);
 
         valueLookupBuilder(ModTags.Items.RED_AUGMENT)
                 .add(ModItems.ECTOPLASMIC_BONE)
@@ -70,11 +71,6 @@ public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
                 .add(ModItems.STICKY_HAND)
                 .add(ModItems.CRAB_CLAW);
 
-
-        valueLookupBuilder(ModTags.Items.AERIAL_IMPROVEMENT)
-                .add(ModItems.FEATHER_TOKEN)
-                .add(ModItems.GOLDEN_FOOT)
-                .add(ModItems.DRAGON_WING);
 
         valueLookupBuilder(ModTags.Items.NEGATES_FALL)
                 .add(ModItems.DRAGON_WING);

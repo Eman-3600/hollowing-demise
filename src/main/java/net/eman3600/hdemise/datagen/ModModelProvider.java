@@ -59,6 +59,7 @@ public class ModModelProvider extends FabricModelProvider {
         itemModelGenerator.register(ModItems.MORTICIAN_CHARM, Models.GENERATED);
         itemModelGenerator.register(ModItems.CURSED_SKULL, Models.GENERATED);
         itemModelGenerator.register(ModItems.MAGIC_FAN, Models.GENERATED);
+        itemModelGenerator.register(ModItems.FAST_FORWARD, Models.GENERATED);
         itemModelGenerator.register(ModItems.ECTOPLASMIC_BONE, Models.GENERATED);
         itemModelGenerator.register(ModItems.DRAGON_WING, Models.GENERATED);
         itemModelGenerator.register(ModItems.GOLDEN_FLOWER, Models.GENERATED);

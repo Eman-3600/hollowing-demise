@@ -64,6 +64,7 @@ public class ModItemGroups {
                 entries.add(ModItems.MORTICIAN_CHARM);
             entries.add(ModItems.CURSED_SKULL);
             entries.add(ModItems.MAGIC_FAN);
+                entries.add(ModItems.FAST_FORWARD);
             entries.add(ModItems.ECTOPLASMIC_BONE);
             entries.add(ModItems.DRAGON_WING);
             entries.add(ModItems.GOLDEN_FLOWER);

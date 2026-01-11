@@ -114,6 +114,7 @@ public class ModItems {
     )), new Item.Settings());
     public static final Item CURSED_SKULL = register("cursed_skull", settings -> new WitherFocusAugmentItem(settings, 1), new Item.Settings());
     public static final Item MAGIC_FAN = register("magic_fan", settings -> new WindBurstAugmentItem(settings, 1), new Item.Settings());
+    public static final Item FAST_FORWARD = register("fast_forward", settings -> new CorruptionAugmentItem(settings, 2), new Item.Settings());
     public static final Item ECTOPLASMIC_BONE = register("ectoplasmic_bone", settings -> new AugmentItem(settings, 1), new Item.Settings());
     public static final Item DRAGON_WING = register("dragon_wing", settings -> new AugmentItem(settings, 1), new Item.Settings());
     public static final Item GOLDEN_FLOWER = register("golden_flower", settings -> new AbsorptionAugmentItem(settings, 1), new Item.Settings());

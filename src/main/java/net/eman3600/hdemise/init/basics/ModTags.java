@@ -30,7 +30,6 @@ public class ModTags {
         public static final TagKey<Item> UNREMOVEABLE_SOUL = createTag("unremovable_soul");
         public static final TagKey<Item> REPAIRABLE_SOULS = createTag("souls");
 
-        public static final TagKey<Item> AERIAL_IMPROVEMENT = createTag("aerial_improvement");
         public static final TagKey<Item> NEGATES_FALL = createTag("negates_fall");
         public static final TagKey<Item> XP_ABSORBENT = createTag("xp_absorbent");
 

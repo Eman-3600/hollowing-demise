@@ -330,7 +330,7 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
     }
 
     public int getFocusRequirement() {
-        return soulType.getFocusTicks() * soulType.getFocusRate();
+        return getFocusTicks() * getFocusRate();
     }
 
     public boolean canFocus() {
@@ -401,7 +401,7 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
 
     public void setFocusing(boolean focusing) {
         this.focusing = focusing;
-        focusTime = -FOCUS_DELAY;
+        focusTime = -getFocusDelay();
         markDirty();
     }
 
@@ -537,6 +537,18 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
 
     public boolean isFocusing() {
         return this.focusing;
+    }
+
+    public int getFocusRate() {
+        return soulType.getFocusRate() * (hasAugment(ModItems.FAST_FORWARD) ? 2 : 1);
+    }
+
+    public int getFocusTicks() {
+        return soulType.getFocusTicks() / (hasAugment(ModItems.FAST_FORWARD) ? 2 : 1);
+    }
+
+    public int getFocusDelay() {
+        return FOCUS_DELAY / (hasAugment(ModItems.FAST_FORWARD) ? 2 : 1);
     }
 
     public boolean isCuring() {
@@ -899,7 +911,7 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
         }
 
         // GOLDEN FOOT FUNCTIONALITY
-        if (player.isSprinting() && !player.isSwimming() && hasAugment(ModItems.GOLDEN_FOOT) && (player.isOnGround() || hasAugment(ModTags.Items.AERIAL_IMPROVEMENT))) {
+        if (player.isSprinting() && !player.isSwimming() && hasAugment(ModItems.GOLDEN_FOOT) && (player.isOnGround() || applyAerialMovement())) {
             StatusEffectInstance instance = player.getStatusEffect(ModStatusEffects.LIGHTFOOT);
 
             if ((instance == null || instance.getDuration() < 10) && getSoul() > 0) {
@@ -1023,7 +1035,7 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
             focusTime++;
 
             // MAGIC FAN FUNCTIONALITY
-            if (focusTime % FOCUS_DELAY == 0 && hasAugment(ModItems.MAGIC_FAN)) {
+            if (focusTime % 8 == 0 && hasAugment(ModItems.MAGIC_FAN)) {
                 player.getEntityWorld().createExplosion(
                         player,
                         null,
@@ -1043,10 +1055,11 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
 
 
             if (focusTime > 0 && !player.isCreative()) {
-                addSoul(-soulType.getFocusRate());
+                addSoul(-getFocusRate());
             }
 
-            if (focusTime >= soulType.getFocusTicks()) {
+            if (focusTime >=
+                    getFocusTicks()) {
                 boolean continueFocusing = this.soulType.onFocus(player, (float)player.getAttributeValue(ModAttributes.FOCUS_POWER));
                 forEachAugment((stack, player) -> {
                     if (stack.getItem() instanceof FocusAugment augment) {
