@@ -60,6 +60,7 @@ import org.ladysnake.cca.api.v3.component.tick.ClientTickingComponent;
 import org.ladysnake.cca.api.v3.component.tick.ServerTickingComponent;
 
 import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 
 import static net.eman3600.hdemise.HDemise.MODID;
 
@@ -1285,5 +1286,18 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
         if (player == null) return null;
 
         return ModEntityComponents.SOUL.getNullable(player);
+    }
+
+    /**
+     * Runs a function using the soul component of the input player
+     * @param player the player entity
+     * @param function the function, which is run if and only if the player has a soul component
+     */
+    public static void run (LivingEntity player, Consumer<SoulComponent> function) {
+        SoulComponent sc = SoulComponent.of(player);
+
+        if (sc != null) {
+            function.accept(sc);
+        }
     }
 }

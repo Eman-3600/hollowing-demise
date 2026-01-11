@@ -24,6 +24,6 @@ public class CorruptionAugmentItem extends AugmentItem implements FocusAugment {
     @Override
     public void onFocus(PlayerEntity player, ItemStack stack, float focusPower) {
 
-        SoulComponent.of(player).addCorruption(7);
+        SoulComponent.of(player).addCorruption(8);
     }
 }
