@@ -34,9 +34,7 @@ public class AugmentItem extends Item {
         onReload(player, stack);
     }
     public void onRespawn(PlayerEntity player, ItemStack stack, boolean alive) {}
-    public void onRemove(PlayerEntity player, ItemStack stack) {
-        player.clearStatusEffects();
-    }
+    public void onRemove(PlayerEntity player, ItemStack stack) {}
     public void onReload(PlayerEntity player, ItemStack stack) {}
 
     @Override

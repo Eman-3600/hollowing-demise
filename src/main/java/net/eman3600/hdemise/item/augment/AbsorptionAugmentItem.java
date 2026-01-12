@@ -18,4 +18,11 @@ public class AbsorptionAugmentItem extends AugmentItem implements TopUpAugment {
     public void onTopUp(PlayerEntity player, ItemStack stack) {
         player.addStatusEffect(new StatusEffectInstance(StatusEffects.ABSORPTION, -1, 3, true, true));
     }
+
+    @Override
+    public void onRemove(PlayerEntity player, ItemStack stack) {
+        super.onRemove(player, stack);
+
+        player.removeStatusEffect(StatusEffects.ABSORPTION);
+    }
 }

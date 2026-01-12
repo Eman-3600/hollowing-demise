@@ -2,7 +2,7 @@
   "type": "hdemise:infusion",
   "base": "hdemise:phantom_soul_fractured",
   "ingredient": {
-    "count": 4,
+    "count": 2,
     "id": "minecraft:phantom_membrane"
   },
   "repair": true,

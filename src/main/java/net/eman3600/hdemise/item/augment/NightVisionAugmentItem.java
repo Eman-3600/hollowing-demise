@@ -17,5 +17,7 @@ public class NightVisionAugmentItem extends AugmentItem implements FocusAugment 
     @Override
     public void onFocus(PlayerEntity player, ItemStack stack, float focusPower) {
         player.addStatusEffect(new StatusEffectInstance(StatusEffects.NIGHT_VISION, 2400, 0, true, true));
+        player.removeStatusEffect(StatusEffects.BLINDNESS);
+        player.removeStatusEffect(StatusEffects.DARKNESS);
     }
 }

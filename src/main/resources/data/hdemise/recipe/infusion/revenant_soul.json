@@ -2,7 +2,7 @@
   "type": "hdemise:infusion",
   "base": "hdemise:revenant_soul_fractured",
   "ingredient": {
-    "count": 16,
+    "count": 8,
     "id": "minecraft:rotten_flesh"
   },
   "repair": true,
