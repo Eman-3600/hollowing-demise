@@ -92,6 +92,10 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
     public static final int CORRUPTION_DECAY_TICKS = 150;
     public static final int AFFLICTION_DECAY_TICKS = 50;
 
+    public static final double MAGIC_FAN_RANGE = 5;
+    public static final double MAGIC_FAN_STRENGTH = .3;
+    public static final double MAGIC_FAN_STRENGTH_CAP = .5f;
+
     public static final Identifier HARDCORE = Identifier.of(MODID, "hardcore");
 
     @Environment(EnvType.CLIENT)
@@ -723,6 +727,12 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
                         random.nextFloat() * .2f + .4f,
                         0);
             }
+
+            forEachAugment((stack, player) -> {
+                if (stack.getItem() instanceof FocusAugment augment) {
+                    augment.duringFocusDisplay(player, focusTime);
+                }
+            });
         }
 
         if (isVanishing()) {
@@ -1036,22 +1046,19 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
             focusTime++;
 
             // MAGIC FAN FUNCTIONALITY
-            if (focusTime % 8 == 0 && hasAugment(ModItems.MAGIC_FAN)) {
-                player.getEntityWorld().createExplosion(
-                        player,
-                        null,
-                        AbstractWindChargeEntity.EXPLOSION_BEHAVIOR,
-                        player.getX(),
-                        player.getY() + player.getHeight() / 2.0F,
-                        player.getZ(),
-                        3F,
-                        false,
-                        World.ExplosionSourceType.TRIGGER,
-                        ParticleTypes.GUST_EMITTER_SMALL,
-                        ParticleTypes.GUST_EMITTER_LARGE,
-                        Pool.empty(),
-                        SoundEvents.ENTITY_WIND_CHARGE_WIND_BURST
-                );
+            if (hasAugment(ModItems.MAGIC_FAN)) {
+                Box windBox = player.getBoundingBox().expand(MAGIC_FAN_RANGE);
+
+                for (LivingEntity entity : player.getEntityWorld().getEntitiesByClass(LivingEntity.class, windBox, e -> e != player && !player.isTeammate(e))) {
+                    Vec3d propulsion = entity.getEntityPos().subtract(player.getEntityPos()).normalize();
+                    double power = Math.min(MAGIC_FAN_STRENGTH/Math.max(Double.MIN_NORMAL, entity.squaredDistanceTo(player)), MAGIC_FAN_STRENGTH_CAP);
+
+                    entity.addVelocity(propulsion.multiply(power));
+
+                    if (entity instanceof ServerPlayerEntity p) {
+                        p.getEntityWorld().sendPacket(new EntityVelocityUpdateS2CPacket(p));
+                    }
+                }
             }
 
 

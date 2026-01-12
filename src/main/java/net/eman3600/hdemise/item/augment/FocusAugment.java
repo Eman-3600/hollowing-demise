@@ -10,4 +10,5 @@ public interface FocusAugment {
     default SoulEventPayload.SoulEventType displayEvent() {
         return null;
     }
+    default void duringFocusDisplay(PlayerEntity player, int progress) {}
 }

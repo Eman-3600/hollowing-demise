@@ -5,6 +5,7 @@ import net.minecraft.entity.projectile.ProjectileUtil;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.random.Random;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -47,6 +48,14 @@ public interface RayHelper {
 
     static Vec3d rayXVector(float yaw, float pitch) {
         return rayZVector(yaw + 90, pitch);
+    }
+
+    static Vec3d randomPointWithin(Box box, Random random) {
+        return new Vec3d(
+                box.minX + (box.maxX - box.minX) * random.nextFloat(),
+                box.minY + (box.maxY - box.minY) * random.nextFloat(),
+                box.minZ + (box.maxZ - box.minZ) * random.nextFloat()
+        );
     }
 
     @Nullable
