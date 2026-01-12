@@ -44,7 +44,7 @@ public class ModBlocks {
         AbstractBlock.Settings.create()
         .strength(5.0f, 1200.0f)
         .requiresTool()
-        .luminance(state -> 10), true);
+        .luminance(state -> 10), new Item.Settings().component(ModDataComponentTypes.TOOLTIP_LINES, 2));
 
     public static final Block SOULROOT = register("soulroot", SoulrootBlock::new,
         AbstractBlock.Settings.create()
@@ -82,6 +82,36 @@ public class ModBlocks {
             // Register the block item.
             Registry.register(Registries.ITEM, blockItemKey, blockItem);
         }
+
+        return block;
+    }
+
+    /**
+     * Registers a block under a given ID string.
+     * @param name the block's internal name
+     * @param blockFactory constructor for the block
+     * @param settings block properties
+     * @param shouldRegisterItem whether an item should be registered with the block
+     * @return the registered block
+     */
+    public static Block register(String name, Function<AbstractBlock.Settings, Block> blockFactory, AbstractBlock.Settings settings, Item.Settings itemSettings) {
+        // Create the block key.
+        RegistryKey<Block> blockKey = RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(MODID, name));
+
+        // Create the block instance.
+        Block block = blockFactory.apply(settings.registryKey(blockKey));
+
+        // Register the block.
+        Registry.register(Registries.BLOCK, blockKey, block);
+
+        // Create the block item key.
+        RegistryKey<Item> blockItemKey = RegistryKey.of(RegistryKeys.ITEM, Identifier.of(MODID, name));
+
+        // Create the block item instance.
+        BlockItem blockItem = new BlockItem(block, itemSettings.registryKey(blockItemKey).useBlockPrefixedTranslationKey());
+
+        // Register the block item.
+        Registry.register(Registries.ITEM, blockItemKey, blockItem);
 
         return block;
     }

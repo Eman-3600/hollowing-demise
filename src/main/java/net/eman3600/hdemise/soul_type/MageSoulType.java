@@ -77,7 +77,7 @@ public class MageSoulType extends SoulType {
 
     @Override
     public boolean onFocus(PlayerEntity player, float focusAmount) {
-        player.addStatusEffect(new StatusEffectInstance(ModStatusEffects.SHIELD, 40 * (int)(focusAmount), 0, true, true));
+        player.addStatusEffect(new StatusEffectInstance(ModStatusEffects.SHIELD, 50 * (int)(focusAmount), 0, true, true));
 
         return false;
     }
