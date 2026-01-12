@@ -77,9 +77,11 @@
     "item.hdemise.almarite_scythe.tooltip.0": "Slain foes yield",
     "item.hdemise.almarite_scythe.tooltip.1": "increased experience",
     "item.hdemise.almarite_pix": "Almarite Pix",
-    "item.hdemise.almarite_pix.tooltip": "Can crack obsidian",
+    "item.hdemise.almarite_pix.tooltip.0": "Both a pick and an axe",
+    "item.hdemise.almarite_pix.tooltip.1": "Can make obsidian cry",
     "item.hdemise.almarite_hoeve": "Almarite Hoeve",
-    "item.hdemise.almarite_hoeve.tooltip": "Can till soul soil",
+    "item.hdemise.almarite_hoeve.tooltip.0": "Both a shovel and a hoe",
+    "item.hdemise.almarite_hoeve.tooltip.1": "Sneak to prioritize hoe",
     "item.hdemise.wind_staff": "Windstorm Staff",
     "item.hdemise.wind_staff.tooltip": "Shoots wind charges",
 

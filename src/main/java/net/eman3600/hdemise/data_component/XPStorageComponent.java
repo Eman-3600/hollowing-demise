@@ -17,7 +17,7 @@ import java.util.stream.IntStream;
 public record XPStorageComponent(int totalXP, int displayLevel, int displayPoints) {
     public static final Codec<XPStorageComponent> CODEC = Codec.INT_STREAM.comapFlatMap(
                     stream -> Util.decodeFixedLengthArray(stream, 3).map(values -> new XPStorageComponent(values[0], values[1], values[2])),
-                    xp -> IntStream.of(new int[]{xp.totalXP, xp.displayLevel, xp.displayPoints})
+                    xp -> IntStream.of(xp.totalXP, xp.displayLevel, xp.displayPoints)
             ).stable();
 
     public static final PacketCodec<ByteBuf, XPStorageComponent> PACKET_CODEC = new PacketCodec<ByteBuf, XPStorageComponent>() {

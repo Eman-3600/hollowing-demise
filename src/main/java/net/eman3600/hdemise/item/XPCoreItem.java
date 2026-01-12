@@ -16,6 +16,7 @@ import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
+import net.minecraft.util.Colors;
 import net.minecraft.util.Hand;
 import net.minecraft.util.ItemScatterer;
 import net.minecraft.world.World;
@@ -62,8 +63,8 @@ public class XPCoreItem extends Item {
             displayPoints = component.displayPoints();
         }
 
-        textConsumer.accept(Text.translatable(getTranslationKey() + ".tooltip.level", displayLevel));
-        textConsumer.accept(Text.translatable(getTranslationKey() + ".tooltip.points", displayPoints));
+        textConsumer.accept(Text.translatable(getTranslationKey() + ".tooltip.level", displayLevel).withColor(Colors.LIGHT_GRAY));
+        textConsumer.accept(Text.translatable(getTranslationKey() + ".tooltip.points", displayPoints).withColor(Colors.LIGHT_GRAY));
     }
 
     public ItemStack extractPlayerExperience(PlayerEntity player) {

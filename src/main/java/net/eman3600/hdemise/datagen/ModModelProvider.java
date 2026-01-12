@@ -71,6 +71,7 @@ public class ModModelProvider extends FabricModelProvider {
 
         itemModelGenerator.register(ModItems.ALMARITE_SCYTHE, Models.HANDHELD);
         itemModelGenerator.register(ModItems.ALMARITE_PIX, Models.HANDHELD);
+        itemModelGenerator.register(ModItems.ALMARITE_HOEVE, Models.HANDHELD);
 
         itemModelGenerator.register(ModItems.WIND_STAFF, Models.HANDHELD);
 

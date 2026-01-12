@@ -148,8 +148,8 @@ public class SoulItem extends Item {
         if (component != null && soulType.hasExperience()) {
             NbtCompound nbt = component.copyNbt();
 
-            textConsumer.accept(Text.translatable("tooltip.hdemise.soul.level", nbt.getInt("level", 0)).withColor(Colors.GRAY));
-            textConsumer.accept(Text.translatable("tooltip.hdemise.soul.extra", nbt.getInt("display_points", 0)).withColor(Colors.GRAY));
+            textConsumer.accept(Text.translatable("tooltip.hdemise.soul.level", nbt.getInt("level", 0)).withColor(Colors.LIGHT_GRAY));
+            textConsumer.accept(Text.translatable("tooltip.hdemise.soul.extra", nbt.getInt("display_points", 0)).withColor(Colors.LIGHT_GRAY));
         }
 
         List<SoulAttribute> modifiers = this.soulType.getAttributes();

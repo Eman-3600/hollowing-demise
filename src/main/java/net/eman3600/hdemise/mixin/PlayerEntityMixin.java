@@ -242,7 +242,7 @@ public abstract class PlayerEntityMixin extends PlayerLikeEntity implements Play
         if (((Object)this) instanceof PlayerEntity player) {
             SoulComponent sc = SoulComponent.of(player);
 
-            if (sc.applyAerialMovement() && !player.getAbilities().flying) {
+            if (sc.applyAerialMovement() && !player.getAbilities().flying && !this.hasVehicle()) {
                 cir.setReturnValue(cir.getReturnValueF() * (float) (getAttributeValue(EntityAttributes.MOVEMENT_SPEED) / getAttributeBaseValue(EntityAttributes.MOVEMENT_SPEED)));
             }
         }

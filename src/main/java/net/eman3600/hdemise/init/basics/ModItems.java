@@ -132,7 +132,9 @@ public class ModItems {
     public static final Item ALMARITE_SCYTHE = register("almarite_scythe", Item::new, new Item.Settings().sword(ModToolMaterials.ALMARITE, 3.5F, -3F)
             .component(ModDataComponentTypes.TOOLTIP_LINES, 2));
 
-    public static final Item ALMARITE_PIX = register("almarite_pix", settings -> new PixItem(ModToolMaterials.ALMARITE, 4, -2.8f, settings), new Item.Settings().component(ModDataComponentTypes.TOOLTIP_LINES, 1));
+    public static final Item ALMARITE_PIX = register("almarite_pix", settings -> new PixItem(ModToolMaterials.ALMARITE, 4, -2.8f, settings), new Item.Settings().component(ModDataComponentTypes.TOOLTIP_LINES, 2));
+
+    public static final Item ALMARITE_HOEVE = register("almarite_hoeve", settings -> new HoeveItem(ModToolMaterials.ALMARITE, 1.5f, -3f, settings), new Item.Settings().component(ModDataComponentTypes.TOOLTIP_LINES, 2));
 
 
     public static final Item WIND_STAFF = register("wind_staff", WindStaffItem::new, new Item.Settings().rarity(Rarity.UNCOMMON).maxCount(1).maxDamage(1250).repairable(Items.WIND_CHARGE));
@@ -189,6 +191,7 @@ public class ModItems {
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.TOOLS).register((group) -> {
             group.add(ModItems.ALMARITE);
             group.add(ModItems.ALMARITE_PIX);
+            group.add(ModItems.ALMARITE_HOEVE);
             group.add(ModItems.WIND_STAFF);
         });
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.FOOD_AND_DRINK).register((group) -> {

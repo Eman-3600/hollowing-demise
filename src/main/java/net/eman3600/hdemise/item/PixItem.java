@@ -6,6 +6,7 @@ import net.minecraft.block.Blocks;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemUsageContext;
+import net.minecraft.item.Items;
 import net.minecraft.item.ToolMaterial;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
@@ -37,6 +38,12 @@ public class PixItem extends Item {
             return ActionResult.SUCCESS;
         }
 
-        return super.useOnBlock(context);
+        ActionResult result = super.useOnBlock(context);
+
+        if (result == ActionResult.PASS) {
+            return Items.DIAMOND_AXE.useOnBlock(context);
+        }
+
+        return result;
     }
 }

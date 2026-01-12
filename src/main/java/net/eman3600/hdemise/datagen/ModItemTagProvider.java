@@ -29,6 +29,12 @@ public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
         valueLookupBuilder(ItemTags.AXES)
                 .add(ModItems.ALMARITE_PIX);
 
+        valueLookupBuilder(ItemTags.SHOVELS)
+                .add(ModItems.ALMARITE_HOEVE);
+
+        valueLookupBuilder(ItemTags.HOES)
+                .add(ModItems.ALMARITE_HOEVE);
+
 
         valueLookupBuilder(ModTags.Items.YELLOW_AUGMENT)
                 .add(ModItems.FEATHER_TOKEN)
