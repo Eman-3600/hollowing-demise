@@ -18,7 +18,6 @@ import net.minecraft.component.type.FoodComponents;
 import net.minecraft.entity.attribute.EntityAttributeModifier.Operation;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroups;
@@ -105,7 +104,7 @@ public class ModItems {
             settings,
             new SoulAttribute(ModAttributes.FOCUS_POWER, 2d, Operation.ADD_VALUE)
     )), new Item.Settings());
-    public static final Item RADIANT_JEWEL = register("radiant_jewel", (settings -> new NightVisionAugmentItem(settings, 1)), new Item.Settings());
+    public static final Item RADIANT_JEWEL = register("radiant_jewel", (settings -> new RadiantFocusAugmentItem(settings, 2)), new Item.Settings());
     public static final Item ESSENCE_CORE = register("essence_core", settings -> new AugmentItem(settings, 2), new Item.Settings());
     public static final Item GOLDEN_FOOT = register("golden_foot", settings -> new AugmentItem(settings, 2), new Item.Settings());
     public static final Item MORTICIAN_CHARM = register("mortician_charm", (settings -> new AttributeAugmentItem(

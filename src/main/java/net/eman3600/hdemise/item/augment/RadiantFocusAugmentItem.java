@@ -5,18 +5,19 @@ import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 
-public class NightVisionAugmentItem extends AugmentItem implements FocusAugment {
-    public NightVisionAugmentItem(Settings settings) {
+public class RadiantFocusAugmentItem extends AugmentItem implements FocusAugment {
+    public RadiantFocusAugmentItem(Settings settings) {
         super(settings);
     }
 
-    public NightVisionAugmentItem(Settings settings, int tooltipLines) {
+    public RadiantFocusAugmentItem(Settings settings, int tooltipLines) {
         super(settings, tooltipLines);
     }
 
     @Override
     public void onFocus(PlayerEntity player, ItemStack stack, float focusPower) {
         player.addStatusEffect(new StatusEffectInstance(StatusEffects.NIGHT_VISION, 2400, 0, true, true));
+        player.addStatusEffect(new StatusEffectInstance(StatusEffects.FIRE_RESISTANCE, 1200, 0, true, true));
         player.removeStatusEffect(StatusEffects.BLINDNESS);
         player.removeStatusEffect(StatusEffects.DARKNESS);
     }
