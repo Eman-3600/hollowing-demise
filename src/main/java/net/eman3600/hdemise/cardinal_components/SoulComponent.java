@@ -1051,12 +1051,15 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
 
                 for (LivingEntity entity : player.getEntityWorld().getEntitiesByClass(LivingEntity.class, windBox, e -> e != player && !player.isTeammate(e))) {
                     Vec3d propulsion = entity.getEntityPos().subtract(player.getEntityPos()).normalize();
-                    double power = Math.min(MAGIC_FAN_STRENGTH/Math.max(Double.MIN_NORMAL, entity.squaredDistanceTo(player)), MAGIC_FAN_STRENGTH_CAP);
+                    double distanceSq = entity.squaredDistanceTo(player);
+                    if (distanceSq <= 25) {
+                        double power = Math.min(MAGIC_FAN_STRENGTH / Math.max(Double.MIN_NORMAL, distanceSq), MAGIC_FAN_STRENGTH_CAP);
 
-                    entity.addVelocity(propulsion.multiply(power));
+                        entity.addVelocity(propulsion.multiply(power));
 
-                    if (entity instanceof ServerPlayerEntity p) {
-                        p.getEntityWorld().sendPacket(new EntityVelocityUpdateS2CPacket(p));
+                        if (entity instanceof ServerPlayerEntity p) {
+                            p.getEntityWorld().sendPacket(new EntityVelocityUpdateS2CPacket(p));
+                        }
                     }
                 }
             }

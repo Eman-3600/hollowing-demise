@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "#": "minecraft:stick",
+    "X": "minecraft:paper",
+    "W": "minecraft:wind_charge"
+  },
+  "pattern": [
+    "X# ",
+    "XW#",
+    "X# "
+  ],
+  "result": {
+    "count": 1,
+    "id": "hdemise:magic_fan"
+  }
+}
