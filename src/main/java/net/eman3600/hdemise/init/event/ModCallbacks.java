@@ -72,7 +72,7 @@ public class ModCallbacks {
                 SoulComponent sc = SoulComponent.of(player);
 
                 if (sc.getSoulType() == ModSoulTypes.PALE && !sc.hasUsedPaleRevive()) {
-                    player.setHealth(Math.max(1f, player.getMaxHealth()/5));
+                    player.setHealth(2);
                     player.addStatusEffect(new StatusEffectInstance(StatusEffects.RESISTANCE, 30, 1));
                     sc.setUsedPaleRevive(true);
                     player.getEntityWorld().playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.ENTITY_CREAKING_DEATH, SoundCategory.PLAYERS);

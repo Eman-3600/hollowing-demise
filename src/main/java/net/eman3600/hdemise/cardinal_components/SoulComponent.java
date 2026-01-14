@@ -660,6 +660,10 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
             player.getHungerManager().setSaturationLevel(0f);
         }
 
+        if (soulType == ModSoulTypes.PALE) {
+            player.addStatusEffect(new StatusEffectInstance(StatusEffects.NIGHT_VISION, -1, 0, true, false));
+        }
+
         markDirty();
 
         updateAbilities(true);
