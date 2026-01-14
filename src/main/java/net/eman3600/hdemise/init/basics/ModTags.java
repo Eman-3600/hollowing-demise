@@ -13,6 +13,8 @@ public class ModTags {
 
         public static final TagKey<Block> PIX_MINEABLE = createTag("pix_mineable");
         public static final TagKey<Block> HOEVE_MINEABLE = createTag("hoeve_mineable");
+        public static final TagKey<Block> TUNNELER_MINEABLE = createTag("tunneler_mineable");
+        public static final TagKey<Block> FELLER_MINEABLE = createTag("feller_mineable");
 
         private static TagKey<Block> createTag(String name) {
             return TagKey.of(RegistryKeys.BLOCK, Identifier.of(MODID, name));

@@ -1,17 +1,18 @@
 {
   "type": "minecraft:crafting_shaped",
   "category": "misc",
+  "group": "almarite_pix",
   "key": {
     "#": "minecraft:stick",
     "X": "hdemise:almarite"
   },
   "pattern": [
     " X ",
-    "X# ",
+    "X#X",
     " # "
   ],
   "result": {
     "count": 1,
-    "id": "hdemise:almarite_hoeve"
+    "id": "hdemise:almarite_tunneler"
   }
 }

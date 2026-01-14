@@ -1,7 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
   "category": "misc",
-  "group": "almarite_pix",
   "key": {
     "#": "minecraft:stick",
     "X": "hdemise:almarite"
@@ -13,6 +12,6 @@
   ],
   "result": {
     "count": 1,
-    "id": "hdemise:almarite_pix"
+    "id": "hdemise:almarite_feller"
   }
 }

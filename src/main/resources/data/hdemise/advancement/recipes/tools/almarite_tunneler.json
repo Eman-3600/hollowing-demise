@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "hdemise:crafting/almarite_hoeve"
+        "recipe": "hdemise:crafting/almarite_tunneler"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -26,7 +26,7 @@
   ],
   "rewards": {
     "recipes": [
-      "hdemise:crafting/almarite_hoeve"
+      "hdemise:crafting/almarite_tunneler"
     ]
   }
 }

@@ -24,16 +24,16 @@ public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
                 .add(ModItems.ALMARITE_SCYTHE);
 
         valueLookupBuilder(ItemTags.PICKAXES)
-                .add(ModItems.ALMARITE_PIX);
+                .add(ModItems.ALMARITE_TUNNELER);
 
         valueLookupBuilder(ItemTags.AXES)
-                .add(ModItems.ALMARITE_PIX);
+                .add(ModItems.ALMARITE_FELLER);
 
         valueLookupBuilder(ItemTags.SHOVELS)
-                .add(ModItems.ALMARITE_HOEVE);
+                .add(ModItems.ALMARITE_TUNNELER);
 
         valueLookupBuilder(ItemTags.HOES)
-                .add(ModItems.ALMARITE_HOEVE);
+                .add(ModItems.ALMARITE_FELLER);
 
 
         valueLookupBuilder(ModTags.Items.YELLOW_AUGMENT)
