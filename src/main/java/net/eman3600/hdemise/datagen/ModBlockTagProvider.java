@@ -21,10 +21,15 @@ public class ModBlockTagProvider extends FabricTagProvider.BlockTagProvider {
             .add(ModBlocks.ALMARITE_BLOCK)
             .add(ModBlocks.ALMARITE_ORE)
             .add(ModBlocks.DEEPSLATE_ALMARITE_ORE)
+            .add(ModBlocks.POLTERIUM_BLOCK)
             .add(ModBlocks.INFUSION_TABLE);
 
         valueLookupBuilder(BlockTags.NEEDS_IRON_TOOL)
+            .add(ModBlocks.ALMARITE_BLOCK)
             .add(ModBlocks.ALMARITE_ORE)
             .add(ModBlocks.DEEPSLATE_ALMARITE_ORE);
+
+        valueLookupBuilder(BlockTags.NEEDS_DIAMOND_TOOL)
+            .add(ModBlocks.POLTERIUM_BLOCK);
     }
 }

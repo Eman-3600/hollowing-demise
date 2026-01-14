@@ -34,6 +34,7 @@ public class ModLootTableProvider extends FabricBlockLootTableProvider {
         addDrop(ModBlocks.ALMARITE_BLOCK);
         addDrop(ModBlocks.ALMARITE_ORE, multipleOreDrops(ModBlocks.ALMARITE_ORE, ModItems.ALMARITE, 3, 5));
         addDrop(ModBlocks.DEEPSLATE_ALMARITE_ORE, multipleOreDrops(ModBlocks.DEEPSLATE_ALMARITE_ORE, ModItems.ALMARITE, 3, 5));
+        addDrop(ModBlocks.POLTERIUM_BLOCK);
         addDrop(ModBlocks.INFUSION_TABLE);
 
         BlockStatePropertyLootCondition.Builder soulrootBuilder = BlockStatePropertyLootCondition.builder(ModBlocks.SOULROOT)

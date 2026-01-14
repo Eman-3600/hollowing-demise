@@ -22,6 +22,12 @@
     "item.hdemise.ectoplasm": "Ectoplasm",
     "item.hdemise.ectoplasm_remedy": "Soul Remedy",
     "item.hdemise.ectoplasm_remedy.tooltip": "Restores hollows to life",
+    "item.hdemise.polterium_ingot": "Polterium Ingot",
+    "item.hdemise.polterium_upgrade_template": "Polterium Upgrade",
+    "item.hdemise.polterium_upgrade_template.additions_slot_description": "Add Polterium Ingot",
+    "item.hdemise.polterium_upgrade_template.applies_to": "Almarite Equipment",
+    "item.hdemise.polterium_upgrade_template.base_slot_description": "Add almarite weapon or tool",
+    "item.hdemise.polterium_upgrade_template.ingredients": "Polterium Ingot",
 
     "item.hdemise.feather_token": "Feather Token",
     "item.hdemise.feather_token.tooltip.0": "Applies all speed bonuses",
@@ -77,12 +83,6 @@
     "item.hdemise.almarite_scythe": "Almarite Scythe",
     "item.hdemise.almarite_scythe.tooltip.0": "Slain foes yield",
     "item.hdemise.almarite_scythe.tooltip.1": "increased experience",
-    "item.hdemise.almarite_pix": "Almarite Pix",
-    "item.hdemise.almarite_pix.tooltip.0": "Both a pick and an axe",
-    "item.hdemise.almarite_pix.tooltip.1": "Can make obsidian cry",
-    "item.hdemise.almarite_hoeve": "Almarite Hoeve",
-    "item.hdemise.almarite_hoeve.tooltip.0": "Both a shovel and a hoe",
-    "item.hdemise.almarite_hoeve.tooltip.1": "Sneak to prioritize hoe",
     "item.hdemise.almarite_tunneler": "Almarite Tunneler",
     "item.hdemise.almarite_tunneler.tooltip.0": "Both a pickaxe and a shovel",
     "item.hdemise.almarite_tunneler.tooltip.1": "Can scrape obsidian",
@@ -102,6 +102,8 @@
     "item.hdemise.revenant_soul_fractured": "Fractured Revenant's Soul",
     "item.hdemise.construct_soul": "Mechanical Soul",
     "item.hdemise.construct_soul_fractured": "Fractured Mechanical Soul",
+    "item.hdemise.pale_soul": "Pale Soul",
+    "item.hdemise.pale_soul_fractured": "Fractured Pale Soul",
     "item.hdemise.antisoul": "Antisoul",
 
 
@@ -120,6 +122,7 @@
     "block.hdemise.almarite_block": "Block of Almarite",
     "block.hdemise.almarite_ore": "Almarite Ore",
     "block.hdemise.deepslate_almarite_ore": "Deepslate Almarite Ore",
+    "block.hdemise.polterium_block": "Block of Polterium",
     "block.hdemise.infusion_table": "Infusion Table",
     "block.hdemise.infusion_table.tooltip.0": "Remove, replace, and",
     "block.hdemise.infusion_table.tooltip.1": "augment your soul",
@@ -210,6 +213,9 @@
 
     "soul_type.hdemise.revenant": "Revenant",
     "soul_type.hdemise.revenant.description": "Soul of an undead beast. Heals from eating food. Focus essence to enter a rage and lunge at foes.",
+
+    "soul_type.hdemise.pale": "Pale",
+    "soul_type.hdemise.pale.description": "Soul of a sentient plant. Thick bark protects against deadly blows, but once it breaks, it is difficult to mend.",
     
     "soul_type.hdemise.negative": "Absent",
     "soul_type.hdemise.negative.description": "Where the soul once stood, now there is less than nothing.",

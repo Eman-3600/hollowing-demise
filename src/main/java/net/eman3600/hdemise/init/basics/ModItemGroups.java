@@ -32,6 +32,9 @@ public class ModItemGroups {
                 entries.add(ModItems.ECTOPLASM);
                 entries.add(ModItems.SIMPLE_CURE);
                 entries.add(ModItems.ECTOPLASM_REMEDY);
+            entries.add(ModItems.POLTERIUM_INGOT);
+            entries.add(ModBlocks.POLTERIUM_BLOCK);
+            entries.add(ModItems.POLTERIUM_UPGRADE_TEMPLATE);
             entries.add(ModItems.AMETHYST_APPLE);
             entries.add(ModItems.CROSS);
             entries.add(ModItems.EXPERIENCE_CORE);
@@ -47,6 +50,8 @@ public class ModItemGroups {
             entries.add(ModItems.PHANTOM_SOUL_FRACTURED);
             entries.add(ModItems.REVENANT_SOUL);
             entries.add(ModItems.REVENANT_SOUL_FRACTURED);
+                entries.add(ModItems.PALE_SOUL);
+                entries.add(ModItems.PALE_SOUL_FRACTURED);
                 entries.add(ModItems.ANTISOUL);
             entries.add(ModItems.FEATHER_TOKEN);
             entries.add(ModItems.GOLEM_STRENGTH_BELT);

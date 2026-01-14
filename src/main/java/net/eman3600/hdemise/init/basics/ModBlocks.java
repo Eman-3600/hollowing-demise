@@ -40,6 +40,11 @@ public class ModBlocks {
         .requiresTool()
         .sounds(BlockSoundGroup.DEEPSLATE), true);
 
+    public static final Block POLTERIUM_BLOCK = register("polterium_block", Block::new, AbstractBlock.Settings.create()
+            .strength(10f)
+            .requiresTool()
+            .sounds(BlockSoundGroup.IRON), true);
+
     public static final Block INFUSION_TABLE = register("infusion_table", InfusionTableBlock::new,
         AbstractBlock.Settings.create()
         .strength(5.0f, 1200.0f)
@@ -121,6 +126,7 @@ public class ModBlocks {
 
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.BUILDING_BLOCKS).register(group -> {
             group.add(ModBlocks.ALMARITE_BLOCK);
+            group.add(ModBlocks.POLTERIUM_BLOCK);
         });
 
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.NATURAL).register(group -> {

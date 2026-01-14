@@ -7,6 +7,7 @@ import net.eman3600.hdemise.init.custom.ModSoulTypes;
 import net.eman3600.hdemise.init.entity.ModAttributes;
 import net.eman3600.hdemise.init.entity.ModStatusEffects;
 import net.eman3600.hdemise.mixin_interfaces.PlayerEntityAccess;
+import net.eman3600.hdemise.soul_type.PaleSoulType;
 import net.eman3600.hdemise.soul_type.RevenantSoulType;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -258,6 +259,8 @@ public abstract class InGameHudMixin {
             if (heartTexture != null && type == InGameHud.HeartType.NORMAL) {
                 if (sc.getSoulType() == ModSoulTypes.REVENANT && getCameraPlayer().hasStatusEffect(ModStatusEffects.RAGE)) {
                     heartTexture = RevenantSoulType.RAGE_HEART_TYPE;
+                } else if (sc.getSoulType() == ModSoulTypes.PALE && sc.hasUsedPaleRevive()) {
+                    heartTexture = PaleSoulType.EXPOSED_HEART_TYPE;
                 }
 
                 hdemise$drawCustomHeart(context, heartTexture, x, y, hardcore, blinking, half, false);
@@ -271,6 +274,8 @@ public abstract class InGameHudMixin {
             if (heartContainerTexture != null && type == InGameHud.HeartType.CONTAINER) {
                 if (sc.getSoulType() == ModSoulTypes.REVENANT && getCameraPlayer().hasStatusEffect(ModStatusEffects.RAGE) || sc.getSoulType() == ModSoulTypes.MAGE && getCameraPlayer().hasStatusEffect(ModStatusEffects.SHIELD)) {
                     blinking = ticks / 2 % 2 == 0;
+                } else if (sc.getSoulType() == ModSoulTypes.PALE && sc.hasUsedPaleRevive()) {
+                    heartContainerTexture = PaleSoulType.EXPOSED_HEART_CONTAINER_TYPE;
                 }
 
                 hdemise$drawCustomHeart(context, heartContainerTexture, x, y, false, blinking, false, true);

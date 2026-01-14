@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "minecraft:iron_ingot",
+    "minecraft:iron_ingot",
+    "minecraft:iron_ingot",
+    "minecraft:iron_ingot",
+    "minecraft:ghast_tear",
+    "hdemise:ectoplasm",
+    "hdemise:ectoplasm",
+    "hdemise:ectoplasm",
+    "hdemise:ectoplasm"
+  ],
+  "result": {
+    "count": 1,
+    "id": "hdemise:polterium_ingot"
+  }
+}

@@ -14,6 +14,7 @@ public class ModSoulTypes {
     public static final SoulType PHANTOM = SoulTypeRegistry.register("phantom", PhantomSoulType::new);
     public static final SoulType REVENANT = SoulTypeRegistry.register("revenant", RevenantSoulType::new);
     public static final SoulType CONSTRUCT = SoulTypeRegistry.register("construct", ConstructSoulType::new);
+    public static final SoulType PALE = SoulTypeRegistry.register("pale", PaleSoulType::new);
     public static final SoulType NEGATIVE = SoulTypeRegistry.register("negative", NegativeSoulType::new);
 
 

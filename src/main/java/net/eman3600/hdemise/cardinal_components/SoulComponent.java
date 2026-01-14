@@ -5,7 +5,6 @@ import net.eman3600.hdemise.event.callback.SoulInUseCallback;
 import net.eman3600.hdemise.event.callback.SoulRegenCallback;
 import net.eman3600.hdemise.init.basics.ModGameRules;
 import net.eman3600.hdemise.init.basics.ModItems;
-import net.eman3600.hdemise.init.basics.ModTags;
 import net.eman3600.hdemise.init.custom.ModSoulTypes;
 import net.eman3600.hdemise.init.entity.ModAttributes;
 import net.eman3600.hdemise.init.cca.ModEntityComponents;
@@ -33,7 +32,6 @@ import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.HungerManager;
 import net.minecraft.entity.player.PlayerAbilities;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.projectile.AbstractWindChargeEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.packet.s2c.play.EntityVelocityUpdateS2CPacket;
@@ -48,13 +46,11 @@ import net.minecraft.storage.WriteView;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.ItemScatterer;
-import net.minecraft.util.collection.Pool;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.random.Random;
-import net.minecraft.world.World;
 import org.ladysnake.cca.api.v3.component.sync.AutoSyncedComponent;
 import org.ladysnake.cca.api.v3.component.tick.ClientTickingComponent;
 import org.ladysnake.cca.api.v3.component.tick.ServerTickingComponent;
@@ -143,6 +139,7 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
 
     private boolean hasLightfoot = false;
     private boolean aerialMovement = true;
+    private boolean usedPaleRevive = false;
 
     private float regenTime = 0f;
     private float soulRegenTime = 0f;
@@ -182,6 +179,7 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
         manager.setSaturationLevel(20f);
         this.afflicted = false;
         this.corruption = 0;
+        this.usedPaleRevive = false;
         setSoul(getMaxSoul());
         forEachAugment((stack, p) -> {
             if (stack.getItem() instanceof TopUpAugment augment) {
@@ -586,6 +584,15 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
         return aerialMovement;
     }
 
+    public boolean hasUsedPaleRevive() {
+        return usedPaleRevive;
+    }
+
+    public void setUsedPaleRevive(boolean usedPaleRevive) {
+        this.usedPaleRevive = usedPaleRevive;
+        markDirty();
+    }
+
     public boolean lockedMovement() {
         return this.focusing || this.vanishing || this.curing;
     }
@@ -634,6 +641,7 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
         this.jetting = false;
         this.jetEnabled = false;
         this.jetJammed = false;
+        this.usedPaleRevive = false;
 
         player.clearStatusEffects();
 
@@ -1039,6 +1047,11 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
             player.removeStatusEffect(ModStatusEffects.DEMON_STRENGTH);
         }
 
+        // PALE REVIVE FUNCTIONALITY
+        if (hasUsedPaleRevive() && player.getHealth() >= player.getMaxHealth()){
+            setUsedPaleRevive(false);
+        }
+
 
 
         // FOCUS FUNCTIONALITY
@@ -1215,6 +1228,7 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
 
         hasLightfoot = readView.getBoolean("lightfoot", false);
         aerialMovement = readView.getBoolean("aerial_movement", true);
+        usedPaleRevive = readView.getBoolean("used_pale_revive", false);
 
         inventory.readData(readView);
     }
@@ -1255,6 +1269,7 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
 
         writeView.putBoolean("lightfoot", hasLightfoot);
         writeView.putBoolean("aerial_movement", aerialMovement);
+        writeView.putBoolean("used_pale_revive", usedPaleRevive);
 
         inventory.writeData(writeView);
     }

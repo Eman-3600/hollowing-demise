@@ -61,6 +61,8 @@ public class ModItems {
     public static final Item SOULROOT_SOUP = register("soulroot_soup", (settings) -> new EssenceFoodItem(settings, SoulComponent.SOUL_PER_VESSEL * 9, 54), new Item.Settings().food(SOUL_SOUP_FOOD).maxCount(1).useRemainder(Items.BOWL));
     public static final Item ECTOPLASM = register("ectoplasm", Item::new, new Item.Settings());
     public static final Item ECTOPLASM_REMEDY = register("ectoplasm_remedy", EdibleCureItem::new, new Item.Settings().rarity(Rarity.UNCOMMON).food(FoodComponents.BEETROOT_SOUP).maxCount(1).useRemainder(Items.BOWL));
+    public static final Item POLTERIUM_UPGRADE_TEMPLATE = register("polterium_upgrade_template", ModSmithingTemplateItem::createPolteriumUpgrade, new Item.Settings().rarity(Rarity.UNCOMMON));
+    public static final Item POLTERIUM_INGOT = register("polterium_ingot", Item::new, new Item.Settings());
 
 
     public static final Item FEATHER_TOKEN = register("feather_token", (settings -> new AttributeAugmentItem(
@@ -150,6 +152,8 @@ public class ModItems {
     public static final Item PHANTOM_SOUL = register("phantom_soul", (settings) -> new BreakableSoulItem(settings, ModSoulTypes.PHANTOM, PHANTOM_SOUL_FRACTURED), SoulItem.getDefaultSettings());
     public static final Item REVENANT_SOUL_FRACTURED = register("revenant_soul_fractured", Item::new, SoulItem.getDefaultSettings());
     public static final Item REVENANT_SOUL = register("revenant_soul", (settings) -> new BreakableSoulItem(settings, ModSoulTypes.REVENANT, REVENANT_SOUL_FRACTURED), SoulItem.getDefaultSettings());
+    public static final Item PALE_SOUL_FRACTURED = register("pale_soul_fractured", Item::new, SoulItem.getDefaultSettings());
+    public static final Item PALE_SOUL = register("pale_soul", (settings) -> new BreakableSoulItem(settings, ModSoulTypes.PALE, PALE_SOUL_FRACTURED), SoulItem.getDefaultSettings());
     public static final Item ANTISOUL = register("antisoul", (settings) -> new SoulItem(settings, ModSoulTypes.NEGATIVE), SoulItem.getDefaultSettings().rarity(Rarity.EPIC));
 
     /**
@@ -178,6 +182,8 @@ public class ModItems {
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.INGREDIENTS).register((group) -> {
             group.add(ModItems.ALMARITE);
             group.add(ModItems.ECTOPLASM);
+            group.add(ModItems.POLTERIUM_INGOT);
+            group.add(ModItems.POLTERIUM_UPGRADE_TEMPLATE);
             group.add(ModItems.SOUL_BASE);
         });
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.COMBAT).register((group) -> {

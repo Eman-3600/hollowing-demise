@@ -70,6 +70,7 @@ public class SoulItem extends Item {
             nbt.putInt("soul", sc.getSoul());
             nbt.putInt("corruption", sc.getCorruption());
             nbt.putBoolean("afflicted", sc.isAfflicted());
+            nbt.putBoolean("used_pale_revive", sc.hasUsedPaleRevive());
             nbt.putInt("level", player.experienceLevel);
             nbt.putFloat("experience_progress", player.experienceProgress);
             nbt.putInt("display_points", (int)(player.experienceProgress * player.getNextLevelExperience()));
@@ -112,6 +113,7 @@ public class SoulItem extends Item {
             NbtCompound nbt = component.copyNbt();
 
             sc.setAfflicted(nbt.getBoolean("afflicted", false));
+            sc.setUsedPaleRevive(nbt.getBoolean("has_used_pale_revive", false));
             player.setHealth(nbt.getFloat("hp", player.getHealth()));
             manager.setFoodLevel(nbt.getInt("food", manager.getFoodLevel()));
             manager.setSaturationLevel(nbt.getFloat("saturation", manager.getSaturationLevel()));

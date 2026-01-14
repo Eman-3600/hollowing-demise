@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "#": "hdemise:almarite",
+    "C": "minecraft:echo_shard",
+    "S": "hdemise:polterium_upgrade_template"
+  },
+  "pattern": [
+    "#S#",
+    "#C#",
+    "###"
+  ],
+  "result": {
+    "count": 2,
+    "id": "hdemise:polterium_upgrade_template"
+  }
+}

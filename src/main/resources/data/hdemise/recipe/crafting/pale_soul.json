@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "#": "hdemise:soul_base",
+    "X": "minecraft:resin_block",
+    "B": "minecraft:pale_oak_log"
+  },
+  "pattern": [
+    " B ",
+    "X#X",
+    " B "
+  ],
+  "result": {
+    "count": 1,
+    "id": "hdemise:pale_soul"
+  }
+}

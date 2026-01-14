@@ -1,0 +1,14 @@
+{
+  "type": "hdemise:infusion",
+  "base": "hdemise:pale_soul_fractured",
+  "ingredient": {
+    "count": 4,
+    "id": "minecraft:resin_clump"
+  },
+  "repair": true,
+  "keep_base": false,
+  "result": {
+    "count": 1,
+    "id": "hdemise:pale_soul"
+  }
+}

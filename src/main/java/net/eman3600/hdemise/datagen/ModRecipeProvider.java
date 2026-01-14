@@ -39,6 +39,7 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                 offerSmoking(List.of(ModItems.SOULROOT_BULB), RecipeCategory.MISC, ModItems.ECTOPLASM, 3f, 100, "ectoplasm");
 
                 offerReversibleCompactingRecipes(RecipeCategory.MISC, ModItems.ALMARITE, RecipeCategory.BUILDING_BLOCKS, ModBlocks.ALMARITE_BLOCK);
+                offerReversibleCompactingRecipes(RecipeCategory.MISC, ModItems.POLTERIUM_INGOT, RecipeCategory.BUILDING_BLOCKS, ModBlocks.POLTERIUM_BLOCK);
 
 
             }

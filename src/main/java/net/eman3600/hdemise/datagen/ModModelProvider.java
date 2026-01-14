@@ -23,6 +23,7 @@ public class ModModelProvider extends FabricModelProvider {
         blockStateModelGenerator.registerSimpleCubeAll(ModBlocks.ALMARITE_BLOCK);
         blockStateModelGenerator.registerSimpleCubeAll(ModBlocks.ALMARITE_ORE);
         blockStateModelGenerator.registerSimpleCubeAll(ModBlocks.DEEPSLATE_ALMARITE_ORE);
+        blockStateModelGenerator.registerSimpleCubeAll(ModBlocks.POLTERIUM_BLOCK);
         blockStateModelGenerator.registerSimpleState(ModBlocks.INFUSION_TABLE);
 
         blockStateModelGenerator.registerCrop(ModBlocks.SOULROOT, SoulrootBlock.AGE, 0, 1, 2, 3);
@@ -41,6 +42,8 @@ public class ModModelProvider extends FabricModelProvider {
         itemModelGenerator.register(ModItems.SOUL_BASE, Models.GENERATED);
         itemModelGenerator.register(ModItems.ECTOPLASM, Models.GENERATED);
         itemModelGenerator.register(ModItems.ECTOPLASM_REMEDY, Models.GENERATED);
+        itemModelGenerator.register(ModItems.POLTERIUM_INGOT, Models.GENERATED);
+        itemModelGenerator.register(ModItems.POLTERIUM_UPGRADE_TEMPLATE, Models.GENERATED);
 
         itemModelGenerator.register(ModItems.FEATHER_TOKEN, Models.GENERATED);
         itemModelGenerator.register(ModItems.GOLEM_STRENGTH_BELT, Models.GENERATED);
@@ -86,6 +89,8 @@ public class ModModelProvider extends FabricModelProvider {
         itemModelGenerator.register(ModItems.PHANTOM_SOUL_FRACTURED, Models.GENERATED);
         itemModelGenerator.register(ModItems.REVENANT_SOUL, Models.GENERATED);
         itemModelGenerator.register(ModItems.REVENANT_SOUL_FRACTURED, Models.GENERATED);
+        itemModelGenerator.register(ModItems.PALE_SOUL, Models.GENERATED);
+        itemModelGenerator.register(ModItems.PALE_SOUL_FRACTURED, Models.GENERATED);
         itemModelGenerator.register(ModItems.ANTISOUL, Models.GENERATED);
     }
 }

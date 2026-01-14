@@ -101,6 +101,7 @@ public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
                 .add(ModItems.CRYSTAL_SOUL)
                 .add(ModItems.MAGE_SOUL)
                 .add(ModItems.CONSTRUCT_SOUL)
-                .add(ModItems.REVENANT_SOUL);
+                .add(ModItems.REVENANT_SOUL)
+                .add(ModItems.PALE_SOUL);
     }
 }

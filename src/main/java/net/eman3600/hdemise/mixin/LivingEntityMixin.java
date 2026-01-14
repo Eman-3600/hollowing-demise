@@ -64,7 +64,8 @@ public abstract class LivingEntityMixin extends Entity implements Attackable, Se
             }
 
             if (effect.equals(StatusEffects.POISON) && (sc.isUndead() || sc.getSoulType() == ModSoulTypes.CONSTRUCT)
-                    || effect.equals(StatusEffects.HUNGER) && (!sc.usesHunger())) {
+                    || effect.equals(StatusEffects.HUNGER) && (!sc.usesHunger())
+                    || effect.equals(StatusEffects.REGENERATION) && (sc.getSoulType() == ModSoulTypes.PALE)) {
                 cir.setReturnValue(false);
             }
         }
