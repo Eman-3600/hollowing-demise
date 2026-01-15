@@ -259,7 +259,7 @@ public abstract class InGameHudMixin {
             if (heartTexture != null && type == InGameHud.HeartType.NORMAL) {
                 if (sc.getSoulType() == ModSoulTypes.REVENANT && getCameraPlayer().hasStatusEffect(ModStatusEffects.RAGE)) {
                     heartTexture = RevenantSoulType.RAGE_HEART_TYPE;
-                } else if (sc.getSoulType() == ModSoulTypes.PALE && sc.hasUsedPaleRevive()) {
+                } else if (sc.getSoulType() == ModSoulTypes.PALE && this.currentHeart < 4) {
                     heartTexture = PaleSoulType.EXPOSED_HEART_TYPE;
                 }
 
@@ -274,7 +274,7 @@ public abstract class InGameHudMixin {
             if (heartContainerTexture != null && type == InGameHud.HeartType.CONTAINER) {
                 if (sc.getSoulType() == ModSoulTypes.REVENANT && getCameraPlayer().hasStatusEffect(ModStatusEffects.RAGE) || sc.getSoulType() == ModSoulTypes.MAGE && getCameraPlayer().hasStatusEffect(ModStatusEffects.SHIELD)) {
                     blinking = ticks / 2 % 2 == 0;
-                } else if (sc.getSoulType() == ModSoulTypes.PALE && sc.hasUsedPaleRevive()) {
+                } else if (sc.getSoulType() == ModSoulTypes.PALE && this.currentHeart < 4) {
                     heartContainerTexture = PaleSoulType.EXPOSED_HEART_CONTAINER_TYPE;
                 }
 

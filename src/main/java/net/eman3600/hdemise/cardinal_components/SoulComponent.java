@@ -139,7 +139,6 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
 
     private boolean hasLightfoot = false;
     private boolean aerialMovement = true;
-    private boolean usedPaleRevive = false;
 
     private float regenTime = 0f;
     private float soulRegenTime = 0f;
@@ -179,7 +178,6 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
         manager.setSaturationLevel(20f);
         this.afflicted = false;
         this.corruption = 0;
-        this.usedPaleRevive = false;
         setSoul(getMaxSoul());
         forEachAugment((stack, p) -> {
             if (stack.getItem() instanceof TopUpAugment augment) {
@@ -584,15 +582,6 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
         return aerialMovement;
     }
 
-    public boolean hasUsedPaleRevive() {
-        return usedPaleRevive;
-    }
-
-    public void setUsedPaleRevive(boolean usedPaleRevive) {
-        this.usedPaleRevive = usedPaleRevive;
-        markDirty();
-    }
-
     public boolean lockedMovement() {
         return this.focusing || this.vanishing || this.curing;
     }
@@ -641,7 +630,6 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
         this.jetting = false;
         this.jetEnabled = false;
         this.jetJammed = false;
-        this.usedPaleRevive = false;
 
         player.clearStatusEffects();
 
@@ -1051,9 +1039,13 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
             player.removeStatusEffect(ModStatusEffects.DEMON_STRENGTH);
         }
 
-        // PALE REVIVE FUNCTIONALITY
-        if (hasUsedPaleRevive() && player.getHealth() >= player.getMaxHealth()){
-            setUsedPaleRevive(false);
+        // PALE FURY FUNCTIONALITY
+        if (soulType == ModSoulTypes.PALE && !player.hasStatusEffect(ModStatusEffects.NATURES_WRATH) && player.getHealth() <= 8) {
+            player.addStatusEffect(new StatusEffectInstance(ModStatusEffects.NATURES_WRATH, -1, 0, true, true));
+            player.getEntityWorld().playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.ENTITY_CREAKING_ACTIVATE, SoundCategory.PLAYERS);
+        } else if (player.hasStatusEffect(ModStatusEffects.NATURES_WRATH) && (player.getHealth() > 8 || soulType != ModSoulTypes.PALE)) {
+            player.removeStatusEffect(ModStatusEffects.NATURES_WRATH);
+            player.getEntityWorld().playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.ENTITY_CREAKING_DEACTIVATE, SoundCategory.PLAYERS);
         }
 
 
@@ -1232,7 +1224,6 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
 
         hasLightfoot = readView.getBoolean("lightfoot", false);
         aerialMovement = readView.getBoolean("aerial_movement", true);
-        usedPaleRevive = readView.getBoolean("used_pale_revive", false);
 
         inventory.readData(readView);
     }
@@ -1273,7 +1264,6 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
 
         writeView.putBoolean("lightfoot", hasLightfoot);
         writeView.putBoolean("aerial_movement", aerialMovement);
-        writeView.putBoolean("used_pale_revive", usedPaleRevive);
 
         inventory.writeData(writeView);
     }

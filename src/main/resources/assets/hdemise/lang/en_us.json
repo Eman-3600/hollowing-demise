@@ -164,6 +164,7 @@
     "effect.hdemise.shield": "Shielded",
     "effect.hdemise.demon_strength": "Demon Strength",
     "effect.hdemise.fleeting_vigor": "Undying Recovery",
+    "effect.hdemise.natures_wrath": "Fury of the Forest",
 
 
     "item.minecraft.potion.effect.soul_regen": "Potion of Reclamation",
@@ -215,7 +216,7 @@
     "soul_type.hdemise.revenant.description": "Soul of an undead beast. Heals from eating food. Focus essence to enter a rage and lunge at foes.",
 
     "soul_type.hdemise.pale": "Pale",
-    "soul_type.hdemise.pale.description": "Soul of a sentient plant. Thick bark protects against deadly blows, but once it breaks, it is difficult to mend.",
+    "soul_type.hdemise.pale.description": "Soul of a wrathful plant, now emancipated. Increases in strength and speed when nearing death.",
     
     "soul_type.hdemise.negative": "Absent",
     "soul_type.hdemise.negative.description": "Where the soul once stood, now there is less than nothing.",

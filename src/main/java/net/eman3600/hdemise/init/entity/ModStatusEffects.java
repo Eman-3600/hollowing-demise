@@ -32,6 +32,11 @@ public class ModStatusEffects {
     public static final RegistryEntry<StatusEffect> SOUL_REGEN = register("soul_regen", new ModStatusEffect(StatusEffectCategory.BENEFICIAL, 0x4b7d7d));
     public static final RegistryEntry<StatusEffect> SHIELD = register("shield", new ModStatusEffect(StatusEffectCategory.BENEFICIAL, 0x5d9dfd));
 
+    public static final RegistryEntry<StatusEffect> NATURES_WRATH = register("natures_wrath", new ModStatusEffect(StatusEffectCategory.BENEFICIAL, 0xec7214)
+            .addAttributeModifier(EntityAttributes.MOVEMENT_SPEED, Identifier.of(MODID, "effect.natures_wrath"), .2, EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE)
+            .addAttributeModifier(EntityAttributes.ATTACK_DAMAGE, Identifier.of(MODID, "effect.natures_wrath"), 2, EntityAttributeModifier.Operation.ADD_VALUE)
+            .addAttributeModifier(EntityAttributes.ATTACK_SPEED, Identifier.of(MODID, "effect.natures_wrath"), .15, EntityAttributeModifier.Operation.ADD_MULTIPLIED_TOTAL));
+
 
     private static RegistryEntry<StatusEffect> register(String id, StatusEffect statusEffect) {
         return Registry.registerReference(Registries.STATUS_EFFECT, Identifier.of(MODID, id), statusEffect);

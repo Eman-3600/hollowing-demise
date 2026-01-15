@@ -38,7 +38,7 @@ public class PaleSoulType extends SoulType {
     public PaleSoulType(Identifier id) {
         super(MeterType.SOUL, id,
                 new SoulAttribute(EntityAttributes.MAX_HEALTH, 0, EntityAttributeModifier.Operation.ADD_VALUE),
-                new SoulAttribute(ModAttributes.MAX_SOUL, -4, EntityAttributeModifier.Operation.ADD_VALUE)
+                new SoulAttribute(ModAttributes.MAX_SOUL, -3, EntityAttributeModifier.Operation.ADD_VALUE)
         );
     }
 
@@ -70,13 +70,6 @@ public class PaleSoulType extends SoulType {
     @Override
     public List<AugmentSpace> getAugments() {
         return augments;
-    }
-
-    @Override
-    public boolean onFocus(PlayerEntity player, float focusAmount) {
-        SoulComponent sc = SoulComponent.of(player);
-
-        return super.onFocus(player, sc.hasUsedPaleRevive() ? focusAmount/2 : focusAmount);
     }
 
     @Override
