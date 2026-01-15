@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "#": "minecraft:totem_of_undying",
+    "X": "minecraft:resin_clump",
+    "P": "hdemise:polterium_ingot",
+    "G": "minecraft:ghast_tear"
+  },
+  "pattern": [
+    " G ",
+    "X#X",
+    " P "
+  ],
+  "result": {
+    "count": 1,
+    "id": "hdemise:undying_talisman"
+  }
+}
