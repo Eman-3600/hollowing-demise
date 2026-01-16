@@ -1068,7 +1068,7 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
                         entity.addVelocity(propulsion.multiply(power));
 
                         if (entity instanceof ServerPlayerEntity p) {
-                            p.getEntityWorld().sendPacket(new EntityVelocityUpdateS2CPacket(p));
+                            p.networkHandler.sendPacket(new EntityVelocityUpdateS2CPacket(p));
                         }
                     }
                 }
