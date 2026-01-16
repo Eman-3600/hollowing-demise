@@ -1049,6 +1049,11 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
             player.getEntityWorld().playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.ENTITY_CREAKING_DEACTIVATE, SoundCategory.PLAYERS);
         }
 
+        // PALE NIGHT VISION FUNCTIONALITY
+        if (soulType == ModSoulTypes.PALE && !player.hasStatusEffect(StatusEffects.NIGHT_VISION)) {
+            player.addStatusEffect(new StatusEffectInstance(StatusEffects.NIGHT_VISION, -1, 0, true, false));
+        }
+
 
 
         // FOCUS FUNCTIONALITY

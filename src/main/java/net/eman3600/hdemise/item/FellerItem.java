@@ -9,7 +9,7 @@ import net.minecraft.util.ActionResult;
 
 public class FellerItem extends Item {
     public FellerItem(ToolMaterial material, float attackDamage, float attackSpeed, Settings settings) {
-        super(settings.tool(material, ModTags.Blocks.FELLER_MINEABLE, attackDamage, attackSpeed, 0));
+        super(settings.tool(material, ModTags.Blocks.FELLER_MINEABLE, attackDamage, attackSpeed, 5));
     }
 
     @Override

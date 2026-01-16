@@ -35,6 +35,9 @@ public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
         valueLookupBuilder(ItemTags.HOES)
                 .add(ModItems.ALMARITE_FELLER);
 
+        valueLookupBuilder(ItemTags.DURABILITY_ENCHANTABLE)
+                .add(ModItems.WIND_STAFF);
+
 
         valueLookupBuilder(ModTags.Items.YELLOW_AUGMENT)
                 .add(ModItems.FEATHER_TOKEN)
