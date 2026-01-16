@@ -260,7 +260,7 @@ public abstract class InGameHudMixin {
                 if (sc.getSoulType() == ModSoulTypes.REVENANT && getCameraPlayer().hasStatusEffect(ModStatusEffects.RAGE)) {
                     heartTexture = RevenantSoulType.RAGE_HEART_TYPE;
                 } else if (sc.getSoulType() == ModSoulTypes.PALE && this.currentHeart < 4) {
-                    heartTexture = PaleSoulType.EXPOSED_HEART_TYPE;
+                    heartTexture = getCameraPlayer().hasStatusEffect(ModStatusEffects.NATURES_WRATH) ? PaleSoulType.EXPOSED_HEART_ALT_TYPE : PaleSoulType.EXPOSED_HEART_TYPE;
                 }
 
                 hdemise$drawCustomHeart(context, heartTexture, x, y, hardcore, blinking, half, false);

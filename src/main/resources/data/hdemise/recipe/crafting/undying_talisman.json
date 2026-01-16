@@ -5,12 +5,13 @@
     "#": "minecraft:totem_of_undying",
     "X": "minecraft:resin_clump",
     "P": "hdemise:polterium_ingot",
-    "G": "minecraft:ghast_tear"
+    "G": "minecraft:ghast_tear",
+    "W": "minecraft:pale_oak_planks"
   },
   "pattern": [
-    " G ",
+    "WGW",
     "X#X",
-    " P "
+    "WPW"
   ],
   "result": {
     "count": 1,

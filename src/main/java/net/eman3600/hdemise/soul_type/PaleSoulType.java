@@ -32,6 +32,7 @@ public class PaleSoulType extends SoulType {
     public static final Identifier HEART_TYPE = Identifier.of(MODID,"textures/gui/hud/heart/pale.png");
     public static final Identifier HEART_CONTAINER_TYPE = Identifier.of(MODID,"textures/gui/hud/heart/pale_container.png");
     public static final Identifier EXPOSED_HEART_TYPE = Identifier.of(MODID,"textures/gui/hud/heart/pale_exposed.png");
+    public static final Identifier EXPOSED_HEART_ALT_TYPE = Identifier.of(MODID,"textures/gui/hud/heart/pale_exposed_alt.png");
     public static final Identifier EXPOSED_HEART_CONTAINER_TYPE = Identifier.of(MODID,"textures/gui/hud/heart/pale_exposed_container.png");
 
 

@@ -2,6 +2,9 @@ package net.eman3600.hdemise.mixin.server;
 
 import com.mojang.authlib.GameProfile;
 import net.eman3600.hdemise.cardinal_components.SoulComponent;
+import net.eman3600.hdemise.init.basics.ModGameRules;
+import net.eman3600.hdemise.init.basics.ModTags;
+import net.eman3600.hdemise.init.custom.ModSoulTypes;
 import net.eman3600.hdemise.item.SoulItem;
 import net.eman3600.hdemise.mixin_interfaces.ServerPlayerEntityAccess;
 import net.minecraft.component.DataComponentTypes;
@@ -9,7 +12,6 @@ import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.damage.DamageTypes;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.registry.tag.DamageTypeTags;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.world.World;
@@ -24,6 +26,8 @@ public abstract class ServerPlayerEntityMixin extends PlayerEntity implements Se
     @Shadow private int syncedExperience;
 
     @Shadow public abstract boolean damage(ServerWorld world, DamageSource source, float amount);
+
+    @Shadow public abstract ServerWorld getEntityWorld();
 
     protected ServerPlayerEntityMixin(World world, GameProfile profile) {
         super(world, profile);
@@ -42,7 +46,7 @@ public abstract class ServerPlayerEntityMixin extends PlayerEntity implements Se
             sc.setVoidCursed(true);
         }
 
-        if (sc.getInventory().getStack(0).contains(DataComponentTypes.UNBREAKABLE)) {
+        if ((sc.getInventory().getStack(0).contains(DataComponentTypes.UNBREAKABLE) || getEntityWorld().getGameRules().getValue(ModGameRules.UNBREAKABLE_SOULS)) && sc.getSoulType() != ModSoulTypes.NEGATIVE) {
             SoulItem.resetStats(sc.getInventory().getStack(0));
             return;
         }

@@ -75,10 +75,10 @@
     "item.hdemise.forbidden_fruit.tooltip.0": "Slowly restores health",
     "item.hdemise.forbidden_fruit.tooltip.1": "Removes hunger",
     "item.hdemise.pride_pendant": "Prideful Pendant",
-    "item.hdemise.pride_pendant.tooltip": "Soulroot corruption increases strength",
+    "item.hdemise.pride_pendant.tooltip": "Soul corruption increases strength",
     "item.hdemise.undying_talisman": "Undying Talisman",
-    "item.hdemise.undying_talisman.tooltip.0": "Protects against death if not corrupted",
-    "item.hdemise.undying_talisman.tooltip.1": "Causes corruption upon activation",
+    "item.hdemise.undying_talisman.tooltip.0": "Protects against death if not critically corrupted",
+    "item.hdemise.undying_talisman.tooltip.1": "Causes critical corruption upon activation",
 
     "item.hdemise.almarite_scythe": "Almarite Scythe",
     "item.hdemise.almarite_scythe.tooltip.0": "Slain foes yield",
@@ -235,8 +235,8 @@
 
 
 
-    "gamerule.hdemise.break_souls": "Break Souls",
-    "gamerule.hdemise.break_souls.description": "Allow souls to break on death",
+    "gamerule.hdemise.unbreakable_souls": "Souls are Unbreakable",
+    "gamerule.hdemise.unbreakable_souls.description": "Souls will be dropped but not fractured",
     "gamerule.hdemise.improve_air_speed": "Adjust Air Speed",
     "gamerule.hdemise.improve_air_speed.description": "Applies movement speed effects to aerial speed; changes the feel of movement"
 }

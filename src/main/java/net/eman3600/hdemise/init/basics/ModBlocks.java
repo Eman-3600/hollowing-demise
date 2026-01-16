@@ -43,7 +43,7 @@ public class ModBlocks {
     public static final Block POLTERIUM_BLOCK = register("polterium_block", Block::new, AbstractBlock.Settings.create()
             .strength(10f)
             .requiresTool()
-            .sounds(BlockSoundGroup.IRON), true);
+            .sounds(BlockSoundGroup.IRON), new Item.Settings().fireproof());
 
     public static final Block INFUSION_TABLE = register("infusion_table", InfusionTableBlock::new,
         AbstractBlock.Settings.create()

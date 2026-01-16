@@ -4,7 +4,6 @@ import com.mojang.brigadier.arguments.ArgumentType;
 import com.mojang.brigadier.arguments.BoolArgumentType;
 import com.mojang.serialization.Codec;
 import net.eman3600.hdemise.HDemise;
-import net.minecraft.SharedConstants;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.resource.featuretoggle.FeatureSet;
@@ -17,7 +16,7 @@ import static net.eman3600.hdemise.HDemise.MODID;
 
 public class ModGameRules {
 
-    public static final GameRule<Boolean> BREAK_SOULS = registerBooleanRule("break_souls", GameRuleCategory.PLAYER, true);
+    public static final GameRule<Boolean> UNBREAKABLE_SOULS = registerBooleanRule("unbreakable_souls", GameRuleCategory.PLAYER, false);
     public static final GameRule<Boolean> IMPROVE_AIR_SPEED = registerBooleanRule("improve_air_speed", GameRuleCategory.PLAYER, true);
 
 

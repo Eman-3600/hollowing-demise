@@ -62,7 +62,7 @@ public class ModItems {
     public static final Item ECTOPLASM = register("ectoplasm", Item::new, new Item.Settings());
     public static final Item ECTOPLASM_REMEDY = register("ectoplasm_remedy", EdibleCureItem::new, new Item.Settings().rarity(Rarity.UNCOMMON).food(FoodComponents.BEETROOT_SOUP).maxCount(1).useRemainder(Items.BOWL));
     public static final Item POLTERIUM_UPGRADE_TEMPLATE = register("polterium_upgrade_template", ModSmithingTemplateItem::createPolteriumUpgrade, new Item.Settings().rarity(Rarity.UNCOMMON));
-    public static final Item POLTERIUM_INGOT = register("polterium_ingot", Item::new, new Item.Settings());
+    public static final Item POLTERIUM_INGOT = register("polterium_ingot", Item::new, new Item.Settings().fireproof());
 
 
     public static final Item FEATHER_TOKEN = register("feather_token", (settings -> new AttributeAugmentItem(
@@ -127,7 +127,7 @@ public class ModItems {
             new SoulAttribute(ModAttributes.FOCUS_POWER, -2, Operation.ADD_VALUE)
     ), new Item.Settings());
     public static final Item PRIDE_PENDANT = register("pride_pendant", settings -> new AugmentItem(settings, 1), new Item.Settings());
-    public static final Item UNDYING_TALISMAN = register("undying_talisman", settings -> new AugmentItem(settings, 2), new Item.Settings());
+    public static final Item UNDYING_TALISMAN = register("undying_talisman", settings -> new AugmentItem(settings, 2), new Item.Settings().fireproof());
 
 
     public static final Item ALMARITE_SCYTHE = register("almarite_scythe", Item::new, new Item.Settings().sword(ModToolMaterials.ALMARITE, 3.5F, -3F)

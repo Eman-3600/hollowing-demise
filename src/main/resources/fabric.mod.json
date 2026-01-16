@@ -3,7 +3,7 @@
 	"id": "hdemise",
 	"version": "${version}",
 	"name": "Hollowing Demise",
-	"description": "Adds a unique challenge after dying. Dead players become hollows: frail spirits that burn in the sun but don't need to eat and can spend experience to heal and become ethereal. Find strength in death, or seek a path to rejoin the living.",
+	"description": "Adds a separation between body and soul. Players can replace their soul with new ones with special abilities, and they can further add augments for accessory-like effects. Dying causes a player's soul to break, turning them into a frail spirit until they can find a way to cure their undeath and return to life.",
 	"authors": [
 		"Eman3600"
 	],

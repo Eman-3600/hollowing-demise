@@ -37,7 +37,7 @@ public class WindBurstAugmentItem extends AugmentItem implements FocusAugment {
                 player.getX(),
                 player.getY() + player.getHeight() / 2.0F,
                 player.getZ(),
-                6F,
+                4F,
                 false,
                 World.ExplosionSourceType.TRIGGER,
                 ParticleTypes.GUST_EMITTER_SMALL,
