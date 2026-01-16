@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:chest",
+  "pools": [
+    {
+      "bonus_rolls": 0.0,
+      "entries": [
+        {
+          "type": "minecraft:empty",
+          "weight": 82
+        },
+        {
+          "type": "minecraft:item",
+          "name": "hdemise:ectoplasm_remedy",
+          "weight": 18
+        }
+      ],
+      "rolls": 1.0
+    }
+  ]
+}
