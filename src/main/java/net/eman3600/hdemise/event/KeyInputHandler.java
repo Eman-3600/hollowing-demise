@@ -18,16 +18,16 @@ import org.lwjgl.glfw.GLFW;
 public class KeyInputHandler {
     public static final String KEY_FOCUS = "key.hdemise.focus";
     public static final String KEY_GHOST = "key.hdemise.ghost";
-    public static final String KEY_SPECIAL = "key.hdemise.special";
+//    public static final String KEY_SPECIAL = "key.hdemise.special";
 
     public static KeyBinding focusKey;
     public static KeyBinding ghostKey;
-    public static KeyBinding specialKey;
+//    public static KeyBinding specialKey;
 
     private static boolean holdingFocusKey;
     private static boolean holdingGhostKey;
     private static boolean holdingJumpKey;
-    private static boolean holdingSpecialKey;
+//    private static boolean holdingSpecialKey;
 
     public static void registerKeyInputs() {
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
@@ -68,18 +68,18 @@ public class KeyInputHandler {
                 ClientPlayNetworking.send(new AirJumpPayload(false));
             }
 
-            if (specialKey.isPressed() && client.player != null) {
-
-                if (!holdingSpecialKey) {
-                    holdingSpecialKey = true;
-                    SpecialAbilityPayload payload = new SpecialAbilityPayload(true);
-                    ClientPlayNetworking.send(payload);
-                }
-            } else if (holdingSpecialKey) {
-                holdingSpecialKey = false;
-                SpecialAbilityPayload payload = new SpecialAbilityPayload(false);
-                ClientPlayNetworking.send(payload);
-            }
+//            if (specialKey.isPressed() && client.player != null) {
+//
+//                if (!holdingSpecialKey) {
+//                    holdingSpecialKey = true;
+//                    SpecialAbilityPayload payload = new SpecialAbilityPayload(true);
+//                    ClientPlayNetworking.send(payload);
+//                }
+//            } else if (holdingSpecialKey) {
+//                holdingSpecialKey = false;
+//                SpecialAbilityPayload payload = new SpecialAbilityPayload(false);
+//                ClientPlayNetworking.send(payload);
+//            }
 
         });
     }
@@ -88,6 +88,6 @@ public class KeyInputHandler {
 
         focusKey = KeyBindingHelper.registerKeyBinding(new KeyBinding(KEY_FOCUS, InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_R, KeyBinding.Category.GAMEPLAY));
         ghostKey = KeyBindingHelper.registerKeyBinding(new KeyBinding(KEY_GHOST, InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_G, KeyBinding.Category.GAMEPLAY));
-        specialKey = KeyBindingHelper.registerKeyBinding(new KeyBinding(KEY_SPECIAL, InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_GRAVE_ACCENT, KeyBinding.Category.GAMEPLAY));
+//        specialKey = KeyBindingHelper.registerKeyBinding(new KeyBinding(KEY_SPECIAL, InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_GRAVE_ACCENT, KeyBinding.Category.GAMEPLAY));
     }
 }
