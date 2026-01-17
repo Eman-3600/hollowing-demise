@@ -46,7 +46,8 @@
 	},
 	"custom": {
 		"cardinal-components": [
-			"hdemise:soul"
+			"hdemise:soul",
+			"hdemise:tutorial"
 		]
 	}
 }

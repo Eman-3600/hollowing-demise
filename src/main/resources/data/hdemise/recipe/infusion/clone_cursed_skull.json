@@ -1,0 +1,14 @@
+{
+  "type": "hdemise:infusion",
+  "base": "hdemise:cursed_skull",
+  "ingredient": {
+    "count": 1,
+    "id": "minecraft:wither_skeleton_skull"
+  },
+  "repair": false,
+  "keep_base": true,
+  "result": {
+    "count": 1,
+    "id": "hdemise:cursed_skull"
+  }
+}

@@ -1,5 +1,6 @@
 package net.eman3600.hdemise.soul_type;
 
+import net.eman3600.hdemise.cardinal_components.TutorialComponent;
 import net.eman3600.hdemise.init.basics.ModItems;
 import net.eman3600.hdemise.init.basics.ModTags;
 import net.eman3600.hdemise.init.entity.ModAttributes;
@@ -11,6 +12,7 @@ import net.minecraft.entity.attribute.EntityAttributeModifier.Operation;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
 import org.jspecify.annotations.Nullable;
 
@@ -67,6 +69,11 @@ public class RevenantSoulType extends SoulType {
     }
 
     @Override
+    public boolean hasHealingFocus() {
+        return false;
+    }
+
+    @Override
     public List<AugmentSpace> getAugments() {
         return augments;
     }
@@ -84,6 +91,10 @@ public class RevenantSoulType extends SoulType {
     @Override
     public boolean onFocus(PlayerEntity player, float focusAmount) {
         player.addStatusEffect(new StatusEffectInstance(ModStatusEffects.RAGE, 30 * (int)(focusAmount), 0, true, true));
+
+        if (player instanceof ServerPlayerEntity p) {
+            TutorialComponent.displayIfIncomplete(player, TutorialComponent.LUNGE_TUTORIAL);
+        }
 
         return false;
     }

@@ -2,6 +2,7 @@ package net.eman3600.hdemise.mixin;
 
 import com.llamalad7.mixinextras.sugar.Local;
 import net.eman3600.hdemise.cardinal_components.SoulComponent;
+import net.eman3600.hdemise.cardinal_components.TutorialComponent;
 import net.eman3600.hdemise.init.basics.ModItems;
 import net.eman3600.hdemise.init.basics.ModTags;
 import net.eman3600.hdemise.init.custom.ModSoulTypes;
@@ -166,6 +167,8 @@ public abstract class PlayerEntityMixin extends PlayerLikeEntity implements Play
         if (hasStatusEffect(ModStatusEffects.RAGE)) {
             ModStatusEffect.reduceDuration(this, ModStatusEffects.RAGE, ModStatusEffect.RAGE_REDUCTION_ON_HIT);
         }
+
+        TutorialComponent.updateTutorials((PlayerEntity) (Object) this);
     }
 
     @Inject(method = "isImmobile", at = @At("HEAD"), cancellable = true)

@@ -15,6 +15,7 @@ import net.eman3600.hdemise.item.augment.AugmentItem;
 import net.eman3600.hdemise.item.augment.FocusAugment;
 import net.eman3600.hdemise.item.augment.TopUpAugment;
 import net.eman3600.hdemise.networking.s2c.SoulEventPayload;
+import net.eman3600.hdemise.networking.s2c.TutorialPayload;
 import net.eman3600.hdemise.soul_type.SoulType;
 import net.eman3600.hdemise.util.RayHelper;
 import net.eman3600.hdemise.util.inventory.SoulInventory;
@@ -466,6 +467,8 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
 
         if (!jetEnabled && jetting) {
             setJetting(false);
+        } else if (jetEnabled) {
+            TutorialComponent.completeTutorial(player, TutorialComponent.JETPACK_TUTORIAL);
         }
 
         player.sendMessage(Text.translatable(jetEnabled ? "soul_type.hdemise.construct.enable_jet" : "soul_type.hdemise.construct.disable_jet"), true);
@@ -518,6 +521,8 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
             player.getEntityWorld().playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.ENTITY_PLAYER_ATTACK_SWEEP, SoundCategory.PLAYERS, 1, .8f + .4f * player.getRandom().nextFloat());
 
             ((ServerPlayerEntity)player).networkHandler.sendPacket(new EntityVelocityUpdateS2CPacket(player));
+
+            TutorialComponent.completeTutorial(player, TutorialComponent.LUNGE_TUTORIAL);
         }
     }
 
@@ -529,6 +534,10 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
         this.ghostMode = ghost;
         if (player.getVehicle() != null) {
             player.stopRiding();
+        }
+        if (ghost && player instanceof ServerPlayerEntity p) {
+            TutorialPayload.send(p, TutorialComponent.MATERIALIZE_TUTORIAL);
+            TutorialComponent.updateTutorials(player);
         }
         soulDecay = SOUL_DECAY_TICKS;
         vanishing = false;
@@ -656,6 +665,8 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
         markDirty();
 
         updateAbilities(true);
+
+        TutorialComponent.updateTutorials(player);
     }
 
     public void reloadAttributes() {
@@ -1098,6 +1109,7 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
                 });
                 sendSoulEvent(SoulEventPayload.SoulEventType.FOCUS);
                 setFocusing(canFocus() && continueFocusing);
+                TutorialComponent.completeIfActive(player, TutorialComponent.FOCUS_TUTORIAL);
             } else if (soul <= 0 || !player.isOnGround()) {
                 setFocusing(false);
             }
@@ -1117,6 +1129,8 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
             } else if (vanishTime >= (isGhost() ? REVEAL_TICKS : VANISH_TICKS)) {
                 setGhost(!isGhost());
                 sendSoulEvent(isGhost() ? SoulEventPayload.SoulEventType.VANISH : SoulEventPayload.SoulEventType.REAPPEAR);
+
+                TutorialComponent.completeTutorial(player, isGhost() ? TutorialComponent.VANISH_TUTORIAL : TutorialComponent.MATERIALIZE_TUTORIAL);
             }
         }
 

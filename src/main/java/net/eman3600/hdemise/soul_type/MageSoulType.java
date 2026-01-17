@@ -66,6 +66,11 @@ public class MageSoulType extends SoulType {
     }
 
     @Override
+    public boolean hasHealingFocus() {
+        return false;
+    }
+
+    @Override
     public int getFocusRate() {
         return 10;
     }

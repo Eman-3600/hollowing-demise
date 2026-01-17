@@ -2,8 +2,10 @@ package net.eman3600.hdemise.screen;
 
 import net.eman3600.hdemise.HDemise;
 import net.eman3600.hdemise.cardinal_components.SoulComponent;
+import net.eman3600.hdemise.init.basics.ModTags;
 import net.eman3600.hdemise.screen.InfusionScreenHandler.Page;
 import net.eman3600.hdemise.soul_type.SoulType;
+import net.eman3600.hdemise.util.inventory.AugmentSpace;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
@@ -42,6 +44,8 @@ public class InfusionScreen extends HandledScreen<InfusionScreenHandler> {
     private final Button mainPageButton;
     private final Button xpButton;
 
+    private int cycleTicks = 0;
+
     public InfusionScreen(InfusionScreenHandler handler, PlayerInventory inventory, Text title) {
         super(handler, inventory, title);
 
@@ -54,6 +58,16 @@ public class InfusionScreen extends HandledScreen<InfusionScreenHandler> {
         this.repairPageButton = new Button(2, 158, 102, 176, 62, 11, 11);
         this.mainPageButton = new Button(3, 158, 113, 176, 40, 11, 11);
         this.xpButton = new Button(4, 7, 114, 176, 62, 18, 11);
+    }
+
+    @Override
+    protected void handledScreenTick() {
+        super.handledScreenTick();
+        if (handler.getPage() != Page.REPAIR && cycleTicks > 0) {
+            cycleTicks = 0;
+        } else {
+            cycleTicks++;
+        }
     }
 
     @Override
@@ -76,6 +90,24 @@ public class InfusionScreen extends HandledScreen<InfusionScreenHandler> {
 
                 if (infoPageButton.isSelected(mouseX, mouseY) || repairPageButton.isSelected(mouseX, mouseY)) {
                     context.setCursor(StandardCursors.POINTING_HAND);
+                }
+
+                if (sc.getInventory().getStack(0).isEmpty()) {
+                    context.drawTexture(RenderPipelines.GUI_TEXTURED, MAIN_TEXTURE, x + 79, y + 63, 176, 138, 18, 18, 256, 256);
+                }
+
+                List<AugmentSpace> augments = soulType.getAugments();
+                for (int i = 0; i < augments.size(); i++) {
+                    AugmentSpace space = augments.get(i);
+                    int x2 = space.getX() + x + 4;
+                    int y2 = space.getY() + y + 4;
+
+                    int v = space.getType() == ModTags.Items.YELLOW_AUGMENT ? 84 :
+                            space.getType() == ModTags.Items.GREEN_AUGMENT ? 102 :
+                            space.getType() == ModTags.Items.RED_AUGMENT ? 120 : 138;
+                    int u = sc.getInventory().getStack(i + 1).isEmpty() ? 176 : 194;
+
+                    context.drawTexture(RenderPipelines.GUI_TEXTURED, MAIN_TEXTURE, x2, y2, u, v, 18, 18, 256, 256);
                 }
             }
             case Page.INFO -> {
@@ -103,6 +135,11 @@ public class InfusionScreen extends HandledScreen<InfusionScreenHandler> {
                     if (xpButton.isSelected(mouseX, mouseY)) {
                         context.setCursor(StandardCursors.POINTING_HAND);
                     }
+                }
+
+                if (handler.repairInventory.getStack(1).isEmpty()) {
+                    int v = (cycleTicks / 20 % 4) * 18 + 84;
+                    context.drawTexture(RenderPipelines.GUI_TEXTURED, REPAIR_TEXTURE, x + 16, y + 63, 176.0F, v, 18, 18, 256, 256);
                 }
             }
         }

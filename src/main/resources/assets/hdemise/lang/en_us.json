@@ -129,7 +129,16 @@
     "block.hdemise.infusion_table.not_enough_shelves": "Requires Bookshelves: %s/%s",
     "block.hdemise.soulroot": "Soulroot",
 
+
+    "tutorial.hdemise.ghost.materialize": "Hold %2$s to Materialize",
+    "tutorial.hdemise.ghost.vanish": "Hold %2$s to Vanish",
+    "tutorial.hdemise.focus": "Hold %1$s to Focus",
+    "tutorial.hdemise.lunge": "Press %2$s to Lunge",
+    "tutorial.hdemise.jetpack": "Press %2$s to toggle Jetpack",
+
+
     "entity.hdemise.villager.mortician": "Mortician",
+
 
     "itemgroup.hdemise.hdemise_group": "Hollowing Demise",
 

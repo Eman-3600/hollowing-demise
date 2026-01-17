@@ -5,6 +5,7 @@ import net.eman3600.hdemise.networking.c2s.GhostPayload;
 import net.eman3600.hdemise.networking.c2s.AirJumpPayload;
 import net.eman3600.hdemise.networking.c2s.SpecialAbilityPayload;
 import net.eman3600.hdemise.networking.s2c.SoulEventPayload;
+import net.eman3600.hdemise.networking.s2c.TutorialPayload;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
@@ -25,6 +26,7 @@ public class ModMessages {
         PayloadTypeRegistry.playC2S().register(SpecialAbilityPayload.TYPE, SpecialAbilityPayload.CODEC);
 
         PayloadTypeRegistry.playS2C().register(SoulEventPayload.TYPE, SoulEventPayload.CODEC);
+        PayloadTypeRegistry.playS2C().register(TutorialPayload.TYPE, TutorialPayload.CODEC);
     }
 
     public static void registerC2SReceivers() {
@@ -41,5 +43,6 @@ public class ModMessages {
         LOGGER.info("Registering S2C Packet Receivers for " + MODID);
 
         ClientPlayNetworking.registerGlobalReceiver(SoulEventPayload.TYPE, SoulEventPayload::receive);
+        ClientPlayNetworking.registerGlobalReceiver(TutorialPayload.TYPE, TutorialPayload::receive);
     }
 }

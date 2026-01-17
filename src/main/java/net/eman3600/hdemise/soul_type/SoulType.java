@@ -75,6 +75,10 @@ public abstract class SoulType {
         return true;
     }
 
+    public boolean hasHealingFocus() {
+        return usesSoul();
+    }
+
     public int getFocusRate() {
         return 4;
     }
