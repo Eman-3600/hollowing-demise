@@ -38,6 +38,10 @@ public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
         valueLookupBuilder(ItemTags.DURABILITY_ENCHANTABLE)
                 .add(ModItems.WIND_STAFF);
 
+        valueLookupBuilder(ItemTags.TRIM_MATERIALS)
+                .add(ModItems.ALMARITE)
+                .add(ModItems.ECTOPLASM);
+
 
         valueLookupBuilder(ModTags.Items.YELLOW_AUGMENT)
                 .add(ModItems.FEATHER_TOKEN)

@@ -8,6 +8,7 @@ import net.eman3600.hdemise.item.*;
 import net.eman3600.hdemise.item.augment.*;
 import net.eman3600.hdemise.item.soul_using.WindStaffItem;
 import net.eman3600.hdemise.util.ModToolMaterials;
+import net.eman3600.hdemise.util.ModTrimMaterials;
 import net.eman3600.hdemise.util.SoulAttribute;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.component.DataComponentTypes;
@@ -49,7 +50,7 @@ public class ModItems {
 
 
 
-    public static final Item ALMARITE = register("almarite", XPItem::new, new Item.Settings());
+    public static final Item ALMARITE = register("almarite", XPItem::new, new Item.Settings().trimMaterial(ModTrimMaterials.ALMARITE));
     public static final Item FORM_SWITCHER = register("form_switcher", FormSwitcherItem::new, new Item.Settings().rarity(Rarity.EPIC).maxCount(1));
     public static final Item SIMPLE_CURE = register("simple_cure", ConsumableCureItem::new, new Item.Settings().rarity(Rarity.UNCOMMON).maxCount(1));
     public static final Item AMETHYST_APPLE = register("amethyst_apple", AmethystAppleItem::new, new Item.Settings().rarity(Rarity.UNCOMMON).food(FoodComponents.APPLE));
@@ -59,7 +60,7 @@ public class ModItems {
     public static final Item SOUL_BASE = register("soul_base", Item::new, new Item.Settings());
     public static final Item SOULROOT_SEEDS = register("soulroot_seeds", settings -> new BlockItem(ModBlocks.SOULROOT, settings), new Item.Settings().component(ModDataComponentTypes.TOOLTIP_LINES, 1));
     public static final Item SOULROOT_SOUP = register("soulroot_soup", (settings) -> new EssenceFoodItem(settings, SoulComponent.SOUL_PER_VESSEL * 9, 54), new Item.Settings().food(SOUL_SOUP_FOOD).maxCount(1).useRemainder(Items.BOWL));
-    public static final Item ECTOPLASM = register("ectoplasm", Item::new, new Item.Settings());
+    public static final Item ECTOPLASM = register("ectoplasm", Item::new, new Item.Settings().trimMaterial(ModTrimMaterials.ECTOPLASM));
     public static final Item ECTOPLASM_REMEDY = register("ectoplasm_remedy", EdibleCureItem::new, new Item.Settings().rarity(Rarity.UNCOMMON).food(FoodComponents.BEETROOT_SOUP).maxCount(1).useRemainder(Items.BOWL));
     public static final Item POLTERIUM_UPGRADE_TEMPLATE = register("polterium_upgrade_template", ModSmithingTemplateItem::createPolteriumUpgrade, new Item.Settings().rarity(Rarity.UNCOMMON));
     public static final Item POLTERIUM_INGOT = register("polterium_ingot", Item::new, new Item.Settings().fireproof());
