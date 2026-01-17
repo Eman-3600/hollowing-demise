@@ -1,7 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
   "category": "misc",
-  "group": "cross",
   "key": {
     "#": "minecraft:gold_ingot",
     "X": "minecraft:diamond"
