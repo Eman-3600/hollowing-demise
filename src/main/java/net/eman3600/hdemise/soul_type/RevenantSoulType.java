@@ -1,5 +1,6 @@
 package net.eman3600.hdemise.soul_type;
 
+import net.eman3600.hdemise.cardinal_components.SoulComponent;
 import net.eman3600.hdemise.cardinal_components.TutorialComponent;
 import net.eman3600.hdemise.init.basics.ModItems;
 import net.eman3600.hdemise.init.basics.ModTags;
@@ -92,7 +93,7 @@ public class RevenantSoulType extends SoulType {
     public boolean onFocus(PlayerEntity player, float focusAmount) {
         player.addStatusEffect(new StatusEffectInstance(ModStatusEffects.RAGE, 30 * (int)(focusAmount), 0, true, true));
 
-        if (player instanceof ServerPlayerEntity p) {
+        if (player instanceof ServerPlayerEntity) {
             TutorialComponent.displayIfIncomplete(player, TutorialComponent.LUNGE_TUTORIAL);
         }
 

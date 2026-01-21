@@ -336,8 +336,18 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
         return getFocusTicks() * getFocusRate();
     }
 
+    public boolean canAffordSoul(int cost) {
+        return this.soul >= cost || player.isCreative();
+    }
+
+    public void spendSoul(int cost) {
+        if (!player.isCreative()) {
+            addSoul(-cost);
+        }
+    }
+
     public boolean canFocus() {
-        return ((soul >= getFocusRequirement() && player.isOnGround()) || player.isCreative()) && usesSoul() && !isGhost() && !vanishing && !curing;
+        return ((canAffordSoul(getFocusRequirement()) && player.isOnGround())) && usesSoul() && !isGhost() && !vanishing && !curing;
     }
 
     public boolean canVanish() {
@@ -938,7 +948,7 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
             StatusEffectInstance instance = player.getStatusEffect(ModStatusEffects.LIGHTFOOT);
 
             if ((instance == null || instance.getDuration() < 10) && getSoul() > 0) {
-                addSoul(-1);
+                spendSoul(1);
                 player.addStatusEffect(new StatusEffectInstance(ModStatusEffects.LIGHTFOOT, 22, 0, true, false));
             }
         } else if (player.hasStatusEffect(ModStatusEffects.LIGHTFOOT) && !player.isSprinting()) {
@@ -965,8 +975,8 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
             player.onLanding();
             player.setIgnoreFallDamageFromCurrentExplosion(true);
 
-            if (!player.isCreative() && (!player.isSneaking() || player.isInSwimmingPose() || player.isGliding() || player.getRandom().nextInt(8) == 0)) {
-                addSoul(player.isInSwimmingPose() || player.isGliding() ? -2 : -1);
+            if (!player.isSneaking() || player.isInSwimmingPose() || player.isGliding() || player.getRandom().nextInt(8) == 0) {
+                spendSoul(player.isInSwimmingPose() || player.isGliding() ? -2 : -1);
             }
             soulRegenTime = 0;
             markDirty();
