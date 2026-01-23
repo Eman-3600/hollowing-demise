@@ -41,12 +41,6 @@ public class ModItems {
     public static final FoodComponent SOUL_BERRY_FOOD = new FoodComponent.Builder().nutrition(4).saturationModifier(.75F).build();
     public static final FoodComponent SOUL_SOUP_FOOD = new FoodComponent.Builder().nutrition(12).saturationModifier(.75F).build();
 
-    public static final ConsumableComponent SOUL_SOUP_CONSUMABLE = ConsumableComponents.food().consumeEffect(
-            new ApplyEffectsConsumeEffect(
-                    List.of(new StatusEffectInstance(ModStatusEffects.SOUL_REGEN, 1200, 0))
-            )
-    ).build();
-
 
 
     public static final Item ALMARITE = register("almarite", XPItem::new, new Item.Settings());
@@ -137,6 +131,8 @@ public class ModItems {
 
     public static final Item ALMARITE_FELLER = register("almarite_feller", settings -> new FellerItem(ModToolMaterials.ALMARITE, 4F, -2.8F, settings), new Item.Settings().component(ModDataComponentTypes.TOOLTIP_LINES, 1));
 
+    public static final Item POLTERIUM_FELLER = register("polterium_feller", settings -> new FellerItem(ModToolMaterials.POLTERIUM, 4F, -2.8F, settings), new Item.Settings().component(ModDataComponentTypes.TOOLTIP_LINES, 1));
+
 
     public static final Item WIND_STAFF = register("wind_staff", WindStaffItem::new, new Item.Settings().rarity(Rarity.UNCOMMON).maxCount(1).maxDamage(1250).repairable(Items.WIND_CHARGE));
 
@@ -189,7 +185,8 @@ public class ModItems {
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.COMBAT).register((group) -> {
             group.add(ModItems.ALMARITE);
             group.add(ModItems.ALMARITE_SCYTHE);
-            group.add(ModItems.ALMARITE_TUNNELER);
+            group.add(ModItems.ALMARITE_FELLER);
+            group.add(ModItems.POLTERIUM_FELLER);
             group.add(ModItems.CROSS);
             group.add(ModItems.WIND_STAFF);
         });
@@ -197,6 +194,7 @@ public class ModItems {
             group.add(ModItems.ALMARITE);
             group.add(ModItems.ALMARITE_TUNNELER);
             group.add(ModItems.ALMARITE_FELLER);
+            group.add(ModItems.POLTERIUM_FELLER);
             group.add(ModItems.WIND_STAFF);
         });
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.FOOD_AND_DRINK).register((group) -> {

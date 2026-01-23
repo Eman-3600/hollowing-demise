@@ -30,8 +30,10 @@ public class ModTags {
         public static final TagKey<Item> MORTICIAN_AUGMENT_TRADE = createTag("trades/mortician_augment");
 
         public static final TagKey<Item> ALMARITE_REPAIR = createTag("almarite_repair");
+        public static final TagKey<Item> POLTERIUM_REPAIR = createTag("almarite_repair");
         public static final TagKey<Item> UNREMOVEABLE_SOUL = createTag("unremovable_soul");
         public static final TagKey<Item> REPAIRABLE_SOULS = createTag("souls");
+        public static final TagKey<Item> POLTERIUM_TOOL_MATERIALS = createTag("polterium_tool_materials");
 
         public static final TagKey<Item> NEGATES_FALL = createTag("negates_fall");
         public static final TagKey<Item> XP_ABSORBENT = createTag("xp_absorbent");

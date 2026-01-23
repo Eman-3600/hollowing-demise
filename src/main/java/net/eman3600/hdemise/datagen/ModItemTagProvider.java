@@ -27,13 +27,15 @@ public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
                 .add(ModItems.ALMARITE_TUNNELER);
 
         valueLookupBuilder(ItemTags.AXES)
-                .add(ModItems.ALMARITE_FELLER);
+                .add(ModItems.ALMARITE_FELLER)
+                .add(ModItems.POLTERIUM_FELLER);
 
         valueLookupBuilder(ItemTags.SHOVELS)
                 .add(ModItems.ALMARITE_TUNNELER);
 
         valueLookupBuilder(ItemTags.HOES)
-                .add(ModItems.ALMARITE_FELLER);
+                .add(ModItems.ALMARITE_FELLER)
+                .add(ModItems.POLTERIUM_FELLER);
 
         valueLookupBuilder(ItemTags.DURABILITY_ENCHANTABLE)
                 .add(ModItems.WIND_STAFF);
@@ -97,8 +99,13 @@ public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
                 .add(ModItems.ALMARITE_FELLER);
 
         valueLookupBuilder(ModTags.Items.ALMARITE_REPAIR)
-                .add(ModItems.ALMARITE)
-                .add(ModItems.SOULROOT_BULB);
+                .add(ModItems.ALMARITE);
+
+        valueLookupBuilder(ModTags.Items.POLTERIUM_REPAIR)
+                .add(ModItems.ECTOPLASM);
+
+        valueLookupBuilder(ModTags.Items.POLTERIUM_TOOL_MATERIALS)
+                .add(ModItems.POLTERIUM_INGOT);
 
         valueLookupBuilder(ModTags.Items.UNREMOVEABLE_SOUL)
                 .add(ModItems.ANTISOUL);
