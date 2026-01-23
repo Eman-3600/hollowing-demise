@@ -131,6 +131,11 @@ public class ModItems {
 
     public static final Item ALMARITE_FELLER = register("almarite_feller", settings -> new FellerItem(ModToolMaterials.ALMARITE, 4F, -2.8F, settings), new Item.Settings().component(ModDataComponentTypes.TOOLTIP_LINES, 1));
 
+    public static final Item POLTERIUM_SCYTHE = register("polterium_scythe", Item::new, new Item.Settings().sword(ModToolMaterials.POLTERIUM, 3.5F, -3F)
+            .component(ModDataComponentTypes.TOOLTIP_LINES, 2));
+
+    public static final Item POLTERIUM_TUNNELER = register("polterium_tunneler", settings -> new TunnelerItem(ModToolMaterials.POLTERIUM, 2.5f, -3f, settings), new Item.Settings().component(ModDataComponentTypes.TOOLTIP_LINES, 2));
+
     public static final Item POLTERIUM_FELLER = register("polterium_feller", settings -> new FellerItem(ModToolMaterials.POLTERIUM, 4F, -2.8F, settings), new Item.Settings().component(ModDataComponentTypes.TOOLTIP_LINES, 1));
 
 
@@ -185,6 +190,7 @@ public class ModItems {
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.COMBAT).register((group) -> {
             group.add(ModItems.ALMARITE);
             group.add(ModItems.ALMARITE_SCYTHE);
+            group.add(ModItems.POLTERIUM_SCYTHE);
             group.add(ModItems.ALMARITE_FELLER);
             group.add(ModItems.POLTERIUM_FELLER);
             group.add(ModItems.CROSS);
@@ -193,6 +199,7 @@ public class ModItems {
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.TOOLS).register((group) -> {
             group.add(ModItems.ALMARITE);
             group.add(ModItems.ALMARITE_TUNNELER);
+            group.add(ModItems.POLTERIUM_TUNNELER);
             group.add(ModItems.ALMARITE_FELLER);
             group.add(ModItems.POLTERIUM_FELLER);
             group.add(ModItems.WIND_STAFF);

@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smithing_transform",
+  "addition": "#hdemise:polterium_tool_materials",
+  "base": "hdemise:almarite_tunneler",
+  "result": {
+    "id": "hdemise:polterium_tunneler"
+  },
+  "template": "hdemise:polterium_upgrade_template"
+}

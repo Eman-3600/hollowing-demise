@@ -23,7 +23,9 @@ public class ModItemGroups {
             entries.add(ModBlocks.ALMARITE_BLOCK);
             entries.add(ModItems.ALMARITE);
             entries.add(ModItems.ALMARITE_SCYTHE);
+            entries.add(ModItems.POLTERIUM_SCYTHE);
                 entries.add(ModItems.ALMARITE_TUNNELER);
+            entries.add(ModItems.POLTERIUM_TUNNELER);
             entries.add(ModItems.ALMARITE_FELLER);
             entries.add(ModItems.POLTERIUM_FELLER);
             entries.add(ModItems.SOUL_BASE);

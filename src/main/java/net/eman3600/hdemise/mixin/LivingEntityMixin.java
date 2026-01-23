@@ -156,6 +156,8 @@ public abstract class LivingEntityMixin extends Entity implements Attackable, Se
 
             if (player.getStackInHand(Hand.MAIN_HAND).isIn(ModTags.Items.REAPER)) {
                 cir.setReturnValue(xp * 2);
+            } else if (player.getStackInHand(Hand.MAIN_HAND).isIn(ModTags.Items.SUPER_REAPER)) {
+                cir.setReturnValue(xp * 3);
             }
         }
     }

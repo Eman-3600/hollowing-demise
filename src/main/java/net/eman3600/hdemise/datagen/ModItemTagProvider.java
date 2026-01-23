@@ -21,17 +21,20 @@ public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
                 .add(ModItems.ALMARITE);
 
         valueLookupBuilder(ItemTags.SWORDS)
-                .add(ModItems.ALMARITE_SCYTHE);
+                .add(ModItems.ALMARITE_SCYTHE)
+                .add(ModItems.POLTERIUM_SCYTHE);
 
         valueLookupBuilder(ItemTags.PICKAXES)
-                .add(ModItems.ALMARITE_TUNNELER);
+                .add(ModItems.ALMARITE_TUNNELER)
+                .add(ModItems.POLTERIUM_TUNNELER);
 
         valueLookupBuilder(ItemTags.AXES)
                 .add(ModItems.ALMARITE_FELLER)
                 .add(ModItems.POLTERIUM_FELLER);
 
         valueLookupBuilder(ItemTags.SHOVELS)
-                .add(ModItems.ALMARITE_TUNNELER);
+                .add(ModItems.ALMARITE_TUNNELER)
+                .add(ModItems.POLTERIUM_TUNNELER);
 
         valueLookupBuilder(ItemTags.HOES)
                 .add(ModItems.ALMARITE_FELLER)
@@ -93,6 +96,9 @@ public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
 
         valueLookupBuilder(ModTags.Items.REAPER)
                 .add(ModItems.ALMARITE_SCYTHE);
+
+        valueLookupBuilder(ModTags.Items.SUPER_REAPER)
+                .add(ModItems.POLTERIUM_SCYTHE);
 
         valueLookupBuilder(ModTags.Items.ALMARITE_MULTITOOL)
                 .add(ModItems.ALMARITE_TUNNELER)
