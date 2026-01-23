@@ -1,0 +1,48 @@
+{
+  "parent": "hdemise:main/infusion_table",
+  "criteria": {
+    "yellow_augment": {
+      "conditions": {
+        "augments": [
+          "#hdemise:yellow_augment"
+        ]
+      },
+      "trigger": "hdemise:augments_equipped"
+    },
+    "green_augment": {
+      "conditions": {
+        "augments": [
+          "#hdemise:green_augment"
+        ]
+      },
+      "trigger": "hdemise:augments_equipped"
+    },
+    "red_augment": {
+      "conditions": {
+        "augments": [
+          "#hdemise:red_augment"
+        ]
+      },
+      "trigger": "hdemise:augments_equipped"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.hdemise.main.any_augment.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "hdemise:crystal_ball"
+    },
+    "title": {
+      "translate": "advancements.hdemise.main.any_augment.title"
+    }
+  },
+  "requirements": [
+    [
+      "yellow_augment",
+      "green_augment",
+      "red_augment"
+    ]
+  ]
+}

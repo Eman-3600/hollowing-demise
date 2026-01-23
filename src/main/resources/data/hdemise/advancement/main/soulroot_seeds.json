@@ -1,0 +1,32 @@
+{
+  "parent": "hdemise:main/root",
+  "criteria": {
+    "seeds": {
+      "conditions": {
+        "items": [
+          {
+            "items": "hdemise:soulroot_seeds"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.hdemise.main.soulroot_seeds.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "hdemise:soulroot_seeds"
+    },
+    "title": {
+      "translate": "advancements.hdemise.main.soulroot_seeds.title"
+    }
+  },
+  "requirements": [
+    [
+      "seeds"
+    ]
+  ]
+}

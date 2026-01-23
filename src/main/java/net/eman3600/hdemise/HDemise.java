@@ -7,6 +7,7 @@ import net.eman3600.hdemise.init.entity.ModBlockEntities;
 import net.eman3600.hdemise.init.entity.ModDamageTypes;
 import net.eman3600.hdemise.init.entity.ModStatusEffects;
 import net.eman3600.hdemise.init.event.ModCallbacks;
+import net.eman3600.hdemise.init.event.ModCriteria;
 import net.eman3600.hdemise.init.event.ModMessages;
 import net.eman3600.hdemise.init.event.ModScreenHandlerTypes;
 import net.eman3600.hdemise.integration.command.ModCommands;
@@ -46,6 +47,7 @@ public class HDemise implements ModInitializer {
 
 		ModDamageTypes.registerAll();
 		ModGameRules.registerGameRules();
+		ModCriteria.registerAll();
 
 		ModVillagers.registerVillagers();
 		ModTradeOffers.registerTradeOffers();

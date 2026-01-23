@@ -1,0 +1,31 @@
+{
+  "parent": "hdemise:main/corruption",
+  "criteria": {
+    "cure": {
+      "conditions": {},
+      "trigger": "hdemise:affliction_end"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.hdemise.main.survive_affliction.description"
+    },
+    "hidden": true,
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "hdemise:ectoplasm_remedy"
+    },
+    "title": {
+      "translate": "advancements.hdemise.main.survive_affliction.title"
+    }
+  },
+  "requirements": [
+    [
+      "cure"
+    ]
+  ],
+  "rewards": {
+    "experience": 35
+  }
+}

@@ -9,6 +9,7 @@ import net.eman3600.hdemise.init.custom.ModSoulTypes;
 import net.eman3600.hdemise.init.entity.ModAttributes;
 import net.eman3600.hdemise.init.cca.ModEntityComponents;
 import net.eman3600.hdemise.init.entity.ModStatusEffects;
+import net.eman3600.hdemise.init.event.ModCriteria;
 import net.eman3600.hdemise.item.SoulItem;
 import net.eman3600.hdemise.item.XPCoreItem;
 import net.eman3600.hdemise.item.augment.AugmentItem;
@@ -250,6 +251,10 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
         this.soulType = soulType;
         this.inventory.scatterAugments(this.player);
         this.soulType.applyAttributes(this.player);
+        if (player instanceof ServerPlayerEntity p) {
+            ModCriteria.SOUL_TYPE_CHANGED.trigger(p, soulType);
+            ModCriteria.UNIQUE_SOUL.trigger(p, soulType);
+        }
         resetSoul();
     }
 
@@ -397,6 +402,7 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
 
     public void setAfflicted(boolean afflicted) {
         this.afflicted = afflicted;
+        markDirty();
     }
 
     public boolean isAfflicted() {
@@ -976,7 +982,7 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
             player.setIgnoreFallDamageFromCurrentExplosion(true);
 
             if (!player.isSneaking() || player.isInSwimmingPose() || player.isGliding() || player.getRandom().nextInt(8) == 0) {
-                spendSoul(player.isInSwimmingPose() || player.isGliding() ? -2 : -1);
+                spendSoul(player.isInSwimmingPose() || player.isGliding() ? 2 : 1);
             }
             soulRegenTime = 0;
             markDirty();
@@ -1027,6 +1033,8 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
             corruptionDecay = -60;
             setAfflicted(true);
 
+            ModCriteria.AFFLICTION_START.trigger((ServerPlayerEntity) player);
+
             player.getEntityWorld().playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.EVENT_MOB_EFFECT_RAID_OMEN, SoundCategory.PLAYERS);
         } else if (afflicted || corruption > 0 && !player.hasStatusEffect(ModStatusEffects.SOUL_REGEN)) {
             corruptionDecay++;
@@ -1037,6 +1045,8 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
 
                 if (corruption <= 0 && afflicted) {
                     setAfflicted(false);
+
+                    ModCriteria.AFFLICTION_END.trigger((ServerPlayerEntity) player);
 
                     player.getEntityWorld().playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.EVENT_MOB_EFFECT_BAD_OMEN, SoundCategory.PLAYERS);
                 }
@@ -1155,6 +1165,8 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
                 player.clearStatusEffects();
                 player.addStatusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 140, 0));
                 sendSoulEvent(SoulEventPayload.SoulEventType.REVIVE);
+
+                ModCriteria.CURE.trigger((ServerPlayerEntity) player);
             }
         }
 

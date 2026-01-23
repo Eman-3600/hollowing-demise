@@ -1,0 +1,26 @@
+{
+  "parent": "hdemise:main/infusion_table",
+  "criteria": {
+    "unique_soul": {
+      "conditions": {},
+      "trigger": "hdemise:unique_soul"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.hdemise.main.equip_soul.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "hdemise:soul_base"
+    },
+    "title": {
+      "translate": "advancements.hdemise.main.equip_soul.title"
+    }
+  },
+  "requirements": [
+    [
+      "unique_soul"
+    ]
+  ]
+}

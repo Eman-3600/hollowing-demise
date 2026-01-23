@@ -1,7 +1,9 @@
 package net.eman3600.hdemise.item.augment;
 
 import net.eman3600.hdemise.HDemise;
+import net.eman3600.hdemise.cardinal_components.SoulComponent;
 import net.eman3600.hdemise.init.basics.ModTags;
+import net.eman3600.hdemise.init.event.ModCriteria;
 import net.minecraft.component.type.TooltipDisplayComponent;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
@@ -9,6 +11,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.registry.tag.TagKey;
 import net.minecraft.screen.ScreenTexts;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.util.Colors;
 
@@ -32,6 +35,9 @@ public class AugmentItem extends Item {
 
     public void onEquip(PlayerEntity player, ItemStack stack) {
         onReload(player, stack);
+        if (player instanceof ServerPlayerEntity p) {
+            ModCriteria.AUGMENTS_EQUIPPED.trigger(p, SoulComponent.of(player).getInventory());
+        }
     }
     public void onRespawn(PlayerEntity player, ItemStack stack, boolean alive) {}
     public void onRemove(PlayerEntity player, ItemStack stack) {}

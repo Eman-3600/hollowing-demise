@@ -92,6 +92,10 @@ public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
         valueLookupBuilder(ModTags.Items.REAPER)
                 .add(ModItems.ALMARITE_SCYTHE);
 
+        valueLookupBuilder(ModTags.Items.ALMARITE_MULTITOOL)
+                .add(ModItems.ALMARITE_TUNNELER)
+                .add(ModItems.ALMARITE_FELLER);
+
         valueLookupBuilder(ModTags.Items.ALMARITE_REPAIR)
                 .add(ModItems.ALMARITE)
                 .add(ModItems.SOULROOT_BULB);

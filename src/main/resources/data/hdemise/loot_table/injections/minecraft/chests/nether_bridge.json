@@ -36,7 +36,7 @@
       "entries": [
         {
           "type": "minecraft:empty",
-          "weight": 70
+          "weight": 69
         },
         {
           "type": "minecraft:item",
@@ -68,7 +68,7 @@
             }
           ],
           "name": "hdemise:soulroot_seeds",
-          "weight": 5
+          "weight": 1
         }
       ],
       "rolls": 1.0

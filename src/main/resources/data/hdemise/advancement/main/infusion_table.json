@@ -1,0 +1,32 @@
+{
+  "parent": "hdemise:main/crying_obsidian",
+  "criteria": {
+    "infusion_table": {
+      "conditions": {
+        "items": [
+          {
+            "items": "hdemise:infusion_table"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.hdemise.main.infusion_table.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "hdemise:infusion_table"
+    },
+    "title": {
+      "translate": "advancements.hdemise.main.infusion_table.title"
+    }
+  },
+  "requirements": [
+    [
+      "infusion_table"
+    ]
+  ]
+}

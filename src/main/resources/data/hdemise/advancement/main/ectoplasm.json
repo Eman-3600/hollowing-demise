@@ -1,0 +1,32 @@
+{
+  "parent": "hdemise:main/mine_almarite",
+  "criteria": {
+    "ectoplasm": {
+      "conditions": {
+        "items": [
+          {
+            "items": "hdemise:ectoplasm"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.hdemise.main.ectoplasm.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "hdemise:ectoplasm"
+    },
+    "title": {
+      "translate": "advancements.hdemise.main.ectoplasm.title"
+    }
+  },
+  "requirements": [
+    [
+      "ectoplasm"
+    ]
+  ]
+}

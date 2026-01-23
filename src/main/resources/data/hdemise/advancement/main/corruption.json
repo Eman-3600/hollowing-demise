@@ -1,0 +1,27 @@
+{
+  "parent": "hdemise:main/soulroot_seeds",
+  "criteria": {
+    "cure": {
+      "conditions": {},
+      "trigger": "hdemise:affliction_start"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.hdemise.main.corruption.description"
+    },
+    "hidden": true,
+    "icon": {
+      "count": 1,
+      "id": "hdemise:soulroot_soup"
+    },
+    "title": {
+      "translate": "advancements.hdemise.main.corruption.title"
+    }
+  },
+  "requirements": [
+    [
+      "cure"
+    ]
+  ]
+}

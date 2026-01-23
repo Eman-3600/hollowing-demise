@@ -1,0 +1,86 @@
+{
+  "parent": "hdemise:main/equip_soul",
+  "criteria": {
+    "antisoul": {
+      "conditions": {
+        "type": "hdemise:negative"
+      },
+      "trigger": "hdemise:soul_type_changed"
+    },
+    "crystal": {
+      "conditions": {
+        "type": "hdemise:crystal"
+      },
+      "trigger": "hdemise:soul_type_changed"
+    },
+    "mage": {
+      "conditions": {
+        "type": "hdemise:mage"
+      },
+      "trigger": "hdemise:soul_type_changed"
+    },
+    "phantom": {
+      "conditions": {
+        "type": "hdemise:phantom"
+      },
+      "trigger": "hdemise:soul_type_changed"
+    },
+    "revenant": {
+      "conditions": {
+        "type": "hdemise:revenant"
+      },
+      "trigger": "hdemise:soul_type_changed"
+    },
+    "construct": {
+      "conditions": {
+        "type": "hdemise:construct"
+      },
+      "trigger": "hdemise:soul_type_changed"
+    },
+    "pale": {
+      "conditions": {
+        "type": "hdemise:pale"
+      },
+      "trigger": "hdemise:soul_type_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.hdemise.main.shapeshifter.description"
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "hdemise:mage_soul"
+    },
+    "title": {
+      "translate": "advancements.hdemise.main.shapeshifter.title"
+    }
+  },
+  "requirements": [
+    [
+      "antisoul"
+    ],
+    [
+      "crystal"
+    ],
+    [
+      "mage"
+    ],
+    [
+      "phantom"
+    ],
+    [
+      "revenant"
+    ],
+    [
+      "construct"
+    ],
+    [
+      "pale"
+    ]
+  ],
+  "rewards": {
+    "experience": 150
+  }
+}

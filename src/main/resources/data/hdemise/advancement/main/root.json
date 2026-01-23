@@ -1,0 +1,41 @@
+{
+  "criteria": {
+    "almarite": {
+      "conditions": {
+        "items": [
+          {
+            "items": "hdemise:almarite"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "hollow": {
+      "conditions": {
+        "type": "hdemise:hollow"
+      },
+      "trigger": "hdemise:soul_type_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": false,
+    "background": "hdemise:gui/advancements/main",
+    "description": {
+      "translate": "advancements.hdemise.main.root.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "hdemise:pure_soul"
+    },
+    "show_toast": false,
+    "title": {
+      "translate": "advancements.hdemise.main.root.title"
+    }
+  },
+  "requirements": [
+    [
+      "almarite",
+      "hollow"
+    ]
+  ]
+}

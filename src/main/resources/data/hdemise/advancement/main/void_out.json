@@ -1,0 +1,29 @@
+{
+  "parent": "hdemise:main/cure",
+  "criteria": {
+    "antisoul": {
+      "conditions": {
+        "type": "hdemise:negative"
+      },
+      "trigger": "hdemise:soul_type_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.hdemise.main.void_out.description"
+    },
+    "hidden": true,
+    "icon": {
+      "count": 1,
+      "id": "minecraft:end_stone"
+    },
+    "title": {
+      "translate": "advancements.hdemise.main.void_out.title"
+    }
+  },
+  "requirements": [
+    [
+      "antisoul"
+    ]
+  ]
+}

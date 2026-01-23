@@ -1,0 +1,32 @@
+{
+  "parent": "hdemise:main/mine_almarite",
+  "criteria": {
+    "multitool": {
+      "conditions": {
+        "items": [
+          {
+            "items": "#hdemise:almarite_multitool"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.hdemise.main.multitool.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "hdemise:almarite_tunneler"
+    },
+    "title": {
+      "translate": "advancements.hdemise.main.multitool.title"
+    }
+  },
+  "requirements": [
+    [
+      "multitool"
+    ]
+  ]
+}

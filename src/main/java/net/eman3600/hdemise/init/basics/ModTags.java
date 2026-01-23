@@ -37,6 +37,7 @@ public class ModTags {
         public static final TagKey<Item> XP_ABSORBENT = createTag("xp_absorbent");
 
         public static final TagKey<Item> REAPER = createTag("reaper");
+        public static final TagKey<Item> ALMARITE_MULTITOOL = createTag("almarite_multitool");
 
         private static TagKey<Item> createTag(String name) {
             return TagKey.of(RegistryKeys.ITEM, Identifier.of(MODID, name));

@@ -1,0 +1,32 @@
+{
+  "parent": "hdemise:main/root",
+  "criteria": {
+    "almarite": {
+      "conditions": {
+        "items": [
+          {
+            "items": "hdemise:almarite"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.hdemise.main.mine_almarite.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "hdemise:almarite"
+    },
+    "title": {
+      "translate": "advancements.hdemise.main.mine_almarite.title"
+    }
+  },
+  "requirements": [
+    [
+      "almarite"
+    ]
+  ]
+}

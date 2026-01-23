@@ -1,0 +1,45 @@
+{
+  "parent": "hdemise:main/multitool",
+  "criteria": {
+    "onions": {
+      "conditions": {
+        "location": [
+          {
+            "condition": "minecraft:location_check",
+            "predicate": {
+              "block": {
+                "blocks": [
+                  "minecraft:obsidian"
+                ]
+              }
+            }
+          },
+          {
+            "condition": "minecraft:match_tool",
+            "predicate": {
+              "items": "hdemise:almarite_tunneler"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:item_used_on_block"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.hdemise.main.crying_obsidian.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "minecraft:crying_obsidian"
+    },
+    "title": {
+      "translate": "advancements.hdemise.main.crying_obsidian.title"
+    }
+  },
+  "requirements": [
+    [
+      "onions"
+    ]
+  ]
+}

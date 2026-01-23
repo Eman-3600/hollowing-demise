@@ -1,0 +1,26 @@
+{
+  "parent": "hdemise:main/mine_almarite",
+  "criteria": {
+    "cure": {
+      "conditions": {},
+      "trigger": "hdemise:cure"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.hdemise.main.cure.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "hdemise:simple_cure"
+    },
+    "title": {
+      "translate": "advancements.hdemise.main.cure.title"
+    }
+  },
+  "requirements": [
+    [
+      "cure"
+    ]
+  ]
+}

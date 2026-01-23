@@ -1,6 +1,7 @@
 package net.eman3600.hdemise.item;
 
 import net.eman3600.hdemise.init.basics.ModTags;
+import net.minecraft.advancement.criterion.Criteria;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.player.PlayerEntity;
@@ -8,6 +9,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemUsageContext;
 import net.minecraft.item.Items;
 import net.minecraft.item.ToolMaterial;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.ActionResult;
@@ -27,11 +29,11 @@ public class TunnelerItem extends Item {
 
         if (world.getBlockState(blockPos).isOf(Blocks.OBSIDIAN)) {
             PlayerEntity playerEntity = context.getPlayer();
-            world.playSound(playerEntity, blockPos, SoundEvents.BLOCK_STONE_BREAK, SoundCategory.BLOCKS, 1.0F, 1.0F);
+            world.playSound(playerEntity, blockPos, SoundEvents.ENTITY_ITEM_BREAK.value(), SoundCategory.BLOCKS, 1.0F, 0.6F);
             if (!world.isClient()) {
+                Criteria.ITEM_USED_ON_BLOCK.trigger((ServerPlayerEntity) playerEntity, blockPos, context.getStack());
                 world.setBlockState(blockPos, Blocks.CRYING_OBSIDIAN.getDefaultState(), Block.NOTIFY_LISTENERS);
                 if (playerEntity != null) {
-                    playerEntity.getItemCooldownManager().set(context.getStack(), 100);
                     context.getStack().damage(8, playerEntity, context.getHand().getEquipmentSlot());
                 }
             }
