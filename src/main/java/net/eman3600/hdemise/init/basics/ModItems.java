@@ -132,11 +132,14 @@ public class ModItems {
     public static final Item ALMARITE_FELLER = register("almarite_feller", settings -> new FellerItem(ModToolMaterials.ALMARITE, 4F, -2.8F, settings), new Item.Settings().component(ModDataComponentTypes.TOOLTIP_LINES, 1));
 
     public static final Item POLTERIUM_SCYTHE = register("polterium_scythe", Item::new, new Item.Settings().sword(ModToolMaterials.POLTERIUM, 3.5F, -3F)
-            .component(ModDataComponentTypes.TOOLTIP_LINES, 2));
+            .component(ModDataComponentTypes.TOOLTIP_LINES, 2)
+            .fireproof());
 
-    public static final Item POLTERIUM_TUNNELER = register("polterium_tunneler", settings -> new TunnelerItem(ModToolMaterials.POLTERIUM, 2.5f, -3f, settings), new Item.Settings().component(ModDataComponentTypes.TOOLTIP_LINES, 2));
+    public static final Item POLTERIUM_TUNNELER = register("polterium_tunneler", settings -> new TunnelerItem(ModToolMaterials.POLTERIUM, 2.5f, -3f, settings), new Item.Settings().component(ModDataComponentTypes.TOOLTIP_LINES, 2)
+            .fireproof());
 
-    public static final Item POLTERIUM_FELLER = register("polterium_feller", settings -> new FellerItem(ModToolMaterials.POLTERIUM, 4F, -2.8F, settings), new Item.Settings().component(ModDataComponentTypes.TOOLTIP_LINES, 1));
+    public static final Item POLTERIUM_FELLER = register("polterium_feller", settings -> new FellerItem(ModToolMaterials.POLTERIUM, 4F, -2.8F, settings), new Item.Settings().component(ModDataComponentTypes.TOOLTIP_LINES, 1)
+            .fireproof());
 
 
     public static final Item WIND_STAFF = register("wind_staff", WindStaffItem::new, new Item.Settings().rarity(Rarity.UNCOMMON).maxCount(1).maxDamage(1250).repairable(Items.WIND_CHARGE));
