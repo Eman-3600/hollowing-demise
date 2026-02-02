@@ -39,7 +39,6 @@ public class InfusionScreenHandler extends ScreenHandler {
     private Page page = Page.MAIN;
     private final SoulSlot soulSlot;
     private final SoulSlot infoSoulSlot;
-    private final Property pageProperty;
     private final XPCoreSlot coreSlot;
 
     @Nullable
@@ -75,7 +74,7 @@ public class InfusionScreenHandler extends ScreenHandler {
 
         this.player = playerInventory.player;
         this.context = context;
-        this.pageProperty = addProperty(new Property() {
+        Property pageProperty = addProperty(new Property() {
             @Override
             public int get() {
                 return InfusionScreenHandler.this.page.id();
