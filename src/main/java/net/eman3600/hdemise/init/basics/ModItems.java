@@ -159,6 +159,8 @@ public class ModItems {
     public static final Item PALE_SOUL_FRACTURED = register("pale_soul_fractured", Item::new, SoulItem.getDefaultSettings());
     public static final Item PALE_SOUL = register("pale_soul", (settings) -> new BreakableSoulItem(settings, ModSoulTypes.PALE, PALE_SOUL_FRACTURED), SoulItem.getDefaultSettings());
     public static final Item ANTISOUL = register("antisoul", (settings) -> new SoulItem(settings, ModSoulTypes.NEGATIVE), SoulItem.getDefaultSettings().rarity(Rarity.EPIC));
+    public static final Item ENDER_SOUL_FRACTURED = register("ender_soul_fractured", Item::new, SoulItem.getDefaultSettings());
+    public static final Item ENDER_SOUL = register("ender_soul", (settings) -> new BreakableSoulItem(settings, ModSoulTypes.ENDER, ENDER_SOUL_FRACTURED), SoulItem.getDefaultSettings());
 
     /**
      * Registers an item under a given ID string.

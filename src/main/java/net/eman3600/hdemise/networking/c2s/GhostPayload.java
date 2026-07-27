@@ -54,6 +54,10 @@ public record GhostPayload(boolean beginning) implements CustomPayload {
                 if (sc.getSoulType() == ModSoulTypes.REVENANT && context.player().hasStatusEffect(ModStatusEffects.RAGE) && sc.isLungeAvailable()) {
                     sc.lunge();
                 }
+
+                if (sc.getSoulType() == ModSoulTypes.ENDER) {
+                    sc.tryEnderWarp();
+                }
             } else if (sc.isVanishing()) {
                 sc.setVanishing(false);
             }

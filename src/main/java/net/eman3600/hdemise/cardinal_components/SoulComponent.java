@@ -24,6 +24,8 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+import net.minecraft.block.ShapeContext;
+import net.minecraft.entity.EntityStatuses;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.EntityAttributeInstance;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
@@ -48,11 +50,14 @@ import net.minecraft.storage.WriteView;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.ItemScatterer;
+import net.minecraft.util.hit.BlockHitResult;
+import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.random.Random;
+import net.minecraft.world.RaycastContext;
 import net.minecraft.world.rule.GameRules;
 import org.ladysnake.cca.api.v3.component.sync.AutoSyncedComponent;
 import org.ladysnake.cca.api.v3.component.tick.ClientTickingComponent;
@@ -90,6 +95,7 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
     public static final int TOP_UP_COOLDOWN = 7800;
     public static final int CORRUPTION_DECAY_TICKS = 150;
     public static final int AFFLICTION_DECAY_TICKS = 50;
+    public static final int SOUL_PER_TELEPORT_BLOCK = 5;
 
     public static final double MAGIC_FAN_RANGE = 5;
     public static final double MAGIC_FAN_STRENGTH = .3;
@@ -539,6 +545,39 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
             ((ServerPlayerEntity)player).networkHandler.sendPacket(new EntityVelocityUpdateS2CPacket(player));
 
             TutorialComponent.completeTutorial(player, TutorialComponent.LUNGE_TUTORIAL);
+        }
+    }
+
+    public void tryEnderWarp() {
+        Vec3d pos = player.getEntityPos();
+        Vec3d eyePos = player.getEyePos();
+        Vec3d dir = RayHelper.rayZVector(player.getYaw(), player.getPitch());
+
+        float maxDistance = Math.min((float)soul/SOUL_PER_TELEPORT_BLOCK, 64);
+
+        RaycastContext context = new RaycastContext(eyePos, eyePos.add(dir.multiply(maxDistance)), RaycastContext.ShapeType.COLLIDER, RaycastContext.FluidHandling.ANY, player);
+
+        BlockHitResult hit = player.getEntityWorld().raycast(context);
+
+        if (hit.getType() == HitResult.Type.BLOCK) {
+            BlockPos destinationBlock = hit.getBlockPos().offset(hit.getSide());
+            Vec3d destination = destinationBlock.toBottomCenterPos();
+
+            double distance = destination.distanceTo(pos);
+
+            int cost = (int)distance * SOUL_PER_TELEPORT_BLOCK;
+
+            if (canAffordSoul(cost)) {
+                player.requestTeleportAndDismount(destination.x, destination.y, destination.z);
+                player.getEntityWorld().sendEntityStatus(player, EntityStatuses.ADD_PORTAL_PARTICLES);
+                player.getEntityWorld().playSound(null, destination.x, destination.y, destination.z, SoundEvents.ENTITY_ENDERMAN_TELEPORT, SoundCategory.PLAYERS);
+
+                spendSoul(cost);
+            } else {
+                warnSoul();
+            }
+        } else {
+            warnSoul();
         }
     }
 
