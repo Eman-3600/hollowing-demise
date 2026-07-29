@@ -71,7 +71,7 @@ public class EnderSoulType extends SoulType {
 
     @Override
     public boolean onFocus(PlayerEntity player, float focusAmount) {
-        return super.onFocus(player, focusAmount);
+        return super.onFocus(player, focusAmount * 2);
     }
 
     @Override
