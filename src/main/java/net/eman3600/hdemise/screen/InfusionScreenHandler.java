@@ -7,6 +7,7 @@ import net.eman3600.hdemise.init.basics.ModItems;
 import net.eman3600.hdemise.init.basics.ModRecipes;
 import net.eman3600.hdemise.init.event.ModScreenHandlerTypes;
 import net.eman3600.hdemise.mixin_interfaces.ServerPlayerEntityAccess;
+import net.eman3600.hdemise.networking.s2c.InfusionRecipePayload;
 import net.eman3600.hdemise.recipe.InfusionRecipe;
 import net.eman3600.hdemise.recipe.InfusionRecipeInput;
 import net.eman3600.hdemise.screen.slot.AugmentSlot;
@@ -24,6 +25,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.recipe.RecipeEntry;
 import net.minecraft.screen.*;
 import net.minecraft.screen.slot.Slot;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
@@ -244,6 +246,10 @@ public class InfusionScreenHandler extends ScreenHandler {
             case REPAIR -> {
                 coreSlot.enable();
                 DynamicSlot.enableAll(repairSlots);
+
+                if (player instanceof ServerPlayerEntity serverPlayer) {
+                    InfusionRecipePayload.send(serverPlayer, null);
+                }
             }
         }
     }
@@ -262,6 +268,16 @@ public class InfusionScreenHandler extends ScreenHandler {
             Optional<RecipeEntry<InfusionRecipe>> optional;
             if (this.player.getEntityWorld() instanceof ServerWorld serverWorld) {
                 optional = serverWorld.getRecipeManager().getFirstMatch(ModRecipes.INFUSION_TYPE, input, serverWorld);
+
+                if (optional.isPresent()) {
+                    InfusionRecipePayload.send((ServerPlayerEntity) player, optional.get().value());
+                    
+                    if (!optional.get().value().fullyMatches(input, serverWorld)) {
+                        optional = Optional.empty();
+                    }
+                } else {
+                    InfusionRecipePayload.send((ServerPlayerEntity) player, null);
+                }
             } else {
                 optional = Optional.empty();
             }

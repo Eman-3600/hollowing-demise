@@ -1,15 +1,14 @@
 package net.eman3600.hdemise.screen;
 
-import net.eman3600.hdemise.HDemise;
 import net.eman3600.hdemise.cardinal_components.SoulComponent;
 import net.eman3600.hdemise.init.basics.ModTags;
+import net.eman3600.hdemise.networking.s2c.InfusionRecipePayload;
 import net.eman3600.hdemise.screen.InfusionScreenHandler.Page;
 import net.eman3600.hdemise.soul_type.SoulType;
 import net.eman3600.hdemise.util.inventory.AugmentSpace;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gl.RenderPipelines;
 import net.minecraft.client.gui.Click;
 import net.minecraft.client.gui.DrawContext;
@@ -17,13 +16,16 @@ import net.minecraft.client.gui.cursor.StandardCursors;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.sound.PositionedSoundInstance;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.OrderedText;
-import net.minecraft.text.StringVisitable;
 import net.minecraft.text.Text;
 import net.minecraft.util.Colors;
 import net.minecraft.util.Identifier;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static net.eman3600.hdemise.HDemise.MODID;
@@ -45,6 +47,9 @@ public class InfusionScreen extends HandledScreen<InfusionScreenHandler> {
     private final Button xpButton;
 
     private int cycleTicks = 0;
+
+    private List<ItemStack> firstRepairStacks = new ArrayList<>();
+    private List<ItemStack> secondRepairStacks = new ArrayList<>();
 
     public InfusionScreen(InfusionScreenHandler handler, PlayerInventory inventory, Text title) {
         super(handler, inventory, title);
@@ -214,6 +219,37 @@ public class InfusionScreen extends HandledScreen<InfusionScreenHandler> {
                 context.drawText(textRenderer, list.get(k), i, j + k * 10, Colors.WHITE, true);
             }
         } else if (this.handler.getPage() == Page.REPAIR) {
+
+            int itemX = this.x + 65;
+            int itemY = this.y + 45;
+            for (ItemStack stack : firstRepairStacks) {
+                context.drawItem(stack, itemX, itemY);
+                context.drawStackOverlay(this.client.textRenderer, stack, itemX, itemY, stack.getCount() > 1 ? stack.getCount() + "" : null);
+
+                if (mouseX > itemX && mouseX < itemX + 17 && mouseY > itemY && mouseY < itemY + 17) {
+                    context.drawTooltip(this.client.textRenderer, stack.getTooltip(Item.TooltipContext.DEFAULT, client.player, client.options.advancedItemTooltips ? TooltipType.ADVANCED : TooltipType.BASIC), mouseX, mouseY);
+                }
+
+                itemY -= 18;
+
+                if (itemY < this.y + 3) break;
+            }
+
+            itemX = this.x + 83;
+            itemY = this.y + 45;
+            for (ItemStack stack : secondRepairStacks) {
+                context.drawItem(stack, itemX, itemY);
+                context.drawStackOverlay(this.client.textRenderer, stack, itemX, itemY, stack.getCount() > 1 ? stack.getCount() + "" : null);
+
+                if (mouseX > itemX && mouseX < itemX + 17 && mouseY > itemY && mouseY < itemY + 17) {
+                    context.drawTooltip(this.client.textRenderer, stack.getTooltip(Item.TooltipContext.DEFAULT, client.player, client.options.advancedItemTooltips ? TooltipType.ADVANCED : TooltipType.BASIC), mouseX, mouseY);
+                }
+
+                itemY -= 18;
+
+                if (itemY < this.y + 3) break;
+            }
+
             if (xpButton.isSelected(mouseX, mouseY)) {
                 context.drawTooltip(Text.translatable("container.hdemise.infusion.extract_xp").withColor(this.handler.canExtractExperience() ? Colors.WHITE : Colors.GRAY), mouseX, mouseY);
             }
@@ -259,6 +295,11 @@ public class InfusionScreen extends HandledScreen<InfusionScreenHandler> {
         }
 
         return super.mouseClicked(click, doubled);
+    }
+
+    public void updateRecipe(InfusionRecipePayload payload) {
+        this.firstRepairStacks = payload.firstStacks();
+        this.secondRepairStacks = payload.secondStacks();
     }
 
     private class Button {

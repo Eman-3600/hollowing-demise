@@ -4,6 +4,7 @@ import net.eman3600.hdemise.networking.c2s.FocusPayload;
 import net.eman3600.hdemise.networking.c2s.GhostPayload;
 import net.eman3600.hdemise.networking.c2s.AirJumpPayload;
 import net.eman3600.hdemise.networking.c2s.SpecialAbilityPayload;
+import net.eman3600.hdemise.networking.s2c.InfusionRecipePayload;
 import net.eman3600.hdemise.networking.s2c.SoulEventPayload;
 import net.eman3600.hdemise.networking.s2c.TutorialPayload;
 import net.fabricmc.api.EnvType;
@@ -27,6 +28,7 @@ public class ModMessages {
 
         PayloadTypeRegistry.playS2C().register(SoulEventPayload.TYPE, SoulEventPayload.CODEC);
         PayloadTypeRegistry.playS2C().register(TutorialPayload.TYPE, TutorialPayload.CODEC);
+        PayloadTypeRegistry.playS2C().register(InfusionRecipePayload.TYPE, InfusionRecipePayload.CODEC);
     }
 
     public static void registerC2SReceivers() {
@@ -44,5 +46,6 @@ public class ModMessages {
 
         ClientPlayNetworking.registerGlobalReceiver(SoulEventPayload.TYPE, SoulEventPayload::receive);
         ClientPlayNetworking.registerGlobalReceiver(TutorialPayload.TYPE, TutorialPayload::receive);
+        ClientPlayNetworking.registerGlobalReceiver(InfusionRecipePayload.TYPE, InfusionRecipePayload::receive);
     }
 }

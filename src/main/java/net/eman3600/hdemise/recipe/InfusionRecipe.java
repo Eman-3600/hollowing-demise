@@ -55,6 +55,11 @@ public final class InfusionRecipe implements Recipe<InfusionRecipeInput> {
     @Override
     public boolean matches(InfusionRecipeInput input, World world) {
 
+        return baseItem().test(input.base());
+    }
+
+    public boolean fullyMatches(InfusionRecipeInput input, World world) {
+
         boolean bl = baseItem().test(input.base()) && ingredient.test(input.ingredient1());
         if (!repair) {
             return bl;
