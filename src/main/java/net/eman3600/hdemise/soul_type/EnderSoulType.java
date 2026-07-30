@@ -21,11 +21,10 @@ import static net.eman3600.hdemise.HDemise.MODID;
 public class EnderSoulType extends SoulType {
 
     private static final List<AugmentSpace> augments = List.of(
-            new AugmentSpace(74, 2, ModTags.Items.GREEN_AUGMENT),
-            new AugmentSpace(28, 100, ModTags.Items.GREEN_AUGMENT),
-            new AugmentSpace(121, 100, ModTags.Items.GREEN_AUGMENT),
-            new AugmentSpace(12, 51, ModTags.Items.RED_AUGMENT),
-            new AugmentSpace(137, 51, ModTags.Items.RED_AUGMENT)
+            new AugmentSpace(28, 19, ModTags.Items.WILD_AUGMENT),
+            new AugmentSpace(121, 19, ModTags.Items.WILD_AUGMENT),
+            new AugmentSpace(28, 98, ModTags.Items.WILD_AUGMENT),
+            new AugmentSpace(121, 98, ModTags.Items.WILD_AUGMENT)
     );
 
     public static final Identifier HEART_TYPE = Identifier.of(MODID,"textures/gui/hud/heart/ender.png");

@@ -76,6 +76,11 @@ public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
                 .add(ModItems.PRIDE_PENDANT)
                 .add(ModItems.UNDYING_TALISMAN);
 
+        valueLookupBuilder(ModTags.Items.WILD_AUGMENT)
+                .addTag(ModTags.Items.YELLOW_AUGMENT)
+                .addTag(ModTags.Items.GREEN_AUGMENT)
+                .addTag(ModTags.Items.RED_AUGMENT);
+
 
         valueLookupBuilder(ModTags.Items.MORTICIAN_AUGMENT_TRADE)
                 .add(ModItems.FEATHER_TOKEN)

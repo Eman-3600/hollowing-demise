@@ -26,6 +26,7 @@ public class ModTags {
         public static final TagKey<Item> YELLOW_AUGMENT = createTag("yellow_augment");
         public static final TagKey<Item> GREEN_AUGMENT = createTag("green_augment");
         public static final TagKey<Item> RED_AUGMENT = createTag("red_augment");
+        public static final TagKey<Item> WILD_AUGMENT = createTag("wild_augment");
 
         public static final TagKey<Item> MORTICIAN_AUGMENT_TRADE = createTag("trades/mortician_augment");
 

@@ -93,7 +93,7 @@ public class InfusionScreen extends HandledScreen<InfusionScreenHandler> {
                 }
 
                 if (sc.getInventory().getStack(0).isEmpty()) {
-                    context.drawTexture(RenderPipelines.GUI_TEXTURED, MAIN_TEXTURE, x + 79, y + 63, 176, 138, 18, 18, 256, 256);
+                    context.drawTexture(RenderPipelines.GUI_TEXTURED, MAIN_TEXTURE, x + 79, y + 63, 176, 156, 18, 18, 256, 256);
                 }
 
                 List<AugmentSpace> augments = soulType.getAugments();

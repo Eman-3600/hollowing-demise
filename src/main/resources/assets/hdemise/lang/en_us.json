@@ -271,7 +271,7 @@
     "soul_type.hdemise.negative.description": "Where the soul once stood, now there is less than nothing.",
     
     "soul_type.hdemise.ender": "End",
-    "soul_type.hdemise.ender.description": "The soul of the void, hungry for essence and life. Channel essence to teleport vast distances.",
+    "soul_type.hdemise.ender.description": "The soul of the void, which accepts all augments. Focus deeply to heal grave wounds, and channel essence to teleport vast distances.",
 
     "soul_type.soulTypeNotFound": "Unknown soul type: %s",
     "commands.hdemise.soul.set_success": "Set soul type of %s targets to %s",
