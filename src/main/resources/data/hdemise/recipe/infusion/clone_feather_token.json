@@ -1,0 +1,14 @@
+{
+  "type": "hdemise:infusion",
+  "base": "hdemise:feather_token",
+  "ingredient": {
+    "count": 4,
+    "id": "minecraft:feather"
+  },
+  "repair": false,
+  "keep_base": true,
+  "result": {
+    "count": 1,
+    "id": "hdemise:feather_token"
+  }
+}

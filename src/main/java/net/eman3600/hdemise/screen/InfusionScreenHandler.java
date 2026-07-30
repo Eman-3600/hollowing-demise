@@ -271,7 +271,7 @@ public class InfusionScreenHandler extends ScreenHandler {
 
                 if (optional.isPresent()) {
                     InfusionRecipePayload.send((ServerPlayerEntity) player, optional.get().value());
-                    
+
                     if (!optional.get().value().fullyMatches(input, serverWorld)) {
                         optional = Optional.empty();
                     }

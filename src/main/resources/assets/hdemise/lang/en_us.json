@@ -22,6 +22,9 @@
     "item.hdemise.ectoplasm": "Ectoplasm",
     "item.hdemise.ectoplasm_remedy": "Soul Remedy",
     "item.hdemise.ectoplasm_remedy.tooltip": "Restores hollows to life",
+    "item.hdemise.void_totem": "Totem of Inversion",
+    "item.hdemise.void_totem.tooltip": "Grants power from nothingness",
+    "item.hdemise.void_totem.hardcore": "Restores hollows to life?",
     "item.hdemise.polterium_ingot": "Polterium Ingot",
     "item.hdemise.polterium_upgrade_template": "Polterium Upgrade",
     "item.hdemise.polterium_upgrade_template.additions_slot_description": "Add Polterium Ingot",
@@ -214,6 +217,7 @@
     "effect.hdemise.demon_strength": "Demon Strength",
     "effect.hdemise.fleeting_vigor": "Undying Recovery",
     "effect.hdemise.natures_wrath": "Fury of the Forest",
+    "effect.hdemise.totem_power": "Void Constitution",
 
 
     "item.minecraft.potion.effect.soul_regen": "Potion of Reclamation",

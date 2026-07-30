@@ -42,6 +42,7 @@ public class ModModelProvider extends FabricModelProvider {
         itemModelGenerator.register(ModItems.SOUL_BASE, Models.GENERATED);
         itemModelGenerator.register(ModItems.ECTOPLASM, Models.GENERATED);
         itemModelGenerator.register(ModItems.ECTOPLASM_REMEDY, Models.GENERATED);
+        itemModelGenerator.register(ModItems.VOID_TOTEM, Models.GENERATED);
         itemModelGenerator.register(ModItems.POLTERIUM_INGOT, Models.GENERATED);
         itemModelGenerator.register(ModItems.POLTERIUM_UPGRADE_TEMPLATE, Models.GENERATED);
 

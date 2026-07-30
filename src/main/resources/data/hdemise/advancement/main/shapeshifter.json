@@ -42,6 +42,12 @@
         "type": "hdemise:pale"
       },
       "trigger": "hdemise:soul_type_changed"
+    },
+    "ender": {
+      "conditions": {
+        "type": "hdemise:ender"
+      },
+      "trigger": "hdemise:soul_type_changed"
     }
   },
   "display": {
@@ -78,6 +84,9 @@
     ],
     [
       "pale"
+    ],
+    [
+      "ender"
     ]
   ],
   "rewards": {

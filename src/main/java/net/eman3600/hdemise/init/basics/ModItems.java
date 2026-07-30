@@ -55,6 +55,7 @@ public class ModItems {
     public static final Item SOULROOT_SOUP = register("soulroot_soup", (settings) -> new EssenceFoodItem(settings, SoulComponent.SOUL_PER_VESSEL * 9, 54), new Item.Settings().food(SOUL_SOUP_FOOD).maxCount(1).useRemainder(Items.BOWL));
     public static final Item ECTOPLASM = register("ectoplasm", Item::new, new Item.Settings());
     public static final Item ECTOPLASM_REMEDY = register("ectoplasm_remedy", EdibleCureItem::new, new Item.Settings().rarity(Rarity.UNCOMMON).food(FoodComponents.BEETROOT_SOUP).maxCount(1).useRemainder(Items.BOWL));
+    public static final Item VOID_TOTEM = register("void_totem", ConsumableVoidCureItem::new, new Item.Settings().rarity(Rarity.UNCOMMON).maxCount(1));
     public static final Item POLTERIUM_UPGRADE_TEMPLATE = register("polterium_upgrade_template", ModSmithingTemplateItem::createPolteriumUpgrade, new Item.Settings().rarity(Rarity.UNCOMMON));
     public static final Item POLTERIUM_INGOT = register("polterium_ingot", Item::new, new Item.Settings().fireproof());
 

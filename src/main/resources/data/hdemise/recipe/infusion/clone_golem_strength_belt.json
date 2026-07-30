@@ -1,0 +1,14 @@
+{
+  "type": "hdemise:infusion",
+  "base": "hdemise:golem_strength_belt",
+  "ingredient": {
+    "count": 16,
+    "id": "minecraft:iron_ingot"
+  },
+  "repair": false,
+  "keep_base": true,
+  "result": {
+    "count": 1,
+    "id": "hdemise:golem_strength_belt"
+  }
+}

@@ -1,6 +1,8 @@
 package net.eman3600.hdemise.item;
 
 import net.eman3600.hdemise.cardinal_components.SoulComponent;
+import net.eman3600.hdemise.init.entity.ModStatusEffects;
+import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -13,7 +15,7 @@ import net.minecraft.world.World;
 public class XPItem extends Item {
 
     private static final int XP_AMOUNT = 20;
-    private static final int COOLDOWN = 60;
+    private static final int COOLDOWN = 10;
 
 
     public XPItem(Settings settings) {
@@ -24,6 +26,7 @@ public class XPItem extends Item {
     public ActionResult use(World world, PlayerEntity user, Hand hand) {
 
         if (!world.isClient()) {
+            user.addStatusEffect(new StatusEffectInstance(ModStatusEffects.CHAINED, 30, 0, false, false, true));
             user.addExperience(XP_AMOUNT);
 
             ItemStack stack = user.getStackInHand(hand);
@@ -33,9 +36,9 @@ public class XPItem extends Item {
             }
 
             stack.decrementUnlessCreative(1, user);
-        } else {
-            world.playSound(user, user.getX(), user.getY(), user.getZ(), SoundEvents.ENTITY_EXPERIENCE_ORB_PICKUP, SoundCategory.PLAYERS, .8f, .8f + .4f * world.getRandom().nextFloat());
         }
+
+        world.playSound(user, user.getX(), user.getY(), user.getZ(), SoundEvents.ENTITY_EXPERIENCE_ORB_PICKUP, SoundCategory.PLAYERS, .8f, .8f + .4f * world.getRandom().nextFloat());
 
         return ActionResult.SUCCESS;
     }

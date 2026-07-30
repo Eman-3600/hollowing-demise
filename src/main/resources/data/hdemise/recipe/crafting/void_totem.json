@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "void_totem",
+  "key": {
+    "#": "hdemise:simple_cure",
+    "X": "hdemise:ectoplasm_remedy",
+    "D": "minecraft:dragon_breath",
+    "S": "minecraft:shulker_shell",
+    "C": "minecraft:popped_chorus_fruit"
+  },
+  "pattern": [
+    "CDC",
+    "S#S",
+    "CXC"
+  ],
+  "result": {
+    "count": 1,
+    "id": "hdemise:void_totem"
+  }
+}

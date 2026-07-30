@@ -35,6 +35,7 @@ public class ModItemGroups {
                 entries.add(ModItems.ECTOPLASM);
                 entries.add(ModItems.SIMPLE_CURE);
                 entries.add(ModItems.ECTOPLASM_REMEDY);
+            entries.add(ModItems.VOID_TOTEM);
             entries.add(ModItems.POLTERIUM_INGOT);
             entries.add(ModBlocks.POLTERIUM_BLOCK);
             entries.add(ModItems.POLTERIUM_UPGRADE_TEMPLATE);

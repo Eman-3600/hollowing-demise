@@ -1,0 +1,14 @@
+{
+  "type": "hdemise:infusion",
+  "base": "hdemise:ender_soul_fractured",
+  "ingredient": {
+    "count": 8,
+    "id": "minecraft:popped_chorus_fruit"
+  },
+  "repair": true,
+  "keep_base": false,
+  "result": {
+    "count": 1,
+    "id": "hdemise:ender_soul"
+  }
+}

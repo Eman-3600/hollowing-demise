@@ -461,6 +461,7 @@ public class SoulComponent implements AutoSyncedComponent, ServerTickingComponen
     public void interruptCure() {
         this.curing = false;
         this.cureTime = 0;
+        this.voidCursed = false;
         this.setSoul(0);
         this.warnSoul();
         markDirty();
