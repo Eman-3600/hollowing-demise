@@ -56,6 +56,8 @@ public class ModItemGroups {
                 entries.add(ModItems.PALE_SOUL);
                 entries.add(ModItems.PALE_SOUL_FRACTURED);
                 entries.add(ModItems.ANTISOUL);
+            entries.add(ModItems.ENDER_SOUL);
+            entries.add(ModItems.ENDER_SOUL_FRACTURED);
             entries.add(ModItems.FEATHER_TOKEN);
             entries.add(ModItems.GOLEM_STRENGTH_BELT);
             entries.add(ModItems.BOTTLED_TEAR);
