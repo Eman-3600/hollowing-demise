@@ -34,7 +34,8 @@ public class EnderSoulType extends SoulType {
     public EnderSoulType(Identifier id) {
         super(MeterType.SOUL, id,
                 new SoulAttribute(EntityAttributes.MAX_HEALTH, 0, EntityAttributeModifier.Operation.ADD_VALUE),
-                new SoulAttribute(ModAttributes.MAX_SOUL, 0, EntityAttributeModifier.Operation.ADD_VALUE)
+                new SoulAttribute(ModAttributes.MAX_SOUL, 0, EntityAttributeModifier.Operation.ADD_VALUE),
+                new SoulAttribute(EntityAttributes.MOVEMENT_SPEED, 0.1, EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE)
         );
     }
 
