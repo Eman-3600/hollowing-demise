@@ -1,0 +1,29 @@
+{
+  "parent": "hdemise:main/void_out",
+  "criteria": {
+    "ender_soul": {
+      "conditions": {
+        "type": "hdemise:ender"
+      },
+      "trigger": "hdemise:soul_type_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.hdemise.main.ender_soul.description"
+    },
+    "frame": "goal",
+    "icon": {
+      "count": 1,
+      "id": "hdemise:void_totem"
+    },
+    "title": {
+      "translate": "advancements.hdemise.main.ender_soul.title"
+    }
+  },
+  "requirements": [
+    [
+      "ender_soul"
+    ]
+  ]
+}

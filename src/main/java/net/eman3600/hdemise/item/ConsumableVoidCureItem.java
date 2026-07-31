@@ -63,8 +63,6 @@ public class ConsumableVoidCureItem extends Item {
                     user.addStatusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 340, 1));
                     sc.addSoul(SoulComponent.SOUL_PER_VESSEL * 4);
 
-                    ModCriteria.CURE.trigger((ServerPlayerEntity) user);
-
                     stack.decrementUnlessCreative(1, user);
                 }
             } else if (!world.isClient()) {
