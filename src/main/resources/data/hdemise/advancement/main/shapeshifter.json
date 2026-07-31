@@ -1,12 +1,6 @@
 {
   "parent": "hdemise:main/equip_soul",
   "criteria": {
-    "antisoul": {
-      "conditions": {
-        "type": "hdemise:negative"
-      },
-      "trigger": "hdemise:soul_type_changed"
-    },
     "crystal": {
       "conditions": {
         "type": "hdemise:crystal"
@@ -64,9 +58,6 @@
     }
   },
   "requirements": [
-    [
-      "antisoul"
-    ],
     [
       "crystal"
     ],

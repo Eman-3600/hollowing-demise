@@ -60,8 +60,8 @@ public class ConsumableVoidCureItem extends Item {
                     user.getHungerManager().setSaturationLevel(15f);
                     sc.replaceSoulStack();
                     user.clearStatusEffects();
-                    user.addStatusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 340, 0));
-                    user.addStatusEffect(new StatusEffectInstance(ModStatusEffects.SOUL_REGEN, 340, 0));
+                    user.addStatusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 340, 1));
+                    sc.addSoul(SoulComponent.SOUL_PER_VESSEL * 4);
 
                     ModCriteria.CURE.trigger((ServerPlayerEntity) user);
 
