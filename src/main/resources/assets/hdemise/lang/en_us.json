@@ -140,7 +140,7 @@
     "block.hdemise.infusion_table": "Infusion Table",
     "block.hdemise.infusion_table.tooltip.0": "Remove, replace, and",
     "block.hdemise.infusion_table.tooltip.1": "augment your soul",
-    "block.hdemise.infusion_table.not_enough_shelves": "Requires Runestones: %s/%s",
+    "block.hdemise.infusion_table.not_enough_shelves": "Requires Lit Runestones: %s/%s",
     "block.hdemise.soulroot": "Soulroot",
 
 

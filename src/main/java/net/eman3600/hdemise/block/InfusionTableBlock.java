@@ -38,7 +38,7 @@ public class InfusionTableBlock extends BlockWithEntity implements BlockEntityPr
     private static final Text CONTAINER_TITLE = Text.translatable("container.hdemise.infusion");
 
     public static final List<BlockPos> POWER_PROVIDER_OFFSETS = BlockPos.stream(-2, -1, -2, 2, 1, 2)
-            .filter(pos -> Math.abs(pos.getX()) == 2 || Math.abs(pos.getZ()) == 2)
+            .filter(pos -> Math.abs(pos.getX()) == 2 || Math.abs(pos.getZ()) == 2 || pos.getY() == -1)
             .map(BlockPos::toImmutable)
             .collect(Collectors.toUnmodifiableList());
 
@@ -111,6 +111,11 @@ public class InfusionTableBlock extends BlockWithEntity implements BlockEntityPr
     public static boolean canAccessPowerProvider(World world, BlockPos tablePos, BlockPos providerOffset) {
         BlockState state = world.getBlockState(tablePos.add(providerOffset));
         return state.isOf(ModBlocks.RUNIC_OBSIDIAN) && state.get(Properties.LIT);
+    }
+
+    public static boolean isInactivePowerProvider(World world, BlockPos tablePos, BlockPos providerOffset) {
+        BlockState state = world.getBlockState(tablePos.add(providerOffset));
+        return state.isOf(ModBlocks.RUNIC_OBSIDIAN) && !state.get(Properties.LIT);
     }
 
     @Override
