@@ -17,9 +17,12 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldView;
 import net.minecraft.world.event.GameEvent;
+import net.minecraft.world.tick.ScheduledTickView;
 import org.jspecify.annotations.Nullable;
 
 public class RuneBlock extends Block {
@@ -54,33 +57,13 @@ public class RuneBlock extends Block {
     }
 
     @Override
-    protected ActionResult onUseWithItem(ItemStack stack, BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
-        if (!state.get(LIT)) {
+    protected BlockState getStateForNeighborUpdate(BlockState state, WorldView world, ScheduledTickView tickView, BlockPos pos, Direction direction, BlockPos neighborPos, BlockState neighborState, Random random) {
+        boolean lit = state.get(LIT);
 
-            BlockPos blockPos = hit.getBlockPos();
-
-            if (stack.getItem() instanceof FlintAndSteelItem) {
-                world.playSound(player, blockPos, SoundEvents.ITEM_FLINTANDSTEEL_USE, SoundCategory.BLOCKS, 1.0F, world.getRandom().nextFloat() * 0.4F + 0.8F);
-
-                world.setBlockState(blockPos, state.with(LIT, true));
-                world.emitGameEvent(player, GameEvent.BLOCK_CHANGE, blockPos);
-
-                player.getStackInHand(hand).damage(1, player, hand.getEquipmentSlot());
-
-                return ActionResult.SUCCESS;
-            } else if (stack.getItem() instanceof FireChargeItem) {
-                Random random = world.getRandom();
-                world.playSound(null, pos, SoundEvents.ITEM_FIRECHARGE_USE, SoundCategory.BLOCKS, 1.0F, (random.nextFloat() - random.nextFloat()) * 0.2F + 1.0F);
-
-                world.setBlockState(blockPos, state.with(LIT, true));
-                world.emitGameEvent(player, GameEvent.BLOCK_CHANGE, blockPos);
-
-                player.getStackInHand(hand).decrementUnlessCreative(1, player);
-
-                return ActionResult.SUCCESS;
-            }
+        if (lit != world.getBlockState(pos.up()).isOf(Blocks.SOUL_FIRE)) {
+            return state.with(LIT, !lit);
         }
 
-        return super.onUseWithItem(stack, state, world, pos, player, hand, hit);
+        return super.getStateForNeighborUpdate(state, world, tickView, pos, direction, neighborPos, neighborState, random);
     }
 }

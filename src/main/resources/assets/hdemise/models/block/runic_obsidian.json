@@ -1,6 +1,8 @@
 {
-  "parent": "minecraft:block/cube_all",
+  "parent": "minecraft:block/cube_bottom_top",
   "textures": {
-    "all": "hdemise:block/runic_obsidian"
+    "side": "hdemise:block/runic_obsidian",
+    "bottom": "hdemise:block/runic_obsidian",
+    "top": "hdemise:block/runic_obsidian_top"
   }
 }
