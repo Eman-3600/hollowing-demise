@@ -2,6 +2,7 @@ package net.eman3600.hdemise.block;
 
 import com.mojang.serialization.MapCodec;
 import net.eman3600.hdemise.block.entity.InfusionTableBlockEntity;
+import net.eman3600.hdemise.init.basics.ModBlocks;
 import net.eman3600.hdemise.init.entity.ModBlockEntities;
 import net.eman3600.hdemise.screen.InfusionScreenHandler;
 import net.minecraft.block.*;
@@ -12,9 +13,11 @@ import net.minecraft.block.entity.EnchantingTableBlockEntity;
 import net.minecraft.entity.ai.pathing.NavigationType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.particle.ParticleTypes;
+import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.screen.ScreenHandlerContext;
 import net.minecraft.screen.SimpleNamedScreenHandlerFactory;
+import net.minecraft.state.property.Properties;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.hit.BlockHitResult;
@@ -25,11 +28,19 @@ import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import org.jspecify.annotations.Nullable;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 public class InfusionTableBlock extends BlockWithEntity implements BlockEntityProvider {
     private static final VoxelShape SHAPE = Block.createColumnShape(16.0, 0.0, 12.0);
     public static final MapCodec<InfusionTableBlock> CODEC = InfusionTableBlock.createCodec(InfusionTableBlock::new);
 
     private static final Text CONTAINER_TITLE = Text.translatable("container.hdemise.infusion");
+
+    public static final List<BlockPos> POWER_PROVIDER_OFFSETS = BlockPos.stream(-2, -1, -2, 2, 1, 2)
+            .filter(pos -> Math.abs(pos.getX()) == 2 || Math.abs(pos.getZ()) == 2)
+            .map(BlockPos::toImmutable)
+            .collect(Collectors.toUnmodifiableList());
 
     public InfusionTableBlock(Settings settings) {
         super(settings);
@@ -70,8 +81,8 @@ public class InfusionTableBlock extends BlockWithEntity implements BlockEntityPr
     public void randomDisplayTick(BlockState state, World world, BlockPos pos, Random random) {
         super.randomDisplayTick(state, world, pos, random);
 
-        for (BlockPos offset : EnchantingTableBlock.POWER_PROVIDER_OFFSETS) {
-            if (random.nextInt(16) == 0 && EnchantingTableBlock.canAccessPowerProvider(world, pos, offset)) {
+        for (BlockPos offset : POWER_PROVIDER_OFFSETS) {
+            if (random.nextInt(16) == 0 && canAccessPowerProvider(world, pos, offset)) {
                 world.addParticleClient(
                         ParticleTypes.ENCHANT,
                         pos.getX() + 0.5,
@@ -83,7 +94,7 @@ public class InfusionTableBlock extends BlockWithEntity implements BlockEntityPr
                 );
             }
 
-            if (random.nextInt(8) == 0 && EnchantingTableBlock.canAccessPowerProvider(world, pos, offset)) {
+            if (random.nextInt(8) == 0 && canAccessPowerProvider(world, pos, offset)) {
                 world.addParticleClient(
                         ParticleTypes.PORTAL,
                         pos.getX() + 0.5,
@@ -95,6 +106,11 @@ public class InfusionTableBlock extends BlockWithEntity implements BlockEntityPr
                 );
             }
         }
+    }
+
+    public static boolean canAccessPowerProvider(World world, BlockPos tablePos, BlockPos providerOffset) {
+        BlockState state = world.getBlockState(tablePos.add(providerOffset));
+        return state.isOf(ModBlocks.RUNIC_OBSIDIAN) && state.get(Properties.LIT);
     }
 
     @Override

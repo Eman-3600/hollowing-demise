@@ -22,6 +22,7 @@ public class ModBlockTagProvider extends FabricTagProvider.BlockTagProvider {
             .add(ModBlocks.ALMARITE_ORE)
             .add(ModBlocks.DEEPSLATE_ALMARITE_ORE)
             .add(ModBlocks.POLTERIUM_BLOCK)
+                .add(ModBlocks.RUNIC_OBSIDIAN)
             .add(ModBlocks.INFUSION_TABLE);
 
         valueLookupBuilder(BlockTags.NEEDS_IRON_TOOL)
@@ -30,6 +31,11 @@ public class ModBlockTagProvider extends FabricTagProvider.BlockTagProvider {
             .add(ModBlocks.DEEPSLATE_ALMARITE_ORE);
 
         valueLookupBuilder(BlockTags.NEEDS_DIAMOND_TOOL)
+                .add(ModBlocks.RUNIC_OBSIDIAN)
             .add(ModBlocks.POLTERIUM_BLOCK);
+
+        valueLookupBuilder(BlockTags.SOUL_FIRE_BASE_BLOCKS)
+                .add(ModBlocks.POLTERIUM_BLOCK)
+                .add(ModBlocks.RUNIC_OBSIDIAN);
     }
 }

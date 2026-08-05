@@ -36,6 +36,7 @@ public class ModLootTableProvider extends FabricBlockLootTableProvider {
         addDrop(ModBlocks.DEEPSLATE_ALMARITE_ORE, multipleOreDrops(ModBlocks.DEEPSLATE_ALMARITE_ORE, ModItems.ALMARITE, 3, 5));
         addDrop(ModBlocks.POLTERIUM_BLOCK);
         addDrop(ModBlocks.INFUSION_TABLE);
+        addDrop(ModBlocks.RUNIC_OBSIDIAN);
 
         BlockStatePropertyLootCondition.Builder soulrootBuilder = BlockStatePropertyLootCondition.builder(ModBlocks.SOULROOT)
                 .properties(StatePredicate.Builder.create().exactMatch(SoulrootBlock.AGE, 3));

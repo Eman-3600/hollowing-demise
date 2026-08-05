@@ -43,6 +43,7 @@ public class ModItemGroups {
             entries.add(ModItems.CROSS);
             entries.add(ModItems.EXPERIENCE_CORE);
             entries.add(ModBlocks.INFUSION_TABLE);
+            entries.add(ModBlocks.RUNIC_OBSIDIAN);
             entries.add(ModItems.PURE_SOUL);
             entries.add(ModItems.CRYSTAL_SOUL);
             entries.add(ModItems.CRYSTAL_SOUL_FRACTURED);

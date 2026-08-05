@@ -1,11 +1,11 @@
 package net.eman3600.hdemise.block.entity;
 
+import net.eman3600.hdemise.block.InfusionTableBlock;
 import net.eman3600.hdemise.cardinal_components.SoulComponent;
 import net.eman3600.hdemise.init.entity.ModBlockEntities;
 import net.eman3600.hdemise.item.augment.AugmentItem;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.EnchantingTableBlock;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
@@ -19,7 +19,7 @@ import net.minecraft.world.World;
 
 public class InfusionTableBlockEntity extends BlockEntity {
 
-    public static final int REQUIRED_SHELVES = 7;
+    public static final int REQUIRED_SHELVES = 4;
 
     private int shelves = 0;
     private int ticks = 0;
@@ -124,8 +124,8 @@ public class InfusionTableBlockEntity extends BlockEntity {
 
         int s = 0;
 
-        for (BlockPos offset : EnchantingTableBlock.POWER_PROVIDER_OFFSETS) {
-            if (EnchantingTableBlock.canAccessPowerProvider(world, pos, offset)) {
+        for (BlockPos offset : InfusionTableBlock.POWER_PROVIDER_OFFSETS) {
+            if (InfusionTableBlock.canAccessPowerProvider(world, pos, offset)) {
                 s++;
             }
         }

@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "lit=false": {
+      "model": "hdemise:block/runic_obsidian"
+    },
+    "lit=true": {
+      "model": "hdemise:block/runic_obsidian_active"
+    }
+  }
+}

@@ -1,6 +1,7 @@
 package net.eman3600.hdemise.init.basics;
 
 import net.eman3600.hdemise.block.InfusionTableBlock;
+import net.eman3600.hdemise.block.RuneBlock;
 import net.eman3600.hdemise.block.SoulrootBlock;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.block.AbstractBlock;
@@ -58,6 +59,12 @@ public class ModBlocks {
         .noCollision()
         .sounds(BlockSoundGroup.CROP), false);
 
+    public static final Block RUNIC_OBSIDIAN = register("runic_obsidian", RuneBlock::new,
+            AbstractBlock.Settings.create()
+                    .strength(50.0f, 1200.0f)
+                    .requiresTool()
+                    .sounds(BlockSoundGroup.STONE), true);
+
     /**
      * Registers a block under a given ID string.
      * @param name the block's internal name
@@ -96,7 +103,6 @@ public class ModBlocks {
      * @param name the block's internal name
      * @param blockFactory constructor for the block
      * @param settings block properties
-     * @param shouldRegisterItem whether an item should be registered with the block
      * @return the registered block
      */
     public static Block register(String name, Function<AbstractBlock.Settings, Block> blockFactory, AbstractBlock.Settings settings, Item.Settings itemSettings) {
@@ -136,6 +142,7 @@ public class ModBlocks {
 
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.FUNCTIONAL).register(group -> {
             group.add(ModBlocks.INFUSION_TABLE);
+            group.add(ModBlocks.RUNIC_OBSIDIAN);
         });
     }
 }
