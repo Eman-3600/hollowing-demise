@@ -43,7 +43,7 @@ public class ModItems {
 
 
 
-    public static final Item ALMARITE = register("almarite", XPItem::new, new Item.Settings());
+    public static final Item ALMARITE = register("almarite", Item::new, new Item.Settings());
     public static final Item FORM_SWITCHER = register("form_switcher", FormSwitcherItem::new, new Item.Settings().rarity(Rarity.EPIC).maxCount(1));
     public static final Item SIMPLE_CURE = register("simple_cure", ConsumableCureItem::new, new Item.Settings().rarity(Rarity.UNCOMMON).maxCount(1));
     public static final Item AMETHYST_APPLE = register("amethyst_apple", AmethystAppleItem::new, new Item.Settings().rarity(Rarity.UNCOMMON).food(FoodComponents.APPLE).component(DataComponentTypes.ENCHANTMENT_GLINT_OVERRIDE, true));
