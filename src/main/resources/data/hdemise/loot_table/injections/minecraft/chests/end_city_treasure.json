@@ -15,6 +15,21 @@
         }
       ],
       "rolls": 1.0
+    },
+    {
+      "bonus_rolls": 0.0,
+      "entries": [
+        {
+          "type": "minecraft:empty",
+          "weight": 87
+        },
+        {
+          "type": "minecraft:item",
+          "name": "hdemise:dragon_wing",
+          "weight": 13
+        }
+      ],
+      "rolls": 1.0
     }
   ]
 }

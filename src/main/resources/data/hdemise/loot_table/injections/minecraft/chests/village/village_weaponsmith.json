@@ -6,12 +6,17 @@
       "entries": [
         {
           "type": "minecraft:empty",
-          "weight": 75
+          "weight": 55
         },
         {
           "type": "minecraft:item",
           "name": "hdemise:simple_cure",
           "weight": 25
+        },
+        {
+          "type": "minecraft:item",
+          "name": "hdemise:golem_strength_belt",
+          "weight": 20
         }
       ],
       "rolls": 1.0
