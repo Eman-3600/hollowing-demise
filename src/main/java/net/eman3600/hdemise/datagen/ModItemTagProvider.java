@@ -48,7 +48,7 @@ public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
                 .add(ModItems.FEATHER_TOKEN)
                 .add(ModItems.GOLEM_STRENGTH_BELT)
                 .add(ModItems.BOTTLED_TEAR)
-                .add(ModItems.CARVED_OBSIDIAN)
+                .add(ModItems.BRUTE_GAUNTLET)
                 .add(ModItems.STICKY_HAND)
                 .add(ModItems.STARDUST)
                 .add(ModItems.WHETSTONE)
@@ -85,7 +85,7 @@ public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
         valueLookupBuilder(ModTags.Items.MORTICIAN_AUGMENT_TRADE)
                 .add(ModItems.FEATHER_TOKEN)
                 .add(ModItems.GOLEM_STRENGTH_BELT)
-                .add(ModItems.CARVED_OBSIDIAN)
+                .add(ModItems.BRUTE_GAUNTLET)
                 .add(ModItems.WHETSTONE)
                 .add(ModItems.STICKY_HAND)
                 .add(ModItems.CRAB_CLAW);

@@ -100,7 +100,7 @@ public abstract class PlayerEntityMixin extends PlayerLikeEntity implements Play
                 && !source.isIn(DamageTypeTags.BYPASSES_RESISTANCE)) {
             amount *= source.getAttacker() != null && source.getAttacker().getEntityPos().squaredDistanceTo(getEntityPos()) > 25 ? .5f : .7f;
         }
-        if (sc.hasAugment(ModItems.CARVED_OBSIDIAN)
+        if (sc.hasAugment(ModItems.BRUTE_GAUNTLET)
                 && !source.isIn(DamageTypeTags.BYPASSES_INVULNERABILITY)
                 && !source.isIn(DamageTypeTags.BYPASSES_RESISTANCE)) {
             amount *= .9f;

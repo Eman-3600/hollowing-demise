@@ -63,7 +63,7 @@ public class ModItemGroups {
             entries.add(ModItems.FEATHER_TOKEN);
             entries.add(ModItems.GOLEM_STRENGTH_BELT);
             entries.add(ModItems.BOTTLED_TEAR);
-            entries.add(ModItems.CARVED_OBSIDIAN);
+            entries.add(ModItems.BRUTE_GAUNTLET);
             entries.add(ModItems.STICKY_HAND);
             entries.add(ModItems.STARDUST);
             entries.add(ModItems.WHETSTONE);

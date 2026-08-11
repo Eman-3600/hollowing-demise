@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:entity",
+  "pools": [
+    {
+      "bonus_rolls": 0.0,
+      "entries": [
+        {
+          "type": "minecraft:empty",
+          "weight": 70
+        },
+        {
+          "type": "minecraft:item",
+          "name": "hdemise:brute_gauntlet",
+          "weight": 30
+        }
+      ],
+      "rolls": 1.0
+    }
+  ]
+}

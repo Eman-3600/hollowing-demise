@@ -49,7 +49,7 @@ public class ModModelProvider extends FabricModelProvider {
         itemModelGenerator.register(ModItems.FEATHER_TOKEN, Models.GENERATED);
         itemModelGenerator.register(ModItems.GOLEM_STRENGTH_BELT, Models.GENERATED);
         itemModelGenerator.register(ModItems.BOTTLED_TEAR, Models.GENERATED);
-        itemModelGenerator.register(ModItems.CARVED_OBSIDIAN, Models.GENERATED);
+        itemModelGenerator.register(ModItems.BRUTE_GAUNTLET, Models.GENERATED);
         itemModelGenerator.register(ModItems.STICKY_HAND, Models.GENERATED);
         itemModelGenerator.register(ModItems.STARDUST, Models.GENERATED);
         itemModelGenerator.register(ModItems.WHETSTONE, Models.GENERATED);

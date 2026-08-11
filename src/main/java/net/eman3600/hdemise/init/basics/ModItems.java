@@ -3,7 +3,6 @@ package net.eman3600.hdemise.init.basics;
 import net.eman3600.hdemise.cardinal_components.SoulComponent;
 import net.eman3600.hdemise.init.custom.ModSoulTypes;
 import net.eman3600.hdemise.init.entity.ModAttributes;
-import net.eman3600.hdemise.init.entity.ModStatusEffects;
 import net.eman3600.hdemise.item.*;
 import net.eman3600.hdemise.item.augment.*;
 import net.eman3600.hdemise.item.soul_using.WindStaffItem;
@@ -11,18 +10,14 @@ import net.eman3600.hdemise.util.ModToolMaterials;
 import net.eman3600.hdemise.util.SoulAttribute;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.component.DataComponentTypes;
-import net.minecraft.component.type.ConsumableComponent;
-import net.minecraft.component.type.ConsumableComponents;
 import net.minecraft.component.type.FoodComponent;
 import net.minecraft.component.type.FoodComponents;
 import net.minecraft.entity.attribute.EntityAttributeModifier.Operation;
 import net.minecraft.entity.attribute.EntityAttributes;
-import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroups;
 import net.minecraft.item.Items;
-import net.minecraft.item.consume.ApplyEffectsConsumeEffect;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
@@ -30,7 +25,6 @@ import net.minecraft.registry.RegistryKeys;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Rarity;
 
-import java.util.List;
 import java.util.function.Function;
 
 import static net.eman3600.hdemise.HDemise.LOGGER;
@@ -72,7 +66,7 @@ public class ModItems {
             settings,
             new SoulAttribute(EntityAttributes.MAX_HEALTH, 4d, Operation.ADD_VALUE)
     )), new Item.Settings());
-    public static final Item CARVED_OBSIDIAN = register("carved_obsidian", (settings -> new AugmentItem(settings, 1)), new Item.Settings());
+    public static final Item BRUTE_GAUNTLET = register("brute_gauntlet", (settings -> new AugmentItem(settings, 1)), new Item.Settings());
     public static final Item STICKY_HAND = register("sticky_hand", (settings -> new AttributeAugmentItem(
             settings,
             new SoulAttribute(EntityAttributes.BLOCK_INTERACTION_RANGE, 1.5d, Operation.ADD_VALUE)
